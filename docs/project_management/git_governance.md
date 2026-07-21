@@ -21,14 +21,22 @@ feature/fix/docs/test/ci
 - Ramas de trabajo: cambios pequeños y revisables.
 - Hotfix: se definirá cuando exista producción.
 
-## Reglas recomendadas para `dev`
+## Protección activa de `dev`
+
+El ruleset `Protect dev` está activo con los siguientes controles:
 
 - Pull Request obligatorio.
-- Al menos una aprobación cuando el equipo pueda aplicarla.
-- Conversaciones resueltas antes del merge.
-- Checks de calidad obligatorios.
-- Rama actualizada antes del merge.
-- Sin force push ni borrado.
+- Check `repository-quality` obligatorio antes del merge.
+- Historial lineal obligatorio.
+- Force push y borrado de la rama bloqueados.
+- Sin usuarios o roles con bypass.
+- Cero aprobaciones requeridas temporalmente mientras se incorpora al equipo al flujo de revisión.
+
+Quedan pendientes para una fase posterior:
+
+- exigir al menos una aprobación;
+- resolver todas las conversaciones antes del merge;
+- exigir que la rama esté actualizada con `dev` antes del merge.
 
 ## Reglas recomendadas para `main`
 
@@ -38,7 +46,7 @@ feature/fix/docs/test/ci
 - Sin push directo.
 - Despliegue únicamente desde `main` o tags aprobados.
 
-Estas reglas se aplicarán en GitHub cuando exista consenso del equipo y los workflows necesarios estén operativos.
+Las reglas de `main` se aplicarán cuando exista esa rama estable, consenso del equipo y workflows de release operativos.
 
 ## Issues y specs
 

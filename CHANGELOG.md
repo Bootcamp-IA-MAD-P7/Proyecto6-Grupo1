@@ -11,6 +11,7 @@
 - Blueprint por capas, baseline de seguridad, disciplina UX y estrategia de pruebas.
 - Workflows iniciales de calidad del repositorio y validación de tags.
 - Dependabot y configuración de notas de release.
+- Ruleset activo para proteger `dev` mediante Pull Requests, CI obligatorio e historial lineal.
 
 ### Changed
 
