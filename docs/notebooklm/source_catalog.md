@@ -4,6 +4,7 @@ Este catálogo indica qué documentos pueden alimentar una presentación y con q
 
 | Fuente | Propósito | Frecuencia | Responsable | Estado |
 |---|---|---|---|---|
+| `.specify/intent.md` | Propósito, restricciones y principios globales | Cuando cambie la intención | Equipo | Activa |
 | `README.md` | Visión general y acceso al proyecto | Cada hito | Equipo | Activa |
 | `CHANGELOG.md` | Evolución por versiones | Cada cambio relevante | Pendiente | Activa |
 | `docs/architecture/repository_structure.md` | Arquitectura del repositorio | Cuando cambie la estructura | Pendiente | Activa |

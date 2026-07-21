@@ -63,7 +63,7 @@ flowchart LR
 
 ```text
 .
-├── .specify/              # Método y plantillas para trabajar con specs
+├── .specify/              # Intención, método y plantillas para trabajar con specs
 ├── specs/                 # Una carpeta por funcionalidad o cambio relevante
 ├── app/                   # Capa de entrega: interfaz y, si aplica, API
 ├── config/                # Configuración versionada no sensible
@@ -96,10 +96,10 @@ La responsabilidad de cada carpeta se detalla en [docs/architecture/repository_s
 Los cambios relevantes seguirán este flujo:
 
 ```text
-idea -> spec -> plan -> tareas -> implementación -> verificación -> cierre
+intent -> spec -> plan -> tareas -> implementación -> verificación -> cierre
 ```
 
-La guía está en [.specify/README.md](.specify/README.md) y las normas de colaboración en [CONTRIBUTING.md](CONTRIBUTING.md).
+La [intención del proyecto](.specify/intent.md) fija el propósito y los límites globales. La guía está en [.specify/README.md](.specify/README.md) y las normas de colaboración en [CONTRIBUTING.md](CONTRIBUTING.md).
 
 ## Ramas
 

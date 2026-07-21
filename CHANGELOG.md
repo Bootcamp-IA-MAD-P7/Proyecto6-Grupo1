@@ -12,6 +12,7 @@
 - Workflows iniciales de calidad del repositorio y validación de tags.
 - Dependabot y configuración de notas de release.
 - Ruleset activo para proteger `dev` mediante Pull Requests, CI obligatorio e historial lineal.
+- Intent global del proyecto con propósito, restricciones, decisiones abiertas y principios de entrega.
 
 ### Changed
 
