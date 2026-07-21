@@ -1,0 +1,10 @@
+raw/*
+external/*
+interim/*
+processed/*
+
+!raw/.gitkeep
+!external/.gitkeep
+!interim/.gitkeep
+!processed/.gitkeep
+!README.md

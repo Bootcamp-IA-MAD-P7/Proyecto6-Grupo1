@@ -1,0 +1,63 @@
+# Estructura del repositorio
+
+## Principio
+
+La estructura permite crecer hasta nivel experto, pero mantiene desacoplado el núcleo esencial. Tener una carpeta no significa que esa capacidad esté implementada.
+
+## Capas
+
+| Ruta | Responsabilidad |
+|---|---|
+| `data/` | Datos originales, intermedios, procesados y externos. |
+| `notebooks/` | Exploración, EDA y experimentos narrativos. |
+| `src/domain/` | Reglas, entidades y contratos independientes de frameworks. |
+| `src/application/` | Casos de uso y orquestación del dominio. |
+| `src/infrastructure/` | Persistencia, artefactos y adaptadores externos. |
+| `src/ml/` | Datos, features, entrenamiento y evaluación multiclase. |
+| `app/` | Adaptadores de entrega: interfaz y API, si resulta necesaria. |
+| `src/mlops/` | Experimentos, monitorización, registro y promoción. |
+| `models/` | Artefactos versionados o metadatos de modelos. |
+| `reports/` | Evidencias generadas para evaluación y defensa. |
+| `tests/` | Pruebas unitarias, integración, contrato y end-to-end. |
+| `infra/` | Contenedores y definición del despliegue. |
+
+## Flujo previsto de datos y modelos
+
+```text
+data/raw
+   ↓
+src/ml/data + src/ml/features
+   ↓
+data/processed
+   ↓
+src/ml/training + src/ml/evaluation
+   ↓
+models/baseline | challengers | champion
+   ↓
+src/domain ← src/application ← app
+   ↑                  ↓
+src/infrastructure   feedback y nuevas observaciones
+                          ↓
+src/mlops/monitoring + experiments + promotion
+```
+
+Este flujo es una capacidad estructural prevista, no una afirmación de implementación.
+
+## Evolución sin reorganizaciones
+
+- El nivel esencial usará datos, notebooks, `src/`, un modelo, la app, informes y tests mínimos.
+- El nivel medio añadirá challengers, tuning, feedback y recolección.
+- El nivel avanzado activará infraestructura, persistencia, despliegue y tests operativos.
+- El nivel experto activará experimentos, monitorización, registro y promoción controlada.
+
+## Regla de dependencias
+
+```text
+interfaces -> application -> domain
+                    ↑
+             infrastructure
+
+mlops -> ml + infrastructure
+```
+
+El dominio no debe importar frameworks web, librerías de persistencia, proveedores cloud ni detalles de interfaz. Las dependencias externas se conectarán mediante adaptadores.
