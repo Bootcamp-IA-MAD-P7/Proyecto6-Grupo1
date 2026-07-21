@@ -15,4 +15,6 @@
 
 ### Changed
 
+- Las dailies se consolidan en un único documento canónico por fecha dentro de gestión de proyecto; NotebookLM consume esa fuente sin duplicarla.
+
 ### Fixed
