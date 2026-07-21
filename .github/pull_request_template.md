@@ -1,61 +1,62 @@
-## Spec y alcance
+## Specification and scope
 
-- Spec:
-- Tareas:
-- Criterios de aceptación:
+- Specification:
+- Tasks:
+- Acceptance criteria:
 
-## Resumen
+## Summary
 
 -
 
-## Tipo de cambio
+## Type of change
 
-- [ ] Producto / funcionalidad
-- [ ] Datos / ML
-- [ ] Aplicación / UX
-- [ ] MLOps / plataforma
-- [ ] Seguridad
+- [ ] Product / feature
+- [ ] Data / ML
+- [ ] Application / UX
+- [ ] MLOps / platform
+- [ ] Security
 - [ ] Tests / QA
-- [ ] Documentación
-- [ ] CI/CD / infraestructura
-- [ ] Refactor sin cambio funcional
+- [ ] Documentation
+- [ ] CI/CD / infrastructure
+- [ ] Refactor without functional changes
 
-## Fuera de alcance
+## Out of scope
 
 -
 
-## Verificación
+## Verification
 
-Comandos y resultados:
+Commands and results:
 
 ```text
 
 ```
 
-## Evidencias
+## Evidence
 
-<!-- Métricas, capturas, informes o no aplica. -->
+<!-- Metrics, screenshots, reports, or not applicable. -->
 
-## Impacto transversal
+## Cross-cutting review
 
-- [ ] README o documentación general revisados.
-- [ ] Catálogo/fuentes de NotebookLM revisados.
-- [ ] UX, accesibilidad y responsive revisados.
-- [ ] Seguridad, privacidad y permisos revisados.
-- [ ] Contratos, migraciones y compatibilidad revisados.
-- [ ] Changelog actualizado cuando aporta valor al release.
+- [ ] General documentation and README reviewed.
+- [ ] NotebookLM source catalogue and affected sources reviewed.
+- [ ] UX, accessibility, and responsive behaviour reviewed.
+- [ ] Security, privacy, and permissions reviewed.
+- [ ] Contracts, migrations, and compatibility reviewed.
+- [ ] Changelog updated when relevant to the release.
 
-## Riesgos y reversión
+## Risks and rollback
 
-- Riesgos:
-- Reversión:
+- Risks:
+- Rollback:
 
 ## Checklist
 
-- [ ] Parte de una rama actualizada desde `dev`.
-- [ ] Respeta la spec o la actualiza explícitamente.
-- [ ] No mezcla trabajo no relacionado.
-- [ ] Incluye tests o verificación proporcional al riesgo.
-- [ ] Actualiza tareas, decisiones y documentación afectadas.
-- [ ] No incluye secretos, datos pesados ni artefactos locales.
-- [ ] No presenta capacidades previstas como ya implementadas.
+- [ ] This branch is up to date with `dev`.
+- [ ] This PR targets `dev`, or is an approved release PR targeting `main`.
+- [ ] The change follows its specification or updates it explicitly.
+- [ ] The PR has a coherent scope and contains no unrelated work.
+- [ ] Tests or verification are proportional to the change's risk.
+- [ ] Tasks, decisions, and affected documentation are up to date.
+- [ ] No secrets, heavy datasets, generated folders, or local artefacts are included.
+- [ ] Planned capabilities are not presented as already implemented.
