@@ -64,10 +64,12 @@ Define audiencia, duración, narrativa, tono, hechos obligatorios, afirmaciones 
 1. Completar la daily del equipo.
 2. Actualizar specs, decisiones y evidencias afectadas.
 3. Revisar `source_catalog.md`.
-4. Actualizar `daily_updates/YYYY-MM-DD.md` con los hechos que merecen llegar a NotebookLM.
+4. Actualizar `project_facts.md`, `technical_status.md` y `business_narrative.md` únicamente cuando cambien sus hechos.
 5. Generar el paquete con `scripts/documentation/build_notebooklm_pack.py`.
 6. Revisar el paquete antes de subirlo.
 7. Mantener las presentaciones generadas como borradores hasta contrastar cifras y mensajes.
+
+La daily canónica pertenece a `docs/project_management/dailies/`. NotebookLM la consume directamente como fuente versionada; no mantiene una copia ni una adaptación diaria paralela.
 
 ## Qué no se debe subir como fuente principal
 

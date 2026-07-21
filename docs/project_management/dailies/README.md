@@ -30,6 +30,6 @@ Todos los documentos mantienen este orden fijo:
 - Enlazar specs, tareas, PR, métricas o documentos cuando existan.
 - Mantener los bloqueantes visibles hasta que se resuelvan.
 - Trasladar decisiones duraderas a una spec o ADR; la daily no sustituye ese registro.
-- Utilizar la daily como una de las fuentes de la actualización diaria de NotebookLM.
+- Utilizar esta daily canónica directamente como una de las fuentes del paquete de NotebookLM, sin crear copias paralelas.
 
 La plantilla se encuentra en `_template.md`.

@@ -56,7 +56,6 @@ def source_paths(day: str) -> list[Path]:
     paths.extend(
         (
             ROOT / f"docs/project_management/dailies/{day}.md",
-            ROOT / f"docs/notebooklm/daily_updates/{day}.md",
         )
     )
     paths.extend(optional_project_sources())
