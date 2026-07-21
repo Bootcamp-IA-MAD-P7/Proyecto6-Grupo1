@@ -49,4 +49,4 @@ No se pasa a implementación si existen preguntas bloqueantes sobre el comportam
 
 ## Primera spec prevista
 
-La primera spec será `000-problem-discovery` y definirá cómo comparar y seleccionar una idea de negocio. El intent no anticipa el resultado de esa decisión.
+La primera spec es [`000-problem-discovery`](../specs/000-problem-discovery/spec.md). Define cómo comparar y seleccionar una idea de negocio, permanece en borrador y no anticipa el resultado de esa decisión.

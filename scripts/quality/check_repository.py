@@ -11,6 +11,8 @@ from urllib.parse import unquote
 
 ROOT = Path(__file__).resolve().parents[2]
 DAILY_PATTERN = re.compile(r"^\d{4}-\d{2}-\d{2}\.md$")
+SPEC_DIRECTORY_PATTERN = re.compile(r"^\d{3}-[a-z0-9]+(?:-[a-z0-9]+)*$")
+SPEC_REQUIRED_FILES = ("spec.md", "plan.md", "tasks.md", "decisions.md")
 TEAM_MEMBERS = ("José", "Josué", "Abel", "Víctor", "Miguel")
 MAX_TRACKED_SIZE = 10 * 1024 * 1024
 IGNORED_LINK_PREFIXES = ("http://", "https://", "mailto:", "#")
@@ -96,6 +98,22 @@ def check_dailies(errors: list[str]) -> None:
                 errors.append(f"Daily {path.name} is missing section for {member}")
 
 
+def check_spec_bundles(errors: list[str]) -> None:
+    directory = ROOT / "specs"
+    if not directory.exists():
+        errors.append("Missing specs directory")
+        return
+    for path in directory.iterdir():
+        if not path.is_dir():
+            continue
+        if not SPEC_DIRECTORY_PATTERN.fullmatch(path.name):
+            errors.append(f"Invalid spec directory name: {path.name}")
+            continue
+        for filename in SPEC_REQUIRED_FILES:
+            if not (path / filename).is_file():
+                errors.append(f"Spec {path.name} is missing {filename}")
+
+
 def check_tracked_files(files: list[Path], errors: list[str]) -> None:
     for path in files:
         relative = path.relative_to(ROOT)
@@ -112,6 +130,7 @@ def main() -> int:
     check_required_paths(errors)
     check_markdown_links(local_files, errors)
     check_dailies(errors)
+    check_spec_bundles(errors)
     check_tracked_files(files or local_files, errors)
 
     if errors:

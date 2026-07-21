@@ -40,6 +40,7 @@ def valid_iso_date(value: str) -> str:
 def optional_project_sources() -> list[Path]:
     patterns = (
         "specs/[0-9]*/spec.md",
+        "specs/[0-9]*/plan.md",
         "specs/[0-9]*/tasks.md",
         "specs/[0-9]*/decisions.md",
         "docs/adr/[0-9]*.md",
