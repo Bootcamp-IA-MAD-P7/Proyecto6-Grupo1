@@ -1,0 +1,48 @@
+name: Feature or improvement
+description: Propose work that must be connected to a spec and observable value.
+title: "[Feature]: "
+labels:
+  - enhancement
+body:
+  - type: markdown
+    attributes:
+      value: Describe the need before proposing implementation details.
+  - type: input
+    id: spec
+    attributes:
+      label: Related spec
+      description: Path or identifier. Write "proposal" if the spec does not exist yet.
+      placeholder: specs/001-example/spec.md
+    validations:
+      required: true
+  - type: textarea
+    id: problem
+    attributes:
+      label: Problem and user value
+    validations:
+      required: true
+  - type: textarea
+    id: acceptance
+    attributes:
+      label: Observable acceptance criteria
+    validations:
+      required: true
+  - type: dropdown
+    id: area
+    attributes:
+      label: Primary area
+      options:
+        - Product
+        - Data / ML
+        - Application / UX
+        - MLOps / Platform
+        - Security
+        - Documentation / QA
+    validations:
+      required: true
+  - type: textarea
+    id: risks
+    attributes:
+      label: Risks, dependencies and out of scope
+    validations:
+      required: true

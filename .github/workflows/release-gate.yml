@@ -1,0 +1,32 @@
+name: Release gate
+
+on:
+  push:
+    tags:
+      - "v*.*.*"
+
+permissions:
+  contents: read
+
+jobs:
+  validate-release-tag:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+
+    steps:
+      - name: Checkout tagged revision
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - name: Check repository conventions
+        run: python scripts/quality/check_repository.py
+
+      - name: Confirm changelog exists
+        run: test -s CHANGELOG.md
+
+      - name: Explain current scope
+        run: echo "Deployment jobs will be added after the deployment architecture is approved."

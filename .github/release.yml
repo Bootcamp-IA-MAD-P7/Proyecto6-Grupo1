@@ -1,0 +1,31 @@
+changelog:
+  exclude:
+    labels:
+      - skip-changelog
+  categories:
+    - title: Product
+      labels:
+        - feature
+        - enhancement
+        - product
+    - title: Data and Machine Learning
+      labels:
+        - data
+        - machine-learning
+    - title: Application and UX
+      labels:
+        - application
+        - ux
+    - title: Platform, MLOps and Security
+      labels:
+        - platform
+        - mlops
+        - security
+    - title: Documentation and Quality
+      labels:
+        - documentation
+        - tests
+        - ci
+    - title: Other changes
+      labels:
+        - "*"
