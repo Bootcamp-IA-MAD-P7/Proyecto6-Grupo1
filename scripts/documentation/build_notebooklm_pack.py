@@ -14,6 +14,7 @@ OUTPUT_DIRECTORY = ROOT / "exports/notebooklm"
 STABLE_SOURCES = (
     "README.md",
     "CHANGELOG.md",
+    ".specify/intent.md",
     "docs/project_management/project_principles.md",
     "docs/project_management/delivery_levels.md",
     "docs/architecture/repository_structure.md",

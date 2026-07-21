@@ -2,6 +2,18 @@
 
 Las conversaciones ayudan a explorar. Las specs conservan dentro del repositorio lo que el equipo ha decidido construir.
 
+## Jerarquía documental
+
+```text
+intent -> spec -> plan -> tasks -> implementation -> verification -> closure
+```
+
+- [`intent.md`](intent.md) define el propósito, las restricciones globales y los principios estables del proyecto.
+- `specs/` contiene un contrato independiente por descubrimiento, funcionalidad o cambio relevante.
+- `templates/` proporciona la estructura mínima para redactar esos contratos.
+
+El intent no selecciona una idea de negocio ni sustituye las specs. Solo cambia cuando cambia el propósito global del proyecto.
+
 ## Una carpeta por cambio
 
 ```text
@@ -35,6 +47,6 @@ Las plantillas están en `.specify/templates/`.
 
 No se pasa a implementación si existen preguntas bloqueantes sobre el comportamiento. No se cierra una spec si sus criterios de aceptación carecen de evidencia.
 
-## Primera spec futura
+## Primera spec prevista
 
-La primera spec se creará cuando el equipo empiece formalmente la selección de la idea de negocio. Esta estructura no anticipa esa decisión.
+La primera spec será `000-problem-discovery` y definirá cómo comparar y seleccionar una idea de negocio. El intent no anticipa el resultado de esa decisión.

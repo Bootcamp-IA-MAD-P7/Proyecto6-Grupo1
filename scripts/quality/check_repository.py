@@ -51,6 +51,7 @@ def check_required_paths(errors: list[str]) -> None:
         "SECURITY.md",
         "CHANGELOG.md",
         ".specify/README.md",
+        ".specify/intent.md",
         "docs/architecture/repository_structure.md",
         "docs/design/documentation_visual_standard.md",
         "docs/notebooklm/source_catalog.md",
