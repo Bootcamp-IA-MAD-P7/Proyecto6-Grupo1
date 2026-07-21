@@ -127,4 +127,4 @@ La documentación se considera parte del producto. Debe alimentar el trabajo dia
 
 ## Próximo hito
 
-Definir y comparar ideas de negocio antes de seleccionar dataset, stack o arquitectura funcional.
+Resolver las preguntas abiertas de la spec [`000-problem-discovery`](specs/000-problem-discovery/spec.md) y comenzar la evaluación comparable de ideas, sin seleccionar dataset, stack o arquitectura funcional de forma prematura.
