@@ -11,7 +11,10 @@
 ## Capacidades verificadas
 
 - Rama `dev` creada y configurada como rama predeterminada.
-- Estructura inicial del repositorio preparada localmente y pendiente de revisión.
+- Estructura inicial integrada en `dev` mediante Pull Request y squash merge.
+- Workflow `repository-quality` ejecutado correctamente en Pull Request.
+- Ruleset `Protect dev` activo con PR y check de calidad obligatorios, historial lineal y bloqueo de force push y borrado.
+- Aprobaciones humanas no requeridas temporalmente.
 
 ## Capacidades previstas, no implementadas
 
