@@ -100,6 +100,66 @@ La decisión fue aprobada el 22 de julio de 2026 con los votos favorables de Abe
 - `specs/000-problem-discovery/spec.md`.
 - `specs/000-problem-discovery/tasks.md`.
 
+## ADR-003 Validar CFPB mediante un arnés acotado y sin persistir narrativas
+
+- Fecha: `2026-07-22`
+- Estado: `accepted`
+- Relacionada con: `R-003, R-004, R-005, R-006, AC-003, AC-004, AC-006, T-004, T-005`
+
+### Contexto
+
+La descarga oficial comprimida ocupa aproximadamente 1,42 GB y las narrativas mantienen riesgo residual de información personal. El equipo necesita evidencias de volumen, clases, calidad y privacidad sin convertir el spike en un EDA, introducir datos pesados en Git o mostrar textos en informes.
+
+La API documentada también presenta comportamiento dependiente del cliente y una paginación que requiere `search_after`; utilizar únicamente offsets produjo páginas repetidas durante la primera prueba.
+
+### Opciones consideradas
+
+1. Descargar y explorar inmediatamente el CSV completo.
+2. Utilizar un mirror o dataset derivado sin verificar.
+3. Crear un arnés con configuración congelada, probe agregado, muestra temporal en memoria, límites, informes sin narrativas y tests del contrato.
+
+### Decisión
+
+Adoptar la opción 3 mediante:
+
+- `config/cfpb_viability.json` como contrato versionado;
+- `scripts/data/cfpb_viability.py` como herramienta reproducible;
+- `reports/validation/cfpb_api_probe.json` y `cfpb_api_sample.json` como estado agregado;
+- `reports/validation/cfpb_viability.md` como interpretación auditable;
+- tests unitarios que impiden target leakage y comprueban fechas, esquema, paginación y ausencia de narrativas en la salida.
+
+La ventana se congela en `[2023-08-24, 2026-07-23)`. El arnés permite únicamente `complaint_what_happened` como entrada y mantiene `product` como target prohibido entre las features.
+
+### Consecuencias
+
+- Beneficios:
+  - evita descargar 1,42 GB para una validación preliminar;
+  - impide que las narrativas lleguen a Git, informes o logs;
+  - detecta fallos de paginación antes de aceptar cifras;
+  - deja un procedimiento repetible por cualquier integrante;
+  - produce evidencia útil para NotebookLM sin incorporar texto sensible.
+- Costes o límites:
+  - la muestra de extremos temporales no representa la población completa;
+  - los patrones de PII son heurísticos y no certifican anonimización;
+  - idioma, mapping de etiquetas y privacidad amplia continúan pendientes;
+  - la API puede comportarse de manera diferente según el cliente o perímetro.
+- Trabajo posterior:
+  - aprobar la normalización de tres etiquetas históricas o ambiguas;
+  - ampliar la comprobación de privacidad;
+  - definir el tratamiento de duplicados;
+  - ejecutar el EDA solo desde una nueva spec funcional.
+
+### Evidencia
+
+- `config/cfpb_viability.json`.
+- `scripts/data/cfpb_viability.py`.
+- `tests/unit/test_cfpb_viability.py`.
+- `reports/validation/cfpb_viability.md`.
+- `reports/validation/cfpb_api_probe.json`.
+- `reports/validation/cfpb_api_sample.json`.
+- <https://cfpb.github.io/ccdb5-api/documentation/>.
+- <https://github.com/cfpb/cfpb.github.io/issues/292>.
+
 ## PDR-001 Seleccionar problema, usuario y dataset candidato
 
 - Fecha: `2026-07-22`

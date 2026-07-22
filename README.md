@@ -14,6 +14,8 @@ El proyecto se encuentra en fase de descubrimiento y validación de datos.
 
 El equipo ha elegido por unanimidad la clasificación y el enrutamiento de reclamaciones financieras mediante narrativas públicas del CFPB. La decisión es condicional: antes de implementar deben validarse la extracción, las clases, el desbalanceo, la calidad y la privacidad.
 
+El spike preliminar ha verificado 2.306.723 narrativas, catorce etiquetas observadas y un desbalanceo severo. La API y el contrato narrative-only son reproducibles, pero todavía deben aprobarse la normalización de etiquetas y los controles de privacidad.
+
 Todavía no se han decidido de forma definitiva:
 
 - el subconjunto reproducible del dataset candidato;
@@ -128,4 +130,4 @@ La documentación se considera parte del producto. Debe alimentar el trabajo dia
 
 ## Próximo hito
 
-Ejecutar el spike de viabilidad de la candidata CFPB exigido por [`000-problem-discovery`](specs/000-problem-discovery/spec.md), cerrar sus puertas críticas y preparar después una spec funcional independiente. La [comparación y votación](docs/product/candidates/comparison-2026-07-22.md) conserva la alternativa visual evaluada.
+Aprobar el mapping de etiquetas históricas, ampliar la revisión de privacidad y cerrar las puertas restantes de [`000-problem-discovery`](specs/000-problem-discovery/spec.md). El [informe de viabilidad CFPB](reports/validation/cfpb_viability.md) conserva la evidencia reproducible antes de preparar una spec funcional independiente.
