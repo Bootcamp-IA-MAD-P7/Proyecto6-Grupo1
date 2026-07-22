@@ -73,7 +73,9 @@ Content-Length: 1422352348
 
 La descarga comprimida completa ocupa aproximadamente 1,42 GB. No se incorporará al repositorio ni se utilizará completa para el primer baseline sin justificarlo.
 
-La primera consulta automática al endpoint de búsqueda fue rechazada desde el entorno local por la protección perimetral del sitio. Esto no invalida el acceso público documentado, pero obliga a verificar el método reproducible de extracción antes de cerrar la puerta de datos.
+La primera consulta automática al endpoint de búsqueda fue rechazada desde PowerShell y `curl` por la protección perimetral del sitio. Un cliente Python limitado y con respuesta acotada accedió posteriormente de forma correcta. El comportamiento dependiente del cliente queda registrado como riesgo operativo.
+
+El probe reproducible verificó 2.306.723 reclamaciones con narrativa dentro de la ventana congelada, licencia CC0 informada por la API y ausencia de una incidencia general o datos obsoletos. Los resultados agregados están en [`reports/validation/cfpb_viability.md`](../../../reports/validation/cfpb_viability.md).
 
 ## Contrato de datos propuesto
 
@@ -120,20 +122,28 @@ La taxonomía oficial desde agosto de 2023 incluye estas familias principales:
 10. Student loan.
 11. Vehicle loan or lease.
 
-La lista definitiva dependerá de la distribución de narrativas. No se eliminarán ni agruparán clases únicamente para mejorar las métricas; cualquier cambio deberá conservar significado de negocio y quedar registrado.
+La API devuelve catorce etiquetas observadas, aunque la taxonomía actual contiene once familias. Tres etiquetas son históricas o ambiguas:
+
+| Etiqueta observada | Recuento | Tratamiento pendiente |
+|---|---:|---|
+| Credit reporting, credit repair services, or other personal consumer reports | 1.449 | Normalización semántica a la categoría vigente. |
+| Credit card or prepaid card | 111 | Desambiguar mediante una regla de target o excluir con justificación. |
+| Payday loan, title loan, or personal loan | 12 | Normalización semántica a la categoría vigente. |
+
+La clase mayoritaria acumula 1.671.242 registros, el 72,45 % del total. La lista definitiva y el mapping deberán aprobarse antes de entrenar. No se eliminarán ni agruparán clases únicamente para mejorar las métricas; cualquier cambio deberá conservar significado de negocio y quedar registrado.
 
 ## Puertas críticas
 
 | Puerta | Estado | Evidencia o condición pendiente |
 |---|---|---|
 | G-01 Problema y usuario | Cumple | Problema, usuario operativo y decisión identificados; el flujo exacto deberá contrastarse durante la spec funcional. |
-| G-02 Multiclase real | Condicional | Existen más de tres productos; falta comprobar soporte por clase con la taxonomía estable. |
-| G-03 Datos reproducibles | Condicional | Fuente y descargas oficiales verificadas; falta cerrar extracción filtrada y licencia de uso comercial. |
-| G-04 Inferencia válida | Condicional | Contrato narrative-only propuesto; deberá comprobarse leakage y disponibilidad real. |
+| G-02 Multiclase real | Condicional | Volumen y soporte global verificados; falta aprobar la normalización de tres etiquetas históricas o ambiguas. |
+| G-03 Datos reproducibles | Cumple | API, descarga, documentación, licencia CC0 informada y arnés reproducible verificados. |
+| G-04 Inferencia válida | Cumple | La narrativa es la única entrada permitida; el contrato automatizado impide utilizar `product` como feature. |
 | G-05 Riesgo asumible | Condicional | Datos publicados y tratados, pero existe riesgo residual de información personal. |
-| G-06 Entrega viable | Condicional | Viable con subconjunto reproducible y baseline lineal; pendiente medir volumen y tiempos. |
+| G-06 Entrega viable | Cumple | La API permite inspección acotada y existen 2.306.723 narrativas; no es necesario descargar el ZIP completo para el primer ciclo. |
 
-Ninguna puerta se considera incumplida. El equipo eligió esta dirección por unanimidad, pero la implementación funcional no comenzará hasta que el spike de datos resuelva las condiciones de G-02 a G-06 o registre una revisión expresa de la decisión.
+Ninguna puerta se considera incumplida. G-03, G-04 y G-06 quedan superadas para descubrimiento. La implementación funcional no comenzará hasta resolver G-02 y G-05 o registrar una revisión expresa de la decisión.
 
 ## Puntuación técnica preliminar
 
@@ -189,10 +199,10 @@ Esta evolución describe potencial, no funcionalidad implementada.
 
 ## Validaciones pendientes
 
-- Obtener el recuento de narrativas por clase desde el 24 de agosto de 2023.
-- Comprobar textos ausentes, longitud, duplicados, redacciones e idioma.
-- Definir un método reproducible de descarga o consulta filtrada.
-- Confirmar las condiciones aplicables a una explotación comercial.
+- Aprobar el mapping entre etiquetas históricas y taxonomía vigente.
+- Ampliar la revisión de privacidad antes de persistir textos para modelado.
+- Confirmar el idioma o aprobar una estrategia reproducible para detectarlo.
+- Definir el tratamiento de narrativas duplicadas y campañas masivas.
 - Validar el usuario B2B y el mapping entre producto y cola.
 - Estimar recursos y tiempo de baseline con una muestra representativa.
 - Definir responsables y fecha límite del spike de viabilidad antes de la implementación funcional.
@@ -205,3 +215,6 @@ Esta evolución describe potencial, no funcionalidad implementada.
 - [Opciones de producto e incidencia desde agosto de 2023](https://files.consumerfinance.gov/f/documents/cfpb_consumer_complaint_form_product_issue_options_August_2023_FINAL.pdf).
 - [Estándar de retirada de información personal](https://files.consumerfinance.gov/f/documents/201503_cfpb_Narrative-Scrubbing-Standard.pdf).
 - [Correcciones y limitaciones comunicadas por el CFPB en junio de 2026](https://www.consumerfinance.gov/about-us/newsroom/the-cfpb-is-correcting-flaws-to-restore-integrity-and-utility-to-the-consumer-complaint-system/).
+- [`reports/validation/cfpb_viability.md`](../../../reports/validation/cfpb_viability.md).
+- `reports/validation/cfpb_api_probe.json`.
+- `reports/validation/cfpb_api_sample.json`.

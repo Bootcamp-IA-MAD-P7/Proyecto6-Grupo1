@@ -1,0 +1,329 @@
+{
+  "classes": {
+    "count": 14,
+    "distribution": [
+      {
+        "class": "Credit reporting, credit repair services, or other personal consumer reports",
+        "count": 428,
+        "share": 0.428
+      },
+      {
+        "class": "Debt collection",
+        "count": 170,
+        "share": 0.17
+      },
+      {
+        "class": "Checking or savings account",
+        "count": 149,
+        "share": 0.149
+      },
+      {
+        "class": "Credit card",
+        "count": 109,
+        "share": 0.109
+      },
+      {
+        "class": "Mortgage",
+        "count": 48,
+        "share": 0.048
+      },
+      {
+        "class": "Vehicle loan or lease",
+        "count": 27,
+        "share": 0.027
+      },
+      {
+        "class": "Money transfer, virtual currency, or money service",
+        "count": 16,
+        "share": 0.016
+      },
+      {
+        "class": "Payday loan, title loan, personal loan, or advance loan",
+        "count": 15,
+        "share": 0.015
+      },
+      {
+        "class": "Credit card or prepaid card",
+        "count": 12,
+        "share": 0.012
+      },
+      {
+        "class": "Prepaid card",
+        "count": 12,
+        "share": 0.012
+      },
+      {
+        "class": "Credit reporting or other personal consumer reports",
+        "count": 7,
+        "share": 0.007
+      },
+      {
+        "class": "Student loan",
+        "count": 4,
+        "share": 0.004
+      },
+      {
+        "class": "Debt or credit management",
+        "count": 2,
+        "share": 0.002
+      },
+      {
+        "class": "Payday loan, title loan, or personal loan",
+        "count": 1,
+        "share": 0.001
+      }
+    ],
+    "majority_share": 0.428,
+    "minority_count": 1
+  },
+  "contract_version": "1.0",
+  "date_coverage": {
+    "maximum": "2026-07-02",
+    "minimum": "2023-08-24"
+  },
+  "generated_at": "2026-07-22T09:58:59+00:00",
+  "limitations": [
+    "The sample covers the oldest and newest available edges, not a random population sample.",
+    "PII detection uses heuristic patterns and is not a privacy certification.",
+    "No narrative content is persisted in this report."
+  ],
+  "privacy": {
+    "note": "Counts are heuristic signals; no matching narrative is persisted.",
+    "pattern_match_counts": {
+      "url": 4
+    },
+    "pattern_rate": 0.004,
+    "records_with_any_pattern": 4
+  },
+  "quality": {
+    "duplicate_complaint_ids": 0,
+    "duplicate_narratives": 122,
+    "missing": {},
+    "narrative_length_characters": {
+      "maximum": 25684,
+      "median": 832,
+      "minimum": 39
+    }
+  },
+  "scan": {
+    "eligible_rows": 1000,
+    "invalid_date_rows": 0,
+    "rows_in_window": 1000,
+    "scanned_rows": 1000,
+    "truncated": false
+  },
+  "source": {
+    "endpoint": "https://www.consumerfinance.gov/data-research/consumer-complaints/search/api/v1/",
+    "kind": "api_temporal_edge_sample",
+    "pages": 10,
+    "requested_records_per_edge": 500,
+    "returned_records": 1000,
+    "sorts": [
+      "created_date_asc",
+      "created_date_desc"
+    ]
+  },
+  "temporal_edges": {
+    "newest": {
+      "classes": {
+        "count": 11,
+        "distribution": [
+          {
+            "class": "Debt collection",
+            "count": 139,
+            "share": 0.278
+          },
+          {
+            "class": "Checking or savings account",
+            "count": 131,
+            "share": 0.262
+          },
+          {
+            "class": "Credit card",
+            "count": 109,
+            "share": 0.218
+          },
+          {
+            "class": "Mortgage",
+            "count": 45,
+            "share": 0.09
+          },
+          {
+            "class": "Vehicle loan or lease",
+            "count": 24,
+            "share": 0.048
+          },
+          {
+            "class": "Payday loan, title loan, personal loan, or advance loan",
+            "count": 15,
+            "share": 0.03
+          },
+          {
+            "class": "Money transfer, virtual currency, or money service",
+            "count": 14,
+            "share": 0.028
+          },
+          {
+            "class": "Prepaid card",
+            "count": 12,
+            "share": 0.024
+          },
+          {
+            "class": "Credit reporting or other personal consumer reports",
+            "count": 7,
+            "share": 0.014
+          },
+          {
+            "class": "Debt or credit management",
+            "count": 2,
+            "share": 0.004
+          },
+          {
+            "class": "Student loan",
+            "count": 2,
+            "share": 0.004
+          }
+        ],
+        "majority_share": 0.278,
+        "minority_count": 2
+      },
+      "contract_version": "1.0",
+      "date_coverage": {
+        "maximum": "2026-07-02",
+        "minimum": "2026-06-25"
+      },
+      "privacy": {
+        "note": "Counts are heuristic signals; no matching narrative is persisted.",
+        "pattern_match_counts": {},
+        "pattern_rate": 0.0,
+        "records_with_any_pattern": 0
+      },
+      "quality": {
+        "duplicate_complaint_ids": 0,
+        "duplicate_narratives": 4,
+        "missing": {},
+        "narrative_length_characters": {
+          "maximum": 9612,
+          "median": 1158,
+          "minimum": 61
+        }
+      },
+      "scan": {
+        "eligible_rows": 500,
+        "invalid_date_rows": 0,
+        "rows_in_window": 500,
+        "scanned_rows": 500,
+        "truncated": false
+      },
+      "warnings": [
+        "fewer_than_minimum_eligible_rows",
+        "class_below_minimum_support"
+      ],
+      "window": {
+        "date_received_max_exclusive": "2026-07-23",
+        "date_received_min": "2023-08-24"
+      }
+    },
+    "oldest": {
+      "classes": {
+        "count": 9,
+        "distribution": [
+          {
+            "class": "Credit reporting, credit repair services, or other personal consumer reports",
+            "count": 428,
+            "share": 0.856
+          },
+          {
+            "class": "Debt collection",
+            "count": 31,
+            "share": 0.062
+          },
+          {
+            "class": "Checking or savings account",
+            "count": 18,
+            "share": 0.036
+          },
+          {
+            "class": "Credit card or prepaid card",
+            "count": 12,
+            "share": 0.024
+          },
+          {
+            "class": "Mortgage",
+            "count": 3,
+            "share": 0.006
+          },
+          {
+            "class": "Vehicle loan or lease",
+            "count": 3,
+            "share": 0.006
+          },
+          {
+            "class": "Money transfer, virtual currency, or money service",
+            "count": 2,
+            "share": 0.004
+          },
+          {
+            "class": "Student loan",
+            "count": 2,
+            "share": 0.004
+          },
+          {
+            "class": "Payday loan, title loan, or personal loan",
+            "count": 1,
+            "share": 0.002
+          }
+        ],
+        "majority_share": 0.856,
+        "minority_count": 1
+      },
+      "contract_version": "1.0",
+      "date_coverage": {
+        "maximum": "2023-08-24",
+        "minimum": "2023-08-24"
+      },
+      "privacy": {
+        "note": "Counts are heuristic signals; no matching narrative is persisted.",
+        "pattern_match_counts": {
+          "url": 4
+        },
+        "pattern_rate": 0.008,
+        "records_with_any_pattern": 4
+      },
+      "quality": {
+        "duplicate_complaint_ids": 0,
+        "duplicate_narratives": 118,
+        "missing": {},
+        "narrative_length_characters": {
+          "maximum": 25684,
+          "median": 637,
+          "minimum": 39
+        }
+      },
+      "scan": {
+        "eligible_rows": 500,
+        "invalid_date_rows": 0,
+        "rows_in_window": 500,
+        "scanned_rows": 500,
+        "truncated": false
+      },
+      "warnings": [
+        "fewer_than_minimum_eligible_rows",
+        "class_below_minimum_support",
+        "majority_share_above_warning"
+      ],
+      "window": {
+        "date_received_max_exclusive": "2026-07-23",
+        "date_received_min": "2023-08-24"
+      }
+    }
+  },
+  "warnings": [
+    "fewer_than_minimum_eligible_rows",
+    "class_below_minimum_support"
+  ],
+  "window": {
+    "date_received_max_exclusive": "2026-07-23",
+    "date_received_min": "2023-08-24"
+  }
+}

@@ -1,0 +1,61 @@
+{
+  "schema_version": "1.0",
+  "source": {
+    "api_url": "https://www.consumerfinance.gov/data-research/consumer-complaints/search/api/v1/",
+    "csv_url": "https://files.consumerfinance.gov/ccdb/complaints.csv.zip",
+    "documentation_url": "https://cfpb.github.io/ccdb5-api/documentation/"
+  },
+  "window": {
+    "date_received_min": "2023-08-24",
+    "date_received_max_exclusive": "2026-07-23"
+  },
+  "limits": {
+    "api_page_size": 100,
+    "api_sample_records_per_edge": 500,
+    "max_api_response_bytes": 2097152,
+    "max_scanned_rows": 250000
+  },
+  "fields": {
+    "complaint_id": [
+      "Complaint ID",
+      "complaint_id"
+    ],
+    "date_received": [
+      "Date received",
+      "date_received"
+    ],
+    "narrative": [
+      "Consumer complaint narrative",
+      "complaint_what_happened"
+    ],
+    "target": [
+      "Product",
+      "product"
+    ]
+  },
+  "model_contract": {
+    "allowed_inputs": [
+      "complaint_what_happened"
+    ],
+    "target": "product",
+    "forbidden_inputs": [
+      "product",
+      "sub_product",
+      "issue",
+      "sub_issue",
+      "company",
+      "company_response",
+      "company_public_response",
+      "tags",
+      "timely",
+      "date_sent_to_company"
+    ]
+  },
+  "review_thresholds": {
+    "minimum_classes": 3,
+    "minimum_eligible_rows": 3000,
+    "minimum_rows_per_retained_class": 100,
+    "majority_share_warning": 0.8,
+    "pii_pattern_rate_warning": 0.01
+  }
+}

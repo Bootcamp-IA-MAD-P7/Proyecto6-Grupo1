@@ -13,8 +13,10 @@
 
 - Dataset: Consumer Complaint Database del CFPB, seleccionado como candidato y pendiente de spike de viabilidad.
 - Fuente y condiciones: fuente oficial pública del CFPB; la página permite usar, analizar y construir sobre los datos publicados, pero las condiciones exactas del tratamiento y reutilización de narrativas se revisarán antes de una explotación comercial.
-- Número de filas y variables: pendiente.
-- Target y clases: `product` propuesto, con once familias candidatas de la taxonomía vigente desde agosto de 2023; la selección definitiva depende de la distribución de narrativas.
+- Número de observaciones: 2.306.723 reclamaciones con narrativa en la ventana `[2023-08-24, 2026-07-23)`, según probe de la API del 22 de julio de 2026. Las variables de modelado definitivas siguen pendientes.
+- Target y clases: `product` propuesto. La API devuelve catorce etiquetas, tres históricas o ambiguas; el contrato final pretende once familias tras aprobar su normalización.
+- Desbalanceo: la etiqueta mayoritaria contiene 1.671.242 observaciones, el 72,45 % del total.
+- Calidad preliminar: una muestra temporal de 1.000 registros contiene cero IDs repetidos, 122 narrativas exactamente duplicadas y cuatro señales heurísticas de URL; no es una muestra aleatoria.
 
 ## Modelo
 

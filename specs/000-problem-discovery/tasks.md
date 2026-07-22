@@ -72,8 +72,8 @@
 
 ## T-004 Evaluar datasets y viabilidad multiclase
 
-- Estado: `[~]`
-- Responsable: `Datos / ML, por asignar`
+- Estado: `[x]`
+- Responsable: `Miguel`
 - Dependencias: `T-002`
 - Requisitos cubiertos: `R-002, R-003, R-004, R-005, AC-003, AC-004`
 - Archivos previstos:
@@ -92,7 +92,11 @@
   - Fuente, API, campos, taxonomía y descarga oficial del CFPB documentados para `CAND-001`.
   - Descarga completa comprobada mediante cabecera HTTP: `1422352348` bytes el `2026-07-22`.
   - RealWaste documentado para `CAND-002` con licencia CC BY 4.0, 4.752 imágenes, nueve clases y distribución publicada.
-  - Pendiente obtener distribución filtrada, calidad preliminar y método reproducible de extracción.
+  - Probe CFPB reproducible: 2.306.723 narrativas, catorce etiquetas observadas y clase mayoritaria del 72,45 %.
+  - Muestra temporal de 1.000 registros inspeccionada en memoria, sin persistir narrativas: cero IDs duplicados, 122 narrativas duplicadas y cuatro señales heurísticas de URL.
+  - Tres etiquetas históricas o ambiguas identificadas; su mapping queda como decisión previa al modelado.
+  - `config/cfpb_viability.json`, `scripts/data/cfpb_viability.py`, informes agregados y siete tests unitarios proporcionan evidencia reproducible.
+  - Resultado: dataset viable con condiciones; G-03, G-04 y G-06 superadas, G-02 y G-05 pendientes.
 
 ## T-005 Evaluar seguridad, privacidad, ética y sesgo
 
@@ -114,7 +118,9 @@
 - Evidencia obtenida:
   - Riesgos de información personal residual, publicación voluntaria, uso indebido y drift registrados para `CAND-001`.
   - Riesgos de cambio de dominio, atajos visuales, desbalanceo y reglas locales registrados para `CAND-002`.
-  - Pendiente confirmar condiciones de explotación y controles de tratamiento del texto.
+  - El arnés impide persistir narrativas en informes y registra solo agregados y hashes.
+  - Cuatro de 1.000 registros presentan patrones heurísticos de URL; no se detectaron patrones de correo, teléfono o SSN en la muestra.
+  - Pendiente ampliar la revisión de privacidad y definir controles de tratamiento antes del modelado.
 
 ## T-006 Evaluar UX, demo y evolución técnica
 

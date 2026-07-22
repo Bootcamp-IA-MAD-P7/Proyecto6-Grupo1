@@ -37,6 +37,36 @@ nueva spec funcional
 
 La matriz ayuda a ordenar evidencia, pero la selección se registra como una decisión explícita. Las puertas críticas de licencia, multiclase, leakage, privacidad y acceso pueden descartar una alternativa con independencia de su puntuación total.
 
+## Ejecución del spike CFPB
+
+La tarea T-004 utiliza un arnés reproducible y acotado:
+
+```text
+configuración versionada
+        ↓
+probe API sin persistir narrativas
+        ↓
+agregados globales por producto
+        ↓
+muestra temporal en memoria
+        ↓
+calidad, duplicados y señales de privacidad
+        ↓
+informe y puertas actualizadas
+```
+
+Contratos:
+
+- ventana `[2023-08-24, 2026-07-23)`;
+- `complaint_what_happened` como única entrada permitida;
+- `product` como target y feature prohibida;
+- límite de respuesta y muestra definidos en `config/cfpb_viability.json`;
+- ninguna narrativa en JSON, Markdown, tests o Git;
+- CSV o ZIP local opcional dentro de `data/raw/`, excluido del repositorio;
+- tests unitarios para ventana, esquema, privacidad de salida y paginación.
+
+El spike no entrena, no selecciona modelo y no sustituye el EDA posterior.
+
 ## Componentes y flujo
 
 ### 1. Gobierno de la evaluación

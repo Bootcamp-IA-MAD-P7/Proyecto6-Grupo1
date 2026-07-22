@@ -1,0 +1,92 @@
+{
+  "contract_version": "1.0",
+  "endpoint": "https://www.consumerfinance.gov/data-research/consumer-complaints/search/api/v1/",
+  "generated_at": "2026-07-22T09:55:22+00:00",
+  "meta": {
+    "has_data_issue": false,
+    "is_data_stale": false,
+    "is_narrative_stale": null,
+    "last_indexed": "2026-07-22T12:00:00-05:00",
+    "last_updated": "2026-07-22T12:00:00-05:00",
+    "license": "CC0"
+  },
+  "product_distribution": [
+    {
+      "class": "Credit reporting or other personal consumer reports",
+      "count": 1671242,
+      "share": 0.724509
+    },
+    {
+      "class": "Debt collection",
+      "count": 214880,
+      "share": 0.093154
+    },
+    {
+      "class": "Checking or savings account",
+      "count": 106440,
+      "share": 0.046143
+    },
+    {
+      "class": "Credit card",
+      "count": 105601,
+      "share": 0.04578
+    },
+    {
+      "class": "Money transfer, virtual currency, or money service",
+      "count": 85640,
+      "share": 0.037126
+    },
+    {
+      "class": "Mortgage",
+      "count": 36354,
+      "share": 0.01576
+    },
+    {
+      "class": "Vehicle loan or lease",
+      "count": 26196,
+      "share": 0.011356
+    },
+    {
+      "class": "Student loan",
+      "count": 25904,
+      "share": 0.01123
+    },
+    {
+      "class": "Payday loan, title loan, personal loan, or advance loan",
+      "count": 17627,
+      "share": 0.007642
+    },
+    {
+      "class": "Prepaid card",
+      "count": 9944,
+      "share": 0.004311
+    },
+    {
+      "class": "Debt or credit management",
+      "count": 5323,
+      "share": 0.002308
+    },
+    {
+      "class": "Credit reporting, credit repair services, or other personal consumer reports",
+      "count": 1449,
+      "share": 0.000628
+    },
+    {
+      "class": "Credit card or prepaid card",
+      "count": 111,
+      "share": 4.8e-05
+    },
+    {
+      "class": "Payday loan, title loan, or personal loan",
+      "count": 12,
+      "share": 5e-06
+    }
+  ],
+  "status": "available",
+  "total_matching_rows": 2306723,
+  "total_relation": "eq",
+  "window": {
+    "date_received_max_exclusive": "2026-07-23",
+    "date_received_min": "2023-08-24"
+  }
+}
