@@ -21,7 +21,7 @@ Todavía no se han decidido de forma definitiva:
 - la política de idioma y el tratamiento final de duplicados;
 - la estrategia de partición y desbalanceo basada en el EDA;
 - la métrica principal;
-- el framework de aplicación;
+- el framework de backend y el contrato de inferencia;
 - la arquitectura de despliegue.
 
 La estructura inicial prepara el repositorio para evolucionar desde el nivel esencial hasta el nivel experto del briefing, sin presentar ninguna capacidad como implementada antes de tiempo.
@@ -103,6 +103,15 @@ intent -> spec -> plan -> tareas -> implementación -> verificación -> cierre
 ```
 
 La [intención del proyecto](.specify/intent.md) fija el propósito y los límites globales. La guía está en [.specify/README.md](.specify/README.md) y las normas de colaboración en [CONTRIBUTING.md](CONTRIBUTING.md).
+
+### Incorporación rápida al equipo
+
+1. Leer [`AGENTS.md`](AGENTS.md) aunque se trabaje sin IA: resume decisiones y límites vigentes.
+2. Consultar el [flujo operativo](docs/project_management/workflow.md).
+3. Localizar la spec y tarea asignadas desde [`specs/`](specs/README.md).
+4. Utilizar Jira para el estado diario y una Pull Request para integrar evidencias.
+
+Las IA con acceso al repositorio leen las fuentes directamente. Para una herramienta externa se genera un paquete acotado con `scripts/documentation/build_ai_handoff.py`; nunca se comparten datos brutos ni narrativas CFPB.
 
 ## Ramas
 

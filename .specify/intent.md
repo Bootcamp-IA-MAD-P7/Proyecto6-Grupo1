@@ -49,14 +49,14 @@ Estas decisiones están pendientes de descubrimiento. No deben inferirse ni cerr
 
 | Decisión | Estado | Evidencia necesaria |
 |---|---|---|
-| Problema e idea de negocio | Pendiente | Valor, alcance y viabilidad comparados |
-| Usuario o actor principal | Pendiente | Necesidad y decisión que se pretende mejorar |
-| Dataset | Pendiente | Licencia, calidad, volumen, clases y adecuación temporal |
-| Target y significado de las clases | Pendiente | Contrato de datos y utilidad de cada clase |
+| Problema e idea de negocio | Decidido | Clasificación y apoyo al enrutamiento de reclamaciones financieras CFPB |
+| Usuario o actor principal | Hipótesis activa | Personal de operaciones o atención; falta contrastar el flujo real |
+| Dataset | Viable con condiciones | Consumer Complaint Database; privacidad y EDA todavía abiertos |
+| Target y significado de las clases | Decidido para EDA | Once familias en `config/cfpb_target_contract.json` |
 | Coste relativo de los errores | Pendiente | Impacto por clase y contexto de uso |
 | Métrica principal | Pendiente | Relación con el objetivo y el coste de error |
 | Modelo o familia de modelos | Pendiente | Baseline y comparación experimental |
-| Framework de aplicación | Pendiente | Requisitos de UX, integración y despliegue |
+| Framework de aplicación | Decidido para frontend | React PWA como primera entrega; evolución nativa sujeta a evidencia |
 | Persistencia y base de datos | Pendiente | Necesidades de feedback, auditoría y reentrenamiento |
 | Proveedor y arquitectura cloud | Pendiente | Coste, seguridad, operación y restricciones del producto |
 | Identidad visual definitiva | Pendiente | Audiencia, contexto y sistema de diseño |
@@ -163,14 +163,14 @@ No se avanzará de etapa por acumulación de componentes, sino por evidencia de 
 - Respaldar afirmaciones con métricas, capturas, informes, tests o decisiones versionadas.
 - Mantener dailies, README, changelog, specs y fuentes de NotebookLM alineados con el estado real.
 
-## Fuera de alcance durante el descubrimiento
+## Fuera de alcance durante la validación actual
 
-Hasta que exista una decisión registrada sobre la idea de negocio, no se debe:
+Hasta cerrar las puertas activas de datos, privacidad y producto, no se debe:
 
-- seleccionar un dataset definitivo;
-- fijar target, clases o métrica principal;
-- elegir un modelo final;
-- construir una interfaz ligada a variables todavía desconocidas;
+- fijar la métrica principal sin relacionarla con el coste de error;
+- elegir un modelo final antes del baseline y la comparación experimental;
+- entrenar con una partición, idioma o política de duplicados no aprobados;
+- construir una interfaz que presente confianza o automatización no respaldadas por un contrato;
 - decidir base de datos o proveedor cloud sin requisitos;
 - presentar capacidades previstas como implementadas;
 - optimizar antes de disponer de un baseline y un protocolo de evaluación.
@@ -211,7 +211,7 @@ Este documento está dirigido a:
 
 - Toda modificación requiere una Pull Request hacia `dev`.
 - Los cambios deben explicar qué principio o restricción se modifica y por qué.
-- Elegir una idea de negocio no obliga a reescribir el intent: la decisión se documentará en la spec de descubrimiento y dará origen a specs funcionales.
+- Las decisiones concretas se mantienen en sus specs; este intent solo resume las que cambian los límites globales del proyecto.
 - Si cambia el propósito global, las condiciones de entrega o la estrategia de madurez, este documento deberá revisarse junto con README, changelog y fuentes de NotebookLM.
 
 La regla principal es simple: primero validar el problema y proteger una entrega esencial completa; después añadir complejidad que aporte valor demostrable.

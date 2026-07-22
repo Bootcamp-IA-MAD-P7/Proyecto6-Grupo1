@@ -23,6 +23,8 @@
 - G-02, G-03, G-04 y G-06 superadas para EDA; G-05 continúa condicionada por la revisión de privacidad.
 - Spec `001-cfpb-target-contract` activa con once clases canónicas, dos aliases, una exclusión ambigua y siete tests de contrato.
 - El EDA continúa en paralelo y debe aportar evidencia agregada sobre clases, tiempo, ausencias, duplicados, longitud e idioma.
+- React PWA confirmada como dirección frontend inicial; backend, contrato de inferencia y evolución nativa siguen pendientes.
+- Flujo humano-IA independiente de proveedor implementado y verificado, con generación acotada de contexto por spec y tarea.
 - Workflow `repository-quality` ejecutado correctamente en Pull Request.
 - Ruleset `Protect dev` activo con PR y check de calidad obligatorios, historial lineal y bloqueo de force push y borrado.
 - Aprobaciones humanas no requeridas temporalmente.
@@ -30,7 +32,7 @@
 ## Capacidades previstas, no implementadas
 
 - Pipeline de datos y entrenamiento.
-- Aplicación multiclase.
+- Aplicación React PWA multiclase.
 - Persistencia y feedback.
 - Docker y despliegue.
 - CI/CD completo.

@@ -2,13 +2,13 @@
 
 ## Objetivo
 
-Preparar una base escalable y testeable sin fijar prematuramente frameworks o proveedores.
+Preparar una base escalable y testeable con React PWA como frontend inicial, sin fijar prematuramente backend, persistencia o proveedor cloud.
 
 ## Vista lógica
 
 ```mermaid
 flowchart LR
-    UI[Interfaz de usuario] --> APP[Casos de uso]
+    UI[React PWA] --> APP[Casos de uso]
     API[API opcional] --> APP
     APP --> DOMAIN[Dominio]
     APP --> PORTS[Puertos]
@@ -22,7 +22,9 @@ flowchart LR
     MONITOR --> PROMOTION[Evaluación de promoción]
 ```
 
-Todos los elementos salvo la estructura de carpetas son responsabilidades previstas. La tecnología y los contratos se concretarán mediante specs y ADR.
+Todos los elementos salvo la estructura de carpetas y la dirección React PWA son responsabilidades previstas. Los contratos de producto, inferencia, persistencia y despliegue se concretarán mediante specs y decisiones.
+
+React PWA debe cubrir primero el flujo web instalable y responsive. Una aplicación nativa no forma parte del alcance aprobado; se evaluará únicamente si requisitos de dispositivo, distribución o experiencia demuestran que la PWA no es suficiente.
 
 ## Límites
 

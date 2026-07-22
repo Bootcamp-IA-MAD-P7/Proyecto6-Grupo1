@@ -1,17 +1,29 @@
 # Instrucciones para agentes de IA
 
-## Estado del proyecto
+## Estado confirmado del proyecto
 
-El proyecto está en descubrimiento. No se debe inventar una idea de negocio, dataset, target, clases, métrica principal, modelo, framework de aplicación o proveedor cloud.
+- Fase: descubrimiento y validación de datos.
+- Problema: clasificación y apoyo al enrutamiento de reclamaciones financieras escritas.
+- Dataset: Consumer Complaint Database del CFPB, viable con condiciones.
+- Entrada inicial permitida: `complaint_what_happened`.
+- Target derivado: `product_canonical`, con once clases definidas en `config/cfpb_target_contract.json`.
+- Frontend: React con capacidades PWA como dirección inicial; una evolución nativa solo se evaluará si aparecen requisitos que la justifiquen.
+- Specs activas: `000-problem-discovery`, `001-cfpb-target-contract` y la spec asignada a la tarea actual.
+
+Siguen abiertas la métrica principal, modelos, política de idioma, tratamiento final de duplicados, partición, estrategia de desbalanceo, backend, persistencia y proveedor cloud. No deben inventarse ni cerrarse sin evidencia y decisión registrada.
 
 ## Antes de actuar
 
 1. Leer `README.md`, `.specify/README.md` y `CONTRIBUTING.md`.
 2. Comprobar la rama y el estado de Git.
 3. Identificar la spec y las tareas activas.
-4. Distinguir entre contexto aportado y autorización para modificar archivos.
-5. Limitar los cambios al alcance solicitado.
-6. Revisar el impacto en documentación, fuentes de NotebookLM, UX, seguridad y CI/CD.
+4. Identificar la historia de Jira cuando exista y comprobar que no contradice la spec.
+5. Distinguir entre contexto aportado y autorización para modificar archivos.
+6. Resumir alcance, archivos previstos y bloqueantes antes de editar.
+7. Limitar los cambios al alcance solicitado.
+8. Revisar el impacto en documentación, fuentes de NotebookLM, UX, seguridad y CI/CD.
+
+Si el agente no tiene acceso al repositorio, debe recibir un paquete generado mediante `scripts/documentation/build_ai_handoff.py`, no una selección manual de archivos ni datos brutos.
 
 ## Flujo obligatorio para cambios relevantes
 
@@ -27,6 +39,14 @@ spec -> plan -> tasks -> implementation -> verification -> closure
 - No inventar contenido para una daily; usar pendientes explícitos si el equipo no ha aportado información.
 - No utilizar iconografía genérica de IA en documentación o producto.
 - No debilitar quality gates, permisos o controles de seguridad para hacer pasar un cambio.
+- No incorporar narrativas CFPB reales a Git, informes, logs, capturas, prompts o servicios externos.
+- No utilizar como features campos prohibidos por `config/cfpb_target_contract.json`.
+- No presentar React PWA, backend, modelo, Docker, despliegue o MLOps como implementados sin código y evidencia.
+- No actualizar todos los documentos por rutina: revisar únicamente los que cambien de significado o estado.
+
+## Responsabilidad humana
+
+La IA puede proponer, implementar y verificar dentro del alcance autorizado. La persona responsable de la rama debe revisar el diff, proteger datos, confirmar las decisiones y firmar la Pull Request. Una conversación con una IA no sustituye Jira, una spec, una decisión versionada ni una revisión humana.
 
 ## Cierre de una intervención
 

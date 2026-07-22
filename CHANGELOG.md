@@ -20,10 +20,13 @@
 - Arnés acotado de viabilidad CFPB con contrato versionado, probe API, inspección temporal sin persistir narrativas, informes agregados y tests unitarios.
 - Evidencia preliminar de 2.306.723 narrativas, catorce etiquetas observadas, desbalanceo, drift de taxonomía y duplicados.
 - Spec `001-cfpb-target-contract`, contrato ejecutable de once clases y tests para coordinar EDA y modelado sin leakage.
+- Spec `002-team-ai-workflow` y generador seguro de contexto por spec y tarea para herramientas de IA externas.
 
 ### Changed
 
 - Las dailies se consolidan en un único documento canónico por fecha dentro de gestión de proyecto; NotebookLM consume esa fuente sin duplicarla.
 - El equipo activo pasa a estar formado por José, Abel, Víctor y Miguel tras la baja comunicada de Josué.
+- React PWA se confirma como dirección frontend inicial; la evolución nativa queda sujeta a requisitos futuros.
+- Las instrucciones de agentes y el workflow reflejan las decisiones actuales y un método independiente de proveedor.
 
 ### Fixed

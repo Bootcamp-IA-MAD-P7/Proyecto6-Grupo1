@@ -11,6 +11,14 @@
 
 Los roles no se asignarán por suposición. Cuando se acuerden, deberán cubrir al menos producto, datos/ML, aplicación/UX, plataforma/MLOps y QA/documentación, con responsabilidades de respaldo para evitar silos.
 
+## Acuerdo de trabajo con IA
+
+- Cada integrante puede utilizar la herramienta de IA que considere adecuada.
+- El repositorio, Jira, las specs y las Pull Requests son el contexto compartido.
+- La persona asignada conserva la responsabilidad de revisar código, datos, decisiones y evidencias.
+- No se comparten narrativas CFPB, secretos o datos brutos con servicios externos.
+- El [flujo operativo](workflow.md) explica cómo preparar contexto y cerrar una tarea.
+
 ## Cambios de composición
 
 | Fecha | Integrante | Cambio |

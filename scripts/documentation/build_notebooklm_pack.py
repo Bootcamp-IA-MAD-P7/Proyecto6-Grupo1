@@ -12,11 +12,13 @@ ROOT = Path(__file__).resolve().parents[2]
 OUTPUT_DIRECTORY = ROOT / "exports/notebooklm"
 
 STABLE_SOURCES = (
+    "AGENTS.md",
     "README.md",
     "CHANGELOG.md",
     ".specify/intent.md",
     "docs/project_management/project_principles.md",
     "docs/project_management/delivery_levels.md",
+    "docs/project_management/workflow.md",
     "docs/architecture/repository_structure.md",
     "docs/architecture/system_blueprint.md",
     "docs/architecture/quality_attributes.md",
