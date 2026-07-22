@@ -22,7 +22,9 @@ ALLOWED_SUFFIXES = {".md", ".json", ".yml", ".yaml", ".txt"}
 FORBIDDEN_SOURCE_PREFIXES = ("data/", "models/", "notebooks/", "exports/", "logs/", "tmp/")
 MAX_SOURCE_BYTES = 1024 * 1024
 TASK_PATTERN = re.compile(r"^## (T-\d{3})\b", re.MULTILINE)
-CONFIG_REFERENCE_PATTERN = re.compile(r"(?<![\w/])(config/[A-Za-z0-9_./-]+\.json)")
+JSON_CONTRACT_REFERENCE_PATTERN = re.compile(
+    r"(?<![\w/])((?:config|docs/api)/[A-Za-z0-9_./-]+\.json)"
+)
 
 
 class HandoffError(RuntimeError):
@@ -93,7 +95,7 @@ def source_paths(spec: Path, task: str, includes: list[str]) -> list[Path]:
 
     paths.extend(spec_paths)
     bundle_text = "\n".join(path.read_text(encoding="utf-8") for path in spec_paths)
-    for reference in sorted(set(CONFIG_REFERENCE_PATTERN.findall(bundle_text))):
+    for reference in sorted(set(JSON_CONTRACT_REFERENCE_PATTERN.findall(bundle_text))):
         paths.append(safe_source(reference, tracked))
     paths.extend(safe_source(relative, tracked) for relative in includes)
     return list(dict.fromkeys(paths))

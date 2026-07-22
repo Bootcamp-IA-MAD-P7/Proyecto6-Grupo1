@@ -16,6 +16,8 @@ El equipo ha elegido por unanimidad la clasificación y el enrutamiento de recla
 
 El spike preliminar ha verificado 2.306.723 narrativas, catorce etiquetas observadas y un desbalanceo severo. La API y el contrato narrative-only son reproducibles. La spec [`001-cfpb-target-contract`](specs/001-cfpb-target-contract/spec.md) fija once clases canónicas y las reglas compartidas para el EDA; idioma y privacidad siguen abiertos antes de entrenar.
 
+La spec [`003-complaint-routing-experience`](specs/003-complaint-routing-experience/spec.md) define el flujo React PWA y un OpenAPI para trabajar con mocks. Son contratos verificables, no una aplicación ni un servicio implementados.
+
 Todavía no se han decidido de forma definitiva:
 
 - la política de idioma y el tratamiento final de duplicados;
@@ -139,4 +141,7 @@ La documentación se considera parte del producto. Debe alimentar el trabajo dia
 
 ## Próximo hito
 
-Recibir la evidencia agregada del EDA, incorporarla a [`001-cfpb-target-contract`](specs/001-cfpb-target-contract/spec.md) y cerrar idioma, duplicados, partición y privacidad antes de entrenar. El [informe de viabilidad CFPB](reports/validation/cfpb_viability.md) conserva la evidencia inicial reproducible.
+Dos carriles pueden avanzar en paralelo:
+
+- Datos/ML: recibir el EDA e incorporarlo a [`001-cfpb-target-contract`](specs/001-cfpb-target-contract/spec.md) para cerrar idioma, duplicados, partición y privacidad antes de entrenar.
+- Producto/frontend: validar el flujo B2B y construir la React PWA contra el mock de [`docs/api/openapi.json`](docs/api/openapi.json), sin presentarlo como inferencia real.

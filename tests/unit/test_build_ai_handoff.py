@@ -26,6 +26,14 @@ class BuildAIHandoffTests(unittest.TestCase):
         self.assertIn("reports/validation/cfpb_viability.md", content)
         self.assertIn("Work only on T-004", content)
 
+    def test_includes_referenced_openapi_contract(self) -> None:
+        with tempfile.TemporaryDirectory() as directory:
+            output = build_handoff("003", "T-006", output_directory=Path(directory))
+            content = output.read_text(encoding="utf-8")
+
+        self.assertIn("docs/api/openapi.json", content)
+        self.assertIn("specs/003-complaint-routing-experience/spec.md", content)
+
     def test_rejects_unknown_task(self) -> None:
         with tempfile.TemporaryDirectory() as directory:
             with self.assertRaisesRegex(HandoffError, "does not exist"):

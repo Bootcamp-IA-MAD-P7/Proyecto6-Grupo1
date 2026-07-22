@@ -8,7 +8,7 @@
 - Entrada inicial permitida: `complaint_what_happened`.
 - Target derivado: `product_canonical`, con once clases definidas en `config/cfpb_target_contract.json`.
 - Frontend: React con capacidades PWA como dirección inicial; una evolución nativa solo se evaluará si aparecen requisitos que la justifiquen.
-- Specs activas: `000-problem-discovery`, `001-cfpb-target-contract` y la spec asignada a la tarea actual.
+- Specs activas: `000-problem-discovery`, `001-cfpb-target-contract`, `003-complaint-routing-experience` y la spec asignada a la tarea actual.
 
 Siguen abiertas la métrica principal, modelos, política de idioma, tratamiento final de duplicados, partición, estrategia de desbalanceo, backend, persistencia y proveedor cloud. No deben inventarse ni cerrarse sin evidencia y decisión registrada.
 

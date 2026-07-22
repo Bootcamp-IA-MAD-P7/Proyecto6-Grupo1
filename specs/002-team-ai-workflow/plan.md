@@ -16,7 +16,7 @@ Jira → spec/tarea → AGENTS o paquete generado → cambio → checks → PR �
 - Entrada obligatoria: spec y tarea.
 - Fuentes comunes: `AGENTS.md`, `README.md`, `CONTRIBUTING.md`, `.specify/README.md`.
 - Fuentes específicas: `spec.md`, `plan.md`, `tasks.md`, `decisions.md`.
-- Configuraciones: JSON de `config/` referenciados por el bundle.
+- Contratos: JSON de `config/` o `docs/api/` referenciados por el bundle.
 - Inclusiones opcionales: únicamente `.md`, `.json`, `.yml`, `.yaml` y `.txt` ya seguidos por Git.
 - Salida: `exports/ai-handoffs/<spec>-<tarea>.md`.
 
