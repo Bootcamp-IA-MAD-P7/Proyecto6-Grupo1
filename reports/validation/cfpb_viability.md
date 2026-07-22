@@ -3,7 +3,7 @@
 - Fecha: `2026-07-22`
 - Spec: [`000-problem-discovery`](../../specs/000-problem-discovery/spec.md)
 - Tareas: `T-004`, `T-005`
-- Estado: `en curso`
+- Estado: `verificado; viable con condiciones`
 
 ## Objetivo
 
@@ -188,7 +188,7 @@ Las señales de PII son heurísticas: una coincidencia no demuestra que exista i
 - [x] Longitudes de texto en la muestra.
 - [x] Señales heurísticas de PII residual en la muestra.
 - [ ] Confirmación del idioma o estrategia para detectarlo.
-- [ ] Aprobación del mapping entre etiquetas históricas y taxonomía vigente.
+- [x] Mapping entre etiquetas históricas y taxonomía vigente versionado en `config/cfpb_target_contract.json`.
 - [ ] Revisión de privacidad más amplia antes de persistir textos.
 
 ## Decisión provisional
@@ -201,7 +201,7 @@ El dataset se considera `viable con condiciones` para continuar el descubrimient
 - G-05 sigue condicional hasta ampliar la revisión de privacidad.
 - G-06 es viable mediante extracción acotada; no requiere descargar el ZIP completo para el primer ciclo.
 
-No se autoriza entrenamiento hasta aprobar el mapping de etiquetas, el tratamiento de duplicados y la estrategia inicial de privacidad.
+No se autoriza entrenamiento hasta incorporar la evidencia del EDA y aprobar idioma, tratamiento final de duplicados, partición y estrategia inicial de privacidad.
 
 ## Fuentes
 

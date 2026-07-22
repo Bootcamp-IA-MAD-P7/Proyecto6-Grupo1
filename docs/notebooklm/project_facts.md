@@ -11,12 +11,13 @@
 
 ## Datos
 
-- Dataset: Consumer Complaint Database del CFPB, seleccionado como candidato y pendiente de spike de viabilidad.
+- Dataset: Consumer Complaint Database del CFPB, viable con condiciones según el spike reproducible.
 - Fuente y condiciones: fuente oficial pública del CFPB; la página permite usar, analizar y construir sobre los datos publicados, pero las condiciones exactas del tratamiento y reutilización de narrativas se revisarán antes de una explotación comercial.
 - Número de observaciones: 2.306.723 reclamaciones con narrativa en la ventana `[2023-08-24, 2026-07-23)`, según probe de la API del 22 de julio de 2026. Las variables de modelado definitivas siguen pendientes.
-- Target y clases: `product` propuesto. La API devuelve catorce etiquetas, tres históricas o ambiguas; el contrato final pretende once familias tras aprobar su normalización.
+- Target y clases: `product` como origen y `product_canonical` como target derivado. El contrato `1.0` conserva once familias, normaliza dos etiquetas históricas equivalentes y excluye 111 registros de `Credit card or prepaid card` por ambigüedad.
 - Desbalanceo: la etiqueta mayoritaria contiene 1.671.242 observaciones, el 72,45 % del total.
 - Calidad preliminar: una muestra temporal de 1.000 registros contiene cero IDs repetidos, 122 narrativas exactamente duplicadas y cuatro señales heurísticas de URL; no es una muestra aleatoria.
+- Contrato del EDA: única entrada candidata `complaint_what_happened`; resultados agregados y ninguna narrativa real en Git, informes o NotebookLM.
 
 ## Modelo
 

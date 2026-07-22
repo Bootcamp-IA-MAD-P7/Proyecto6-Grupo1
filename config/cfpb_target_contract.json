@@ -1,0 +1,74 @@
+{
+  "schema_version": "1.0",
+  "status": "approved_for_eda",
+  "source": {
+    "date_received_min": "2023-08-24",
+    "date_received_max_exclusive": "2026-07-23",
+    "required_non_empty": [
+      "complaint_what_happened",
+      "product"
+    ]
+  },
+  "features": {
+    "allowed": [
+      "complaint_what_happened"
+    ],
+    "target_source": "product",
+    "target_derived": "product_canonical",
+    "forbidden": [
+      "product",
+      "product_canonical",
+      "sub_product",
+      "issue",
+      "sub_issue",
+      "company",
+      "company_response",
+      "company_public_response",
+      "tags",
+      "timely",
+      "date_sent_to_company"
+    ]
+  },
+  "target": {
+    "canonical_labels": [
+      "Checking or savings account",
+      "Credit card",
+      "Credit reporting or other personal consumer reports",
+      "Debt collection",
+      "Debt or credit management",
+      "Money transfer, virtual currency, or money service",
+      "Mortgage",
+      "Payday loan, title loan, personal loan, or advance loan",
+      "Prepaid card",
+      "Student loan",
+      "Vehicle loan or lease"
+    ],
+    "aliases": {
+      "Credit reporting, credit repair services, or other personal consumer reports": "Credit reporting or other personal consumer reports",
+      "Payday loan, title loan, or personal loan": "Payday loan, title loan, personal loan, or advance loan"
+    },
+    "excluded_source_labels": {
+      "Credit card or prepaid card": "Historical label is ambiguous between two canonical classes."
+    },
+    "unknown_label_policy": "fail"
+  },
+  "duplicates": {
+    "group_key": "sha256(normalized_narrative)",
+    "prevent_group_cross_split": true,
+    "conflicting_target_policy": "exclude_and_report",
+    "within_group_policy": "pending_eda"
+  },
+  "privacy": {
+    "persist_narratives_in_git": false,
+    "persist_narratives_in_reports": false,
+    "persist_narratives_in_logs": false,
+    "published_examples": "synthetic_or_redacted"
+  },
+  "open_gates_before_training": [
+    "language_policy",
+    "broader_privacy_review",
+    "within_group_duplicate_policy",
+    "final_split_policy",
+    "imbalance_strategy"
+  ]
+}

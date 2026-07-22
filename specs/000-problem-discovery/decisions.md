@@ -141,10 +141,10 @@ La ventana se congela en `[2023-08-24, 2026-07-23)`. El arnés permite únicamen
 - Costes o límites:
   - la muestra de extremos temporales no representa la población completa;
   - los patrones de PII son heurísticos y no certifican anonimización;
-  - idioma, mapping de etiquetas y privacidad amplia continúan pendientes;
+  - idioma y privacidad amplia continúan pendientes;
   - la API puede comportarse de manera diferente según el cliente o perímetro.
 - Trabajo posterior:
-  - aprobar la normalización de tres etiquetas históricas o ambiguas;
+  - trasladar y verificar la normalización de etiquetas en una spec independiente;
   - ampliar la comprobación de privacidad;
   - definir el tratamiento de duplicados;
   - ejecutar el EDA solo desde una nueva spec funcional.
@@ -183,7 +183,7 @@ Seleccionar `CAND-001` como dirección del proyecto, con la Consumer Complaint D
 
 José, Abel, Víctor y Miguel aprobaron la decisión por unanimidad el 22 de julio de 2026: cuatro votos favorables, cero votos contrarios y cero abstenciones.
 
-La aceptación es condicional porque las puertas de datos, inferencia, privacidad y entrega todavía necesitan evidencia reproducible. Esta decisión autoriza el spike de viabilidad y la preparación de la siguiente spec; no autoriza todavía el EDA completo, entrenamiento ni implementación funcional. Si el spike revela una puerta crítica incumplida, el equipo revisará la decisión y podrá recuperar `CAND-002`.
+En el momento de esta decisión, la aceptación autorizó el spike de viabilidad y la preparación de la siguiente spec, pero no el EDA completo, entrenamiento ni implementación funcional. El spike posterior confirmó viabilidad con condiciones y `001-cfpb-target-contract` autoriza ahora el EDA bajo reglas comunes; el entrenamiento continúa bloqueado hasta cerrar sus puertas abiertas. Si aparece una puerta crítica incumplida, el equipo revisará la decisión y podrá recuperar `CAND-002`.
 
 Para cerrar formalmente T-007 todavía deberán conservarse las puntuaciones individuales o una ratificación explícita del equipo de la matriz consolidada. Esta ausencia no altera el resultado de la votación, pero impide afirmar que se ejecutó por completo el mecanismo de mediana.
 
@@ -202,10 +202,10 @@ Para cerrar formalmente T-007 todavía deberán conservarse las puntuaciones ind
   - las condiciones de reutilización y el método de extracción deben quedar cerrados.
 - Trabajo posterior:
   - ejecutar un spike reproducible de datos antes de entrenar;
-  - fijar las clases definitivas y la estrategia de desbalanceo con evidencia;
+  - aplicar las once clases del contrato y fijar la estrategia de desbalanceo con evidencia;
   - comprobar ausencias, duplicados, idioma, leakage y privacidad;
   - definir el mapping configurable entre producto y cola;
-  - crear una spec funcional independiente cuando las puertas críticas estén resueltas;
+  - continuar en `001-cfpb-target-contract` sin iniciar entrenamiento hasta cerrar sus puertas;
   - registrar en Jira responsables y fechas para las validaciones.
 
 ### Evidencia

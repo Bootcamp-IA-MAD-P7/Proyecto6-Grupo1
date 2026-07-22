@@ -47,6 +47,9 @@ Las plantillas están en `.specify/templates/`.
 
 No se pasa a implementación si existen preguntas bloqueantes sobre el comportamiento. No se cierra una spec si sus criterios de aceptación carecen de evidencia.
 
-## Primera spec prevista
+## Specs activas
 
-La primera spec es [`000-problem-discovery`](../specs/000-problem-discovery/spec.md). Definió cómo comparar candidatas y ahora permanece activa para cerrar las validaciones de la alternativa elegida antes de iniciar una spec funcional.
+- [`000-problem-discovery`](../specs/000-problem-discovery/spec.md) gobierna el cierre del descubrimiento.
+- [`001-cfpb-target-contract`](../specs/001-cfpb-target-contract/spec.md) fija las reglas compartidas de clases y datos mientras el EDA avanza en paralelo.
+
+No se crea una spec por cada notebook o tarea pequeña. Se crea cuando varias personas o componentes necesitan compartir un comportamiento, una decisión o una evidencia verificable.

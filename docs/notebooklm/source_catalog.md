@@ -6,6 +6,7 @@ Este catálogo indica qué documentos pueden alimentar una presentación y con q
 |---|---|---|---|---|
 | `.specify/intent.md` | Propósito, restricciones y principios globales | Cuando cambie la intención | Equipo | Activa |
 | `specs/*/` | Specs, planes, tareas y decisiones | Por cambio de alcance | Equipo | Activa |
+| `config/cfpb_target_contract.json` | Clases, mappings y límites aplicables al EDA CFPB | Cuando cambie el contrato de datos | Datos / ML | Activa |
 | `README.md` | Visión general y acceso al proyecto | Cada hito | Equipo | Activa |
 | `CHANGELOG.md` | Evolución por versiones | Cada cambio relevante | Pendiente | Activa |
 | `docs/architecture/repository_structure.md` | Arquitectura del repositorio | Cuando cambie la estructura | Pendiente | Activa |
