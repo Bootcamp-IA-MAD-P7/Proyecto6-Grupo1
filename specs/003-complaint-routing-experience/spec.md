@@ -33,6 +33,14 @@ Definir e implementar una experiencia React PWA contra un contrato de inferencia
 - Privacidad por defecto y prohibición de registrar o devolver la narrativa.
 - Reglas responsive, accesibilidad y lenguaje de apoyo a la decisión.
 - Endurecimiento de la entrega frontend: instalabilidad PWA, revisión visual por viewport, evidencias seguras y monitorización de dependencias npm.
+- Tailwind CSS y shadcn/ui como sistema visual y de componentes.
+- React Router v6 para navegación entre vistas.
+- TanStack Query para gestión de estado del servidor y datos mock.
+- Auth mock con localStorage y dos roles (user/admin) para demostración.
+- Layouts independientes: `AuthLayout`, `UserLayout`, `AdminLayout`.
+- Vistas de usuario: `HomePage` (KPIs), `ClassificationPage` (formulario + dictado).
+- Vistas de admin: `DashboardPage`, `TrainingPage`, `ModelsPage`.
+- Dictado por voz local con @xenova/transformers (Whisper Tiny) vía WebGPU/WebAssembly.
 
 ### Fuera de alcance
 
@@ -40,10 +48,7 @@ Definir e implementar una experiencia React PWA contra un contrato de inferencia
 - Definir umbral de confianza, longitud máxima o idioma aceptado sin evidencia.
 - Recomendar una cola o departamento no validado con negocio.
 - Persistir narrativas, historial o feedback.
-- Autenticación, roles y permisos definitivos.
-- Registro de usuarios, dashboard administrativo, KPIs o panel de entrenamiento.
-- Dictado por voz, transcripción local o descarga de modelos en el navegador.
-- Adoptar routing, estado de servidor o una nueva librería visual sin una necesidad aprobada.
+- Autenticación, roles y permisos definitivos (la auth mock es solo para demostración).
 - Entrenar, seleccionar o desplegar un modelo.
 
 ## Flujo principal
@@ -73,6 +78,12 @@ Definir e implementar una experiencia React PWA contra un contrato de inferencia
 - R-012: La primera versión no incluirá endpoint de feedback ni mapping automático a colas.
 - R-013: La entrega frontend registrará evidencia reproducible de instalabilidad, teclado y comportamiento responsive antes de considerarse preparada para revisión final.
 - R-014: Las dependencias npm de `app/interface/` tendrán instalación reproducible y monitorización automatizada.
+- R-015: El sistema visual utilizará Tailwind CSS y shadcn/ui para consistencia y velocidad de desarrollo.
+- R-016: La navegación se gestionará con React Router v6 con rutas protegidas por rol.
+- R-017: Los datos del servidor se gestionarán con TanStack Query, incluyendo mocks preparados para sustitución por API REST.
+- R-018: La auth mock persistirá en localStorage y distinguishirá roles `user` y `admin`.
+- R-019: Cada rol tendrá un layout independiente con sidebar y header propios.
+- R-020: El dictado por voz utilizará Whisper Tiny vía @xenova/transformers, sin dependencia de servicios externos.
 
 ## Criterios de aceptación
 
@@ -85,6 +96,10 @@ Definir e implementar una experiencia React PWA contra un contrato de inferencia
 - AC-007: Dado el contrato actual, cuando se revisan sus rutas, entonces no existe feedback ni recomendación de cola.
 - AC-008: Dados los viewports acordados, cuando se revisa manualmente la interfaz, entonces el formulario, resultado, errores y acciones permanecen legibles y operables, con capturas sintéticas como evidencia.
 - AC-009: Dada la compilación de producción, cuando se inspecciona la PWA, entonces existen manifest, service worker e iconos adecuados, y Dependabot reconoce el ecosistema npm de la interfaz.
+- AC-010: Dado un usuario autenticado con rol `user`, cuando navega, entonces accede a las vistas de usuario y no puede acceder a vistas de admin.
+- AC-011: Dado un usuario autenticado con rol `admin`, cuando navega, entonces accede a todas las vistas incluidas las de administración.
+- AC-012: Dada la grabación de voz activada, cuando el usuario dicta una narrativa, entonces el texto aparece en el campo de entrada sin enviar la petición.
+- AC-013: Dado un usuario sin autenticación, cuando intenta acceder a una ruta protegida, entonces es redirigido al login.
 
 ## Preguntas abiertas
 
@@ -103,3 +118,6 @@ Definir e implementar una experiencia React PWA contra un contrato de inferencia
 - Evidencia de teclado, responsive, accesibilidad y estados.
 - Evidencia de instalabilidad, recursos PWA, dependencias y revisión visual con contenido sintético.
 - Decisiones de privacidad, idioma, límites y revisión sincronizadas.
+- Navegación por vistas verificada con roles user y admin.
+- Dictado por voz funcionando en el navegador con Whisper Tiny.
+- Tailwind CSS y shadcn/ui integrados y funcionando.

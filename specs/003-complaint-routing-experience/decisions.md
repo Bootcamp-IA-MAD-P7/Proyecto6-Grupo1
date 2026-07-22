@@ -101,3 +101,45 @@ Autenticación, roles, registro, dashboard, KPIs, historial, entrenamiento y voz
 - La PR #14 mantiene un alcance verificable y puede pasar a su revisión frontend.
 - Las ampliaciones de producto no se confunden con capacidades existentes.
 - Cualquier propuesta diferida requerirá historia de Jira, spec y decisión propias antes de implementarse.
+
+## ADR-007 Adoptar Tailwind CSS, shadcn/ui, React Router, TanStack Query y auth mock
+
+- Fecha: `2026-07-22`
+- Estado: `accepted`
+- Relacionada con: `R-015 a R-020, T-009 a T-038`
+
+### Contexto
+
+La spec 003 original difería Tailwind, shadcn/ui, React Router, TanStack Query, auth, layouts, admin views y voz a nuevas decisiones. El equipo ha decidido incorporar estas tecnologías en la fase actual de desarrollo para construir una aplicación completa con vistas de usuario y administrador, autenticación mock y dictado por voz.
+
+### Decisión
+
+Migrar la base visual de CSS tokens propios a Tailwind CSS + shadcn/ui. Incorporar React Router v6 para navegación, TanStack Query para datos mock, @xenova/transformers para dictado por voz, y auth mock con localStorage para demostración con dos roles (user/admin).
+
+### Consecuencias
+
+- Se acelera el desarrollo visual con componentes reutilizables de shadcn/ui.
+- La navegación entre vistas y la protección por rol están habilitadas desde el inicio.
+- El dictado por voz local elimina la dependencia de servicios externos.
+- La auth mock permite demostrar flujos de usuario sin backend real.
+- Los estilos CSS tokens existentes serán reemplazados por utility classes de Tailwind.
+
+## ADR-008 Confirmar `app/interface/` como ubicación del frontend
+
+- Fecha: `2026-07-22`
+- Estado: `accepted`
+- Relacionada con: `R-015, T-009`
+
+### Contexto
+
+Un ADR anterior mencionaba `/frontend` como ubicación del frontend. La ubicación real desde el inicio del proyecto ha sido `app/interface/`, donde ya existen archivos de configuración React, contratos de predicción y un cliente mock funcionando. La spec 003 también referencia `app/interface/`.
+
+### Decisión
+
+Confirmar `app/interface/` como la ubicación permanente del frontend React. No se crea una carpeta `/frontend` separada. La ubicación fue verificada en el repositorio y en la spec 003.
+
+### Consecuencias
+
+- Se mantiene la coherencia con la estructura existente del proyecto.
+- No se duplican configuraciones ni contratos.
+- La PR #14 referencia correctamente `app/interface/`.

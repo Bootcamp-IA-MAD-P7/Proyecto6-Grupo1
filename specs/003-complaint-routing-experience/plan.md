@@ -16,11 +16,17 @@ React PWA → cliente de inferencia → contrato OpenAPI → mock o servicio rea
 
 ## Base técnica de la PWA
 
-- React y TypeScript para componentes y contratos tipados.
-- Vite para desarrollo, compilación y configuración de Vitest.
+- React 19 y TypeScript para componentes y contratos tipados.
+- Vite 8 para desarrollo, compilación y configuración de Vitest.
 - `vite-plugin-pwa` para manifest, registro del service worker y shell instalable.
-- Cliente de inferencia inyectable; esta tarea activa únicamente el adaptador mock.
-- CSS propio basado en tokens para evitar acoplar la experiencia a una librería visual antes de validar el producto.
+- Tailwind CSS para utility-first styling con tokens de diseño del proyecto.
+- shadcn/ui para componentes accesibles y reutilizables construidos sobre Tailwind.
+- React Router v6 para navegación entre vistas con rutas protegidas por rol.
+- TanStack Query para gestión de estado del servidor, caché y datos mock.
+- @xenova/transformers (Whisper Tiny) para dictado por voz local sin servicios externos.
+- Cliente de inferencia inyectable; esta fase activa únicamente el adaptador mock.
+- Auth mock con localStorage y roles (user/admin) para demostración.
+- Vitest + Testing Library para tests unitarios y de componente.
 
 El service worker precacheará únicamente recursos estáticos. No se configurará caché de respuestas bajo `/api/` ni persistencia de narrativas.
 
@@ -39,16 +45,76 @@ La asignación de José no autoriza a fabricar un modelo ni un endpoint de infer
 
 ## Reconciliación de la propuesta frontend del 21 de julio
 
-La propuesta aportada por Abel se conserva como entrada de diseño y se adapta al estado alcanzado el 22 de julio. No se crea una segunda spec `001`, una carpeta `/frontend` ni otra rama con el mismo nombre.
+La propuesta aportada por Abel se conserva como entrada de diseño y se adapta al estado alcanzado. No se crea una segunda spec `001`, una carpeta `/frontend` ni otra rama con el mismo nombre.
 
 | Tratamiento | Elementos |
 |---|---|
-| Incorporados | React, Vite, TypeScript, PWA, mocks sustituibles, responsive, accesibilidad, tests, documentación y Dependabot npm |
-| Ya implementados | Base en `app/interface/`, contrato `/api/v1/predictions`, Vitest, Testing Library, ESLint, manifest, service worker y CSS basado en tokens |
+| Incorporados | React 19, Vite 8, TypeScript, PWA, mocks sustituibles, responsive, accesibilidad, tests, documentación y Dependabot npm |
+| Incorporados (expansión actual) | Tailwind CSS, shadcn/ui, React Router v6, TanStack Query, @xenova/transformers, auth mock, layouts, admin views |
+| Ya implementados | Base en `app/interface/`, contrato `/api/v1/predictions`, Vitest, Testing Library, ESLint, manifest, service worker, prediction client y prediction result |
 | Pendientes de endurecimiento | Instalabilidad, iconos completos, capturas, revisión manual por viewport, evidencia de teclado, Lighthouse y medición de cobertura |
-| Diferidos a nuevas decisiones o specs | Autenticación, roles, registro, dashboard, KPIs, historial, entrenamiento, voz, React Router, TanStack Query, Tailwind y shadcn/ui |
+| Diferidos a nuevas specs | Backend, servicio de inferencia real, entrenamiento de modelos, despliegue cloud |
 
-Las versiones instaladas y `app/interface/` son las fuentes de verdad técnicas. Cambiar de ubicación, librería visual o contrato requeriría justificar la migración antes de implementarla.
+Las versiones instaladas y `app/interface/` son las fuentes de verdad técnicas. La ubicación fue confirmada en ADR-008.
+
+## Estructura de ramas y commits
+
+El trabajo se distribuye en 30 commits sobre la rama `feature/complaint-routing-pwa` (PR #14). Cada commit corresponde a una tarea y sigue conventional commits.
+
+### Fase 1 — Setup base (T-001 a T-009)
+
+| Commit | Tarea |
+|---|---|
+| `feat: remove obsolete files preserving contracts` | T-001 |
+| `feat: create package.json with full stack dependencies` | T-002 |
+| `chore: install npm dependencies` | T-003 |
+| `feat: configure Vite with PWA plugin` | T-004 |
+| `chore: configure TypeScript` | T-005 |
+| `feat: add Tailwind CSS configuration` | T-006 |
+| `feat: initialize shadcn/ui` | T-007 |
+| `chore: configure ESLint and Prettier` | T-008 |
+| `feat: create index.html and entry points` | T-009 |
+
+### Fase 2 — Estructura y layouts (T-010 a T-014, T-022, T-023)
+
+| Commit | Tarea |
+|---|---|
+| `feat: create project folder structure` | T-010 |
+| `feat: implement AuthLayout` | T-011 |
+| `feat: implement UserLayout` | T-012 |
+| `feat: implement AdminLayout` | T-013 |
+| `feat: configure React Router` | T-014 |
+| `feat: implement mock auth with localStorage` | T-022 |
+| `feat: create AuthProvider and useAuth hook` | T-023 |
+
+### Fase 3 — Vistas de usuario (T-015 a T-018)
+
+| Commit | Tarea |
+|---|---|
+| `feat: create HomePage with KPIs mock` | T-015 |
+| `feat: create ClassificationPage` | T-016 |
+| `feat: integrate PredictionResult` | T-017 |
+| `feat: add voice dictation with Whisper Tiny` | T-018 |
+
+### Fase 4 — Vistas de admin (T-019 a T-021, T-024)
+
+| Commit | Tarea |
+|---|---|
+| `feat: create DashboardPage` | T-019 |
+| `feat: create TrainingPage` | T-020 |
+| `feat: create ModelsPage` | T-021 |
+| `feat: configure TanStack Query` | T-024 |
+
+### Fase 5 — PWA, tests y documentación (T-025 a T-030)
+
+| Commit | Tarea |
+|---|---|
+| `feat: complete PWA configuration` | T-025 |
+| `test: add main flow tests` | T-026 |
+| `test: verify responsive and accessibility` | T-027 |
+| `docs: update ADR for app/interface location` | T-028 |
+| `docs: update AGENTS.md` | T-029 |
+| `chore: final dependency audit` | T-030 |
 
 ## Componentes implementados
 
@@ -56,10 +122,20 @@ Las versiones instaladas y `app/interface/` son las fuentes de verdad técnicas.
 - Cliente de inferencia sustituible entre mock y servicio.
 - Presentación de resultado y revisión.
 - Gestión explícita de estados y errores.
-- API `/api/v1/predictions` y health check mínimo.
+- Contrato `/api/v1/predictions` y health check mínimo.
 - Fixtures sintéticos para desarrollo y tests.
 
-El trabajo restante de frontend se limita a endurecer y revisar estos componentes; no autoriza nuevas áreas de producto.
+## Componentes a implementar (expansión actual)
+
+- Tailwind CSS + shadcn/ui como sistema visual.
+- React Router v6 con rutas protegidas por rol.
+- AuthProvider con mock localStorage (user/admin).
+- AuthLayout, UserLayout, AdminLayout.
+- HomePage con KPIs mock.
+- ClassificationPage con formulario y dictado por voz.
+- DashboardPage, TrainingPage, ModelsPage para admin.
+- TanStack Query para datos mock.
+- @xenova/transformers (Whisper Tiny) para dictado local.
 
 ## Estrategia de pruebas
 
@@ -80,7 +156,10 @@ El trabajo restante de frontend se limita a endurecer y revisar estos componente
 | Flujo B2B incorrecto | Validación de usuario antes de cerrar la spec |
 | PWA promete inferencia offline | Offline solo para shell y explicación |
 | Contrato y clases divergen | Test automático contra target versionado |
+| Migración a Tailwind rompe estilos existentes | Reescribir estilos con tokens de Tailwind; tests de visual |
+| Auth mock confunde con auth real | Etiqueta visible "Mock auth" en interfaz |
+| Whisper Tiny no carga en todos los browsers | Fallback a input de texto; detección de soporte WebGPU |
 
 ## Entrega y reversión
 
-El contrato y la React PWA ya están implementados contra mock en la misma rama. Su versión inicial puede evolucionar dentro de `v1` mientras no exista un consumidor publicado; una ruptura posterior exigirá una nueva versión. La reversión de la PR elimina la interfaz y sus checks sin migrar datos, porque no existe backend, persistencia ni modelo conectado.
+El contrato y la React PWA están implementados contra mock en la rama `feature/complaint-routing-pwa` (PR #14). La expansión agrega Tailwind, shadcn/ui, React Router, TanStack Query, auth mock, layouts, vistas de admin y dictado por voz en 30 commits sobre la misma rama. Su versión inicial puede evolucionar dentro de `v1` mientras no exista un consumidor publicado; una ruptura posterior exigirá una nueva versión. La reversión de la PR elimina la interfaz y sus checks sin migrar datos, porque no existe backend, persistencia ni modelo conectado.
