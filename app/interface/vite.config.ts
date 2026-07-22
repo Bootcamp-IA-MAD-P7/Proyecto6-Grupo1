@@ -1,4 +1,3 @@
-import fs from 'node:fs'
 import path from 'node:path'
 import { defineConfig } from 'vite'
 import react from '@vitejs/plugin-react'
@@ -14,22 +13,6 @@ export default defineConfig({
   plugins: [
     react(),
     tailwindcss(),
-    {
-      name: 'transformersjs-404-fix',
-      configureServer(server) {
-        server.middlewares.use((req, res, next) => {
-          if (req.url?.endsWith('.json') || req.url?.endsWith('.onnx')) {
-            const filePath = path.join(server.config.root, req.url)
-            if (!fs.existsSync(filePath)) {
-              res.statusCode = 404
-              res.end()
-              return
-            }
-          }
-          next()
-        })
-      },
-    },
     VitePWA({
       registerType: 'autoUpdate',
       includeAssets: ['app-mark.svg'],
