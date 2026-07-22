@@ -16,6 +16,9 @@ Este catálogo indica qué documentos pueden alimentar una presentación y con q
 | `docs/product/candidates/` | Fichas y evidencias de alternativas consideradas | Durante descubrimiento | Equipo | Activa |
 | `docs/project_management/dailies/YYYY-MM-DD.md` | Actividad y bloqueantes | Diaria | Equipo | Activa |
 | `docs/project_management/workflow.md` | Método común desde Jira hasta Pull Request | Cuando cambie el proceso | Equipo | Activa |
+| `docs/design/information_architecture.md` | Usuario, tareas, estados y accesibilidad del flujo | Cuando cambie la experiencia | Producto / UX | Activa |
+| `docs/api/openapi.json` | Contrato entre React PWA y futura inferencia | Cuando cambie la API | Aplicación / plataforma | Activa contract-only |
+| `docs/security/threat_model.md` | Amenazas y controles del producto | Cuando cambien datos o arquitectura | Seguridad / equipo | Activa |
 | `docs/notebooklm/project_facts.md` | Hechos verificados del producto | Diaria o por hito | Pendiente | Preparada |
 | `docs/notebooklm/business_narrative.md` | Historia para audiencia no técnica | Cuando se defina el negocio | Equipo | Activa con límites explícitos |
 | `docs/notebooklm/technical_status.md` | Estado técnico consolidado | Diaria o por PR | Pendiente | Preparada |

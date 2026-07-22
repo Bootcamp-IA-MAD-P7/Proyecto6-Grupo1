@@ -58,7 +58,7 @@ Permitir que cualquier integrante comience una tarea desde Jira y una spec, trab
 
 ## Criterios de aceptación
 
-- AC-001: Dada una spec y tarea válidas, cuando se genera el paquete, entonces contiene las fuentes comunes, cuatro archivos de la spec y configuraciones JSON referenciadas.
+- AC-001: Dada una spec y tarea válidas, cuando se genera el paquete, entonces contiene las fuentes comunes, cuatro archivos de la spec y contratos JSON referenciados.
 - AC-002: Dada una tarea inexistente, cuando se solicita el paquete, entonces el comando falla con un mensaje claro.
 - AC-003: Dada una ruta externa, no versionada o con formato no permitido, cuando se añade con `--include`, entonces el comando la rechaza.
 - AC-004: Dada una IA con acceso al repositorio, cuando recibe el prompt común, entonces puede identificar spec, tarea, límites y verificaciones sin un paquete adicional.

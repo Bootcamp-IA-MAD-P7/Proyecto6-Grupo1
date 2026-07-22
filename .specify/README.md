@@ -52,6 +52,7 @@ No se pasa a implementación si existen preguntas bloqueantes sobre el comportam
 - [`000-problem-discovery`](../specs/000-problem-discovery/spec.md) gobierna el cierre del descubrimiento.
 - [`001-cfpb-target-contract`](../specs/001-cfpb-target-contract/spec.md) fija las reglas compartidas de clases y datos mientras el EDA avanza en paralelo.
 - [`002-team-ai-workflow`](../specs/002-team-ai-workflow/spec.md) conserva el flujo independiente de proveedor y está cerrada.
+- [`003-complaint-routing-experience`](../specs/003-complaint-routing-experience/spec.md) define la experiencia React PWA y el contrato de inferencia para mocks.
 
 No se crea una spec por cada notebook o tarea pequeña. Se crea cuando varias personas o componentes necesitan compartir un comportamiento, una decisión o una evidencia verificable.
 

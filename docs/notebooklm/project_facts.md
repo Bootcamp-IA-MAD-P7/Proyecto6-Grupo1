@@ -28,7 +28,7 @@
 
 ## Producto y operación
 
-- Aplicación: React PWA como dirección frontend inicial; todavía no implementada. La necesidad de una evolución nativa se evaluará después de cubrir el alcance web instalable.
+- Aplicación: React PWA como dirección frontend inicial; todavía no implementada. Existe un flujo y OpenAPI `0.1.0` contract-only para mocks. La necesidad de una evolución nativa se evaluará después de cubrir el alcance web instalable.
 - Despliegue: pendiente.
 - Persistencia: pendiente.
 - Estado MLOps: pendiente.

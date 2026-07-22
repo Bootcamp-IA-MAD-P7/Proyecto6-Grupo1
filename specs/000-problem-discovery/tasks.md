@@ -141,8 +141,9 @@
   - Resultado esperado: no se confunde potencial con funcionalidad implementada.
 - Evidencia obtenida:
   - Flujo de texto, predicción, confianza, revisión humana y evolución MLOps descrito para `CAND-001`.
+  - React PWA, arquitectura de información y OpenAPI contract-only definidos en `003-complaint-routing-experience`.
   - Flujo de fotografía, clasificación, baja confianza y evolución visual descrito para `CAND-002`.
-  - El framework y la arquitectura funcional permanecen fuera de esta spec.
+  - Frontend y contrato de mock están definidos; usuario B2B, backend, autenticación e integración real siguen pendientes.
 
 ## T-007 Puntuar y comparar alternativas
 

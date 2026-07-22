@@ -1,0 +1,324 @@
+{
+  "openapi": "3.1.0",
+  "info": {
+    "title": "Complaint Routing Prediction Contract",
+    "version": "0.1.0",
+    "description": "Contract-only API for React PWA mocks and future inference integration. No service is implemented yet."
+  },
+  "servers": [
+    {
+      "url": "/api"
+    }
+  ],
+  "paths": {
+    "/v1/predictions": {
+      "post": {
+        "operationId": "createPrediction",
+        "summary": "Classify one complaint narrative",
+        "x-implementation-status": "contract-only",
+        "x-data-handling": {
+          "request_body_logging": "prohibited",
+          "narrative_persistence": "none-by-default",
+          "model_inputs": [
+            "narrative"
+          ]
+        },
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/PredictionRequest"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Prediction created",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/PredictionResponse"
+                }
+              }
+            }
+          },
+          "400": {
+            "$ref": "#/components/responses/BadRequest"
+          },
+          "422": {
+            "$ref": "#/components/responses/ValidationError"
+          },
+          "429": {
+            "$ref": "#/components/responses/RateLimited"
+          },
+          "503": {
+            "$ref": "#/components/responses/ServiceUnavailable"
+          }
+        }
+      }
+    },
+    "/v1/health": {
+      "get": {
+        "operationId": "getHealth",
+        "summary": "Read non-sensitive service health",
+        "x-implementation-status": "contract-only",
+        "responses": {
+          "200": {
+            "description": "Service health",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HealthResponse"
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  "components": {
+    "schemas": {
+      "PredictionRequest": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "narrative"
+        ],
+        "properties": {
+          "narrative": {
+            "type": "string",
+            "minLength": 1,
+            "pattern": "\\S",
+            "description": "Complaint narrative. Clients must reject whitespace-only values and warn against unnecessary personal data."
+          },
+          "client_request_id": {
+            "type": "string",
+            "maxLength": 100,
+            "description": "Optional technical correlation identifier; never a model feature."
+          }
+        }
+      },
+      "CanonicalClass": {
+        "type": "string",
+        "enum": [
+          "Checking or savings account",
+          "Credit card",
+          "Credit reporting or other personal consumer reports",
+          "Debt collection",
+          "Debt or credit management",
+          "Money transfer, virtual currency, or money service",
+          "Mortgage",
+          "Payday loan, title loan, personal loan, or advance loan",
+          "Prepaid card",
+          "Student loan",
+          "Vehicle loan or lease"
+        ]
+      },
+      "NullableConfidence": {
+        "oneOf": [
+          {
+            "type": "number",
+            "minimum": 0,
+            "maximum": 1
+          },
+          {
+            "type": "null"
+          }
+        ],
+        "description": "Calibrated model confidence when available; otherwise null."
+      },
+      "Alternative": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "class_label",
+          "confidence"
+        ],
+        "properties": {
+          "class_label": {
+            "$ref": "#/components/schemas/CanonicalClass"
+          },
+          "confidence": {
+            "$ref": "#/components/schemas/NullableConfidence"
+          }
+        }
+      },
+      "PredictionResponse": {
+        "type": "object",
+        "additionalProperties": false,
+        "allOf": [
+          {
+            "if": {
+              "properties": {
+                "confidence": {
+                  "type": "null"
+                }
+              },
+              "required": [
+                "confidence"
+              ]
+            },
+            "then": {
+              "properties": {
+                "review_required": {
+                  "const": true
+                }
+              }
+            }
+          }
+        ],
+        "required": [
+          "prediction_id",
+          "predicted_class",
+          "alternatives",
+          "confidence",
+          "review_required",
+          "review_reasons",
+          "model_version",
+          "taxonomy_version",
+          "created_at",
+          "warnings"
+        ],
+        "properties": {
+          "prediction_id": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "predicted_class": {
+            "$ref": "#/components/schemas/CanonicalClass"
+          },
+          "alternatives": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/Alternative"
+            }
+          },
+          "confidence": {
+            "$ref": "#/components/schemas/NullableConfidence"
+          },
+          "review_required": {
+            "type": "boolean"
+          },
+          "review_reasons": {
+            "type": "array",
+            "items": {
+              "type": "string",
+              "enum": [
+                "low_confidence",
+                "confidence_unavailable",
+                "out_of_domain",
+                "language_policy",
+                "service_policy"
+              ]
+            }
+          },
+          "model_version": {
+            "type": "string",
+            "minLength": 1
+          },
+          "taxonomy_version": {
+            "type": "string",
+            "minLength": 1
+          },
+          "created_at": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "warnings": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          }
+        },
+        "description": "The response never echoes the complaint narrative or recommends an operational queue."
+      },
+      "ErrorResponse": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "error_code",
+          "message",
+          "request_id"
+        ],
+        "properties": {
+          "error_code": {
+            "type": "string"
+          },
+          "message": {
+            "type": "string"
+          },
+          "request_id": {
+            "type": "string"
+          }
+        },
+        "description": "Safe client-facing error without request content or internal details."
+      },
+      "HealthResponse": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "status",
+          "service_version"
+        ],
+        "properties": {
+          "status": {
+            "type": "string",
+            "enum": [
+              "ok",
+              "degraded"
+            ]
+          },
+          "service_version": {
+            "type": "string"
+          }
+        }
+      }
+    },
+    "responses": {
+      "BadRequest": {
+        "description": "Malformed request",
+        "content": {
+          "application/json": {
+            "schema": {
+              "$ref": "#/components/schemas/ErrorResponse"
+            }
+          }
+        }
+      },
+      "ValidationError": {
+        "description": "Narrative rejected by an active validation policy",
+        "content": {
+          "application/json": {
+            "schema": {
+              "$ref": "#/components/schemas/ErrorResponse"
+            }
+          }
+        }
+      },
+      "RateLimited": {
+        "description": "Request frequency exceeded the active policy",
+        "content": {
+          "application/json": {
+            "schema": {
+              "$ref": "#/components/schemas/ErrorResponse"
+            }
+          }
+        }
+      },
+      "ServiceUnavailable": {
+        "description": "Prediction service or approved model unavailable",
+        "content": {
+          "application/json": {
+            "schema": {
+              "$ref": "#/components/schemas/ErrorResponse"
+            }
+          }
+        }
+      }
+    }
+  }
+}

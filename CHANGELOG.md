@@ -21,6 +21,7 @@
 - Evidencia preliminar de 2.306.723 narrativas, catorce etiquetas observadas, desbalanceo, drift de taxonomía y duplicados.
 - Spec `001-cfpb-target-contract`, contrato ejecutable de once clases y tests para coordinar EDA y modelado sin leakage.
 - Spec `002-team-ai-workflow` y generador seguro de contexto por spec y tarea para herramientas de IA externas.
+- Spec `003-complaint-routing-experience`, arquitectura de información y OpenAPI contract-only para desarrollar la React PWA mediante mocks.
 
 ### Changed
 

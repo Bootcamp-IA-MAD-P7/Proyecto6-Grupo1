@@ -143,7 +143,7 @@ La clase mayoritaria acumula 1.671.242 registros, el 72,45 % del total. La lista
 | G-05 Riesgo asumible | Condicional | Datos publicados y tratados, pero existe riesgo residual de información personal. |
 | G-06 Entrega viable | Cumple | La API permite inspección acotada y existen 2.306.723 narrativas; no es necesario descargar el ZIP completo para el primer ciclo. |
 
-Ninguna puerta se considera incumplida. G-03, G-04 y G-06 quedan superadas para descubrimiento. La implementación funcional no comenzará hasta resolver G-02 y G-05 o registrar una revisión expresa de la decisión.
+Ninguna puerta se considera incumplida. G-02, G-03, G-04 y G-06 permiten EDA y trabajo de frontend con mocks. El entrenamiento y la integración real no comenzarán hasta resolver G-05 y las puertas abiertas de `001-cfpb-target-contract`.
 
 ## Puntuación técnica preliminar
 
@@ -166,7 +166,7 @@ Esta puntuación es una preevaluación documental, no la mediana de cuatro hojas
 
 ### Nivel esencial
 
-- formulario de texto;
+- React PWA con formulario de texto y estados accesibles;
 - baseline TF-IDF con modelo lineal;
 - clasificación multiclase y probabilidades calibradas cuando sea posible;
 - métricas globales y por clase;
@@ -199,7 +199,7 @@ Esta evolución describe potencial, no funcionalidad implementada.
 
 ## Validaciones pendientes
 
-- Aprobar el mapping entre etiquetas históricas y taxonomía vigente.
+- Aplicar el mapping versionado y comprobarlo con los resultados completos del EDA.
 - Ampliar la revisión de privacidad antes de persistir textos para modelado.
 - Confirmar el idioma o aprobar una estrategia reproducible para detectarlo.
 - Definir el tratamiento de narrativas duplicadas y campañas masivas.
