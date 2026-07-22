@@ -94,9 +94,9 @@
   - RealWaste documentado para `CAND-002` con licencia CC BY 4.0, 4.752 imágenes, nueve clases y distribución publicada.
   - Probe CFPB reproducible: 2.306.723 narrativas, catorce etiquetas observadas y clase mayoritaria del 72,45 %.
   - Muestra temporal de 1.000 registros inspeccionada en memoria, sin persistir narrativas: cero IDs duplicados, 122 narrativas duplicadas y cuatro señales heurísticas de URL.
-  - Tres etiquetas históricas o ambiguas identificadas; su mapping queda como decisión previa al modelado.
+  - Tres etiquetas históricas o ambiguas identificadas; dos se normalizan y la ambigua se excluye mediante `config/cfpb_target_contract.json`.
   - `config/cfpb_viability.json`, `scripts/data/cfpb_viability.py`, informes agregados y siete tests unitarios proporcionan evidencia reproducible.
-  - Resultado: dataset viable con condiciones; G-03, G-04 y G-06 superadas, G-02 y G-05 pendientes.
+  - Resultado: dataset viable con condiciones; G-02, G-03, G-04 y G-06 superadas para EDA, G-05 pendiente.
 
 ## T-005 Evaluar seguridad, privacidad, ética y sesgo
 
@@ -192,7 +192,7 @@
 
 ## T-009 Sincronizar documentación y fuentes
 
-- Estado: `[~]`
+- Estado: `[x]`
 - Responsable: `Documentación / QA, por asignar`
 - Dependencias: `T-008`
 - Requisitos cubiertos: `R-013, AC-009`
@@ -213,11 +213,11 @@
 - Evidencia obtenida:
   - README, hechos de proyecto, estado técnico, daily, changelog y catálogo de fuentes revisados en esta rama.
   - Paquete `exports/notebooklm/2026-07-22-notebooklm-pack.md` generado correctamente y mantenido fuera de Git conforme a la política de exports.
-  - Pendiente la sincronización final cuando se complete el spike de viabilidad.
+  - El spike, su decisión de viabilidad y el contrato `001-cfpb-target-contract` quedan sincronizados en las fuentes vivas.
 
 ## T-010 Preparar la primera spec funcional
 
-- Estado: `[ ]`
+- Estado: `[x]`
 - Responsable: `Equipo`
 - Dependencias: `T-008, T-009`
 - Requisitos cubiertos: `R-011, R-012, AC-010`
@@ -232,7 +232,8 @@
   - Comando o revisión: revisión de trazabilidad entre decisión y nueva spec.
   - Resultado esperado: la implementación futura parte de un contrato aprobado.
 - Evidencia obtenida:
-  - Pendiente.
+  - `specs/001-cfpb-target-contract/` traslada dataset, target, clases, riesgos y preguntas abiertas a un contrato independiente.
+  - La nueva spec permite el EDA paralelo, pero bloquea entrenamiento hasta cerrar idioma, privacidad, duplicados y partición.
 
 ## Checklist de cierre
 

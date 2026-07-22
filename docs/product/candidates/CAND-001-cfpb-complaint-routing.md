@@ -2,7 +2,7 @@
 
 | Campo | Valor |
 |---|---|
-| Estado | Seleccionada por el equipo; validación de datos obligatoria |
+| Estado | Seleccionada; dataset viable con condiciones y contrato de target activo |
 | Fecha de evaluación | 2026-07-22 |
 | Proponente | Miguel |
 | Spec | [`000-problem-discovery`](../../../specs/000-problem-discovery/spec.md) |
@@ -126,18 +126,18 @@ La API devuelve catorce etiquetas observadas, aunque la taxonomía actual contie
 
 | Etiqueta observada | Recuento | Tratamiento pendiente |
 |---|---:|---|
-| Credit reporting, credit repair services, or other personal consumer reports | 1.449 | Normalización semántica a la categoría vigente. |
-| Credit card or prepaid card | 111 | Desambiguar mediante una regla de target o excluir con justificación. |
-| Payday loan, title loan, or personal loan | 12 | Normalización semántica a la categoría vigente. |
+| Credit reporting, credit repair services, or other personal consumer reports | 1.449 | Normalizada a la categoría vigente de informes de crédito. |
+| Credit card or prepaid card | 111 | Excluida del corpus de modelado por ambigüedad; visible en el EDA. |
+| Payday loan, title loan, or personal loan | 12 | Normalizada a la categoría vigente que incluye `advance loan`. |
 
-La clase mayoritaria acumula 1.671.242 registros, el 72,45 % del total. La lista definitiva y el mapping deberán aprobarse antes de entrenar. No se eliminarán ni agruparán clases únicamente para mejorar las métricas; cualquier cambio deberá conservar significado de negocio y quedar registrado.
+La clase mayoritaria acumula 1.671.242 registros, el 72,45 % del total. La lista y el mapping quedan versionados en `config/cfpb_target_contract.json`. No se eliminarán ni agruparán clases únicamente para mejorar las métricas; cualquier cambio deberá conservar significado de negocio y quedar registrado.
 
 ## Puertas críticas
 
 | Puerta | Estado | Evidencia o condición pendiente |
 |---|---|---|
 | G-01 Problema y usuario | Cumple | Problema, usuario operativo y decisión identificados; el flujo exacto deberá contrastarse durante la spec funcional. |
-| G-02 Multiclase real | Condicional | Volumen y soporte global verificados; falta aprobar la normalización de tres etiquetas históricas o ambiguas. |
+| G-02 Multiclase real | Cumple para EDA | Volumen, soporte y normalización a once clases versionados; las estrategias de desbalanceo se decidirán con el EDA. |
 | G-03 Datos reproducibles | Cumple | API, descarga, documentación, licencia CC0 informada y arnés reproducible verificados. |
 | G-04 Inferencia válida | Cumple | La narrativa es la única entrada permitida; el contrato automatizado impide utilizar `product` como feature. |
 | G-05 Riesgo asumible | Condicional | Datos publicados y tratados, pero existe riesgo residual de información personal. |

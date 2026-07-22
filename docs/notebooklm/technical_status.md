@@ -4,7 +4,7 @@
 
 - Fase: descubrimiento.
 - Idea de negocio: clasificación y enrutamiento de reclamaciones financieras, elegida por unanimidad con condiciones.
-- Dataset: Consumer Complaint Database del CFPB como candidata; spike de viabilidad pendiente.
+- Dataset: Consumer Complaint Database del CFPB viable con condiciones; target y reglas de EDA versionados.
 - Código funcional: no iniciado.
 - Despliegue: no iniciado.
 
@@ -17,10 +17,12 @@
 - Reglas de evaluación `1.0` aprobadas por mayoría absoluta del equipo activo, con puertas críticas, matriz y gobierno de la selección.
 - Dos candidatas evaluadas con la matriz `1.0`: reclamaciones CFPB y clasificación visual de residuos con RealWaste.
 - `CAND-001` elegida por José, Abel, Víctor y Miguel con cuatro votos favorables, cero contrarios y cero abstenciones.
-- La decisión autoriza el spike de viabilidad, pero no todavía el EDA completo, entrenamiento o implementación funcional.
+- El spike está completado y la spec `001` autoriza el EDA bajo contrato; todavía no autoriza entrenamiento o implementación funcional.
 - Arnés CFPB reproducible implementado con configuración versionada, probe API, muestra temporal en memoria, informes agregados y siete tests unitarios.
 - Probe verificado: 2.306.723 narrativas, catorce etiquetas observadas, licencia CC0 informada por la API y clase mayoritaria del 72,45 %.
-- G-03, G-04 y G-06 superadas para descubrimiento; G-02 y G-05 continúan condicionadas por mapping y privacidad.
+- G-02, G-03, G-04 y G-06 superadas para EDA; G-05 continúa condicionada por la revisión de privacidad.
+- Spec `001-cfpb-target-contract` activa con once clases canónicas, dos aliases, una exclusión ambigua y siete tests de contrato.
+- El EDA continúa en paralelo y debe aportar evidencia agregada sobre clases, tiempo, ausencias, duplicados, longitud e idioma.
 - Workflow `repository-quality` ejecutado correctamente en Pull Request.
 - Ruleset `Protect dev` activo con PR y check de calidad obligatorios, historial lineal y bloqueo de force push y borrado.
 - Aprobaciones humanas no requeridas temporalmente.
@@ -36,10 +38,10 @@
 
 ## Riesgos actuales
 
-- Tratar una selección condicionada como si el dataset ya estuviera validado.
+- Tratar la viabilidad condicionada como si idioma, privacidad y partición ya estuvieran cerrados.
 - Confundir estructura preparada con funcionalidad implementada.
 - Los roles del equipo activo todavía no están asignados.
-- La candidata CFPB necesita aprobar la normalización de tres etiquetas históricas o ambiguas y ampliar la validación de privacidad.
+- La normalización de target está versionada; idioma, deduplicación final, partición, desbalanceo y privacidad siguen pendientes de la evidencia del EDA.
 - El fuerte crecimiento de reclamaciones de informes de crédito puede producir desbalanceo extremo y cambios de procedencia que limiten la representatividad.
 - La muestra temporal detecta drift de etiquetas y duplicación: el extremo de 2023 concentra la etiqueta histórica y muchos más duplicados que el extremo de 2026.
 - La publicación reciente de narrativas presenta retraso y la API tiene comportamiento dependiente del cliente y paginación no trivial.

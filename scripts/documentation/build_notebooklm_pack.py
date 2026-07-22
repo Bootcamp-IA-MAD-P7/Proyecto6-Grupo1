@@ -39,6 +39,7 @@ def valid_iso_date(value: str) -> str:
 
 def optional_project_sources() -> list[Path]:
     patterns = (
+        "config/cfpb_target_contract.json",
         "specs/[0-9]*/spec.md",
         "specs/[0-9]*/plan.md",
         "specs/[0-9]*/tasks.md",

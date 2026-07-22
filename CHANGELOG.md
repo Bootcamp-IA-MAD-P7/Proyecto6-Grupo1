@@ -19,6 +19,7 @@
 - Selección unánime y condicionada de la clasificación de reclamaciones CFPB como dirección del proyecto.
 - Arnés acotado de viabilidad CFPB con contrato versionado, probe API, inspección temporal sin persistir narrativas, informes agregados y tests unitarios.
 - Evidencia preliminar de 2.306.723 narrativas, catorce etiquetas observadas, desbalanceo, drift de taxonomía y duplicados.
+- Spec `001-cfpb-target-contract`, contrato ejecutable de once clases y tests para coordinar EDA y modelado sin leakage.
 
 ### Changed
 

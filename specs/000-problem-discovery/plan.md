@@ -7,10 +7,10 @@
 
 - El proyecto se encuentra en descubrimiento.
 - Existe un intent global aprobado que prohíbe inventar problema, dataset o tecnología.
-- `CAND-001` ha sido elegida por unanimidad como dirección condicionada; dataset, target y clases siguen sujetos al spike de viabilidad.
+- `CAND-001` fue elegida por unanimidad y el spike la considera viable con condiciones.
 - Existe una plantilla inicial de evaluación en `docs/product/idea_evaluation_template.md`.
 - El repositorio dispone de dailies, decisiones, fuentes de NotebookLM, Pull Requests y controles de calidad.
-- No existe código funcional, EDA ni entrenamiento que condicione la decisión.
+- No existe entrenamiento ni producto funcional. El EDA avanza en paralelo bajo `001-cfpb-target-contract`.
 - La versión `1.0` de las reglas de evaluación fue aprobada el 22 de julio de 2026 por mayoría absoluta del equipo activo.
 
 ## Solución propuesta
@@ -60,6 +60,7 @@ Contratos:
 - ventana `[2023-08-24, 2026-07-23)`;
 - `complaint_what_happened` como única entrada permitida;
 - `product` como target y feature prohibida;
+- `product_canonical` como target derivado de once clases según `config/cfpb_target_contract.json`;
 - límite de respuesta y muestra definidos en `config/cfpb_viability.json`;
 - ninguna narrativa en JSON, Markdown, tests o Git;
 - CSV o ZIP local opcional dentro de `data/raw/`, excluido del repositorio;

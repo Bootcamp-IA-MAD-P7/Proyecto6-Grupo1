@@ -14,12 +14,12 @@ El proyecto se encuentra en fase de descubrimiento y validación de datos.
 
 El equipo ha elegido por unanimidad la clasificación y el enrutamiento de reclamaciones financieras mediante narrativas públicas del CFPB. La decisión es condicional: antes de implementar deben validarse la extracción, las clases, el desbalanceo, la calidad y la privacidad.
 
-El spike preliminar ha verificado 2.306.723 narrativas, catorce etiquetas observadas y un desbalanceo severo. La API y el contrato narrative-only son reproducibles, pero todavía deben aprobarse la normalización de etiquetas y los controles de privacidad.
+El spike preliminar ha verificado 2.306.723 narrativas, catorce etiquetas observadas y un desbalanceo severo. La API y el contrato narrative-only son reproducibles. La spec [`001-cfpb-target-contract`](specs/001-cfpb-target-contract/spec.md) fija once clases canónicas y las reglas compartidas para el EDA; idioma y privacidad siguen abiertos antes de entrenar.
 
 Todavía no se han decidido de forma definitiva:
 
-- el subconjunto reproducible del dataset candidato;
-- las clases que se conservarán tras validar su soporte;
+- la política de idioma y el tratamiento final de duplicados;
+- la estrategia de partición y desbalanceo basada en el EDA;
 - la métrica principal;
 - el framework de aplicación;
 - la arquitectura de despliegue.
@@ -130,4 +130,4 @@ La documentación se considera parte del producto. Debe alimentar el trabajo dia
 
 ## Próximo hito
 
-Aprobar el mapping de etiquetas históricas, ampliar la revisión de privacidad y cerrar las puertas restantes de [`000-problem-discovery`](specs/000-problem-discovery/spec.md). El [informe de viabilidad CFPB](reports/validation/cfpb_viability.md) conserva la evidencia reproducible antes de preparar una spec funcional independiente.
+Recibir la evidencia agregada del EDA, incorporarla a [`001-cfpb-target-contract`](specs/001-cfpb-target-contract/spec.md) y cerrar idioma, duplicados, partición y privacidad antes de entrenar. El [informe de viabilidad CFPB](reports/validation/cfpb_viability.md) conserva la evidencia inicial reproducible.
