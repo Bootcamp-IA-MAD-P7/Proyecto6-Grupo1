@@ -1,6 +1,7 @@
-import { useState, useRef, useMemo, type FormEvent } from 'react'
+import { useState, useRef, useMemo, useCallback, type FormEvent } from 'react'
 import { PredictionResult } from '@/components/PredictionResult'
 import { useOnlineStatus } from '@/hooks/use-online-status'
+import { useVoiceDictation } from '@/hooks/use-voice-dictation'
 import type { PredictionResponse } from '@/contracts/prediction'
 import { createMockPredictionClient } from '@/services/mock-prediction-client'
 import { PredictionClientError, type PredictionClient } from '@/services/prediction-client'
@@ -40,6 +41,18 @@ export default function ClassificationPage({ predictionClient }: ClassificationP
   const [requestError, setRequestError] = useState('')
   const [isSubmitting, setIsSubmitting] = useState(false)
   const [result, setResult] = useState<PredictionResponse | null>(null)
+
+  const handleTranscript = useCallback((text: string) => {
+    setNarrative((prev) => (prev ? `${prev} ${text}` : text))
+  }, [])
+
+  const {
+    isRecording,
+    isSupported: isVoiceSupported,
+    startRecording,
+    stopRecording,
+    error: voiceError,
+  } = useVoiceDictation({ onTranscript: handleTranscript })
 
   const handleSubmit = async (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault()
@@ -142,6 +155,25 @@ export default function ClassificationPage({ predictionClient }: ClassificationP
             <span id="narrative-counter">{narrative.length} characters</span>
             <span>No text is retained by this prototype.</span>
           </div>
+          {isVoiceSupported && (
+            <div className="flex items-center gap-2">
+              <Button
+                type="button"
+                variant={isRecording ? 'destructive' : 'outline'}
+                size="sm"
+                onClick={isRecording ? stopRecording : startRecording}
+                disabled={isSubmitting}
+              >
+                {isRecording ? '⏹ Stop recording' : '🎤 Dictate'}
+              </Button>
+              {isRecording && (
+                <span className="animate-pulse text-xs text-rust">Recording…</span>
+              )}
+            </div>
+          )}
+          {voiceError && (
+            <p className="text-xs text-rust">{voiceError}</p>
+          )}
         </div>
 
         {validationMessage && (
