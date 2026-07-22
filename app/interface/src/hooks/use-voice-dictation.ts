@@ -88,10 +88,12 @@ export function useVoiceDictation({
           const model = await AutoModelForSpeechSeq2Seq.from_pretrained('Xenova/whisper-tiny')
           const tokenizer = await AutoTokenizer.from_pretrained('Xenova/whisper-tiny')
 
-          const inputs = await processor(audioData)
+          const processorResult = await processor(audioData)
+          const inputFeatures = processorResult.input_features ?? processorResult[0]
 
           const outputs = await model.generate({
-            ...inputs,
+            // @ts-expect-error - @xenova/transformers types don't expose input_features properly
+            input_features: inputFeatures,
             max_new_tokens: 128,
             language: 'spanish',
             task: 'transcribe',
