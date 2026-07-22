@@ -28,7 +28,7 @@
 
 ## Producto y operación
 
-- Aplicación: pendiente.
+- Aplicación: React PWA como dirección frontend inicial; todavía no implementada. La necesidad de una evolución nativa se evaluará después de cubrir el alcance web instalable.
 - Despliegue: pendiente.
 - Persistencia: pendiente.
 - Estado MLOps: pendiente.

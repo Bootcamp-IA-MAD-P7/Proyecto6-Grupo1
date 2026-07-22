@@ -51,5 +51,16 @@ No se pasa a implementación si existen preguntas bloqueantes sobre el comportam
 
 - [`000-problem-discovery`](../specs/000-problem-discovery/spec.md) gobierna el cierre del descubrimiento.
 - [`001-cfpb-target-contract`](../specs/001-cfpb-target-contract/spec.md) fija las reglas compartidas de clases y datos mientras el EDA avanza en paralelo.
+- [`002-team-ai-workflow`](../specs/002-team-ai-workflow/spec.md) conserva el flujo independiente de proveedor y está cerrada.
 
 No se crea una spec por cada notebook o tarea pequeña. Se crea cuando varias personas o componentes necesitan compartir un comportamiento, una decisión o una evidencia verificable.
+
+## Empezar una tarea
+
+El [flujo operativo del equipo](../docs/project_management/workflow.md) conecta Jira, spec, rama, IA, verificaciones y Pull Request. Si una IA no puede leer el repositorio, puede recibir un paquete generado desde fuentes versionadas:
+
+```bash
+python scripts/documentation/build_ai_handoff.py \
+  --spec 001-cfpb-target-contract \
+  --task T-004
+```

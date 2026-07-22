@@ -5,6 +5,7 @@ Este catálogo indica qué documentos pueden alimentar una presentación y con q
 | Fuente | Propósito | Frecuencia | Responsable | Estado |
 |---|---|---|---|---|
 | `.specify/intent.md` | Propósito, restricciones y principios globales | Cuando cambie la intención | Equipo | Activa |
+| `AGENTS.md` | Decisiones vigentes y límites para agentes y equipo | Cuando cambie el contexto operativo | Equipo | Activa |
 | `specs/*/` | Specs, planes, tareas y decisiones | Por cambio de alcance | Equipo | Activa |
 | `config/cfpb_target_contract.json` | Clases, mappings y límites aplicables al EDA CFPB | Cuando cambie el contrato de datos | Datos / ML | Activa |
 | `README.md` | Visión general y acceso al proyecto | Cada hito | Equipo | Activa |
@@ -14,6 +15,7 @@ Este catálogo indica qué documentos pueden alimentar una presentación y con q
 | `docs/product/idea_evaluation_template.md` | Reglas y evidencias para comparar ideas | Durante descubrimiento | Equipo | Activa |
 | `docs/product/candidates/` | Fichas y evidencias de alternativas consideradas | Durante descubrimiento | Equipo | Activa |
 | `docs/project_management/dailies/YYYY-MM-DD.md` | Actividad y bloqueantes | Diaria | Equipo | Activa |
+| `docs/project_management/workflow.md` | Método común desde Jira hasta Pull Request | Cuando cambie el proceso | Equipo | Activa |
 | `docs/notebooklm/project_facts.md` | Hechos verificados del producto | Diaria o por hito | Pendiente | Preparada |
 | `docs/notebooklm/business_narrative.md` | Historia para audiencia no técnica | Cuando se defina el negocio | Equipo | Activa con límites explícitos |
 | `docs/notebooklm/technical_status.md` | Estado técnico consolidado | Diaria o por PR | Pendiente | Preparada |
