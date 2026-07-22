@@ -54,6 +54,16 @@ No se pasa a implementación si existen preguntas bloqueantes sobre el comportam
 - [`002-team-ai-workflow`](../specs/002-team-ai-workflow/spec.md) conserva el flujo independiente de proveedor y está cerrada.
 - [`003-complaint-routing-experience`](../specs/003-complaint-routing-experience/spec.md) define la experiencia React PWA y el contrato de inferencia para mocks.
 
+## Asignaciones actuales
+
+- Miguel mantiene arquitectura, contratos compartidos y coherencia documental.
+- Víctor trabaja en `001/T-004`, análisis del CSV y EDA agregado.
+- Abel trabaja en `003/T-008`, validación y endurecimiento de la PWA mock.
+- José tiene asignada `003/T-007`, futura integración backend, todavía bloqueada para implementación real.
+- Josué está fuera del equipo.
+
+Jira se incorpora el 23 de julio de 2026 como tablero operativo. No sustituye a las specs: una tarjeta indica quién y cuándo; la spec define qué debe cumplirse y con qué evidencia.
+
 No se crea una spec por cada notebook o tarea pequeña. Se crea cuando varias personas o componentes necesitan compartir un comportamiento, una decisión o una evidencia verificable.
 
 ## Empezar una tarea

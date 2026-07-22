@@ -2,12 +2,12 @@
 
 - ID: `003`
 - Estado: `in_progress`
-- Responsable: `Producto / aplicación`
+- Responsables: `Abel / frontend y UX`; `Miguel / arquitectura`; `José / futura integración backend`
 - Fecha: `2026-07-22`
 
 ## Contexto y problema
 
-El producto pretende ayudar a personal de operaciones o atención a clasificar una reclamación financiera escrita dentro de once familias CFPB. React PWA está aprobado como dirección frontend; existe una interfaz funcional contra mock, pero todavía no hay modelo entrenado, backend ni usuario B2B validado.
+El producto pretende ayudar a personal de operaciones o atención a clasificar una reclamación financiera escrita dentro de once familias CFPB. React PWA está aprobado como dirección frontend; existe una interfaz funcional contra mock en la PR `#14`, pero todavía no hay modelo entrenado, backend ni usuario B2B validado.
 
 El equipo necesita un contrato que permita diseñar y construir la interfaz con respuestas simuladas sin inventar métricas, umbrales o capacidades del futuro modelo.
 

@@ -26,6 +26,20 @@ La React PWA mock y el contrato OpenAPI de inferencia están implementados y ver
 
 React PWA debe cubrir primero el flujo web instalable y responsive. Una aplicación nativa no forma parte del alcance aprobado; se evaluará únicamente si requisitos de dispositivo, distribución o experiencia demuestran que la PWA no es suficiente.
 
+## Estado de implementación y responsabilidad
+
+| Componente | Estado al 22 de julio | Coordinación |
+|---|---|---|
+| Contrato de datos y target | Implementado para EDA; decisiones finales pendientes | Miguel / arquitectura, Víctor / evidencia EDA |
+| EDA del CSV | En curso bajo `001/T-004` | Víctor |
+| React PWA y mock | Implementados en PR #14; endurecimiento pendiente | Abel |
+| OpenAPI de predicción | Versionado como `contract-only` | Miguel / arquitectura, José / revisión backend |
+| Servicio backend | No implementado; integración bloqueada | José |
+| Pipeline y modelo | No implementados | Pendiente de resultados de datos/ML |
+| Persistencia, despliegue y MLOps | No implementados | Arquitectura futura sujeta a specs |
+
+La responsabilidad identifica quién coordina el área. No convierte un componente pendiente en una capacidad disponible.
+
 ## Límites
 
 ### Dominio

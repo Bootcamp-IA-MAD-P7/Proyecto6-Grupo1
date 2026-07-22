@@ -52,6 +52,7 @@ def optional_project_sources() -> list[Path]:
         "specs/[0-9]*/decisions.md",
         "docs/adr/[0-9]*.md",
         "docs/product/candidates/*.md",
+        "docs/notebooklm/briefs/*.md",
         "reports/**/*.md",
         "reports/**/*.json",
     )

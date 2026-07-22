@@ -25,22 +25,22 @@
 ## T-003 Entregar el contrato al EDA paralelo
 
 - Estado: `[x]`
-- Responsable: `Equipo EDA`
+- Responsable: `Miguel / Arquitectura de datos, entrega a Víctor`
 - Dependencias: `T-001, T-002`
 - Requisitos cubiertos: `R-006, R-007, AC-006`
 - Trabajo: usar esta spec como referencia y devolver únicamente evidencias agregadas.
 - Verificación: checklist de población, clases, tiempo, ausencias, duplicados, conflictos, longitud e idioma.
-- Evidencia obtenida: contrato de entrega definido; ejecución del EDA fuera de esta rama.
+- Evidencia obtenida: contrato de entrega definido y entregado; Víctor asume el análisis del CSV bajo este contrato.
 
 ## T-004 Incorporar evidencia del EDA
 
-- Estado: `[ ]`
-- Responsable: `Equipo EDA / Datos`
+- Estado: `[~]`
+- Responsable: `Víctor / Datos y EDA del CSV`
 - Dependencias: `T-003`
 - Requisitos cubiertos: `R-006, R-007, R-009`
 - Trabajo: contrastar soporte, drift, idioma, duplicados y alternativas de desbalanceo.
 - Verificación: informe reproducible, revisión cruzada y ausencia de narrativas versionadas.
-- Evidencia obtenida: pendiente del trabajo paralelo.
+- Evidencia obtenida: análisis del CSV en curso; todavía no se ha incorporado al repositorio un informe agregado revisado.
 
 ## T-005 Implementar el constructor reproducible
 

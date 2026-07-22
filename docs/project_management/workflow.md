@@ -2,6 +2,8 @@
 
 Esta guía explica cómo trabaja una persona del equipo, utilice o no una IA. Jira mantiene el estado operativo; el repositorio conserva contratos, decisiones y evidencias.
 
+Jira comenzará a utilizarse el 23 de julio de 2026. Hasta que se publique su enlace, la asignación vigente se consulta en `docs/project_management/team.md` y en los `tasks.md` de cada spec.
+
 ## Mapa sencillo
 
 ```text
@@ -88,7 +90,57 @@ El archivo se crea en `exports/ai-handoffs/`, que está excluido de Git. Debe re
 
 No todo el equipo debe actualizar todos los documentos en cada PR.
 
-## 6. Verificación y Pull Request
+## 6. Responsabilidades actuales
+
+| Persona | Área principal | Tarea activa | Qué debe entregar |
+|---|---|---|---|
+| Miguel | Arquitectura y coherencia transversal | Gobierno de specs y contratos | Decisiones consistentes, límites claros, documentación y quality gates |
+| José | Backend | `003/T-007` | Revisión y preparación del adaptador; implementación real solo cuando se levanten los bloqueos |
+| Abel | Frontend y UX | `003/T-008` | PWA mock verificable, accesible, responsive e instalable |
+| Víctor | Datos y EDA | `001/T-004` | Notebook reproducible, métricas y gráficos agregados sin narrativas reales |
+
+Josué ya no forma parte del equipo. Las personas de respaldo todavía deben acordarse.
+
+## 7. Paquetes de contexto para cada área
+
+Si la IA puede leer el repositorio, basta con indicarle la spec y la tarea. Si no puede hacerlo, cada responsable puede generar un único archivo temporal con el contexto necesario.
+
+### Víctor: análisis del CSV y EDA
+
+```bash
+python scripts/documentation/build_ai_handoff.py \
+  --spec 001-cfpb-target-contract \
+  --task T-004 \
+  --include reports/validation/cfpb_viability.md \
+  --include docs/product/candidates/CAND-001-cfpb-complaint-routing.md
+```
+
+### Abel: frontend y UX
+
+```bash
+python scripts/documentation/build_ai_handoff.py \
+  --spec 003-complaint-routing-experience \
+  --task T-008 \
+  --include app/interface/README.md \
+  --include reports/validation/complaint_routing_pwa.md \
+  --include docs/design/design_system.md \
+  --include docs/security/threat_model.md
+```
+
+### José: backend
+
+```bash
+python scripts/documentation/build_ai_handoff.py \
+  --spec 003-complaint-routing-experience \
+  --task T-007 \
+  --include docs/api/openapi.json \
+  --include docs/architecture/system_blueprint.md \
+  --include docs/security/threat_model.md
+```
+
+El paquete de José permite revisar el contrato y preparar el trabajo. No elimina los bloqueos de `T-007` ni autoriza una inferencia real. Los archivos generados viven en `exports/ai-handoffs/`, están excluidos de Git y deben revisarse antes de compartirlos.
+
+## 8. Verificación y Pull Request
 
 1. Ejecutar las pruebas de la spec y `python scripts/quality/check_repository.py`.
 2. Revisar `git diff --check` y el diff completo.
@@ -105,10 +157,10 @@ El cierre debe indicar:
 - decisiones;
 - riesgos o trabajo pendiente.
 
-## 7. Ejemplo para el equipo EDA
+## 9. Ejemplo para el equipo EDA
 
 El equipo EDA trabaja en `001/T-004`. Puede estudiar clases, tiempo, ausencias, duplicados, conflictos, longitud e idioma. Debe devolver notebooks reproducibles, cifras y gráficos agregados. No debe incluir narrativas reales ni utilizar como features columnas prohibidas por `config/cfpb_target_contract.json`.
 
-## 8. Cierre de una fase
+## 10. Cierre de una fase
 
 Una fase se cierra cuando sus criterios tienen evidencia, las decisiones están registradas, la documentación coincide con lo construido y no quedan preguntas bloqueantes. Solo entonces se crea un release o se avanza a la siguiente puerta de entrega.

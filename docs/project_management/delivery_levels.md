@@ -14,6 +14,19 @@ Avanzado operable
 Experto controlado
 ```
 
+## Estado actual
+
+| Área | Evidencia disponible | Siguiente puerta |
+|---|---|---|
+| Problema | Reclamaciones financieras seleccionadas por unanimidad | Validar el flujo B2B con negocio |
+| Datos | Spike, contrato de once clases y 15 tests de datos/contrato | Incorporar EDA, idioma, duplicados, privacidad y split |
+| Experiencia | React PWA contra mock, OpenAPI y 5 tests frontend en PR #14 | Completar `003/T-008` y validar con usuario |
+| Modelo | No iniciado | Definir protocolo, baseline y métrica tras cerrar `001` |
+| Backend | Contrato disponible; servicio no iniciado | Resolver bloqueantes de `003/T-007` |
+| Operación | CI de repositorio, Python y frontend activa | Docker, staging y despliegue tras el nivel esencial |
+
+El proyecto continúa en descubrimiento y construcción de la base esencial. Las capacidades medias, avanzadas y expertas siguen siendo objetivos, no estado actual.
+
 ## Nivel esencial
 
 Debe dejar una solución completa de extremo a extremo.

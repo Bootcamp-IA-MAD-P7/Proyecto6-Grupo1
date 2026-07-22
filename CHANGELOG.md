@@ -23,7 +23,7 @@
 - Spec `002-team-ai-workflow` y generador seguro de contexto por spec y tarea para herramientas de IA externas.
 - Spec `003-complaint-routing-experience`, arquitectura de información y OpenAPI contract-only para desarrollar la React PWA mediante mocks.
 - React PWA con TypeScript y Vite, cliente de inferencia sustituible, mock visible, estados accesibles y shell offline sin caché de API.
-- Cinco tests de interacción frontend, lint de accesibilidad, build PWA y ejecución de los 28 tests Python incorporados a CI.
+- Cinco tests de interacción frontend, lint de accesibilidad, build PWA y ejecución de los 30 tests Python incorporados a CI.
 
 ### Changed
 
@@ -34,6 +34,10 @@
 - La spec `003` pasa a implementación: `T-006` queda verificada contra mock mientras negocio, backend y modelo continúan bloqueados.
 - La propuesta frontend de Abel se reconcilia con la spec `003`: el endurecimiento PWA queda en `T-008` y las ampliaciones de producto pasan a Jira y futuras specs.
 - Dependabot incorpora el ecosistema npm de `app/interface/` y la documentación reconoce la base visual y CI frontend ya implementadas.
+- Se formalizan las responsabilidades principales: Miguel en arquitectura, José en backend, Abel en frontend/UX y Víctor en datos/EDA; Josué permanece fuera del equipo activo.
+- `001/T-004` pasa a estar en curso bajo la responsabilidad de Víctor y `003/T-007` queda asignada a José sin levantar sus bloqueantes.
+- README, intent, AGENTS, specs, tareas, arquitectura, daily y fuentes de NotebookLM se sincronizan para el cierre del 22 de julio.
+- La narrativa de presentación adopta un enfoque orientado a cliente: problema, experiencia, valor y confianza antes de la explicación técnica.
 - El comprobador del repositorio deja de recorrer dependencias y artefactos generados, manteniendo el arnés rápido al incorporar Node.
 
 ### Fixed

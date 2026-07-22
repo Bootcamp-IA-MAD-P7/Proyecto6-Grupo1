@@ -101,7 +101,7 @@
 ## T-005 Evaluar seguridad, privacidad, ética y sesgo
 
 - Estado: `[~]`
-- Responsable: `Seguridad / datos, por asignar`
+- Responsable: `Víctor / Datos, con revisión transversal del equipo`
 - Dependencias: `T-002, T-004`
 - Requisitos cubiertos: `R-006, AC-006`
 - Archivos previstos:
@@ -125,7 +125,7 @@
 ## T-006 Evaluar UX, demo y evolución técnica
 
 - Estado: `[~]`
-- Responsable: `Producto / UX / plataforma, por asignar`
+- Responsable: `Abel / Frontend-UX y Miguel / Arquitectura`
 - Dependencias: `T-003, T-004`
 - Requisitos cubiertos: `R-009`
 - Archivos previstos:
@@ -143,7 +143,7 @@
   - Flujo de texto, predicción, confianza, revisión humana y evolución MLOps descrito para `CAND-001`.
   - React PWA, arquitectura de información y OpenAPI contract-only definidos en `003-complaint-routing-experience`.
   - Flujo de fotografía, clasificación, baja confianza y evolución visual descrito para `CAND-002`.
-  - Frontend y contrato de mock están definidos; usuario B2B, backend, autenticación e integración real siguen pendientes.
+  - La PWA mock está implementada en la PR #14 y su endurecimiento se gestiona mediante `003/T-008`; usuario B2B, backend, autenticación e integración real siguen pendientes.
 
 ## T-007 Puntuar y comparar alternativas
 
@@ -167,11 +167,11 @@
   - Las dos candidatas recibieron una preevaluación documental con la matriz `1.0`: `CAND-001`, 75/100; `CAND-002`, 73/100.
   - `docs/product/candidates/comparison-2026-07-22.md` registra la comparación cualitativa y la sensibilidad a plazo, riesgo y tipo de demo.
   - Pendiente conservar las puntuaciones individuales o una ratificación explícita de la matriz consolidada; no se atribuyen valores individuales al equipo.
-  - El cierre también depende de completar T-004 para la candidata elegida y verificar que ninguna puerta crítica queda incumplida.
+  - T-004 está completada para viabilidad preliminar. El cierre de esta tarea depende de ratificar la matriz consolidada o conservar las puntuaciones individuales y de confirmar que las puertas restantes se trasladan sin pérdida a las specs activas.
 
 ## T-008 Registrar la decisión del equipo
 
-- Estado: `[~]`
+- Estado: `[x]`
 - Responsable: `Equipo`
 - Dependencias: `T-007`
 - Requisitos cubiertos: `R-008, R-010, R-011, AC-007, AC-008, AC-009`
@@ -189,12 +189,13 @@
 - Evidencia obtenida:
   - José, Abel, Víctor y Miguel eligieron `CAND-001` por unanimidad el `2026-07-22`.
   - `PDR-001` registra cuatro votos favorables, cero contrarios y cero abstenciones.
-  - La aceptación autoriza el spike de viabilidad, no la implementación funcional; el cierre depende de T-004 y T-007.
+  - La aceptación autoriza el spike, el contrato de datos y la validación de experiencia contra mock; no autoriza entrenamiento ni inferencia real.
+  - Las condiciones pendientes permanecen trazadas en `001` y `003` sin invalidar el registro de la decisión.
 
 ## T-009 Sincronizar documentación y fuentes
 
 - Estado: `[x]`
-- Responsable: `Documentación / QA, por asignar`
+- Responsable: `Miguel / Arquitectura y documentación`
 - Dependencias: `T-008`
 - Requisitos cubiertos: `R-013, AC-009`
 - Archivos previstos:
@@ -240,8 +241,8 @@
 
 - [ ] Todos los criterios de aceptación están cubiertos.
 - [ ] Las pruebas y revisiones acordadas pasan.
-- [ ] Las decisiones relevantes están registradas.
-- [ ] La documentación coincide con el resultado real.
+- [x] Las decisiones relevantes están registradas.
+- [x] La documentación coincide con el resultado real al cierre del 22 de julio.
 - [ ] No quedan preguntas bloqueantes.
-- [ ] Las ideas descartadas conservan motivo y evidencia.
-- [ ] No se ha iniciado implementación funcional dentro de esta spec.
+- [x] Las ideas descartadas conservan motivo y evidencia.
+- [x] No se ha iniciado implementación funcional dentro de esta spec; la PWA pertenece a la spec `003`.

@@ -8,7 +8,8 @@
 - El spike reproduce 2.306.723 narrativas y catorce etiquetas en la ventana congelada.
 - Once etiquetas corresponden a la taxonomía vigente, dos tienen equivalencia semántica directa y una es ambigua.
 - La narrativa es la única entrada admitida por `config/cfpb_viability.json`.
-- El EDA se realiza en paralelo por dos integrantes y permanece fuera de esta implementación.
+- Víctor realiza el EDA del CSV bajo `T-004`; permanece fuera de esta implementación y está en curso.
+- Miguel mantiene el contrato de target y coordina su impacto en arquitectura, privacidad y producto.
 
 ## Solución propuesta
 
@@ -31,6 +32,14 @@ EDA / partición posterior sin leakage
 El equipo puede explorar distribución, tiempo, ausencias, longitudes, idioma y duplicados. No debe utilizar como features `product`, `sub_product`, `issue`, `sub_issue`, `company` ni campos posteriores. Entregará cifras y gráficos agregados; los notebooks versionados no mostrarán textos reales.
 
 La spec acepta nueva evidencia del EDA. Si esa evidencia contradice una regla, se actualiza primero `spec.md` y se registra la decisión antes de cambiar el pipeline.
+
+## Coordinación actual
+
+| Área | Responsable | Entrega actual |
+|---|---|---|
+| Análisis del CSV y EDA | Víctor | Evidencias agregadas de `T-004`, sin narrativas reales |
+| Contrato de target y arquitectura | Miguel | Revisión de reglas, decisiones y compatibilidad transversal |
+| Consumo posterior | José / backend y equipo ML | Bloqueado hasta recibir evidencia suficiente y aprobar las decisiones pendientes |
 
 ## Archivos previstos
 

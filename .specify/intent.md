@@ -3,7 +3,7 @@
 | Campo | Valor |
 |---|---|
 | Estado | Vigente |
-| Fase | Descubrimiento |
+| Fase | Descubrimiento, EDA y validación de experiencia en paralelo |
 | Alcance | Global del proyecto |
 | Responsable | Equipo |
 | Última revisión | 2026-07-22 |
@@ -179,7 +179,9 @@ Hasta cerrar las puertas activas de datos, privacidad y producto, no se debe:
 
 El equipo activo está formado por José, Abel, Víctor y Miguel. Josué comunicó su baja del Bootcamp el 22 de julio de 2026 y dejó de formar parte del equipo.
 
-Los roles y responsabilidades todavía no están asignados. Su reparto deberá considerar disponibilidad, experiencia, aprendizaje, continuidad y riesgo, sin asumir niveles técnicos ni dejar componentes críticos bajo una única persona sin respaldo.
+Las responsabilidades principales vigentes son: Miguel en arquitectura y coherencia transversal, José en backend, Abel en frontend/UX y Víctor en datos/EDA del CSV. La asignación no desbloquea tareas que una spec mantenga bloqueadas ni sustituye la revisión del equipo. Los roles de respaldo siguen pendientes de acuerdo.
+
+El reparto detallado, los límites y las asignaciones operativas se mantienen en `docs/project_management/team.md` para evitar duplicar instrucciones en este contrato global.
 
 Las decisiones relevantes deben quedar registradas. Las conversaciones ayudan a explorar; el repositorio conserva el acuerdo verificable.
 

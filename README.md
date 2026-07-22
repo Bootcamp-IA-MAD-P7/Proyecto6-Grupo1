@@ -18,6 +18,8 @@ El spike preliminar ha verificado 2.306.723 narrativas, catorce etiquetas observ
 
 La spec [`003-complaint-routing-experience`](specs/003-complaint-routing-experience/spec.md) define el flujo y ya dispone de una React PWA funcional contra un mock explícito. La interfaz es verificable, pero no existe todavía un servicio de inferencia ni un modelo conectado.
 
+La PWA se encuentra en la [PR #14](https://github.com/Bootcamp-IA-MAD-P7/Proyecto6-Grupo1/pull/14), todavía en borrador y con CI superada. El EDA del CSV continúa en paralelo; ninguna de estas líneas autoriza a presentar una predicción real antes de cerrar datos, modelo e integración.
+
 Todavía no se han decidido de forma definitiva:
 
 - la política de idioma y el tratamiento final de duplicados;
@@ -27,6 +29,19 @@ Todavía no se han decidido de forma definitiva:
 - la arquitectura de despliegue.
 
 La estructura inicial prepara el repositorio para evolucionar desde el nivel esencial hasta el nivel experto del briefing, sin presentar ninguna capacidad como implementada antes de tiempo.
+
+## Equipo y frentes de trabajo
+
+| Integrante | Responsabilidad principal | Trabajo activo |
+|---|---|---|
+| Miguel | Arquitectura y coherencia transversal | Contratos, specs, seguridad, CI/CD y documentación viva |
+| José | Backend | Revisión del OpenAPI y preparación de `003/T-007`, bloqueada para inferencia real |
+| Abel | Frontend / UX | Revisión y endurecimiento de la PWA mediante `003/T-008` y PR #14 |
+| Víctor | Datos / EDA | Estudio del CSV y entrega agregada de `001/T-004` |
+
+Josué comunicó su baja del Bootcamp el 22 de julio de 2026 y ya no forma parte del equipo activo. Los límites de cada responsabilidad se detallan en [team.md](docs/project_management/team.md).
+
+Jira comenzará a utilizarse el 23 de julio de 2026. Servirá para coordinar el estado operativo; las specs, decisiones y evidencias del repositorio continuarán siendo la fuente de verdad.
 
 ## Objetivo académico
 

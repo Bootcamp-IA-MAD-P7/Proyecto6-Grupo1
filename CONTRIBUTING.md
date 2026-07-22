@@ -9,6 +9,8 @@
 5. Abrir Pull Request hacia `dev`.
 6. Mergear solo con revisión y comprobaciones correctas.
 
+La protección actual exige Pull Request y checks, pero todavía no exige una aprobación humana en GitHub. Antes de marcar una PR como lista, la persona responsable debe solicitar revisión funcional al área afectada cuando exista: Miguel para arquitectura y contratos, Abel para frontend/UX, José para backend y Víctor para datos/EDA. Esta revisión operativa no sustituye los checks ni amplía el alcance de la spec.
+
 Nombres recomendados:
 
 ```text
@@ -43,6 +45,8 @@ Cada PR debe:
 - actualizar documentación y decisiones afectadas;
 - evitar secretos, datos pesados y artefactos locales.
 - revisar impacto en UX, seguridad y fuentes para NotebookLM.
+- identificar responsable de área, tarea activa y bloqueos todavía abiertos;
+- distinguir claramente entre comportamiento real, mock, propuesta y trabajo futuro.
 
 ## Definition of Done
 

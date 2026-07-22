@@ -8,6 +8,8 @@ Alimentar NotebookLM de forma frecuente con información curada, coherente y ver
 
 NotebookLM debe recibir una selección editorial, no un volcado indiscriminado de archivos.
 
+Para presentaciones dirigidas a cliente, el orden narrativo obligatorio es: reto operativo, persona afectada, experiencia, valor, confianza y evidencia. La terminología de datos, modelos, APIs, arquitectura, SDD o MLOps se reserva para demostrar rigor después de explicar el negocio o para un anexo técnico.
+
 ```text
 Fuentes estables
      +
@@ -68,6 +70,8 @@ Define audiencia, duración, narrativa, tono, hechos obligatorios, afirmaciones 
 5. Generar el paquete con `scripts/documentation/build_notebooklm_pack.py`.
 6. Revisar el paquete antes de subirlo.
 7. Mantener las presentaciones generadas como borradores hasta contrastar cifras y mensajes.
+
+Antes de generar una presentación para cliente, seleccionar o crear un brief en `docs/notebooklm/briefs/` y comprobar que no comienza por la tecnología.
 
 La daily canónica pertenece a `docs/project_management/dailies/`. NotebookLM la consume directamente como fuente versionada; no mantiene una copia ni una adaptación diaria paralela.
 

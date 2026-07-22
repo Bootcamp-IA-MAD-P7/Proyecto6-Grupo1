@@ -55,9 +55,9 @@
 ## T-007 Integrar el servicio real
 
 - Estado: `[!]`
-- Responsable: `Aplicación / ML`
+- Responsable: `José / Backend, con contrato de ML pendiente`
 - Dependencias: `T-006`, `001/T-004 a T-006`
-- Bloqueante: EDA, modelo aprobado, idioma, límites y política de revisión.
+- Bloqueante: EDA, modelo aprobado, idioma, límites y política de revisión. La asignación de José permite revisar y preparar el diseño, pero no autoriza a conectar inferencia real antes de resolverlos.
 - Evidencia obtenida: pendiente.
 
 ## T-008 Endurecer y revisar la entrega frontend

@@ -6,8 +6,17 @@
 
 - Nombre: pendiente.
 - Problema de negocio: apoyar la clasificación y el enrutamiento de reclamaciones financieras escritas.
-- Usuario principal: personal de operaciones o atención al cliente; el flujo concreto debe validarse en la siguiente spec.
+- Usuario principal: personal de operaciones o atención al cliente; el flujo concreto debe validarse mediante `003/T-005`.
 - Resultado esperado: sugerir una familia de producto con confianza opcional, alternativas y revisión humana. El mapping a colas no está validado ni incluido en la primera versión.
+
+## Equipo y responsabilidades
+
+- Miguel: arquitectura y coherencia transversal.
+- José: backend; revisión del contrato y futura integración cuando se levanten los bloqueantes.
+- Abel: frontend y UX; responsable operativo de `003/T-008` y la PR #14.
+- Víctor: datos y EDA; responsable de estudiar el CSV bajo `001/T-004`.
+- Josué: fuera del equipo desde el 22 de julio de 2026.
+- Jira: comienzo previsto el 23 de julio; enlace pendiente de creación.
 
 ## Datos
 
@@ -28,7 +37,7 @@
 
 ## Producto y operación
 
-- Aplicación: React PWA implementada contra un mock explícito y el OpenAPI `0.1.0`. Incluye formulario, resultado, alternativas, revisión humana, errores y shell offline; no está conectada a un modelo ni backend. La necesidad de una evolución nativa se evaluará después de cubrir el alcance web instalable.
+- Aplicación: React PWA implementada en la PR #14 contra un mock explícito y el OpenAPI `0.1.0`. Incluye formulario, resultado, alternativas, revisión humana, errores y shell offline; no está conectada a un modelo ni backend. La PR continúa en borrador mientras Abel completa `003/T-008`.
 - Despliegue: pendiente.
 - Persistencia: pendiente.
 - Estado MLOps: pendiente.
@@ -37,4 +46,4 @@
 
 Cada cifra futura debe enlazar su informe, artefacto o evidencia reproducible.
 
-La selección fue aprobada por José, Abel, Víctor y Miguel el 22 de julio de 2026. No equivale a un dataset validado ni a una capacidad implementada.
+La selección fue aprobada por José, Abel, Víctor y Miguel el 22 de julio de 2026. La viabilidad preliminar, el contrato de datos y la PWA mock tienen evidencias propias; todavía no equivalen a un modelo validado, inferencia real o impacto comercial demostrado.

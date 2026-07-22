@@ -2,14 +2,14 @@
 
 - ID: `001`
 - Estado: `in_progress`
-- Responsable: `Datos / ML`
+- Responsables: `Víctor / análisis del CSV y EDA`; `Miguel / contrato y arquitectura`
 - Fecha: `2026-07-22`
 
 ## Contexto y problema
 
 El spike CFPB confirmó que el dataset es viable, pero observó catorce etiquetas de `product`: once vigentes, dos históricas equivalentes y una histórica ambigua. También detectó desbalanceo, narrativas repetidas y riesgo residual de información personal.
 
-Dos integrantes trabajan en paralelo en el EDA. Necesitan reglas compartidas que eviten comparar resultados construidos con clases, filtros o columnas incompatibles, sin convertir esta spec en un notebook ni repetir su análisis.
+Víctor está realizando el análisis del CSV y el EDA. Necesita reglas compartidas que eviten comparar resultados construidos con clases, filtros o columnas incompatibles, sin convertir esta spec en un notebook ni repetir su análisis. Miguel mantiene el contrato y revisa su coherencia con arquitectura, privacidad y experiencia de producto.
 
 ## Usuario y necesidad
 

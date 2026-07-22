@@ -26,6 +26,17 @@ El service worker precacheará únicamente recursos estáticos. No se configurar
 
 La interfaz no conocerá scikit-learn ni detalles del modelo. El backend deberá adaptar el modelo al contrato estable.
 
+## Responsabilidades y traspasos
+
+| Área | Responsable | Estado y límite |
+|---|---|---|
+| Frontend y UX | Abel | Endurecer y validar la PWA mock mediante `T-008` y la PR `#14` |
+| Arquitectura y coherencia transversal | Miguel | Mantener el contrato, decisiones, seguridad, documentación y límites de alcance |
+| Backend | José | Preparar la futura integración de `T-007`; la implementación real sigue bloqueada por las decisiones de ML, privacidad y operación |
+| Datos / EDA | Víctor | Aportar evidencia desde `001/T-004` para resolver idioma, longitud, desbalanceo y partición |
+
+La asignación de José no autoriza a fabricar un modelo ni un endpoint de inferencia real. Puede revisar el OpenAPI, preparar adaptadores y detectar preguntas, pero la conexión real comienza únicamente cuando se levanten los bloqueos registrados.
+
 ## Reconciliación de la propuesta frontend del 21 de julio
 
 La propuesta aportada por Abel se conserva como entrada de diseño y se adapta al estado alcanzado el 22 de julio. No se crea una segunda spec `001`, una carpeta `/frontend` ni otra rama con el mismo nombre.

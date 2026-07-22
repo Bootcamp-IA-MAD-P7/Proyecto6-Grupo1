@@ -18,7 +18,7 @@ La interfaz implementa el formulario de narrativa, estados de validación, conex
 | `npm test` | 5 tests correctos |
 | `npm run build` | Correcta; manifest y service worker generados |
 | `npm audit` durante instalación | 0 vulnerabilidades conocidas |
-| `python -m unittest discover -s tests -v` | 28 tests Python y de contrato correctos |
+| `python -m unittest discover -s tests -v` | 30 tests Python y de contrato correctos |
 
 Los tests cubren formulario accesible, rechazo de texto vacío, resultado sintético, confianza nula, revisión obligatoria, ausencia de eco de la narrativa, modo offline y error seguro del servicio.
 

@@ -1,39 +1,41 @@
-# Narrativa de negocio
+# Narrativa para cliente
 
-> Narrativa inicial basada en una selección condicionada. No describe un producto implementado ni resultados de modelo.
+> Esta fuente explica el proyecto desde el problema y el valor para una organización. La terminología técnica pertenece a la evidencia posterior o al anexo.
 
-## Situación actual
+## El reto
 
-Las organizaciones que reciben reclamaciones financieras necesitan interpretar textos libres y asignarlos a la categoría y al circuito adecuados. El volumen, el vocabulario y la distribución de esas reclamaciones pueden cambiar con el tiempo.
+Cuando una organización recibe muchas reclamaciones escritas, cada mensaje debe entenderse y dirigirse al equipo adecuado. La lectura manual consume tiempo, puede producir criterios distintos entre personas y se complica cuando cambian el volumen y el lenguaje de las reclamaciones.
 
-## Problema
+## A quién queremos ayudar
 
-La lectura y clasificación manual puede consumir tiempo y producir asignaciones inconsistentes. El proyecto estudiará si una predicción multiclase puede apoyar esa primera clasificación sin sustituir la revisión humana.
+La persona usuaria propuesta trabaja en operaciones o atención al cliente y necesita decidir qué familia de producto debe revisar cada caso. Todavía debemos contrastar el flujo con una persona de negocio antes de afirmar que conocemos por completo su forma de trabajo.
 
-## Usuario afectado
+## La experiencia propuesta
 
-El usuario propuesto es personal de operaciones o atención al cliente responsable de clasificar reclamaciones. El flujo concreto todavía debe contrastarse.
+1. La persona introduce el texto necesario para entender el problema, evitando datos personales innecesarios.
+2. La herramienta sugiere la familia de producto más probable y presenta alternativas cuando puedan ser útiles.
+3. Si no existe suficiente certeza, la herramienta lo dice con claridad y solicita revisión.
+4. La persona conserva la decisión y determina el siguiente paso.
 
-## Propuesta de valor
+La herramienta no resuelve la reclamación, no toma decisiones financieras o legales y no envía automáticamente el caso a un departamento.
 
-Ofrecer una primera categoría de producto, alternativas y un nivel de confianza para que la persona usuaria confirme o corrija el destino. La herramienta no resolverá la reclamación ni tomará decisiones financieras, legales o de elegibilidad.
+## Valor que queremos validar
 
-## Cómo ayuda la predicción multiclase
+- reducir el esfuerzo de la primera clasificación;
+- aplicar criterios más consistentes;
+- hacer visibles las situaciones dudosas;
+- permitir que la persona se concentre en revisar y resolver, no solo en clasificar.
 
-Cada narrativa se asignaría a una única familia de producto entre tres o más categorías significativas. Una regla separada y configurable traduciría esa categoría a una cola operativa.
+Estos beneficios son hipótesis de valor. Todavía no se han medido con clientes ni deben presentarse como ahorro demostrado.
 
-## Flujo de uso
+## Confianza y responsabilidad
 
-1. La persona introduce o revisa una narrativa sin identificadores innecesarios.
-2. El sistema propone una familia de producto, confianza y alternativas.
-3. Una confianza insuficiente activa revisión manual.
-4. La persona confirma o corrige la categoría.
-5. El feedback puede utilizarse de forma gobernada para medir y mejorar versiones futuras.
+El diseño mantiene a una persona en control, evita mostrar porcentajes que no estén respaldados y no conserva el texto por defecto. Los datos públicos utilizados para estudiar la idea tienen limitaciones de privacidad, representatividad y equilibrio que deben resolverse antes de entrenar una solución real.
 
-## Impacto esperado y límites
+## Dónde estamos
 
-El impacto esperado es reducir esfuerzo de clasificación y hacer más consistente el enrutamiento inicial. Todavía no se ha medido. Los datos públicos del CFPB no representan todo el mercado, pueden contener información personal residual y presentan riesgo de desbalanceo y cambio temporal.
+El equipo ha elegido esta dirección por unanimidad y ha comprobado que existe una base de datos suficiente para continuar el estudio. También existe un prototipo navegable con respuestas simuladas para revisar la experiencia. Aún no existe una predicción real, un servicio conectado ni un impacto de negocio medido.
 
-## Mensaje de cierre
+## Cómo debe contarse
 
-El equipo ha elegido esta dirección por unanimidad y ha validado la viabilidad preliminar de los datos con condiciones. El EDA debe cerrar idioma, duplicados, partición y privacidad antes de entrenar. Existe una PWA contra mock para revisar la experiencia; no se presentará como producto predictivo ni como modelo real.
+Una presentación para cliente debe comenzar con el reto operativo, la persona afectada, la experiencia propuesta y el valor que se quiere validar. Los datos, el modelo, la arquitectura, las APIs, SDD y MLOps solo aparecen después como evidencia de rigor o en una sección técnica separada.

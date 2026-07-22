@@ -2,10 +2,10 @@
 
 ## Estado general
 
-- Fase: descubrimiento.
+- Fase: descubrimiento, EDA y validación de experiencia en paralelo.
 - Idea de negocio: clasificación y enrutamiento de reclamaciones financieras, elegida por unanimidad con condiciones.
 - Dataset: Consumer Complaint Database del CFPB viable con condiciones; target y reglas de EDA versionados.
-- Código funcional: React PWA funcional contra mock; pipeline ML y servicio real no iniciados.
+- Código funcional: React PWA funcional contra mock en la PR #14; pipeline ML y servicio real no iniciados.
 - Despliegue: no iniciado.
 
 ## Capacidades verificadas
@@ -21,12 +21,16 @@
 - Arnés CFPB reproducible implementado con configuración versionada, probe API, muestra temporal en memoria, informes agregados y siete tests unitarios.
 - Probe verificado: 2.306.723 narrativas, catorce etiquetas observadas, licencia CC0 informada por la API y clase mayoritaria del 72,45 %.
 - G-02, G-03, G-04 y G-06 superadas para EDA; G-05 continúa condicionada por la revisión de privacidad.
-- Spec `001-cfpb-target-contract` activa con once clases canónicas, dos aliases, una exclusión ambigua y siete tests de contrato.
+- Spec `001-cfpb-target-contract` activa con once clases canónicas, dos aliases, una exclusión ambigua y ocho tests de contrato.
 - El EDA continúa en paralelo y debe aportar evidencia agregada sobre clases, tiempo, ausencias, duplicados, longitud e idioma.
 - React PWA implementada con React, TypeScript y Vite contra un cliente mock sustituible; backend, inferencia real y evolución nativa siguen pendientes.
 - Spec `003-complaint-routing-experience` en curso con arquitectura de información, OpenAPI contract-only, siete tests de contrato y cinco tests de interacción frontend.
+- La suite local reúne 30 tests Python y de contrato; los cinco tests frontend, lint y build PWA también pasan. CI debe volver a ejecutarse al publicar este cierre.
 - La propuesta frontend previa de Abel se ha reconciliado con la spec `003`: los requisitos compatibles de calidad pasan a `T-008`, mientras auth, administración, entrenamiento y voz permanecen como propuestas no aprobadas.
-- Abel tiene asignada operativamente la revisión de `003/T-008` y la PR #14; los roles permanentes del equipo siguen pendientes de acuerdo.
+- Responsabilidades formalizadas: Miguel coordina arquitectura; José, backend; Abel, frontend/UX; Víctor, datos/EDA. Los respaldos siguen pendientes.
+- Víctor tiene `001/T-004` en curso; Abel, `003/T-008`; José puede preparar `003/T-007`, pero su integración real continúa bloqueada.
+- PR #14 actualizada, sin conflictos y con `repository-quality` y validación de Dependabot superadas; permanece como draft.
+- Jira comenzará el 23 de julio; todavía no existe enlace versionado.
 - El build genera manifest y service worker; el shell estático puede funcionar offline, pero `/api/` no tiene fallback ni caché runtime.
 - La interfaz identifica el modo simulado, no muestra confianza inventada, exige revisión humana y no conserva ni devuelve la narrativa.
 - Flujo humano-IA independiente de proveedor implementado y verificado, con generación acotada de contexto por spec y tarea.
@@ -48,7 +52,7 @@
 - Tratar la viabilidad condicionada como si idioma, privacidad y partición ya estuvieran cerrados.
 - Confundir estructura preparada con funcionalidad implementada.
 - Confundir la PWA mock con una predicción real o un producto validado por negocio.
-- Los roles permanentes del equipo activo todavía no están asignados; existe una asignación operativa frontend para la PR #14.
+- Los roles de respaldo y la cobertura ante ausencias todavía no están acordados.
 - La normalización de target está versionada; idioma, deduplicación final, partición, desbalanceo y privacidad siguen pendientes de la evidencia del EDA.
 - El fuerte crecimiento de reclamaciones de informes de crédito puede producir desbalanceo extremo y cambios de procedencia que limiten la representatividad.
 - La muestra temporal detecta drift de etiquetas y duplicación: el extremo de 2023 concentra la etiqueta histórica y muchos más duplicados que el extremo de 2026.
