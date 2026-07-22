@@ -74,36 +74,17 @@ export function useVoiceDictation({
         const blob = new Blob(chunksRef.current, { type: 'audio/webm' })
 
         try {
-          const { AutoProcessor, AutoModelForSpeechSeq2Seq, AutoTokenizer } = await import(
-            '@xenova/transformers'
-          )
-
-          const processor = await AutoProcessor.from_pretrained(
-            'Xenova/whisper-tiny',
-          )
-          const model = await AutoModelForSpeechSeq2Seq.from_pretrained(
-            'Xenova/whisper-tiny',
-          )
-          const tokenizer = await AutoTokenizer.from_pretrained(
-            'Xenova/whisper-tiny',
-          )
+          const { pipeline } = await import('@xenova/transformers')
 
           const audioArrayBuffer = await blob.arrayBuffer()
           const audioContext = new AudioContext({ sampleRate: 16000 })
           const audioBuffer = await audioContext.decodeAudioData(audioArrayBuffer)
           const audioData = audioBuffer.getChannelData(0)
 
-          const inputs = await processor(audioData, {
-            sampling_rate: 16000,
-            return_tensors: 'pt',
-          })
+          const asr = await pipeline('automatic-speech-recognition', 'Xenova/whisper-tiny')
+          const outputs = await asr(audioData as unknown as string)
 
-          const outputs = await model.generate({
-            input_features: inputs.input_features,
-            max_new_tokens: 128,
-          })
-
-          const transcription = tokenizer.decode(outputs[0], { skip_special_tokens: true })
+          const transcription = (outputs as { text?: string })?.text ?? ''
 
           if (typeof transcription === 'string' && transcription.trim()) {
             onTranscript(transcription.trim())
