@@ -32,6 +32,8 @@
 - Casos de uso aislados.
 - Validación de entradas y errores.
 - Contratos de predicción y feedback.
+- Componentes accesibles, foco, teclado, estados offline y errores seguros.
+- Build del manifest y service worker sin caché de inferencia.
 
 ### Integración
 

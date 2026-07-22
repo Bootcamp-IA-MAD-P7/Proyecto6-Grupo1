@@ -7,7 +7,7 @@
 - Nombre: pendiente.
 - Problema de negocio: apoyar la clasificación y el enrutamiento de reclamaciones financieras escritas.
 - Usuario principal: personal de operaciones o atención al cliente; el flujo concreto debe validarse en la siguiente spec.
-- Resultado esperado: predecir una familia de producto y proponer una cola configurable, con confianza, alternativas y revisión humana.
+- Resultado esperado: sugerir una familia de producto con confianza opcional, alternativas y revisión humana. El mapping a colas no está validado ni incluido en la primera versión.
 
 ## Datos
 
@@ -28,7 +28,7 @@
 
 ## Producto y operación
 
-- Aplicación: React PWA como dirección frontend inicial; todavía no implementada. Existe un flujo y OpenAPI `0.1.0` contract-only para mocks. La necesidad de una evolución nativa se evaluará después de cubrir el alcance web instalable.
+- Aplicación: React PWA implementada contra un mock explícito y el OpenAPI `0.1.0`. Incluye formulario, resultado, alternativas, revisión humana, errores y shell offline; no está conectada a un modelo ni backend. La necesidad de una evolución nativa se evaluará después de cubrir el alcance web instalable.
 - Despliegue: pendiente.
 - Persistencia: pendiente.
 - Estado MLOps: pendiente.

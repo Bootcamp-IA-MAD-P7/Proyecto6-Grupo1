@@ -22,6 +22,8 @@
 - Spec `001-cfpb-target-contract`, contrato ejecutable de once clases y tests para coordinar EDA y modelado sin leakage.
 - Spec `002-team-ai-workflow` y generador seguro de contexto por spec y tarea para herramientas de IA externas.
 - Spec `003-complaint-routing-experience`, arquitectura de información y OpenAPI contract-only para desarrollar la React PWA mediante mocks.
+- React PWA con TypeScript y Vite, cliente de inferencia sustituible, mock visible, estados accesibles y shell offline sin caché de API.
+- Cinco tests de interacción frontend, lint de accesibilidad, build PWA y ejecución de los 28 tests Python incorporados a CI.
 
 ### Changed
 
@@ -29,5 +31,7 @@
 - El equipo activo pasa a estar formado por José, Abel, Víctor y Miguel tras la baja comunicada de Josué.
 - React PWA se confirma como dirección frontend inicial; la evolución nativa queda sujeta a requisitos futuros.
 - Las instrucciones de agentes y el workflow reflejan las decisiones actuales y un método independiente de proveedor.
+- La spec `003` pasa a implementación: `T-006` queda verificada contra mock mientras negocio, backend y modelo continúan bloqueados.
+- El comprobador del repositorio deja de recorrer dependencias y artefactos generados, manteniendo el arnés rápido al incorporar Node.
 
 ### Fixed

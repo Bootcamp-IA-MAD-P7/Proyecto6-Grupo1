@@ -41,8 +41,8 @@
 | Modelo no disponible o manipulado | Resultado incorrecto | Versión obligatoria, `503` y carga desde origen controlado | Registro y firma de artefactos pendientes |
 | Falsa confianza | Decisión humana errónea | Confianza nula permitida y revisión obligatoria | Calibración y umbral pendientes |
 | Uso como decisión financiera | Daño o incumplimiento | Lenguaje de apoyo, sin routing automático ni acciones financieras | Validación de usuario y gobernanza |
-| Inferencia offline simulada | Resultado ficticio | PWA offline solo para shell y explicación | Estrategia de disponibilidad pendiente |
-| Errores con detalles internos | Filtración técnica | `ErrorResponse` seguro sin body ni stack | Implementación y pruebas pendientes |
+| Inferencia offline simulada | Resultado ficticio | PWA offline solo para shell; `/api/` excluida del fallback y sin caché runtime | Estrategia de disponibilidad pendiente |
+| Errores con detalles internos | Filtración técnica | `ErrorResponse` seguro y cliente probado sin mostrar body, mensaje interno ni stack | Implementación de backend pendiente |
 
 ## Decisiones todavía necesarias
 

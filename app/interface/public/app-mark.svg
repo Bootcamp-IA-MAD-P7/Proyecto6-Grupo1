@@ -1,0 +1,12 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 128 128" role="img" aria-labelledby="title description">
+  <title id="title">Complaint Routing mark</title>
+  <desc id="description">Three connected routes inside a rounded square.</desc>
+  <rect width="128" height="128" rx="28" fill="#102925"/>
+  <path d="M32 34h25c17 0 20 18 33 18h8M32 64h66M32 94h25c17 0 20-18 33-18h8" fill="none" stroke="#f4c95d" stroke-width="9" stroke-linecap="round"/>
+  <circle cx="31" cy="34" r="8" fill="#f4f1e8"/>
+  <circle cx="31" cy="64" r="8" fill="#f4f1e8"/>
+  <circle cx="31" cy="94" r="8" fill="#f4f1e8"/>
+  <circle cx="99" cy="52" r="8" fill="#8cc8b0"/>
+  <circle cx="99" cy="64" r="8" fill="#8cc8b0"/>
+  <circle cx="99" cy="76" r="8" fill="#8cc8b0"/>
+</svg>

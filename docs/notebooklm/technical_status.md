@@ -5,7 +5,7 @@
 - Fase: descubrimiento.
 - Idea de negocio: clasificación y enrutamiento de reclamaciones financieras, elegida por unanimidad con condiciones.
 - Dataset: Consumer Complaint Database del CFPB viable con condiciones; target y reglas de EDA versionados.
-- Código funcional: no iniciado.
+- Código funcional: React PWA funcional contra mock; pipeline ML y servicio real no iniciados.
 - Despliegue: no iniciado.
 
 ## Capacidades verificadas
@@ -23,8 +23,10 @@
 - G-02, G-03, G-04 y G-06 superadas para EDA; G-05 continúa condicionada por la revisión de privacidad.
 - Spec `001-cfpb-target-contract` activa con once clases canónicas, dos aliases, una exclusión ambigua y siete tests de contrato.
 - El EDA continúa en paralelo y debe aportar evidencia agregada sobre clases, tiempo, ausencias, duplicados, longitud e idioma.
-- React PWA confirmada como dirección frontend inicial; backend, implementación de inferencia y evolución nativa siguen pendientes.
-- Spec `003-complaint-routing-experience` preparada con arquitectura de información, OpenAPI contract-only y siete tests; no existe aún frontend ni servicio.
+- React PWA implementada con React, TypeScript y Vite contra un cliente mock sustituible; backend, inferencia real y evolución nativa siguen pendientes.
+- Spec `003-complaint-routing-experience` en curso con arquitectura de información, OpenAPI contract-only, siete tests de contrato y cinco tests de interacción frontend.
+- El build genera manifest y service worker; el shell estático puede funcionar offline, pero `/api/` no tiene fallback ni caché runtime.
+- La interfaz identifica el modo simulado, no muestra confianza inventada, exige revisión humana y no conserva ni devuelve la narrativa.
 - Flujo humano-IA independiente de proveedor implementado y verificado, con generación acotada de contexto por spec y tarea.
 - Workflow `repository-quality` ejecutado correctamente en Pull Request.
 - Ruleset `Protect dev` activo con PR y check de calidad obligatorios, historial lineal y bloqueo de force push y borrado.
@@ -33,7 +35,7 @@
 ## Capacidades previstas, no implementadas
 
 - Pipeline de datos y entrenamiento.
-- Aplicación React PWA multiclase.
+- Integración de la React PWA con un servicio y modelo reales.
 - Persistencia y feedback.
 - Docker y despliegue.
 - CI/CD completo.
@@ -43,6 +45,7 @@
 
 - Tratar la viabilidad condicionada como si idioma, privacidad y partición ya estuvieran cerrados.
 - Confundir estructura preparada con funcionalidad implementada.
+- Confundir la PWA mock con una predicción real o un producto validado por negocio.
 - Los roles del equipo activo todavía no están asignados.
 - La normalización de target está versionada; idioma, deduplicación final, partición, desbalanceo y privacidad siguen pendientes de la evidencia del EDA.
 - El fuerte crecimiento de reclamaciones de informes de crédito puede producir desbalanceo extremo y cambios de procedencia que limiten la representatividad.

@@ -35,5 +35,31 @@ jobs:
       - name: Check repository conventions
         run: python scripts/quality/check_repository.py
 
+      - name: Run Python tests
+        run: python -m unittest discover -s tests -v
+
       - name: Check whitespace errors
         run: git diff --check HEAD~1 HEAD || git diff --check
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v6
+        with:
+          node-version: "24"
+          cache: npm
+          cache-dependency-path: app/interface/package-lock.json
+
+      - name: Install interface dependencies
+        working-directory: app/interface
+        run: npm ci
+
+      - name: Lint interface
+        working-directory: app/interface
+        run: npm run lint
+
+      - name: Test interface
+        working-directory: app/interface
+        run: npm test
+
+      - name: Build interface PWA
+        working-directory: app/interface
+        run: npm run build

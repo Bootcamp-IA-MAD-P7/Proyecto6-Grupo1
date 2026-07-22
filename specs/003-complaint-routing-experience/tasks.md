@@ -45,12 +45,12 @@
 
 ## T-006 Implementar la React PWA con mock
 
-- Estado: `[ ]`
+- Estado: `[x]`
 - Responsable: `Frontend / UX`
 - Dependencias: `T-001 a T-004`
 - Requisitos cubiertos: `AC-001 a AC-004, AC-006`
 - Trabajo: crear shell PWA, formulario, cliente mock, resultado y estados accesibles.
-- Evidencia obtenida: pendiente.
+- Evidencia obtenida: React PWA, cliente mock sustituible, 5 tests de interacción, lint accesible, build con service worker y [informe de validación](../../reports/validation/complaint_routing_pwa.md).
 
 ## T-007 Integrar el servicio real
 
@@ -65,6 +65,6 @@
 - [x] Contrato y estados iniciales están definidos.
 - [x] Las clases y límites de privacidad están verificados.
 - [ ] El flujo ha sido validado con negocio.
-- [ ] La PWA consume el contrato mediante mock.
+- [x] La PWA consume el contrato mediante mock.
 - [ ] La integración real cumple las decisiones de datos y modelo.
 - [ ] Existen evidencias de accesibilidad y responsive.

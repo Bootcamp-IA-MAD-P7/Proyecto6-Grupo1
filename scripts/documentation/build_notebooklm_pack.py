@@ -23,6 +23,7 @@ STABLE_SOURCES = (
     "docs/architecture/system_blueprint.md",
     "docs/architecture/quality_attributes.md",
     "docs/api/openapi.json",
+    "app/interface/README.md",
     "docs/design/ux_principles.md",
     "docs/design/information_architecture.md",
     "docs/design/documentation_visual_standard.md",

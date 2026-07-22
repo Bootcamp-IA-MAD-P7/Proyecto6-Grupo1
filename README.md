@@ -16,7 +16,7 @@ El equipo ha elegido por unanimidad la clasificación y el enrutamiento de recla
 
 El spike preliminar ha verificado 2.306.723 narrativas, catorce etiquetas observadas y un desbalanceo severo. La API y el contrato narrative-only son reproducibles. La spec [`001-cfpb-target-contract`](specs/001-cfpb-target-contract/spec.md) fija once clases canónicas y las reglas compartidas para el EDA; idioma y privacidad siguen abiertos antes de entrenar.
 
-La spec [`003-complaint-routing-experience`](specs/003-complaint-routing-experience/spec.md) define el flujo React PWA y un OpenAPI para trabajar con mocks. Son contratos verificables, no una aplicación ni un servicio implementados.
+La spec [`003-complaint-routing-experience`](specs/003-complaint-routing-experience/spec.md) define el flujo y ya dispone de una React PWA funcional contra un mock explícito. La interfaz es verificable, pero no existe todavía un servicio de inferencia ni un modelo conectado.
 
 Todavía no se han decidido de forma definitiva:
 
@@ -59,7 +59,7 @@ flowchart LR
 | Nivel | Resultado protegido | Estado |
 |---|---|---|
 | Descubrimiento | Idea, usuario, datos y viabilidad | Idea elegida; datos en validación |
-| Esencial | Solución multiclase completa y demostrable | No iniciado |
+| Esencial | Solución multiclase completa y demostrable | PWA mock iniciada; datos y modelo pendientes |
 | Medio | Champion, feedback y recolección | No iniciado |
 | Avanzado | Contenedores, persistencia, cloud y tests | No iniciado |
 | Experto | Challenger, A/B, drift y promoción gobernada | No iniciado |
@@ -144,4 +144,4 @@ La documentación se considera parte del producto. Debe alimentar el trabajo dia
 Dos carriles pueden avanzar en paralelo:
 
 - Datos/ML: recibir el EDA e incorporarlo a [`001-cfpb-target-contract`](specs/001-cfpb-target-contract/spec.md) para cerrar idioma, duplicados, partición y privacidad antes de entrenar.
-- Producto/frontend: validar el flujo B2B y construir la React PWA contra el mock de [`docs/api/openapi.json`](docs/api/openapi.json), sin presentarlo como inferencia real.
+- Producto/frontend: revisar la PWA mock de [`app/interface/`](app/interface/README.md) en móvil, tablet y escritorio, y validar el flujo B2B sin presentarlo como inferencia real.

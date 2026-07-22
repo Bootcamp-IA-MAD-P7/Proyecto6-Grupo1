@@ -2,6 +2,7 @@
 
 from __future__ import annotations
 
+import os
 import re
 import subprocess
 import sys
@@ -23,6 +24,8 @@ IGNORED_LOCAL_DIRECTORIES = {
     "__pycache__",
     "exports",
     "node_modules",
+    "dist",
+    "coverage",
 }
 
 
@@ -38,12 +41,11 @@ def tracked_files() -> list[Path]:
 
 
 def repository_files() -> list[Path]:
-    return [
-        path
-        for path in ROOT.rglob("*")
-        if path.is_file()
-        and not IGNORED_LOCAL_DIRECTORIES.intersection(path.relative_to(ROOT).parts)
-    ]
+    files: list[Path] = []
+    for directory, names, filenames in os.walk(ROOT):
+        names[:] = [name for name in names if name not in IGNORED_LOCAL_DIRECTORIES]
+        files.extend(Path(directory) / filename for filename in filenames)
+    return files
 
 
 def check_required_paths(errors: list[str]) -> None:

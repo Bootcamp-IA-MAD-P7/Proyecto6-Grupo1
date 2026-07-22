@@ -1,13 +1,13 @@
 # SPEC: Experiencia de clasificación de reclamaciones
 
 - ID: `003`
-- Estado: `ready`
+- Estado: `in_progress`
 - Responsable: `Producto / aplicación`
 - Fecha: `2026-07-22`
 
 ## Contexto y problema
 
-El producto pretende ayudar a personal de operaciones o atención a clasificar una reclamación financiera escrita dentro de once familias CFPB. React PWA está aprobado como dirección frontend, pero todavía no existe un flujo funcional, modelo entrenado, backend ni usuario B2B validado.
+El producto pretende ayudar a personal de operaciones o atención a clasificar una reclamación financiera escrita dentro de once familias CFPB. React PWA está aprobado como dirección frontend; existe una interfaz funcional contra mock, pero todavía no hay modelo entrenado, backend ni usuario B2B validado.
 
 El equipo necesita un contrato que permita diseñar y construir la interfaz con respuestas simuladas sin inventar métricas, umbrales o capacidades del futuro modelo.
 
@@ -19,7 +19,7 @@ Esta definición es una hipótesis de producto pendiente de contraste con una pe
 
 ## Objetivo observable
 
-Definir una experiencia React PWA y un contrato de inferencia simulable que acepten una narrativa, devuelvan una de las once clases y representen incertidumbre, revisión y errores de forma accesible y segura.
+Definir e implementar una experiencia React PWA contra un contrato de inferencia simulable que acepte una narrativa, devuelva una de las once clases y represente incertidumbre, revisión y errores de forma accesible y segura.
 
 ## Alcance
 
@@ -29,12 +29,13 @@ Definir una experiencia React PWA y un contrato de inferencia simulable que acep
 - Clase predicha, alternativas, confianza opcional y necesidad de revisión.
 - Estados vacío, inválido, offline, error, servicio no disponible y resultado.
 - Contrato OpenAPI versionado para mocks y futura integración.
+- React PWA con cliente sustituible y modo mock explícito.
 - Privacidad por defecto y prohibición de registrar o devolver la narrativa.
 - Reglas responsive, accesibilidad y lenguaje de apoyo a la decisión.
 
 ### Fuera de alcance
 
-- Implementar React, PWA, backend o servicio de inferencia en esta PR.
+- Implementar backend, servicio de inferencia o conexión a un modelo real.
 - Definir umbral de confianza, longitud máxima o idioma aceptado sin evidencia.
 - Recomendar una cola o departamento no validado con negocio.
 - Persistir narrativas, historial o feedback.

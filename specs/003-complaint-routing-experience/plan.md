@@ -1,18 +1,28 @@
 # Plan técnico: Experiencia de clasificación de reclamaciones
 
 - Spec: [`spec.md`](spec.md)
-- Estado: `approved_for_mock`
+- Estado: `mock_implemented`
 
 ## Solución propuesta
 
 Separar el trabajo en dos etapas:
 
 1. Contrato y mock: arquitectura de información, OpenAPI y estados verificables sin modelo.
-2. Integración real: React PWA y backend conectados a un artefacto aprobado posteriormente.
+2. Integración real: backend conectado a un artefacto aprobado posteriormente y consumido por el mismo cliente de inferencia.
 
 ```text
 React PWA → cliente de inferencia → contrato OpenAPI → mock o servicio real
 ```
+
+## Base técnica de la PWA
+
+- React y TypeScript para componentes y contratos tipados.
+- Vite para desarrollo, compilación y configuración de Vitest.
+- `vite-plugin-pwa` para manifest, registro del service worker y shell instalable.
+- Cliente de inferencia inyectable; esta tarea activa únicamente el adaptador mock.
+- CSS propio basado en tokens para evitar acoplar la experiencia a una librería visual antes de validar el producto.
+
+El service worker precacheará únicamente recursos estáticos. No se configurará caché de respuestas bajo `/api/` ni persistencia de narrativas.
 
 La interfaz no conocerá scikit-learn ni detalles del modelo. El backend deberá adaptar el modelo al contrato estable.
 
