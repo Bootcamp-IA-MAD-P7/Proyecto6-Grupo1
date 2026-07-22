@@ -13,7 +13,7 @@ El equipo necesita un proceso común, comparable y trazable para proponer altern
 
 ## Usuario y necesidad
 
-El usuario inmediato de esta spec es el equipo formado por José, Josué, Abel, Víctor y Miguel. Necesita decidir qué problema abordar con evidencia suficiente para explicar:
+El usuario inmediato de esta spec es el equipo activo formado por José, Abel, Víctor y Miguel. Necesita decidir qué problema abordar con evidencia suficiente para explicar:
 
 - quién utilizaría la predicción;
 - qué decisión mejoraría;
@@ -122,10 +122,10 @@ La salida deberá estar respaldada por evidencias comparables y proporcionar ent
 
 ## Preguntas abiertas
 
-- [ ] Q-001: ¿Qué escala, pesos y umbrales utilizará la matriz de evaluación?
-- [ ] Q-002: ¿Qué evidencia mínima de datos será obligatoria antes de declarar viable un candidato?
-- [ ] Q-003: ¿Qué mecanismo de aprobación y desempate utilizará el equipo?
-- [ ] Q-004: ¿Dónde se mantendrá el tablero compartido enlazado con las tareas de esta spec?
+- [x] Q-001: La versión `1.0` de `docs/product/idea_evaluation_template.md` fija escala, pesos y umbrales.
+- [x] Q-002: La versión `1.0` fija la evidencia mínima obligatoria antes de declarar viable un candidato.
+- [x] Q-003: La selección requiere mayoría absoluta del equipo activo y aplica un desempate basado en riesgo, plazo y evidencia de usuario.
+- [x] Q-004: Jira será el tablero operativo y el repositorio conservará los contratos y decisiones; el enlace del proyecto se registrará cuando se cree.
 
 Estas preguntas deben resolverse antes de puntuar o seleccionar alternativas, pero no requieren una idea de negocio previa.
 

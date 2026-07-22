@@ -14,6 +14,7 @@
 - Estructura inicial integrada en `dev` mediante Pull Request y squash merge.
 - Intent global del proyecto integrado y vigente.
 - Spec `000-problem-discovery` preparada en borrador para gobernar la evaluación de ideas sin preseleccionar ninguna.
+- Reglas de evaluación `1.0` aprobadas por mayoría absoluta del equipo activo, con puertas críticas, matriz y gobierno de la selección.
 - Workflow `repository-quality` ejecutado correctamente en Pull Request.
 - Ruleset `Protect dev` activo con PR y check de calidad obligatorios, historial lineal y bloqueo de force push y borrado.
 - Aprobaciones humanas no requeridas temporalmente.
@@ -31,3 +32,4 @@
 
 - Tomar decisiones técnicas antes de conocer el problema y los datos.
 - Confundir estructura preparada con funcionalidad implementada.
+- Los roles del equipo activo todavía no están asignados.

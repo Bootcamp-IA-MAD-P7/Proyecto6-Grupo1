@@ -6,7 +6,7 @@
 | Fase | Descubrimiento |
 | Alcance | Global del proyecto |
 | Responsable | Equipo |
-| Última revisión | 2026-07-21 |
+| Última revisión | 2026-07-22 |
 
 ## Función de este documento
 
@@ -177,7 +177,7 @@ Hasta que exista una decisión registrada sobre la idea de negocio, no se debe:
 
 ## Equipo y colaboración
 
-El equipo está formado por José, Josué, Abel, Víctor y Miguel.
+El equipo activo está formado por José, Abel, Víctor y Miguel. Josué comunicó su baja del Bootcamp el 22 de julio de 2026 y dejó de formar parte del equipo.
 
 Los roles y responsabilidades todavía no están asignados. Su reparto deberá considerar disponibilidad, experiencia, aprendizaje, continuidad y riesgo, sin asumir niveles técnicos ni dejar componentes críticos bajo una única persona sin respaldo.
 
@@ -201,7 +201,7 @@ Al final del proyecto, una persona autorizada deberá poder:
 
 Este documento está dirigido a:
 
-- José, Josué, Abel, Víctor y Miguel;
+- José, Abel, Víctor y Miguel;
 - docentes y personas evaluadoras;
 - colaboradores técnicos o de producto;
 - agentes de IA que trabajen sobre el repositorio;

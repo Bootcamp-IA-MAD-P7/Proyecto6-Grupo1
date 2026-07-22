@@ -45,6 +45,61 @@ La matriz apoyará la decisión, pero no elegirá automáticamente. No seleccion
 - `docs/product/idea_evaluation_template.md`.
 - `specs/000-problem-discovery/spec.md`.
 
+## ADR-002 Adoptar reglas comunes para comparar candidatos
+
+- Fecha: `2026-07-22`
+- Estado: `accepted`
+- Relacionada con: `R-007, R-008, AC-001, T-001`
+
+### Contexto
+
+La evaluación no puede comenzar de forma comparable mientras no existan escala, pesos, puertas críticas, evidencia mínima y un mecanismo de aprobación acordados. El equipo también necesita distinguir el seguimiento operativo en Jira de los contratos y decisiones conservados en el repositorio.
+
+### Opciones consideradas
+
+1. Puntuar mediante conversación sin una escala versionada.
+2. Utilizar una puntuación automática como decisión final.
+3. Utilizar una matriz ponderada con puertas críticas, puntuación individual, consolidación por mediana y decisión humana registrada.
+
+### Decisión
+
+Adoptar la opción 3 mediante la versión `1.0` de `docs/product/idea_evaluation_template.md`.
+
+La regla aprobada establece:
+
+- seis puertas críticas que pueden bloquear una alternativa;
+- una escala de `0` a `5` con anclajes comunes;
+- nueve criterios con pesos que suman el `100 %`;
+- evidencia mínima obligatoria antes de declarar viabilidad;
+- consolidación mediante la mediana de puntuaciones individuales;
+- selección por mayoría absoluta del equipo activo —actualmente, al menos tres votos de cuatro— y sin puertas críticas pendientes;
+- desempate basado en riesgo, viabilidad de entrega y evidencia de usuario;
+- Jira para el estado operativo y el repositorio para contratos y decisiones.
+
+La decisión fue aprobada el 22 de julio de 2026 con los votos favorables de Abel, Víctor y Miguel. José estuvo ausente. Josué había comunicado su baja del Bootcamp y ya no formaba parte del equipo activo.
+
+### Consecuencias
+
+- Beneficios:
+  - permite comparar alternativas con las mismas reglas;
+  - reduce el sesgo de elegir primero un dataset atractivo;
+  - conserva desacuerdos y evidencias;
+  - evita que una puntuación o Jira sustituyan una decisión versionada.
+- Costes o límites:
+  - exige una breve puntuación individual y puesta en común;
+  - los pesos siguen conteniendo juicio humano;
+  - una candidata atractiva puede bloquearse por licencia, leakage, riesgo o plazo.
+- Trabajo posterior:
+  - registrar candidatos con la versión `1.0` de la matriz;
+  - crear el proyecto de Jira y añadir su enlace;
+  - revisar las reglas únicamente si nueva evidencia demuestra que producen resultados incoherentes.
+
+### Evidencia
+
+- `docs/product/idea_evaluation_template.md`.
+- `specs/000-problem-discovery/spec.md`.
+- `specs/000-problem-discovery/tasks.md`.
+
 ## PDR-001 Seleccionar problema, usuario y dataset candidato
 
 - Fecha: `pendiente`
