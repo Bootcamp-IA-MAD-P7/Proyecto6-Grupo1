@@ -74,7 +74,9 @@ export function useVoiceDictation({
         const blob = new Blob(chunksRef.current, { type: 'audio/webm' })
 
         try {
-          const { pipeline } = await import('@xenova/transformers')
+          const { pipeline, env } = await import('@xenova/transformers')
+          env.allowLocalModels = false
+          env.useBrowserCache = false
 
           const audioArrayBuffer = await blob.arrayBuffer()
           const audioContext = new AudioContext({ sampleRate: 16000 })
