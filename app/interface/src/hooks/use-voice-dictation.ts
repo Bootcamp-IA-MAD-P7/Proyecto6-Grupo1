@@ -13,6 +13,22 @@ interface UseVoiceDictationReturn {
   error: string | null
 }
 
+interface SpeechRecognitionEvent extends Event {
+  results: SpeechRecognitionResultList
+  resultIndex: number
+}
+
+interface SpeechRecognitionErrorEvent extends Event {
+  error: string
+  message: string
+}
+
+const SpeechRecognitionAPI =
+  typeof window !== 'undefined'
+    ? // eslint-disable-next-line @typescript-eslint/no-explicit-any
+      (window as any).SpeechRecognition || (window as any).webkitSpeechRecognition
+    : null
+
 export function useVoiceDictation({
   onTranscript,
   enabled = true,
@@ -20,105 +36,61 @@ export function useVoiceDictation({
   const [isRecording, setIsRecording] = useState(false)
   const [error, setError] = useState<string | null>(null)
   const [isSupported, setIsSupported] = useState(false)
-  const processorRef = useRef<AudioWorkletNode | null>(null)
-  const streamRef = useRef<MediaStream | null>(null)
-  const recorderRef = useRef<MediaRecorder | null>(null)
-  const chunksRef = useRef<Blob[]>([])
+  const recognitionRef = useRef<InstanceType<typeof SpeechRecognitionAPI> | null>(null)
 
   useEffect(() => {
-    setIsSupported(
-      typeof navigator !== 'undefined' &&
-        navigator.mediaDevices !== undefined &&
-        typeof navigator.mediaDevices.getUserMedia === 'function',
-    )
+    setIsSupported(SpeechRecognitionAPI != null)
   }, [])
 
   const stopRecording = useCallback(() => {
-    if (recorderRef.current && recorderRef.current.state !== 'inactive') {
-      recorderRef.current.stop()
-    }
-    if (streamRef.current) {
-      streamRef.current.getTracks().forEach((track) => track.stop())
-      streamRef.current = null
-    }
-    if (processorRef.current) {
-      processorRef.current.disconnect()
-      processorRef.current = null
+    if (recognitionRef.current) {
+      recognitionRef.current.stop()
+      recognitionRef.current = null
     }
     setIsRecording(false)
   }, [])
 
-  const startRecording = useCallback(async () => {
-    if (!enabled || !isSupported) return
+  const startRecording = useCallback(() => {
+    if (!enabled || !isSupported || !SpeechRecognitionAPI) return
 
     setError(null)
-    chunksRef.current = []
+    stopRecording()
+
+    const recognition = new SpeechRecognitionAPI()
+    recognition.lang = 'es-ES'
+    recognition.continuous = true
+    recognition.interimResults = false
+    recognition.maxAlternatives = 1
+
+    recognition.onresult = (event: SpeechRecognitionEvent) => {
+      const result = event.results[0]
+      if (result && result[0]) {
+        const transcript = result[0].transcript
+        if (transcript.trim()) {
+          onTranscript(transcript.trim())
+        }
+      }
+    }
+
+    recognition.onerror = (event: SpeechRecognitionErrorEvent) => {
+      if (event.error !== 'aborted') {
+        console.error('Speech recognition error:', event.error, event.message)
+        setError('Voice transcription failed. Try typing instead.')
+      }
+      setIsRecording(false)
+    }
+
+    recognition.onend = () => {
+      setIsRecording(false)
+      recognitionRef.current = null
+    }
 
     try {
-      const stream = await navigator.mediaDevices.getUserMedia({ audio: true })
-      streamRef.current = stream
-
-      const recorder = new MediaRecorder(stream, {
-        mimeType: MediaRecorder.isTypeSupported('audio/webm;codecs=opus')
-          ? 'audio/webm;codecs=opus'
-          : 'audio/webm',
-      })
-
-      recorder.ondataavailable = (event) => {
-        if (event.data.size > 0) {
-          chunksRef.current.push(event.data)
-        }
-      }
-
-      recorder.onstop = async () => {
-        const blob = new Blob(chunksRef.current, { type: 'audio/webm' })
-
-        try {
-          const { AutoProcessor, AutoModelForSpeechSeq2Seq, AutoTokenizer, env } =
-            await import('@xenova/transformers')
-          env.allowLocalModels = false
-          env.useBrowserCache = false
-
-          const audioArrayBuffer = await blob.arrayBuffer()
-          const audioContext = new AudioContext({ sampleRate: 16000 })
-          const audioBuffer = await audioContext.decodeAudioData(audioArrayBuffer)
-          const audioData = audioBuffer.getChannelData(0)
-
-          const processor = await AutoProcessor.from_pretrained('Xenova/whisper-tiny')
-          const model = await AutoModelForSpeechSeq2Seq.from_pretrained('Xenova/whisper-tiny')
-          const tokenizer = await AutoTokenizer.from_pretrained('Xenova/whisper-tiny')
-
-          const processorResult = await processor(audioData)
-          const inputFeatures = processorResult.input_features ?? processorResult[0]
-
-          const outputs = await model.generate({
-            // @ts-expect-error - @xenova/transformers types don't expose input_features properly
-            input_features: inputFeatures,
-            max_new_tokens: 128,
-            language: 'spanish',
-            task: 'transcribe',
-          })
-
-          const transcription = tokenizer.decode(outputs[0], { skip_special_tokens: true })
-
-          if (typeof transcription === 'string' && transcription.trim()) {
-            onTranscript(transcription.trim())
-          }
-
-          await audioContext.close()
-        } catch (err) {
-          console.error('Transcription error:', err)
-          setError('Voice transcription failed. Try typing instead.')
-        }
-
-        stopRecording()
-      }
-
-      recorder.start()
-      recorderRef.current = recorder
+      recognition.start()
+      recognitionRef.current = recognition
       setIsRecording(true)
-        } catch {
-          setError('Microphone access denied. Try typing instead.')
+    } catch {
+      setError('Could not start voice recognition. Try typing instead.')
       setIsRecording(false)
     }
   }, [enabled, isSupported, onTranscript, stopRecording])
