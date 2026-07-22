@@ -24,24 +24,6 @@
 
 -
 
-## Josué
-
-### ¿Qué hice desde la última daily?
-
--
-
-### ¿En qué trabajaré hoy?
-
-- [ ]
-
-### Bloqueantes
-
-- Ninguno comunicado.
-
-### Evidencias o enlaces
-
--
-
 ## Abel
 
 ### ¿Qué hice desde la última daily?

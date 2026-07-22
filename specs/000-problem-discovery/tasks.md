@@ -5,7 +5,7 @@
 
 ## T-001 Aprobar las reglas de evaluación
 
-- Estado: `[ ]`
+- Estado: `[x]`
 - Responsable: `Equipo`
 - Dependencias: `ninguna`
 - Requisitos cubiertos: `R-007, R-008, AC-001`
@@ -22,7 +22,10 @@
   - Comando o revisión: revisión del equipo y comprobación del diff.
   - Resultado esperado: matriz y decisión de gobierno trazables.
 - Evidencia obtenida:
-  - Pendiente.
+  - Versión `1.0` aprobada en `docs/product/idea_evaluation_template.md` con fecha `2026-07-22`.
+  - Incluye puertas críticas, escala, pesos, umbrales, evidencia mínima, aprobación, desempate y relación con Jira.
+  - Votos favorables: Abel, Víctor y Miguel. Ausente: José. Baja del equipo: Josué.
+  - Jira queda confirmado como tablero operativo; su enlace se añadirá cuando se cree el proyecto.
 
 ## T-002 Registrar las propuestas candidatas
 

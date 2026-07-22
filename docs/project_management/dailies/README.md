@@ -18,11 +18,12 @@ Todos los documentos mantienen este orden fijo:
 
 1. Resumen del equipo.
 2. José.
-3. Josué.
-4. Abel.
-5. Víctor.
-6. Miguel.
-7. Decisiones, riesgos y evidencias comunes.
+3. Abel.
+4. Víctor.
+5. Miguel.
+6. Decisiones, riesgos y evidencias comunes.
+
+La daily del 22 de julio de 2026 conserva el apartado de Josué como registro histórico del cambio de composición comunicado ese día. Las dailies posteriores incluyen únicamente al equipo activo.
 
 ## Reglas
 

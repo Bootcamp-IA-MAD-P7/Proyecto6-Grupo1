@@ -11,6 +11,7 @@
 - Existe una plantilla inicial de evaluación en `docs/product/idea_evaluation_template.md`.
 - El repositorio dispone de dailies, decisiones, fuentes de NotebookLM, Pull Requests y controles de calidad.
 - No existe código funcional, EDA ni entrenamiento que condicione la decisión.
+- La versión `1.0` de las reglas de evaluación fue aprobada el 22 de julio de 2026 por mayoría absoluta del equipo activo.
 
 ## Solución propuesta
 
@@ -132,8 +133,8 @@ La ejecución concluye con una decisión registrada o una no selección explíci
 
 ## Decisiones pendientes
 
-- [ ] Resolver escala, pesos y mínimos de la matriz.
-- [ ] Definir evidencia mínima de viabilidad de datos.
-- [ ] Definir aprobación y desempate.
-- [ ] Seleccionar la herramienta compartida de organización.
+- [x] Aprobar la escala, pesos y mínimos de la matriz.
+- [x] Aprobar la evidencia mínima de viabilidad de datos.
+- [x] Aprobar el mecanismo de aprobación y desempate.
+- [x] Confirmar Jira como herramienta compartida de organización; enlace pendiente de creación.
 - [ ] Aprobar la lista inicial de candidatos antes de comenzar su evaluación.
