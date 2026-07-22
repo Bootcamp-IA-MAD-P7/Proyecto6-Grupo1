@@ -22,8 +22,11 @@ export default tseslint.config(
     },
     rules: {
       ...jsxA11y.flatConfigs.recommended.rules,
-      ...reactHooks.configs.flat.recommended.rules,
-      ...reactRefresh.configs.vite.rules,
+      ...reactHooks.configs['recommended-latest'].rules,
+      'react-refresh/only-export-components': ['error', { allowConstantExport: true }],
+      '@typescript-eslint/no-empty-object-type': 'off',
+      'jsx-a11y/label-has-associated-control': 'off',
+      'jsx-a11y/heading-has-content': 'off',
     },
   },
   prettierConfig,

@@ -34,8 +34,9 @@ export function clearStoredUser(): void {
 
 export async function loginWithMock(
   email: string,
-  _password: string,
+  password: string,
 ): Promise<AuthUser> {
+  void password
   await new Promise((resolve) => setTimeout(resolve, 400))
 
   const user = MOCK_USERS.find((u) => u.email === email)
