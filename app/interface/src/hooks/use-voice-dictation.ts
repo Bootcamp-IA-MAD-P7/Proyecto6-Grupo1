@@ -74,7 +74,6 @@ export function useVoiceDictation({
         const blob = new Blob(chunksRef.current, { type: 'audio/webm' })
 
         try {
-          const { pipeline } = await import('@xenova/transformers')
           const { AutoProcessor, AutoModelForSpeechSeq2Seq, AutoTokenizer } = await import(
             '@xenova/transformers'
           )
@@ -122,8 +121,8 @@ export function useVoiceDictation({
       recorder.start()
       recorderRef.current = recorder
       setIsRecording(true)
-    } catch (err) {
-      setError('Microphone access denied. Try typing instead.')
+        } catch {
+          setError('Microphone access denied. Try typing instead.')
       setIsRecording(false)
     }
   }, [enabled, isSupported, onTranscript, stopRecording])
