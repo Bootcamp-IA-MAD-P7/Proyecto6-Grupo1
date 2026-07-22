@@ -143,8 +143,10 @@ No habrá una persona con voto de calidad ni se elegirá por diferencias decimal
 
 ## Decisión
 
-Reglas de evaluación aprobadas. La selección de una idea continúa pendiente de evaluación y decisión independiente.
+Reglas de evaluación aprobadas. La ronda del 22 de julio de 2026 produjo una preevaluación documental de `CAND-001` y `CAND-002`; el equipo eligió `CAND-001` por unanimidad con validaciones de datos obligatorias. Las puntuaciones individuales o la ratificación de una matriz consolidada siguen pendientes, por lo que los valores publicados no se presentan como medianas del equipo. La decisión detallada se conserva en `specs/000-problem-discovery/decisions.md`.
 
 ## Evidencias consultadas
 
-- Pendiente de registrar por cada candidato.
+- `docs/product/candidates/CAND-001-cfpb-complaint-routing.md`.
+- `docs/product/candidates/CAND-002-realwaste-classification.md`.
+- `docs/product/candidates/comparison-2026-07-22.md`.

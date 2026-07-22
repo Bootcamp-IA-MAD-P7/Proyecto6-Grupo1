@@ -10,13 +10,14 @@ Repositorio del Proyecto 6 del Grupo 1.
 
 ## Estado actual
 
-El proyecto se encuentra en fase de descubrimiento y definición.
+El proyecto se encuentra en fase de descubrimiento y validación de datos.
 
-Todavía no se han decidido:
+El equipo ha elegido por unanimidad la clasificación y el enrutamiento de reclamaciones financieras mediante narrativas públicas del CFPB. La decisión es condicional: antes de implementar deben validarse la extracción, las clases, el desbalanceo, la calidad y la privacidad.
 
-- la idea de negocio;
-- el dataset;
-- las clases que se predecirán;
+Todavía no se han decidido de forma definitiva:
+
+- el subconjunto reproducible del dataset candidato;
+- las clases que se conservarán tras validar su soporte;
 - la métrica principal;
 - el framework de aplicación;
 - la arquitectura de despliegue.
@@ -53,7 +54,7 @@ flowchart LR
 
 | Nivel | Resultado protegido | Estado |
 |---|---|---|
-| Descubrimiento | Idea, usuario, datos y viabilidad | En curso |
+| Descubrimiento | Idea, usuario, datos y viabilidad | Idea elegida; datos en validación |
 | Esencial | Solución multiclase completa y demostrable | No iniciado |
 | Medio | Champion, feedback y recolección | No iniciado |
 | Avanzado | Contenedores, persistencia, cloud y tests | No iniciado |
@@ -127,4 +128,4 @@ La documentación se considera parte del producto. Debe alimentar el trabajo dia
 
 ## Próximo hito
 
-Resolver las preguntas abiertas de la spec [`000-problem-discovery`](specs/000-problem-discovery/spec.md) y comenzar la evaluación comparable de ideas, sin seleccionar dataset, stack o arquitectura funcional de forma prematura.
+Ejecutar el spike de viabilidad de la candidata CFPB exigido por [`000-problem-discovery`](specs/000-problem-discovery/spec.md), cerrar sus puertas críticas y preparar después una spec funcional independiente. La [comparación y votación](docs/product/candidates/comparison-2026-07-22.md) conserva la alternativa visual evaluada.

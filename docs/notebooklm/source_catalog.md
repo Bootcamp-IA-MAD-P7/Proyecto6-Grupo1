@@ -11,9 +11,10 @@ Este catálogo indica qué documentos pueden alimentar una presentación y con q
 | `docs/architecture/repository_structure.md` | Arquitectura del repositorio | Cuando cambie la estructura | Pendiente | Activa |
 | `docs/project_management/delivery_levels.md` | Alcance y puertas de calidad | Cada cambio de alcance | Pendiente | Activa |
 | `docs/product/idea_evaluation_template.md` | Reglas y evidencias para comparar ideas | Durante descubrimiento | Equipo | Activa |
+| `docs/product/candidates/` | Fichas y evidencias de alternativas consideradas | Durante descubrimiento | Equipo | Activa |
 | `docs/project_management/dailies/YYYY-MM-DD.md` | Actividad y bloqueantes | Diaria | Equipo | Activa |
 | `docs/notebooklm/project_facts.md` | Hechos verificados del producto | Diaria o por hito | Pendiente | Preparada |
-| `docs/notebooklm/business_narrative.md` | Historia para audiencia no técnica | Cuando se defina el negocio | Pendiente | Pendiente de contenido |
+| `docs/notebooklm/business_narrative.md` | Historia para audiencia no técnica | Cuando se defina el negocio | Equipo | Activa con límites explícitos |
 | `docs/notebooklm/technical_status.md` | Estado técnico consolidado | Diaria o por PR | Pendiente | Preparada |
 | `reports/metrics/` | Evidencia cuantitativa | Por experimento | ML/QA | Pendiente |
 | `reports/figures/` | Gráficos finales | Por experimento | ML/Docs | Pendiente |

@@ -15,6 +15,8 @@
 - Intent global del proyecto con propósito, restricciones, decisiones abiertas y principios de entrega.
 - Spec `000-problem-discovery` con plan, tareas y decisiones para evaluar ideas de forma trazable.
 - Propuesta versionada de puertas críticas, matriz y gobierno para comparar ideas y datasets.
+- Evaluación comparable de las candidatas CFPB y RealWaste, con evidencias, riesgos, puntuaciones y análisis cualitativo.
+- Selección unánime y condicionada de la clasificación de reclamaciones CFPB como dirección del proyecto.
 
 ### Changed
 

@@ -49,4 +49,4 @@ No se pasa a implementación si existen preguntas bloqueantes sobre el comportam
 
 ## Primera spec prevista
 
-La primera spec es [`000-problem-discovery`](../specs/000-problem-discovery/spec.md). Define cómo comparar y seleccionar una idea de negocio, permanece en borrador y no anticipa el resultado de esa decisión.
+La primera spec es [`000-problem-discovery`](../specs/000-problem-discovery/spec.md). Definió cómo comparar candidatas y ahora permanece activa para cerrar las validaciones de la alternativa elegida antes de iniciar una spec funcional.

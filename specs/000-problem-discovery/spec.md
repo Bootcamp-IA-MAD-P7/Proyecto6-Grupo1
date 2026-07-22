@@ -1,13 +1,13 @@
 # SPEC: Selección del problema de negocio
 
 - ID: `000`
-- Estado: `draft`
+- Estado: `active`
 - Responsable: `Equipo`
 - Fecha: `2026-07-21`
 
 ## Contexto y problema
 
-El proyecto necesita seleccionar un problema real y un dataset adecuado para construir una solución de clasificación supervisada multiclase. Actualmente no existe una idea de negocio aprobada y esa ausencia es deliberada: elegir por intuición, por disponibilidad inmediata de un dataset o por preferencia tecnológica podría producir una solución sin utilidad, con clases artificiales, leakage o riesgos no asumibles.
+El proyecto necesita seleccionar un problema real y un dataset adecuado para construir una solución de clasificación supervisada multiclase. Al iniciar esta spec no existía una idea de negocio aprobada y esa ausencia era deliberada: elegir por intuición, por disponibilidad inmediata de un dataset o por preferencia tecnológica podía producir una solución sin utilidad, con clases artificiales, leakage o riesgos no asumibles.
 
 El equipo necesita un proceso común, comparable y trazable para proponer alternativas, contrastar sus datos y registrar una decisión antes de comenzar EDA, modelado o diseño funcional.
 

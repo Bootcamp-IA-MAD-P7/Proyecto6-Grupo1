@@ -3,8 +3,8 @@
 ## Estado general
 
 - Fase: descubrimiento.
-- Idea de negocio: pendiente.
-- Dataset: pendiente.
+- Idea de negocio: clasificación y enrutamiento de reclamaciones financieras, elegida por unanimidad con condiciones.
+- Dataset: Consumer Complaint Database del CFPB como candidata; spike de viabilidad pendiente.
 - Código funcional: no iniciado.
 - Despliegue: no iniciado.
 
@@ -13,8 +13,11 @@
 - Rama `dev` creada y configurada como rama predeterminada.
 - Estructura inicial integrada en `dev` mediante Pull Request y squash merge.
 - Intent global del proyecto integrado y vigente.
-- Spec `000-problem-discovery` preparada en borrador para gobernar la evaluación de ideas sin preseleccionar ninguna.
+- Spec `000-problem-discovery` activa para gobernar la evaluación y el cierre de las puertas de datos.
 - Reglas de evaluación `1.0` aprobadas por mayoría absoluta del equipo activo, con puertas críticas, matriz y gobierno de la selección.
+- Dos candidatas evaluadas con la matriz `1.0`: reclamaciones CFPB y clasificación visual de residuos con RealWaste.
+- `CAND-001` elegida por José, Abel, Víctor y Miguel con cuatro votos favorables, cero contrarios y cero abstenciones.
+- La decisión autoriza el spike de viabilidad, pero no todavía el EDA completo, entrenamiento o implementación funcional.
 - Workflow `repository-quality` ejecutado correctamente en Pull Request.
 - Ruleset `Protect dev` activo con PR y check de calidad obligatorios, historial lineal y bloqueo de force push y borrado.
 - Aprobaciones humanas no requeridas temporalmente.
@@ -30,6 +33,8 @@
 
 ## Riesgos actuales
 
-- Tomar decisiones técnicas antes de conocer el problema y los datos.
+- Tratar una selección condicionada como si el dataset ya estuviera validado.
 - Confundir estructura preparada con funcionalidad implementada.
 - Los roles del equipo activo todavía no están asignados.
+- La candidata CFPB necesita una extracción filtrada reproducible, distribución por clase, revisión de ausencias y duplicados, y validación de privacidad antes de superar sus puertas críticas.
+- El fuerte crecimiento de reclamaciones de informes de crédito puede producir desbalanceo extremo y cambios de procedencia que limiten la representatividad.
