@@ -26,7 +26,20 @@ El service worker precacheará únicamente recursos estáticos. No se configurar
 
 La interfaz no conocerá scikit-learn ni detalles del modelo. El backend deberá adaptar el modelo al contrato estable.
 
-## Componentes previstos
+## Reconciliación de la propuesta frontend del 21 de julio
+
+La propuesta aportada por Abel se conserva como entrada de diseño y se adapta al estado alcanzado el 22 de julio. No se crea una segunda spec `001`, una carpeta `/frontend` ni otra rama con el mismo nombre.
+
+| Tratamiento | Elementos |
+|---|---|
+| Incorporados | React, Vite, TypeScript, PWA, mocks sustituibles, responsive, accesibilidad, tests, documentación y Dependabot npm |
+| Ya implementados | Base en `app/interface/`, contrato `/api/v1/predictions`, Vitest, Testing Library, ESLint, manifest, service worker y CSS basado en tokens |
+| Pendientes de endurecimiento | Instalabilidad, iconos completos, capturas, revisión manual por viewport, evidencia de teclado, Lighthouse y medición de cobertura |
+| Diferidos a nuevas decisiones o specs | Autenticación, roles, registro, dashboard, KPIs, historial, entrenamiento, voz, React Router, TanStack Query, Tailwind y shadcn/ui |
+
+Las versiones instaladas y `app/interface/` son las fuentes de verdad técnicas. Cambiar de ubicación, librería visual o contrato requeriría justificar la migración antes de implementarla.
+
+## Componentes implementados
 
 - Formulario accesible de narrativa.
 - Cliente de inferencia sustituible entre mock y servicio.
@@ -35,14 +48,16 @@ La interfaz no conocerá scikit-learn ni detalles del modelo. El backend deberá
 - API `/api/v1/predictions` y health check mínimo.
 - Fixtures sintéticos para desarrollo y tests.
 
+El trabajo restante de frontend se limita a endurecer y revisar estos componentes; no autoriza nuevas áreas de producto.
+
 ## Estrategia de pruebas
 
 - Contrato: OpenAPI válido como JSON y clases iguales al target CFPB.
-- Unitarias: validación de estados y transformación de respuesta cuando exista frontend.
-- Componentes: teclado, foco, mensajes, confianza nula y errores.
+- Unitarias y componentes: cinco pruebas verifican formulario, foco, mensajes, confianza nula, offline y errores; se medirá cobertura antes de acordar un umbral.
 - Integración: mock OpenAPI antes del modelo real.
 - End-to-end: envío, resultado, revisión, offline y servicio no disponible.
 - Visual: viewport móvil, tablet y escritorio sin depender solo del color.
+- PWA: build, manifest, service worker, iconos e instalación revisados con la versión de herramienta registrada.
 
 ## Riesgos
 
@@ -57,4 +72,4 @@ La interfaz no conocerá scikit-learn ni detalles del modelo. El backend deberá
 
 ## Entrega y reversión
 
-El contrato se integra antes de React para permitir mocks. Su versión inicial puede evolucionar dentro de `v1` mientras no exista consumidor publicado; una ruptura posterior exigirá una nueva versión. Revertir esta definición no requiere migración porque todavía no hay implementación.
+El contrato y la React PWA ya están implementados contra mock en la misma rama. Su versión inicial puede evolucionar dentro de `v1` mientras no exista un consumidor publicado; una ruptura posterior exigirá una nueva versión. La reversión de la PR elimina la interfaz y sus checks sin migrar datos, porque no existe backend, persistencia ni modelo conectado.

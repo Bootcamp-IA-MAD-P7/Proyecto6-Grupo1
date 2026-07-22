@@ -2,6 +2,8 @@
 
 Implementación de `003/T-006` para validar la experiencia de clasificación antes de disponer de un servicio o modelo aprobado.
 
+`app/interface/` es la ubicación canónica del frontend. No debe crearse una carpeta `/frontend` paralela. La revisión y el endurecimiento posteriores se gobiernan mediante `003/T-008`.
+
 ## Estado
 
 - React, TypeScript y Vite.
@@ -36,3 +38,5 @@ La copia de interfaz en inglés es provisional. No resuelve la política de idio
 ## Integración futura
 
 El componente recibe un `PredictionClient`. La integración real deberá implementar esa interfaz contra `/api/v1/predictions`, respetar [`docs/api/openapi.json`](../../docs/api/openapi.json) y conservar los límites de privacidad. El mock no debe reutilizarse como sustituto silencioso cuando el servicio real esté caído.
+
+Autenticación, roles, dashboard, KPIs, entrenamiento, voz y nuevas librerías de routing, estado o componentes no forman parte del alcance vigente. Se evaluarán desde Jira y specs independientes si el producto demuestra que son necesarios.

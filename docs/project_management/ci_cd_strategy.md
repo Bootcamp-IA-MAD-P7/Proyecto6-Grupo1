@@ -17,9 +17,9 @@ Activa desde el primer PR:
 
 Workflow: `.github/workflows/repository-quality.yml`.
 
-## Etapa 1 — Datos y ML esencial
+## Etapa 1 — Contratos de datos y ML esencial
 
-Se añadirá cuando existan paquetes y dependencias:
+Estado: parcialmente activa para contratos y tests Python; el pipeline de datos y entrenamiento todavía no existe.
 
 - instalación reproducible;
 - lint y tipos;
@@ -31,12 +31,14 @@ Se añadirá cuando existan paquetes y dependencias:
 
 ## Etapa 2 — Aplicación
 
-- tests de casos de uso;
-- contrato de inferencia;
-- build de interfaz;
-- accesibilidad automatizada cuando la tecnología lo permita;
-- integración predicción-feedback;
-- análisis de dependencias.
+Estado: parcialmente activa para la React PWA mock.
+
+- tests de componentes y estados;
+- contrato de inferencia verificado;
+- lint y build de interfaz en CI;
+- reglas automatizadas de accesibilidad;
+- Dependabot para npm;
+- integración real, feedback y análisis adicional de dependencias pendientes de specs futuras.
 
 ## Etapa 3 — Contenedores y staging
 

@@ -1,25 +1,26 @@
 # Sistema de diseño
 
-> Estado: estructura preparada; identidad visual pendiente.
+> Estado: base visual provisional implementada para validar la PWA; identidad de marca definitiva pendiente.
 
-## Tokens por definir
+## Fuente de verdad actual
 
-- Colores de marca.
-- Colores semánticos: éxito, aviso, error e información.
-- Tipografía y escala.
-- Espaciado.
-- Radios y sombras.
-- Breakpoints.
-- Movimiento y reducción de movimiento.
+Los tokens y estilos utilizados por el prototipo viven en `app/interface/src/styles.css`. No constituyen todavía una marca aprobada ni justifican incorporar una librería de componentes.
 
-## Componentes por definir
+La base implementa:
 
-- Navegación.
-- Formularios y validación.
-- Resultados de predicción.
-- Comparación entre clases.
-- Feedback.
-- Gráficos.
-- Estados vacíos, carga y error.
+- colores de superficie, texto, acción y estados;
+- tipografía de sistema y jerarquía editorial;
+- espaciado, radios, bordes y sombras;
+- breakpoints a `850 px` y `560 px`;
+- formulario, validación, avisos, resultado, alternativas y estados de revisión;
+- foco visible y reducción de movimiento.
 
-Los tokens deberán existir en una fuente única y ser consumibles por la tecnología de interfaz que se seleccione.
+## Pendiente de validación
+
+- identidad, nombre y colores de marca definitivos;
+- contraste y comportamiento en los viewports acordados;
+- componentes necesarios para funcionalidades aprobadas posteriores;
+- gráficos y visualización de métricas reales;
+- feedback, navegación o administración solo cuando entren en alcance.
+
+Si el equipo adopta Tailwind, shadcn/ui u otra librería, la decisión deberá demostrar una necesidad no cubierta y explicar la migración desde la base actual.

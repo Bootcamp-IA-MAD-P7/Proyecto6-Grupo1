@@ -1,6 +1,6 @@
 # Specs
 
-Aquí vivirá una carpeta numerada por funcionalidad, hito o cambio relevante.
+Cada funcionalidad, hito o cambio relevante que necesite un contrato compartido dispone de una carpeta numerada.
 
 ## Specs actuales
 

@@ -22,7 +22,7 @@ flowchart LR
     MONITOR --> PROMOTION[Evaluación de promoción]
 ```
 
-Todos los elementos salvo la estructura de carpetas y la dirección React PWA son responsabilidades previstas. Los contratos de producto, inferencia, persistencia y despliegue se concretarán mediante specs y decisiones.
+La React PWA mock y el contrato OpenAPI de inferencia están implementados y versionados. Los casos de uso reales, servicio, modelo, persistencia, observabilidad y despliegue continúan como responsabilidades previstas que se concretarán mediante specs y decisiones.
 
 React PWA debe cubrir primero el flujo web instalable y responsive. Una aplicación nativa no forma parte del alcance aprobado; se evaluará únicamente si requisitos de dispositivo, distribución o experiencia demuestran que la PWA no es suficiente.
 

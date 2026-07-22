@@ -32,6 +32,8 @@
 - React PWA se confirma como dirección frontend inicial; la evolución nativa queda sujeta a requisitos futuros.
 - Las instrucciones de agentes y el workflow reflejan las decisiones actuales y un método independiente de proveedor.
 - La spec `003` pasa a implementación: `T-006` queda verificada contra mock mientras negocio, backend y modelo continúan bloqueados.
+- La propuesta frontend de Abel se reconcilia con la spec `003`: el endurecimiento PWA queda en `T-008` y las ampliaciones de producto pasan a Jira y futuras specs.
+- Dependabot incorpora el ecosistema npm de `app/interface/` y la documentación reconoce la base visual y CI frontend ya implementadas.
 - El comprobador del repositorio deja de recorrer dependencias y artefactos generados, manteniendo el arnés rápido al incorporar Node.
 
 ### Fixed

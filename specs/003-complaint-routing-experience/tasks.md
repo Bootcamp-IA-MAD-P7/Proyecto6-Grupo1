@@ -60,6 +60,23 @@
 - Bloqueante: EDA, modelo aprobado, idioma, límites y política de revisión.
 - Evidencia obtenida: pendiente.
 
+## T-008 Endurecer y revisar la entrega frontend
+
+- Estado: `[~]`
+- Responsable: `Abel / Frontend / UX`
+- Dependencias: `T-006`
+- Requisitos cubiertos: `R-010, R-013, R-014, AC-006, AC-008, AC-009`
+- Trabajo:
+  - revisar la implementación existente en `app/interface/` sin recrearla en `/frontend`;
+  - comprobar teclado, foco y estados con tecnología asistiva disponible;
+  - revisar móvil, tablet y escritorio y conservar capturas con contenido sintético;
+  - completar iconos e instalabilidad PWA;
+  - ejecutar Lighthouse registrando versión, entorno y resultados;
+  - medir cobertura antes de proponer un umbral obligatorio;
+  - activar Dependabot para npm y actualizar las evidencias afectadas.
+- Verificación: `npm run typecheck`, `npm run lint`, `npm test`, `npm run build`, revisión manual y actualización del informe de validación.
+- Evidencia obtenida: Dependabot npm incorporado durante la reconciliación; revisión manual, capturas, iconos, Lighthouse y cobertura pendientes.
+
 ## Checklist de cierre
 
 - [x] Contrato y estados iniciales están definidos.
@@ -68,3 +85,4 @@
 - [x] La PWA consume el contrato mediante mock.
 - [ ] La integración real cumple las decisiones de datos y modelo.
 - [ ] Existen evidencias de accesibilidad y responsive.
+- [ ] `T-008` dispone de evidencias de instalabilidad, dependencias, capturas y calidad frontend.

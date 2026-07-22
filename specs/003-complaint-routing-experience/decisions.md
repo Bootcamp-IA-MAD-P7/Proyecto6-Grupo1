@@ -78,3 +78,26 @@ La interfaz identifica el prototipo, las respuestas simuladas y la ausencia de u
 
 - Una demo no se confunde con capacidad predictiva real.
 - El idioma y el flujo B2B continúan bloqueados hasta disponer de evidencia de usuario y EDA.
+
+## ADR-006 Reconciliar la propuesta frontend previa con la spec vigente
+
+- Fecha: `2026-07-22`
+- Estado: `accepted`
+- Relacionada con: `R-010, R-013, R-014, T-008`
+
+### Contexto
+
+Abel aportó una propuesta frontend fechada el 21 de julio, anterior a la creación de la spec `003`, la ubicación `app/interface/`, el OpenAPI `0.1.0` y la implementación de la PWA mock. La propuesta contiene requisitos de calidad aprovechables y una ampliación de producto todavía no aprobada.
+
+### Decisión
+
+Integrar en `003/T-008` los requisitos de instalabilidad, responsive, accesibilidad, pruebas, evidencias, documentación y Dependabot npm. Mantener la implementación existente, sus versiones y `/api/v1/predictions` como fuentes de verdad.
+
+Autenticación, roles, registro, dashboard, KPIs, historial, entrenamiento y voz se conservan como propuestas para Jira. React Router, TanStack Query, Tailwind y shadcn/ui solo se adoptarán si una funcionalidad aprobada demuestra su necesidad.
+
+### Consecuencias
+
+- Se aprovecha el trabajo de Abel sin duplicar specs, carpetas, ramas ni contratos.
+- La PR #14 mantiene un alcance verificable y puede pasar a su revisión frontend.
+- Las ampliaciones de producto no se confunden con capacidades existentes.
+- Cualquier propuesta diferida requerirá historia de Jira, spec y decisión propias antes de implementarse.

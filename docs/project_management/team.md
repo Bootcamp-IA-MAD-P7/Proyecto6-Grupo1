@@ -11,6 +11,14 @@
 
 Los roles no se asignarán por suposición. Cuando se acuerden, deberán cubrir al menos producto, datos/ML, aplicación/UX, plataforma/MLOps y QA/documentación, con responsabilidades de respaldo para evitar silos.
 
+## Asignaciones operativas vigentes
+
+| Integrante | Alcance | Referencia | Estado |
+|---|---|---|---|
+| Abel | Revisión y endurecimiento de la React PWA | `003/T-008`, PR #14 | En curso |
+
+Una asignación operativa no equivale a fijar el rol principal permanente del integrante.
+
 ## Acuerdo de trabajo con IA
 
 - Cada integrante puede utilizar la herramienta de IA que considere adecuada.

@@ -12,7 +12,7 @@ Repositorio del Proyecto 6 del Grupo 1.
 
 El proyecto se encuentra en fase de descubrimiento y validación de datos.
 
-El equipo ha elegido por unanimidad la clasificación y el enrutamiento de reclamaciones financieras mediante narrativas públicas del CFPB. La decisión es condicional: antes de implementar deben validarse la extracción, las clases, el desbalanceo, la calidad y la privacidad.
+El equipo ha elegido por unanimidad la clasificación y el enrutamiento de reclamaciones financieras mediante narrativas públicas del CFPB. La decisión es condicional: antes de entrenar o desplegar una capacidad predictiva deben validarse la extracción, las clases, el desbalanceo, la calidad y la privacidad.
 
 El spike preliminar ha verificado 2.306.723 narrativas, catorce etiquetas observadas y un desbalanceo severo. La API y el contrato narrative-only son reproducibles. La spec [`001-cfpb-target-contract`](specs/001-cfpb-target-contract/spec.md) fija once clases canónicas y las reglas compartidas para el EDA; idioma y privacidad siguen abiertos antes de entrenar.
 
@@ -23,7 +23,7 @@ Todavía no se han decidido de forma definitiva:
 - la política de idioma y el tratamiento final de duplicados;
 - la estrategia de partición y desbalanceo basada en el EDA;
 - la métrica principal;
-- el framework de backend y el contrato de inferencia;
+- el framework de backend y la implementación real del contrato de inferencia;
 - la arquitectura de despliegue.
 
 La estructura inicial prepara el repositorio para evolucionar desde el nivel esencial hasta el nivel experto del briefing, sin presentar ninguna capacidad como implementada antes de tiempo.
@@ -59,7 +59,7 @@ flowchart LR
 | Nivel | Resultado protegido | Estado |
 |---|---|---|
 | Descubrimiento | Idea, usuario, datos y viabilidad | Idea elegida; datos en validación |
-| Esencial | Solución multiclase completa y demostrable | PWA mock iniciada; datos y modelo pendientes |
+| Esencial | Solución multiclase completa y demostrable | PWA mock verificada; endurecimiento, datos y modelo pendientes |
 | Medio | Champion, feedback y recolección | No iniciado |
 | Avanzado | Contenedores, persistencia, cloud y tests | No iniciado |
 | Experto | Challenger, A/B, drift y promoción gobernada | No iniciado |
@@ -145,3 +145,5 @@ Dos carriles pueden avanzar en paralelo:
 
 - Datos/ML: recibir el EDA e incorporarlo a [`001-cfpb-target-contract`](specs/001-cfpb-target-contract/spec.md) para cerrar idioma, duplicados, partición y privacidad antes de entrenar.
 - Producto/frontend: revisar la PWA mock de [`app/interface/`](app/interface/README.md) en móvil, tablet y escritorio, y validar el flujo B2B sin presentarlo como inferencia real.
+
+La revisión frontend está trazada en `003/T-008` y la PR #14. Las propuestas de autenticación, administración, voz y entrenamiento permanecen fuera del alcance vigente hasta su evaluación en Jira y specs independientes.

@@ -36,4 +36,4 @@ El impacto esperado es reducir esfuerzo de clasificación y hacer más consisten
 
 ## Mensaje de cierre
 
-El equipo ha elegido esta dirección por unanimidad, pero el siguiente paso es validar los datos. No se afirmará que existe un producto o un modelo hasta disponer de evidencia reproducible.
+El equipo ha elegido esta dirección por unanimidad y ha validado la viabilidad preliminar de los datos con condiciones. El EDA debe cerrar idioma, duplicados, partición y privacidad antes de entrenar. Existe una PWA contra mock para revisar la experiencia; no se presentará como producto predictivo ni como modelo real.

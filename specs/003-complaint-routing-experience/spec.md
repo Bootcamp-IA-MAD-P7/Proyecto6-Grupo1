@@ -32,6 +32,7 @@ Definir e implementar una experiencia React PWA contra un contrato de inferencia
 - React PWA con cliente sustituible y modo mock explícito.
 - Privacidad por defecto y prohibición de registrar o devolver la narrativa.
 - Reglas responsive, accesibilidad y lenguaje de apoyo a la decisión.
+- Endurecimiento de la entrega frontend: instalabilidad PWA, revisión visual por viewport, evidencias seguras y monitorización de dependencias npm.
 
 ### Fuera de alcance
 
@@ -40,6 +41,9 @@ Definir e implementar una experiencia React PWA contra un contrato de inferencia
 - Recomendar una cola o departamento no validado con negocio.
 - Persistir narrativas, historial o feedback.
 - Autenticación, roles y permisos definitivos.
+- Registro de usuarios, dashboard administrativo, KPIs o panel de entrenamiento.
+- Dictado por voz, transcripción local o descarga de modelos en el navegador.
+- Adoptar routing, estado de servidor o una nueva librería visual sin una necesidad aprobada.
 - Entrenar, seleccionar o desplegar un modelo.
 
 ## Flujo principal
@@ -67,6 +71,8 @@ Definir e implementar una experiencia React PWA contra un contrato de inferencia
 - R-010: La experiencia funcionará mediante teclado, etiquetas accesibles, foco visible, mensajes textuales y diseño responsive.
 - R-011: La API devolverá versión de modelo y taxonomía para trazabilidad.
 - R-012: La primera versión no incluirá endpoint de feedback ni mapping automático a colas.
+- R-013: La entrega frontend registrará evidencia reproducible de instalabilidad, teclado y comportamiento responsive antes de considerarse preparada para revisión final.
+- R-014: Las dependencias npm de `app/interface/` tendrán instalación reproducible y monitorización automatizada.
 
 ## Criterios de aceptación
 
@@ -77,6 +83,8 @@ Definir e implementar una experiencia React PWA contra un contrato de inferencia
 - AC-005: Dada una clase fuera del contrato CFPB, cuando se valida el OpenAPI, entonces la comprobación falla.
 - AC-006: Dado cualquier estado, cuando se utiliza teclado o lector de pantalla, entonces el estado y la acción disponible son identificables sin depender solo del color.
 - AC-007: Dado el contrato actual, cuando se revisan sus rutas, entonces no existe feedback ni recomendación de cola.
+- AC-008: Dados los viewports acordados, cuando se revisa manualmente la interfaz, entonces el formulario, resultado, errores y acciones permanecen legibles y operables, con capturas sintéticas como evidencia.
+- AC-009: Dada la compilación de producción, cuando se inspecciona la PWA, entonces existen manifest, service worker e iconos adecuados, y Dependabot reconoce el ecosistema npm de la interfaz.
 
 ## Preguntas abiertas
 
@@ -93,4 +101,5 @@ Definir e implementar una experiencia React PWA contra un contrato de inferencia
 - OpenAPI y mocks consumidos por la PWA.
 - Tests de contrato entre interfaz y servicio.
 - Evidencia de teclado, responsive, accesibilidad y estados.
+- Evidencia de instalabilidad, recursos PWA, dependencias y revisión visual con contenido sintético.
 - Decisiones de privacidad, idioma, límites y revisión sincronizadas.
