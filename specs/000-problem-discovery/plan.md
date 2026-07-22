@@ -1,13 +1,13 @@
 # Plan: Selección del problema de negocio
 
 - Spec: `specs/000-problem-discovery/spec.md`
-- Estado: `draft`
+- Estado: `active`
 
 ## Estado actual comprobado
 
 - El proyecto se encuentra en descubrimiento.
 - Existe un intent global aprobado que prohíbe inventar problema, dataset o tecnología.
-- No hay idea de negocio, usuario, dataset, target, clases ni métrica principal seleccionados.
+- `CAND-001` ha sido elegida por unanimidad como dirección condicionada; dataset, target y clases siguen sujetos al spike de viabilidad.
 - Existe una plantilla inicial de evaluación en `docs/product/idea_evaluation_template.md`.
 - El repositorio dispone de dailies, decisiones, fuentes de NotebookLM, Pull Requests y controles de calidad.
 - No existe código funcional, EDA ni entrenamiento que condicione la decisión.
@@ -107,7 +107,7 @@ No se versionarán datasets pesados, credenciales ni muestras sensibles. Los res
 - Unitarias: no aplican al redactar la spec; cualquier script futuro de puntuación deberá probar escala, pesos y cálculo.
 - Integración: comprobar que spec, decisiones, matriz, daily y paquete de NotebookLM conservan enlaces válidos.
 - Contrato: verificar que cada candidato contiene todos los campos mínimos y utiliza la versión vigente de la matriz.
-- End-to-end o smoke: recorrer al menos una ficha sin seleccionar ganador para comprobar que el flujo produce evidencias y estados válidos.
+- End-to-end o smoke: recorrer la ronda completa y comprobar que produce fichas, comparación, decisión condicionada y validaciones pendientes explícitas.
 - Validación manual: revisión cruzada de licencias, leakage, riesgos, puntuaciones y razonamiento de decisión.
 - Repositorio: ejecutar `python scripts/quality/check_repository.py` y `git diff --check` en cada PR.
 
@@ -127,7 +127,7 @@ No se versionarán datasets pesados, credenciales ni muestras sensibles. Los res
 
 ## Entrega y reversión
 
-La spec se entrega inicialmente en estado `draft`. Pasará a `ready` cuando Q-001 a Q-004 estén resueltas y la matriz esté versionada.
+La spec pasó a `active` al resolverse Q-001 a Q-004 y versionarse la matriz. Se cerrará cuando la candidata seleccionada supere sus puertas críticas, la documentación quede sincronizada y exista una spec funcional independiente.
 
 La ejecución concluye con una decisión registrada o una no selección explícita. Revertir una elección no elimina evidencias: se añade una nueva decisión que sustituye a la anterior y explica la nueva información.
 
@@ -137,4 +137,6 @@ La ejecución concluye con una decisión registrada o una no selección explíci
 - [x] Aprobar la evidencia mínima de viabilidad de datos.
 - [x] Aprobar el mecanismo de aprobación y desempate.
 - [x] Confirmar Jira como herramienta compartida de organización; enlace pendiente de creación.
-- [ ] Aprobar la lista inicial de candidatos antes de comenzar su evaluación.
+- [x] Aprobar la ronda formada por `CAND-001` y `CAND-002`.
+- [x] Elegir `CAND-001` por unanimidad como dirección condicionada.
+- [ ] Resolver las puertas de viabilidad de datos antes de iniciar implementación funcional.

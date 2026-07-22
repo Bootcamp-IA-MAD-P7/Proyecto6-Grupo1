@@ -29,7 +29,7 @@
 
 ## T-002 Registrar las propuestas candidatas
 
-- Estado: `[ ]`
+- Estado: `[x]`
 - Responsable: `Equipo`
 - Dependencias: `T-001`
 - Requisitos cubiertos: `R-001, R-002, R-010, AC-002`
@@ -45,11 +45,13 @@
   - Comando o revisión: revisión de campos obligatorios.
   - Resultado esperado: ninguna idea se evalúa con información estructural ausente.
 - Evidencia obtenida:
-  - Pendiente.
+  - `CAND-001` registrada para clasificación y enrutamiento de reclamaciones financieras.
+  - `CAND-002` registrada para clasificación visual de residuos.
+  - La ronda queda cerrada con dos alternativas, ambas con problema, usuario, decisión, target y clases potenciales.
 
 ## T-003 Validar el problema, usuario y decisión
 
-- Estado: `[ ]`
+- Estado: `[~]`
 - Responsable: `Producto / descubrimiento, por asignar`
 - Dependencias: `T-002`
 - Requisitos cubiertos: `R-001, R-008, AC-002, AC-007`
@@ -64,11 +66,13 @@
   - Comando o revisión: revisión cruzada por una persona distinta de quien propuso la idea.
   - Resultado esperado: evidencia y supuestos claramente diferenciados.
 - Evidencia obtenida:
-  - Pendiente.
+  - `CAND-001` define problema, usuario propuesto, decisión y separación entre producto predicho y cola configurada.
+  - `CAND-002` define el usuario propuesto, la decisión sobre el material y la separación entre clase y regla local de reciclaje.
+  - Pendiente contrastar el flujo B2B de `CAND-001` durante la siguiente spec funcional.
 
 ## T-004 Evaluar datasets y viabilidad multiclase
 
-- Estado: `[ ]`
+- Estado: `[~]`
 - Responsable: `Datos / ML, por asignar`
 - Dependencias: `T-002`
 - Requisitos cubiertos: `R-002, R-003, R-004, R-005, AC-003, AC-004`
@@ -85,11 +89,14 @@
   - Comando o revisión: consulta o script documentado y revisión de licencia.
   - Resultado esperado: ningún dataset avanza sin acceso, licencia y encaje multiclase claros.
 - Evidencia obtenida:
-  - Pendiente.
+  - Fuente, API, campos, taxonomía y descarga oficial del CFPB documentados para `CAND-001`.
+  - Descarga completa comprobada mediante cabecera HTTP: `1422352348` bytes el `2026-07-22`.
+  - RealWaste documentado para `CAND-002` con licencia CC BY 4.0, 4.752 imágenes, nueve clases y distribución publicada.
+  - Pendiente obtener distribución filtrada, calidad preliminar y método reproducible de extracción.
 
 ## T-005 Evaluar seguridad, privacidad, ética y sesgo
 
-- Estado: `[ ]`
+- Estado: `[~]`
 - Responsable: `Seguridad / datos, por asignar`
 - Dependencias: `T-002, T-004`
 - Requisitos cubiertos: `R-006, AC-006`
@@ -105,11 +112,13 @@
   - Comando o revisión: checklist de seguridad y revisión cruzada.
   - Resultado esperado: ningún riesgo crítico queda oculto por la puntuación total.
 - Evidencia obtenida:
-  - Pendiente.
+  - Riesgos de información personal residual, publicación voluntaria, uso indebido y drift registrados para `CAND-001`.
+  - Riesgos de cambio de dominio, atajos visuales, desbalanceo y reglas locales registrados para `CAND-002`.
+  - Pendiente confirmar condiciones de explotación y controles de tratamiento del texto.
 
 ## T-006 Evaluar UX, demo y evolución técnica
 
-- Estado: `[ ]`
+- Estado: `[~]`
 - Responsable: `Producto / UX / plataforma, por asignar`
 - Dependencias: `T-003, T-004`
 - Requisitos cubiertos: `R-009`
@@ -125,11 +134,13 @@
   - Comando o revisión: revisión conjunta de producto, UX y plataforma.
   - Resultado esperado: no se confunde potencial con funcionalidad implementada.
 - Evidencia obtenida:
-  - Pendiente.
+  - Flujo de texto, predicción, confianza, revisión humana y evolución MLOps descrito para `CAND-001`.
+  - Flujo de fotografía, clasificación, baja confianza y evolución visual descrito para `CAND-002`.
+  - El framework y la arquitectura funcional permanecen fuera de esta spec.
 
 ## T-007 Puntuar y comparar alternativas
 
-- Estado: `[ ]`
+- Estado: `[~]`
 - Responsable: `Equipo`
 - Dependencias: `T-003, T-004, T-005, T-006`
 - Requisitos cubiertos: `R-007, R-008, R-010, AC-005, AC-007`
@@ -146,11 +157,14 @@
   - Comando o revisión: recalcular totales y revisión cruzada de evidencias.
   - Resultado esperado: puntuaciones coherentes y razonamiento cualitativo disponible.
 - Evidencia obtenida:
-  - Pendiente.
+  - Las dos candidatas recibieron una preevaluación documental con la matriz `1.0`: `CAND-001`, 75/100; `CAND-002`, 73/100.
+  - `docs/product/candidates/comparison-2026-07-22.md` registra la comparación cualitativa y la sensibilidad a plazo, riesgo y tipo de demo.
+  - Pendiente conservar las puntuaciones individuales o una ratificación explícita de la matriz consolidada; no se atribuyen valores individuales al equipo.
+  - El cierre también depende de completar T-004 para la candidata elegida y verificar que ninguna puerta crítica queda incumplida.
 
 ## T-008 Registrar la decisión del equipo
 
-- Estado: `[ ]`
+- Estado: `[~]`
 - Responsable: `Equipo`
 - Dependencias: `T-007`
 - Requisitos cubiertos: `R-008, R-010, R-011, AC-007, AC-008, AC-009`
@@ -166,11 +180,13 @@
   - Comando o revisión: revisión de criterios de aceptación y aprobación registrada.
   - Resultado esperado: una decisión válida o una no selección justificada.
 - Evidencia obtenida:
-  - Pendiente.
+  - José, Abel, Víctor y Miguel eligieron `CAND-001` por unanimidad el `2026-07-22`.
+  - `PDR-001` registra cuatro votos favorables, cero contrarios y cero abstenciones.
+  - La aceptación autoriza el spike de viabilidad, no la implementación funcional; el cierre depende de T-004 y T-007.
 
 ## T-009 Sincronizar documentación y fuentes
 
-- Estado: `[ ]`
+- Estado: `[~]`
 - Responsable: `Documentación / QA, por asignar`
 - Dependencias: `T-008`
 - Requisitos cubiertos: `R-013, AC-009`
@@ -189,7 +205,9 @@
   - Comando o revisión: `python scripts/documentation/build_notebooklm_pack.py --date <AAAA-MM-DD>`.
   - Resultado esperado: paquete coherente y sin afirmaciones contradictorias.
 - Evidencia obtenida:
-  - Pendiente.
+  - README, hechos de proyecto, estado técnico, daily, changelog y catálogo de fuentes revisados en esta rama.
+  - Paquete `exports/notebooklm/2026-07-22-notebooklm-pack.md` generado correctamente y mantenido fuera de Git conforme a la política de exports.
+  - Pendiente la sincronización final cuando se complete el spike de viabilidad.
 
 ## T-010 Preparar la primera spec funcional
 
