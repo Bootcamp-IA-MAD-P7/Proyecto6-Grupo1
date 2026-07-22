@@ -84,7 +84,10 @@ export function useVoiceDictation({
           const audioData = audioBuffer.getChannelData(0)
 
           const asr = await pipeline('automatic-speech-recognition', 'Xenova/whisper-tiny')
-          const outputs = await asr(audioData as unknown as string)
+          const outputs = await asr(audioData as unknown as string, {
+            language: 'spanish',
+            task: 'transcribe',
+          })
 
           const transcription = (outputs as { text?: string })?.text ?? ''
 
