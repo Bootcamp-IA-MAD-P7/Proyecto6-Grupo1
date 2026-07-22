@@ -74,7 +74,8 @@ export function useVoiceDictation({
         const blob = new Blob(chunksRef.current, { type: 'audio/webm' })
 
         try {
-          const { pipeline, env } = await import('@xenova/transformers')
+          const { AutoProcessor, AutoModelForSpeechSeq2Seq, AutoTokenizer, env } =
+            await import('@xenova/transformers')
           env.allowLocalModels = false
           env.useBrowserCache = false
 
@@ -83,13 +84,20 @@ export function useVoiceDictation({
           const audioBuffer = await audioContext.decodeAudioData(audioArrayBuffer)
           const audioData = audioBuffer.getChannelData(0)
 
-          const asr = await pipeline('automatic-speech-recognition', 'Xenova/whisper-tiny')
-          const outputs = await asr(audioData as unknown as string, {
+          const processor = await AutoProcessor.from_pretrained('Xenova/whisper-tiny')
+          const model = await AutoModelForSpeechSeq2Seq.from_pretrained('Xenova/whisper-tiny')
+          const tokenizer = await AutoTokenizer.from_pretrained('Xenova/whisper-tiny')
+
+          const inputs = await processor(audioData)
+
+          const outputs = await model.generate({
+            ...inputs,
+            max_new_tokens: 128,
             language: 'spanish',
             task: 'transcribe',
           })
 
-          const transcription = (outputs as { text?: string })?.text ?? ''
+          const transcription = tokenizer.decode(outputs[0], { skip_special_tokens: true })
 
           if (typeof transcription === 'string' && transcription.trim()) {
             onTranscript(transcription.trim())
