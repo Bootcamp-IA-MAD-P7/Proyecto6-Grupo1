@@ -33,7 +33,7 @@
 - Responsabilidades principales confirmadas: Miguel en arquitectura y arnés, José en backend, Abel en frontend/UX y Víctor en datos y EDA.
 - El trabajo de producto activo desde `dev` comprende la incorporación de evidencia del EDA en `001/T-004` y el inicio desde cero de la React PWA en `003/T-006`.
 - Workflow `repository-quality` ejecutado correctamente y asociado automáticamente a las Pull Requests `#14` y `#15`.
-- El workflow `repository-quality` ejecutará las suites Python, convenciones, whitespace y las puertas de OpenSpec en la Pull Request de implantación.
+- La PR `#17` verifica en Linux las suites Python, convenciones, whitespace, auditoría npm, diagnóstico y validación estricta de OpenSpec; la ejecución `30000072621` finalizó correctamente.
 - El piloto con Víctor ya no bloquea la implantación; su tarea real servirá para recoger feedback del uso heredado y adaptar decisiones nuevas mediante OpenSpec.
 - Ruleset `Protect dev` activo con PR y check de calidad obligatorios, historial lineal y bloqueo de force push y borrado.
 - Aprobaciones humanas no requeridas temporalmente.

@@ -2,7 +2,11 @@
 
 ## Resultado
 
-`PASS` local. La validación remota de GitHub Actions se registrará en la Pull Request antes del merge.
+`PASS` local y remoto.
+
+- Pull Request: `#17`.
+- GitHub Actions: ejecución `30000072621`.
+- Check obligatorio: `repository-quality` finalizado correctamente en Linux.
 
 ## Alcance comprobado
 
@@ -74,6 +78,8 @@ no output
 ```
 
 Los SVG del README se analizaron como XML válido y se renderizaron en Chrome para comprobar recortes, jerarquía, legibilidad y coherencia de estados.
+
+La primera ejecución remota detectó una diferencia real al interpretar rutas Windows desde Linux. Se corrigió la normalización sin ampliar la allowlist y se añadió regresión para rutas Windows y POSIX externas. La segunda ejecución pasó completamente.
 
 ## Revisión adversarial
 
