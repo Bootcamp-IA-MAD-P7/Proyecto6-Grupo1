@@ -5,7 +5,7 @@
 
 ## T-001 Definir el contrato del arnés
 
-- Estado: `[~]`
+- Estado: `[x]`
 - Responsable: `Miguel / arquitectura`
 - Dependencias: `ninguna`
 - Requisitos cubiertos: `R-001 a R-012`
@@ -19,11 +19,12 @@
   - Comando o revisión: `git diff --check` y revisión manual.
   - Resultado esperado: sin errores de formato ni duplicación de fuentes de verdad.
 - Evidencia obtenida:
-  - Pendiente de verificación.
+  - Los cuatro documentos de la spec se guardaron antes de la implementación en el commit `5be148a`.
+  - `git diff --cached --check` no informó de errores.
 
 ## T-002 Definir roles agénticos mínimos
 
-- Estado: `[ ]`
+- Estado: `[x]`
 - Responsable: `Miguel / arquitectura`
 - Dependencias: `T-001`
 - Requisitos cubiertos: `R-002, R-003, R-005, R-011`
@@ -38,7 +39,10 @@
   - Comando o revisión: validación de estructura y revisión cruzada.
   - Resultado esperado: cuatro roles válidos, sin contradicciones con `AGENTS.md`.
 - Evidencia obtenida:
-  - Pendiente.
+  - `ai-specs/README.md` explica las fuentes de verdad, prioridad y límites comunes.
+  - Existen cuatro fichas: arquitectura, datos, backend y frontend.
+  - `python scripts/quality/check_repository.py` superó la comprobación con 168 archivos locales.
+  - `git diff --check` no informó de errores.
 
 ## T-003 Definir procedimientos reutilizables
 
