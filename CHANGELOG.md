@@ -22,6 +22,10 @@
 - Spec `001-cfpb-target-contract`, contrato ejecutable de once clases y tests para coordinar EDA y modelado sin leakage.
 - Spec `002-team-ai-workflow` y generador seguro de contexto por spec y tarea para herramientas de IA externas.
 - Spec `003-complaint-routing-experience`, arquitectura de información y OpenAPI contract-only para desarrollar la React PWA mediante mocks.
+- Spec `004-agentic-harness`, cuatro roles, cuatro procedimientos reutilizables y una entrada única para generar contexto seguro por tarea.
+- Contrato verificable de niveles de entrega con criterios `ESS`, `MED`, `ADV` y `EXP`.
+- Guía autoservicio para que cada integrante utilice el arnés desde su propio clon y con cualquier IA compatible con Markdown.
+- Suites unitarias y de contrato del arnés integradas en `repository-quality`.
 
 ### Changed
 
@@ -29,5 +33,11 @@
 - El equipo activo pasa a estar formado por José, Abel, Víctor y Miguel tras la baja comunicada de Josué.
 - React PWA se confirma como dirección frontend inicial; la evolución nativa queda sujeta a requisitos futuros.
 - Las instrucciones de agentes y el workflow reflejan las decisiones actuales y un método independiente de proveedor.
+- La estructura adopta creación incremental: conserva contratos en los README y elimina subcarpetas vacías para capacidades todavía no implementadas.
+- El estado activo se concentra en el EDA de Víctor y el piloto del arnés; la propuesta React PWA permanece fuera de `dev` y pendiente de revisión.
+- El piloto de adopción se ejecutará desde `dev` sobre la versión operativa, sin ramas temporales ni entregas manuales de contexto.
 
 ### Fixed
+
+- Responsables, estados de specs y tareas, recuentos de tests y documentación de aplicación, producto y scripts sincronizados con el estado real.
+- README y niveles de entrega describen el nivel esencial como `En curso` por el EDA activo.

@@ -18,6 +18,8 @@ El spike preliminar ha verificado 2.306.723 narrativas, catorce etiquetas observ
 
 La spec [`003-complaint-routing-experience`](specs/003-complaint-routing-experience/spec.md) define el flujo React PWA y un OpenAPI para trabajar con mocks. Son contratos verificables, no una aplicación ni un servicio implementados.
 
+La spec [`004-agentic-harness`](specs/004-agentic-harness/spec.md) proporciona una primera versión operativa del arnés de trabajo: cada integrante puede generar desde `dev` un contexto limitado por rol, spec y tarea para utilizarlo con la IA que prefiera. La herramienta está automatizada y verificada; su adopción continúa en evaluación mediante el piloto con Víctor.
+
 Todavía no se han decidido de forma definitiva:
 
 - la política de idioma y el tratamiento final de duplicados;
@@ -59,7 +61,7 @@ flowchart LR
 | Nivel | Resultado protegido | Estado |
 |---|---|---|
 | Descubrimiento | Idea, usuario, datos y viabilidad | Idea elegida; datos en validación |
-| Esencial | Solución multiclase completa y demostrable | No iniciado |
+| Esencial | Solución multiclase completa y demostrable | En curso: EDA activo |
 | Medio | Champion, feedback y recolección | No iniciado |
 | Avanzado | Contenedores, persistencia, cloud y tests | No iniciado |
 | Experto | Challenger, A/B, drift y promoción gobernada | No iniciado |
@@ -108,12 +110,13 @@ La [intención del proyecto](.specify/intent.md) fija el propósito y los límit
 
 ### Incorporación rápida al equipo
 
-1. Leer [`AGENTS.md`](AGENTS.md) aunque se trabaje sin IA: resume decisiones y límites vigentes.
-2. Consultar el [flujo operativo](docs/project_management/workflow.md).
-3. Localizar la spec y tarea asignadas desde [`specs/`](specs/README.md).
-4. Utilizar Jira para el estado diario y una Pull Request para integrar evidencias.
+1. Seguir la [guía autoservicio para trabajar con IA](docs/project_management/harness_quickstart.md).
+2. Leer [`AGENTS.md`](AGENTS.md): resume decisiones y límites vigentes.
+3. Consultar la asignación en [`team.md`](docs/project_management/team.md).
+4. Localizar la spec y tarea desde [`specs/`](specs/README.md).
+5. Utilizar Jira para el estado diario y una Pull Request para integrar evidencias.
 
-Las IA con acceso al repositorio leen las fuentes directamente. Para una herramienta externa se genera un paquete acotado con `scripts/documentation/build_ai_handoff.py`; nunca se comparten datos brutos ni narrativas CFPB.
+Cada integrante genera desde su propio clon un contexto acotado mediante `scripts/harness.py`. Las IA con acceso al repositorio leen el paquete local; para una herramienta externa se sube únicamente ese Markdown. Nunca se comparten datos brutos ni narrativas CFPB.
 
 ## Ramas
 
@@ -141,7 +144,9 @@ La documentación se considera parte del producto. Debe alimentar el trabajo dia
 
 ## Próximo hito
 
-Dos carriles pueden avanzar en paralelo:
+El trabajo activo se concentra en dos objetivos:
 
-- Datos/ML: recibir el EDA e incorporarlo a [`001-cfpb-target-contract`](specs/001-cfpb-target-contract/spec.md) para cerrar idioma, duplicados, partición y privacidad antes de entrenar.
-- Producto/frontend: validar el flujo B2B y construir la React PWA contra el mock de [`docs/api/openapi.json`](docs/api/openapi.json), sin presentarlo como inferencia real.
+- Datos/ML: recibir el EDA de Víctor e incorporarlo a [`001-cfpb-target-contract`](specs/001-cfpb-target-contract/spec.md) para cerrar idioma, duplicados, partición, desbalanceo y privacidad antes de entrenar.
+- Arquitectura y método: pilotar con Víctor desde `dev` la spec [`004-agentic-harness`](specs/004-agentic-harness/spec.md) y utilizar su feedback para cerrar la primera versión.
+
+La React PWA permanece como propuesta experimental en una Pull Request separada y no forma parte del estado integrado en `dev`. Antes de retomarla deberá actualizarse desde `dev` y revisarse con Abel.

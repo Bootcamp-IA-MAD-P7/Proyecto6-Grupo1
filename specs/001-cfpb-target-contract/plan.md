@@ -8,7 +8,7 @@
 - El spike reproduce 2.306.723 narrativas y catorce etiquetas en la ventana congelada.
 - Once etiquetas corresponden a la taxonomía vigente, dos tienen equivalencia semántica directa y una es ambigua.
 - La narrativa es la única entrada admitida por `config/cfpb_viability.json`.
-- El EDA se realiza en paralelo por dos integrantes y permanece fuera de esta implementación.
+- El EDA está asignado a Víctor y permanece fuera de esta implementación.
 
 ## Solución propuesta
 

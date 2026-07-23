@@ -2,19 +2,23 @@
 
 ## Estado confirmado del proyecto
 
-- Fase: descubrimiento y validación de datos.
+- Fase: descubrimiento, EDA y adopción del arnés agéntico.
 - Problema: clasificación y apoyo al enrutamiento de reclamaciones financieras escritas.
 - Dataset: Consumer Complaint Database del CFPB, viable con condiciones.
 - Entrada inicial permitida: `complaint_what_happened`.
 - Target derivado: `product_canonical`, con once clases definidas en `config/cfpb_target_contract.json`.
 - Frontend: React con capacidades PWA como dirección inicial; una evolución nativa solo se evaluará si aparecen requisitos que la justifiquen.
-- Specs activas: `000-problem-discovery`, `001-cfpb-target-contract`, `003-complaint-routing-experience` y la spec asignada a la tarea actual.
+- Specs activas: `000-problem-discovery`, `001-cfpb-target-contract`, `003-complaint-routing-experience`, `004-agentic-harness` y la spec asignada a la tarea actual.
+- Responsabilidades: Miguel coordina arquitectura y arnés; José, backend; Abel, frontend/UX; Víctor, datos y EDA. Josué está fuera del equipo.
+- Asignación de producto activa desde `dev`: `001/T-004` para Víctor.
+- La PWA experimental permanece fuera de `dev`; no debe tratarse como aplicación implementada ni como tarea activa desde esta rama.
+- La integración real `003/T-007` continúa bloqueada hasta disponer de EDA, modelo aprobado y decisiones de datos.
 
 Siguen abiertas la métrica principal, modelos, política de idioma, tratamiento final de duplicados, partición, estrategia de desbalanceo, backend, persistencia y proveedor cloud. No deben inventarse ni cerrarse sin evidencia y decisión registrada.
 
 ## Antes de actuar
 
-1. Leer `README.md`, `.specify/README.md` y `CONTRIBUTING.md`.
+1. Leer `README.md`, `.specify/README.md`, `.specify/intent.md`, `CONTRIBUTING.md` y `docs/project_management/delivery_levels.md`.
 2. Comprobar la rama y el estado de Git.
 3. Identificar la spec y las tareas activas.
 4. Identificar la historia de Jira cuando exista y comprobar que no contradice la spec.
@@ -23,7 +27,7 @@ Siguen abiertas la métrica principal, modelos, política de idioma, tratamiento
 7. Limitar los cambios al alcance solicitado.
 8. Revisar el impacto en documentación, fuentes de NotebookLM, UX, seguridad y CI/CD.
 
-Si el agente no tiene acceso al repositorio, debe recibir un paquete generado mediante `scripts/documentation/build_ai_handoff.py`, no una selección manual de archivos ni datos brutos.
+Cada integrante debe obtener el contexto desde su propio clon actualizado. Si la IA accede al repositorio, debe leer las fuentes versionadas directamente. Si no accede, la propia persona genera un paquete mediante `scripts/harness.py`; no se utiliza una selección manual de archivos ni se comparten datos brutos.
 
 ## Flujo obligatorio para cambios relevantes
 
@@ -43,6 +47,8 @@ spec -> plan -> tasks -> implementation -> verification -> closure
 - No utilizar como features campos prohibidos por `config/cfpb_target_contract.json`.
 - No presentar React PWA, backend, modelo, Docker, despliegue o MLOps como implementados sin código y evidencia.
 - No actualizar todos los documentos por rutina: revisar únicamente los que cambien de significado o estado.
+- No interpretar un rol de área como autorización para saltarse dependencias, preguntas bloqueantes o criterios de aceptación.
+- No marcar un requisito de `docs/project_management/delivery_levels.md` como verificado sin la evidencia mínima indicada.
 
 ## Responsabilidad humana
 

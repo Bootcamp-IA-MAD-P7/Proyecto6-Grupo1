@@ -33,7 +33,7 @@ Conservar once clases canónicas, normalizar las dos equivalencias directas y ex
 
 ### Contexto
 
-El EDA ya está asignado a dos integrantes. Mezclar sus notebooks con la definición del target duplicaría trabajo y podría fijar decisiones de modelado antes de observar la evidencia.
+Al aprobar esta decisión, el EDA se planteó como trabajo paralelo. La responsabilidad operativa vigente corresponde a Víctor. Mezclar notebooks con la definición del target duplicaría trabajo y podría fijar decisiones de modelado antes de observar la evidencia.
 
 ### Decisión
 

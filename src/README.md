@@ -21,3 +21,5 @@
 - `mlops/promotion/`: políticas y reemplazo reversible.
 
 La lógica reutilizable saldrá de los notebooks y se probará desde `tests/`. El dominio no dependerá de la interfaz, la base de datos ni el proveedor de despliegue.
+
+Las capas se materializarán de forma incremental con código real. Este mapa no requiere subcarpetas vacías antes de implementar la primera tarea de cada área.

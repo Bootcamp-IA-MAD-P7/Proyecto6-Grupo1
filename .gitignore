@@ -18,7 +18,7 @@ venv/
 # Notebooks
 .ipynb_checkpoints/
 
-# Frontend, if selected later
+# Frontend dependencies and generated builds
 node_modules/
 dist/
 

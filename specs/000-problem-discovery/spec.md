@@ -1,7 +1,7 @@
 # SPEC: Selección del problema de negocio
 
 - ID: `000`
-- Estado: `active`
+- Estado: `in_progress`
 - Responsable: `Equipo`
 - Fecha: `2026-07-21`
 

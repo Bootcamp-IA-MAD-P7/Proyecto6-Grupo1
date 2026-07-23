@@ -34,13 +34,13 @@
 
 ## T-004 Incorporar evidencia del EDA
 
-- Estado: `[ ]`
-- Responsable: `Equipo EDA / Datos`
+- Estado: `[~]`
+- Responsable: `Víctor / Datos y EDA`
 - Dependencias: `T-003`
 - Requisitos cubiertos: `R-006, R-007, R-009`
 - Trabajo: contrastar soporte, drift, idioma, duplicados y alternativas de desbalanceo.
 - Verificación: informe reproducible, revisión cruzada y ausencia de narrativas versionadas.
-- Evidencia obtenida: pendiente del trabajo paralelo.
+- Evidencia obtenida: trabajo activo fuera de esta rama; pendiente de incorporar informe, gráficos y revisión.
 
 ## T-005 Implementar el constructor reproducible
 

@@ -1,7 +1,7 @@
 # Plan: Selección del problema de negocio
 
 - Spec: `specs/000-problem-discovery/spec.md`
-- Estado: `active`
+- Estado: `in_progress`
 
 ## Estado actual comprobado
 
@@ -158,7 +158,7 @@ No se versionarán datasets pesados, credenciales ni muestras sensibles. Los res
 
 ## Entrega y reversión
 
-La spec pasó a `active` al resolverse Q-001 a Q-004 y versionarse la matriz. Se cerrará cuando la candidata seleccionada supere sus puertas críticas, la documentación quede sincronizada y exista una spec funcional independiente.
+La spec pasó a `in_progress` al resolverse Q-001 a Q-004 y versionarse la matriz. Se cerrará cuando la candidata seleccionada supere sus puertas críticas, la documentación quede sincronizada y exista una spec funcional independiente.
 
 La ejecución concluye con una decisión registrada o una no selección explícita. Revertir una elección no elimina evidencias: se añade una nueva decisión que sustituye a la anterior y explica la nueva información.
 
