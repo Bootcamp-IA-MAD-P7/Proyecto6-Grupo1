@@ -8,3 +8,5 @@
 - `performance/`: tiempos, carga y límites operativos acordados.
 
 La estrategia concreta y los umbrales se definirán en las specs correspondientes.
+
+Actualmente existen pruebas `unit/` y `contract/`. Las demás categorías se crearán cuando una spec aporte su primera prueba real.

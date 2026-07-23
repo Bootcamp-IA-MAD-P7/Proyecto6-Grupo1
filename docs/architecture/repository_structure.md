@@ -2,7 +2,9 @@
 
 ## Principio
 
-La estructura permite crecer hasta nivel experto, pero mantiene desacoplado el núcleo esencial. Tener una carpeta no significa que esa capacidad esté implementada.
+La estructura permite crecer hasta nivel experto, pero mantiene desacoplado el núcleo esencial. Las carpetas raíz documentan límites estables; las subcarpetas se crean cuando contienen código, configuración o evidencia real.
+
+No se versionan árboles vacíos para representar capacidades futuras. El mapa siguiente define destinos previstos, no una obligación de materializarlos antes de necesitarlos.
 
 ## Capas
 
@@ -49,6 +51,8 @@ Este flujo es una capacidad estructural prevista, no una afirmación de implemen
 - El nivel medio añadirá challengers, tuning, feedback y recolección.
 - El nivel avanzado activará infraestructura, persistencia, despliegue y tests operativos.
 - El nivel experto activará experimentos, monitorización, registro y promoción controlada.
+
+Cada ruta aparecerá de forma incremental en la Pull Request que implemente su primera capacidad. Un README puede conservar el contrato futuro sin acompañarse de `.gitkeep` ni subcarpetas vacías.
 
 ## Regla de dependencias
 

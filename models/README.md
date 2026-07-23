@@ -9,3 +9,5 @@ monitoring/   perfiles de referencia para monitorización
 ```
 
 La política de versionado de binarios se decidirá antes de guardar artefactos grandes. Los metadatos y resultados reproducibles sí deberán quedar trazados.
+
+Las subcarpetas se crearán con el primer artefacto o metadato aprobado; no se mantienen placeholders vacíos.

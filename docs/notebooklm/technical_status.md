@@ -21,7 +21,7 @@
 - Arnés CFPB reproducible implementado con configuración versionada, probe API, muestra temporal en memoria, informes agregados y siete tests unitarios.
 - Probe verificado: 2.306.723 narrativas, catorce etiquetas observadas, licencia CC0 informada por la API y clase mayoritaria del 72,45 %.
 - G-02, G-03, G-04 y G-06 superadas para EDA; G-05 continúa condicionada por la revisión de privacidad.
-- Spec `001-cfpb-target-contract` activa con once clases canónicas, dos aliases, una exclusión ambigua y siete tests de contrato.
+- Spec `001-cfpb-target-contract` activa con once clases canónicas, dos aliases, una exclusión ambigua y ocho tests unitarios de contrato de target.
 - El EDA continúa en paralelo y debe aportar evidencia agregada sobre clases, tiempo, ausencias, duplicados, longitud e idioma.
 - React PWA confirmada como dirección frontend inicial; backend, implementación de inferencia y evolución nativa siguen pendientes.
 - Spec `003-complaint-routing-experience` preparada con arquitectura de información, OpenAPI contract-only y siete tests; no existe aún frontend ni servicio.
@@ -29,9 +29,11 @@
 - Capa agéntica en desarrollo con cuatro roles, cuatro procedimientos y una entrada única probada localmente; todavía no está integrada en `dev`.
 - Responsabilidades principales confirmadas: Miguel en arquitectura y arnés, José en backend, Abel en frontend/UX y Víctor en datos y EDA.
 - El único trabajo de producto activo desde `dev` es la incorporación de evidencia del EDA en `001/T-004`.
-- Workflow `repository-quality` ejecutado correctamente en Pull Request.
+- Workflow `repository-quality` ejecutado correctamente y asociado automáticamente a las Pull Requests `#14` y `#15`.
+- La PR `#15` mantiene 30 tests unitarios y siete tests de contrato verificados localmente; su incorporación al workflow continúa pendiente de `004/T-007`.
 - Ruleset `Protect dev` activo con PR y check de calidad obligatorios, historial lineal y bloqueo de force push y borrado.
 - Aprobaciones humanas no requeridas temporalmente.
+- Estructura simplificada para crear subcarpetas de aplicación, ML, MLOps, infraestructura y evidencias únicamente cuando contengan una capacidad real.
 
 ## Capacidades previstas, no implementadas
 
@@ -46,6 +48,7 @@
 
 - Tratar la viabilidad condicionada como si idioma, privacidad y partición ya estuvieran cerrados.
 - Confundir estructura preparada con funcionalidad implementada.
+- Fusionar las PR `#14` y `#15` sin actualizar primero la rama de frontend: ambas modifican documentación transversal y requieren reconciliación.
 - Los roles de respaldo y la cobertura estable de producto, MLOps y QA siguen sin asignar.
 - La normalización de target está versionada; idioma, deduplicación final, partición, desbalanceo y privacidad siguen pendientes de la evidencia del EDA.
 - El fuerte crecimiento de reclamaciones de informes de crédito puede producir desbalanceo extremo y cambios de procedencia que limiten la representatividad.

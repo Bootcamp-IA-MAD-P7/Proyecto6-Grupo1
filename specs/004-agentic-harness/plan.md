@@ -1,7 +1,7 @@
 # Plan técnico: Arnés agéntico de trabajo
 
 - Spec: [`spec.md`](spec.md)
-- Estado: `draft`
+- Estado: `in_progress`
 
 ## Estado actual comprobado
 

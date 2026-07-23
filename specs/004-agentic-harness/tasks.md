@@ -123,6 +123,7 @@
   - documentación de evidencia, si procede
 - Trabajo:
   - Confirmar el inicio autoservicio desde un clon actualizado.
+  - Durante el piloto previo al merge, comprobar la rama remota de la PR `#15` siguiendo la guía autoservicio.
   - Generar el contexto para `data-analyst`, `001-cfpb-target-contract` y `T-004`.
   - Confirmar que incluye el briefing y permite entender el trabajo sin cambiar el EDA ni su estado.
 - Criterio de cierre:
@@ -131,7 +132,9 @@
   - Comando o revisión: demostración manual y revisión del Markdown generado.
   - Resultado esperado: flujo comprensible y sin datos sensibles.
 - Evidencia obtenida:
-  - Pendiente.
+  - Auditoría previa completada y registrada en `reports/validation/repository_harness_audit_2026-07-23.md`: responsables, estados, README, changelog, daily, fuentes de NotebookLM y estructura fueron revisados y alineados.
+  - Guía preparada con requisitos locales y checkout explícito de la rama remota para el piloto previo al merge.
+  - Demostración con Víctor pendiente.
 
 ## T-007 Integrar comprobaciones y cerrar
 
@@ -151,7 +154,9 @@
   - Comando o revisión: suite local, `check_repository.py`, CI y revisión final.
   - Resultado esperado: comprobaciones correctas y spec cerrada sin capacidades exageradas.
 - Evidencia obtenida:
-  - Pendiente.
+  - El check automático `repository-quality` de la PR `#15` finalizó correctamente.
+  - La ejecución manual `workflow_dispatch` confirmó que el workflow puede lanzarse sobre la rama.
+  - Integración de las suites unitarias y de contrato y corrección final del quality gate pendientes hasta completar T-006.
 
 ## Checklist de cierre
 

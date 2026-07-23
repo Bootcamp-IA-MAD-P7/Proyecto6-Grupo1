@@ -15,6 +15,21 @@ El arnés reúne automáticamente:
 
 No ejecuta una tarea por su cuenta, no comparte datos, no hace commits y no fusiona cambios.
 
+## Requisitos locales
+
+- Git y acceso de lectura al repositorio.
+- Python `3.12`, que es la versión utilizada por CI.
+- Una terminal situada en la raíz del clon.
+
+Comprobación inicial:
+
+```bash
+python --version
+python scripts/harness.py --help
+```
+
+GitHub CLI no es necesario para generar contexto ni trabajar en local. Solo facilita algunas operaciones posteriores con Pull Requests.
+
 ## 1. Obtener el repositorio
 
 La primera vez:
@@ -37,6 +52,18 @@ Antes de trabajar debe aparecer:
 ```text
 ## dev...origin/dev
 ```
+
+### Piloto de la PR #15 antes del merge
+
+Mientras el arnés no esté integrado en `dev`, Víctor podrá probar exactamente la rama remota de la PR:
+
+```bash
+git fetch origin
+git switch --track origin/chore/adopt-agentic-harness
+git status --short --branch
+```
+
+Debe aparecer la rama `chore/adopt-agentic-harness` sin cambios locales. Esta excepción es solo para `004/T-006`; después del merge, el flujo normal comienza siempre desde `dev`.
 
 ## 2. Consultar la asignación
 

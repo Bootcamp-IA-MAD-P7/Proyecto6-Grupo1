@@ -7,7 +7,7 @@ No se añadirán scripts que oculten pasos manuales no documentados.
 ## Disponibles desde la fundación
 
 - `quality/check_repository.py`: comprueba estructura, enlaces, dailies y archivos sensibles.
-- `documentation/new_daily.py`: crea una daily y su actualización editorial sin sobrescribir documentos.
+- `documentation/new_daily.py`: crea desde la plantilla una daily sin sobrescribir documentos existentes; el equipo completa después su contenido verificable.
 - `documentation/build_notebooklm_pack.py`: genera un paquete curado para NotebookLM.
 - `documentation/build_ai_handoff.py`: genera un contexto seguro y acotado para una spec y tarea.
 - `harness.py`: combina rol, procedimiento, spec y tarea en un único Markdown para cualquier IA.

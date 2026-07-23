@@ -1,7 +1,7 @@
 # SPEC: Arnés agéntico de trabajo
 
 - ID: `004`
-- Estado: `ready`
+- Estado: `in_progress`
 - Responsable: `Miguel / arquitectura y coordinación`
 - Fecha: `2026-07-23`
 

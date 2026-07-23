@@ -118,3 +118,33 @@ Se adopta la opción 3. `scripts/harness.py` utiliza una acción posicional y op
 ### Evidencia
 
 El comando real de inicio generó un paquete para `001/T-004`; los tests cubren roles y acciones inválidos, tareas bloqueadas, estados incompatibles y compatibilidad del generador original.
+
+## ADR-005 Crear la estructura de forma incremental
+
+- Fecha: `2026-07-23`
+- Estado: `accepted`
+- Relacionada con: `R-001, R-005, R-011, T-005, T-006`
+
+### Contexto
+
+El repositorio contenía 46 archivos `.gitkeep`; 42 de esos marcadores ya no aportaban contenido y anticipaban aplicación, modelos, MLOps, infraestructura, recursos o pruebas futuras. Esa estructura aumentaba el ruido para personas y agentes y podía confundirse con capacidades implementadas.
+
+### Opciones consideradas
+
+1. Mantener todo el árbol previsto hasta nivel experto.
+2. Eliminar también los contratos y mapas de arquitectura futuros.
+3. Conservar los README y mapas de responsabilidad, pero crear subcarpetas únicamente con su primer archivo real.
+
+### Decisión
+
+Se adopta la opción 3. Se conservan las cuatro etapas locales de `data/` porque forman parte del EDA activo. Las demás subcarpetas aparecerán en la Pull Request que incorpore su primera implementación, configuración, prueba o evidencia.
+
+### Consecuencias
+
+- Beneficios: menos ruido, navegación más clara y menor riesgo de presentar intención como capacidad.
+- Costes o límites: cada nueva capacidad deberá crear explícitamente su ruta inicial.
+- Trabajo posterior: revisar el mapa de estructura cuando se incorporen modelo, PWA, infraestructura o MLOps reales.
+
+### Evidencia
+
+La corrección elimina 42 archivos `.gitkeep` y conserva únicamente las cuatro etapas locales de datos utilizadas por el trabajo activo.

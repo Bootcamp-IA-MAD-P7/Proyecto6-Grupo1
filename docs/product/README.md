@@ -9,7 +9,7 @@ Esta carpeta conservará la evidencia utilizada para seleccionar y definir la id
 - Riesgos éticos y de privacidad.
 - Capacidad de demostrar valor mediante una aplicación.
 
-La primera decisión importante del proyecto se tomó mediante criterios explícitos y no únicamente por disponibilidad inmediata de un dataset. La dirección elegida es `CAND-001`, sujeta a un spike obligatorio de viabilidad de datos.
+La primera decisión importante del proyecto se tomó mediante criterios explícitos y no únicamente por disponibilidad inmediata de un dataset. La dirección elegida es `CAND-001`. El spike obligatorio ya se completó y declaró el dataset viable con condiciones; el EDA y las puertas de privacidad, idioma, duplicados, partición y desbalanceo siguen abiertas.
 
 ## Método vigente
 

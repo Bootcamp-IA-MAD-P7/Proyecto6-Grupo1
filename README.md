@@ -59,7 +59,7 @@ flowchart LR
 | Nivel | Resultado protegido | Estado |
 |---|---|---|
 | Descubrimiento | Idea, usuario, datos y viabilidad | Idea elegida; datos en validación |
-| Esencial | Solución multiclase completa y demostrable | No iniciado |
+| Esencial | Solución multiclase completa y demostrable | En curso: EDA activo |
 | Medio | Champion, feedback y recolección | No iniciado |
 | Avanzado | Contenedores, persistencia, cloud y tests | No iniciado |
 | Experto | Challenger, A/B, drift y promoción gobernada | No iniciado |
@@ -142,7 +142,9 @@ La documentación se considera parte del producto. Debe alimentar el trabajo dia
 
 ## Próximo hito
 
-Dos carriles pueden avanzar en paralelo:
+El trabajo activo se concentra en dos objetivos:
 
-- Datos/ML: recibir el EDA e incorporarlo a [`001-cfpb-target-contract`](specs/001-cfpb-target-contract/spec.md) para cerrar idioma, duplicados, partición y privacidad antes de entrenar.
-- Producto/frontend: validar el flujo B2B y construir la React PWA contra el mock de [`docs/api/openapi.json`](docs/api/openapi.json), sin presentarlo como inferencia real.
+- Datos/ML: recibir el EDA de Víctor e incorporarlo a [`001-cfpb-target-contract`](specs/001-cfpb-target-contract/spec.md) para cerrar idioma, duplicados, partición, desbalanceo y privacidad antes de entrenar.
+- Arquitectura y método: pilotar con Víctor la spec [`004-agentic-harness`](specs/004-agentic-harness/spec.md), incorporar sus comprobaciones a CI y cerrar la primera versión del arnés.
+
+La React PWA permanece como propuesta experimental en una Pull Request separada y no forma parte del estado integrado en `dev`. Antes de retomarla deberá actualizarse desde `dev` y revisarse con Abel.
