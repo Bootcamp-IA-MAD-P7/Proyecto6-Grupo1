@@ -6,7 +6,7 @@
 | Fase | Descubrimiento |
 | Alcance | Global del proyecto |
 | Responsable | Equipo |
-| Última revisión | 2026-07-22 |
+| Última revisión | 2026-07-23 |
 
 ## Función de este documento
 
@@ -56,7 +56,7 @@ Estas decisiones están pendientes de descubrimiento. No deben inferirse ni cerr
 | Coste relativo de los errores | Pendiente | Impacto por clase y contexto de uso |
 | Métrica principal | Pendiente | Relación con el objetivo y el coste de error |
 | Modelo o familia de modelos | Pendiente | Baseline y comparación experimental |
-| Framework de aplicación | Decidido para frontend | React PWA como primera entrega; evolución nativa sujeta a evidencia |
+| Framework de aplicación | Decidido | React PWA válida para productivizar el modelo; evolución nativa sujeta a evidencia |
 | Persistencia y base de datos | Pendiente | Necesidades de feedback, auditoría y reentrenamiento |
 | Proveedor y arquitectura cloud | Pendiente | Coste, seguridad, operación y restricciones del producto |
 | Identidad visual definitiva | Pendiente | Audiencia, contexto y sistema de diseño |
@@ -179,7 +179,7 @@ Hasta cerrar las puertas activas de datos, privacidad y producto, no se debe:
 
 El equipo activo está formado por José, Abel, Víctor y Miguel. Josué comunicó su baja del Bootcamp el 22 de julio de 2026 y dejó de formar parte del equipo.
 
-Los roles y responsabilidades todavía no están asignados. Su reparto deberá considerar disponibilidad, experiencia, aprendizaje, continuidad y riesgo, sin asumir niveles técnicos ni dejar componentes críticos bajo una única persona sin respaldo.
+Las responsabilidades principales están asignadas: Miguel coordina arquitectura y arnés; José, backend; Abel, frontend/UX; Víctor, datos y EDA. Los roles de respaldo y la cobertura estable de producto, MLOps y QA continúan pendientes y no deben asignarse por suposición.
 
 Las decisiones relevantes deben quedar registradas. Las conversaciones ayudan a explorar; el repositorio conserva el acuerdo verificable.
 
