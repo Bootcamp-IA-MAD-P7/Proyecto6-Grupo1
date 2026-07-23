@@ -69,6 +69,8 @@ La revisión detectó que exigir el piloto antes del merge obligaba a utilizar u
 
 El workflow incorpora 30 tests unitarios, siete tests de contrato, convenciones del repositorio y whitespace sobre el rango completo del cambio.
 
+La ejecución de GitHub Actions `29991591852` completó correctamente todas esas comprobaciones sobre el commit `559d25a`.
+
 ## Pendientes deliberados
 
 - Completar con Víctor el piloto `004/T-006` desde `dev`.

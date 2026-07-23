@@ -138,7 +138,7 @@
 
 ## T-007 Integrar comprobaciones automáticas
 
-- Estado: `[~]`
+- Estado: `[x]`
 - Responsable: `Miguel / arquitectura y QA`
 - Dependencias: `T-005`
 - Requisitos cubiertos: `R-010, R-011, AC-005, AC-006, AC-008`
@@ -157,7 +157,7 @@
   - El check automático `repository-quality` de la PR `#15` finalizó correctamente.
   - La ejecución manual `workflow_dispatch` confirmó que el workflow puede lanzarse sobre la rama.
   - El workflow incorpora 30 tests unitarios, siete tests de contrato, el control del repositorio y una comprobación de whitespace sobre el rango real del cambio.
-  - Pendiente confirmar la nueva versión del workflow en GitHub Actions antes de marcar la tarea como completada.
+  - La ejecución `29991591852` verificó correctamente la nueva versión del workflow sobre el commit `559d25a`.
 
 ## Checklist de cierre
 
