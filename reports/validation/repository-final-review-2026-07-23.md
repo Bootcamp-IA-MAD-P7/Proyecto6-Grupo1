@@ -19,9 +19,10 @@ La revisión se gobierna mediante el cambio OpenSpec `final-harness-polish`, arc
 ## Hallazgos corregidos
 
 1. La etiqueta `ENTRADA` terminaba en el límite de un fondo más estrecho que los demás.
-   - Los tres fondos tienen ahora una anchura consistente.
+   - Una primera corrección a 96 unidades seguía dejando el texto visualmente demasiado próximo al borde en GitHub.
+   - Los tres fondos tienen ahora una anchura consistente de 120 unidades.
    - `ENTRADA` y las dos etiquetas `PREVISTO` usan centrado explícito.
-   - El SVG se renderizó y revisó visualmente.
+   - El SVG se renderizó de nuevo y recibió aprobación visual humana.
 2. GitHub podía partir `ESS-01`, `MED-01`, `ADV-01` o `EXP-01` por el guion.
    - Los veinticinco IDs visibles del README utilizan un guion no separable.
    - Las referencias contractuales y técnicas mantienen el ID ASCII canónico.

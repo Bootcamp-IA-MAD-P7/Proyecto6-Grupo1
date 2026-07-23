@@ -289,10 +289,10 @@ def check_svg_assets(errors: list[str]) -> None:
                 for element in root.findall(f"{namespace}rect")
                 if element.attrib.get("class") in {"accent", "warn"}
             ]
-            if len(pill_widths) != 3 or min(pill_widths, default=0) < 96:
+            if len(pill_widths) != 3 or min(pill_widths, default=0) < 120:
                 errors.append(
                     "Primary README diagram status backgrounds need at least "
-                    "96 units of width"
+                    "120 units of width"
                 )
 
 
