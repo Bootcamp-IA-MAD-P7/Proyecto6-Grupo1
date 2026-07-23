@@ -4,12 +4,23 @@
 
 | Integrante | Rol principal | Rol de respaldo | Estado |
 |---|---|---|---|
-| José | Pendiente de acordar | Pendiente | Activo |
-| Abel | Pendiente de acordar | Pendiente | Activo |
-| Víctor | Pendiente de acordar | Pendiente | Activo |
-| Miguel | Pendiente de acordar | Pendiente | Activo |
+| José | Backend | Por acordar | Activo |
+| Abel | Frontend y UX | Por acordar | Activo |
+| Víctor | Datos y EDA | Por acordar | Activo |
+| Miguel | Arquitectura, arnés y coordinación transversal | Por acordar | Activo |
 
-Los roles no se asignarán por suposición. Cuando se acuerden, deberán cubrir al menos producto, datos/ML, aplicación/UX, plataforma/MLOps y QA/documentación, con responsabilidades de respaldo para evitar silos.
+Los roles principales reflejan el acuerdo actual. Los respaldos y la cobertura estable de producto, MLOps y QA siguen pendientes; no deben asignarse por suposición.
+
+## Asignaciones vigentes
+
+| Área | Persona | Referencia | Estado |
+|---|---|---|---|
+| Datos y EDA | Víctor | `001-cfpb-target-contract/T-004` | Activa |
+| Arquitectura y arnés | Miguel | `004-agentic-harness` | Activa |
+| Frontend y UX | Abel | Propuesta experimental fuera de `dev` | En pausa; no existe aplicación integrada |
+| Backend | José | `003-complaint-routing-experience/T-007` | Bloqueada por datos y modelo |
+
+La tabla describe el estado de `dev`. Una rama o Pull Request abierta no se considera capacidad integrada ni cambia por sí sola estas asignaciones.
 
 ## Acuerdo de trabajo con IA
 
@@ -24,3 +35,4 @@ Los roles no se asignarán por suposición. Cuando se acuerden, deberán cubrir 
 | Fecha | Integrante | Cambio |
 |---|---|---|
 | 2026-07-22 | Josué | Baja del Bootcamp comunicada; deja de formar parte del equipo activo. |
+| 2026-07-23 | Equipo activo | Responsabilidades principales confirmadas y trabajo activo limitado al EDA y al arnés. |

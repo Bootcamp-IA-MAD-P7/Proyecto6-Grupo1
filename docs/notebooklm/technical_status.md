@@ -2,10 +2,10 @@
 
 ## Estado general
 
-- Fase: descubrimiento.
+- Fase: descubrimiento, EDA y adopción del arnés agéntico.
 - Idea de negocio: clasificación y enrutamiento de reclamaciones financieras, elegida por unanimidad con condiciones.
 - Dataset: Consumer Complaint Database del CFPB viable con condiciones; target y reglas de EDA versionados.
-- Código funcional: no iniciado.
+- Código de producto funcional: no iniciado; existen scripts de validación y automatización del trabajo.
 - Despliegue: no iniciado.
 
 ## Capacidades verificadas
@@ -26,6 +26,9 @@
 - React PWA confirmada como dirección frontend inicial; backend, implementación de inferencia y evolución nativa siguen pendientes.
 - Spec `003-complaint-routing-experience` preparada con arquitectura de información, OpenAPI contract-only y siete tests; no existe aún frontend ni servicio.
 - Flujo humano-IA independiente de proveedor implementado y verificado, con generación acotada de contexto por spec y tarea.
+- Capa agéntica en desarrollo con cuatro roles, cuatro procedimientos y una entrada única probada localmente; todavía no está integrada en `dev`.
+- Responsabilidades principales confirmadas: Miguel en arquitectura y arnés, José en backend, Abel en frontend/UX y Víctor en datos y EDA.
+- El único trabajo de producto activo desde `dev` es la incorporación de evidencia del EDA en `001/T-004`.
 - Workflow `repository-quality` ejecutado correctamente en Pull Request.
 - Ruleset `Protect dev` activo con PR y check de calidad obligatorios, historial lineal y bloqueo de force push y borrado.
 - Aprobaciones humanas no requeridas temporalmente.
@@ -43,7 +46,7 @@
 
 - Tratar la viabilidad condicionada como si idioma, privacidad y partición ya estuvieran cerrados.
 - Confundir estructura preparada con funcionalidad implementada.
-- Los roles del equipo activo todavía no están asignados.
+- Los roles de respaldo y la cobertura estable de producto, MLOps y QA siguen sin asignar.
 - La normalización de target está versionada; idioma, deduplicación final, partición, desbalanceo y privacidad siguen pendientes de la evidencia del EDA.
 - El fuerte crecimiento de reclamaciones de informes de crédito puede producir desbalanceo extremo y cambios de procedencia que limiten la representatividad.
 - La muestra temporal detecta drift de etiquetas y duplicación: el extremo de 2023 concentra la etiqueta histórica y muchos más duplicados que el extremo de 2026.
