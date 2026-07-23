@@ -7,6 +7,6 @@
 - `security/`: controles automáticos de seguridad aplicables al sistema.
 - `performance/`: tiempos, carga y límites operativos acordados.
 
-La estrategia concreta y los umbrales se definirán en las specs correspondientes.
+La estrategia concreta y los umbrales se definirán en los cambios y capacidades OpenSpec correspondientes.
 
-Actualmente existen pruebas `unit/` y `contract/`. Las demás categorías se crearán cuando una spec aporte su primera prueba real.
+Actualmente existen pruebas `unit/` y `contract/`. Las demás categorías se crearán cuando un cambio OpenSpec aporte su primera prueba real.

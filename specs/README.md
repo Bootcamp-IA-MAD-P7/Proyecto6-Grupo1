@@ -1,15 +1,20 @@
-# Specs
+# Expedientes de compatibilidad
 
-Aquí vivirá una carpeta numerada por funcionalidad, hito o cambio relevante.
+Estas carpetas documentan trabajo creado antes de implantar OpenSpec. Se mantienen para no romper las tareas ya asignadas ni perder decisiones históricas.
 
-## Specs actuales
-
-| ID | Spec | Estado | Propósito |
+| ID | Expediente | Estado | Uso permitido |
 |---|---|---|---|
-| `000` | [`problem-discovery`](000-problem-discovery/spec.md) | `in_progress` | Validar las puertas de datos y cerrar la selección condicionada |
-| `001` | [`cfpb-target-contract`](001-cfpb-target-contract/spec.md) | `in_progress` | Fijar clases, elegibilidad y límites comunes para EDA y modelado |
-| `002` | [`team-ai-workflow`](002-team-ai-workflow/spec.md) | `closed` | Unificar el trabajo humano-IA sin imponer una herramienta |
-| `003` | [`complaint-routing-experience`](003-complaint-routing-experience/spec.md) | `ready` | Definir flujo React PWA y contrato simulado de inferencia |
-| `004` | [`agentic-harness`](004-agentic-harness/spec.md) | `in_progress` | Proporcionar contexto y procedimientos autoservicio a cualquier IA |
+| `000` | [`problem-discovery`](000-problem-discovery/spec.md) | En curso | Cerrar las puertas de descubrimiento heredadas |
+| `001` | [`cfpb-target-contract`](001-cfpb-target-contract/spec.md) | En curso | Terminar el EDA asignado a Víctor y aplicar el contrato de target |
+| `002` | [`team-ai-workflow`](002-team-ai-workflow/spec.md) | Cerrado | Referencia histórica del flujo independiente de proveedor |
+| `003` | [`complaint-routing-experience`](003-complaint-routing-experience/spec.md) | En curso | Terminar la tarea frontend asignada a Abel |
+| `004` | [`agentic-harness`](004-agentic-harness/spec.md) | Sustituido | Evidencia de la primera iteración; OpenSpec gobierna la implantación definitiva |
 
-La spec `001` permite que el EDA avance en paralelo con un contrato común. La spec `002`, ya cerrada, fija el método independiente de proveedor. La spec `003` define la experiencia y el contrato de la futura React PWA. La spec `004` convierte esas fuentes en un arnés autoservicio. La spec `000` permanece en curso hasta cerrar privacidad y evidencia de usuario; todavía no existe producto funcional.
+## Regla desde la adopción
+
+- No crear nuevas carpetas `NNN-nombre`.
+- Crear los cambios nuevos en `openspec/changes/`.
+- Archivar los cambios completados para actualizar `openspec/specs/`.
+- Adaptar mediante OpenSpec cualquier entrega heredada que cambie alcance, contratos o decisiones.
+
+La configuración vigente está en [`openspec/config.yaml`](../openspec/config.yaml) y el manual en [`docs/project_management/harness_quickstart.md`](../docs/project_management/harness_quickstart.md).

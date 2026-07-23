@@ -1,89 +1,150 @@
-# Guía autoservicio para trabajar con IA
+# Manual sencillo: OpenSpec + arnés
 
-Esta guía permite que cualquier integrante empiece desde el repositorio sin recibir archivos preparados por otra persona y sin depender de una herramienta de IA concreta.
+Este manual permite trabajar desde el repositorio con cualquier IA. Nadie tiene que esperar a que Miguel le prepare archivos.
 
-## Qué hace el arnés
+## Qué hace cada pieza
 
-El arnés reúne automáticamente:
+| Pieza | Explicación corriente |
+|---|---|
+| Jira | Dice quién hace el trabajo y en qué estado está |
+| OpenSpec | Guarda qué se quiere cambiar, qué debe cumplir y qué tareas hay |
+| Arnés | Da a la IA las reglas, el rol y el contexto correctos |
+| Git y Pull Request | Conservan el cambio y permiten revisarlo antes de unirlo |
+| Persona responsable | Decide, revisa el diff y autoriza la publicación |
 
-- reglas del proyecto;
-- intención y briefing;
-- rol;
-- spec, plan, tareas y decisiones;
-- contratos de datos o API relacionados;
-- procedimiento de inicio, verificación, revisión o Pull Request.
+OpenSpec está instalado dentro del repositorio. No hace falta instalarlo globalmente ni elegir una IA concreta.
 
-No ejecuta una tarea por su cuenta, no comparte datos, no hace commits y no fusiona cambios.
+## 0. Primera preparación
 
-## Requisitos locales
-
-- Git y acceso de lectura al repositorio.
-- Python `3.12`, que es la versión utilizada por CI.
-- Una terminal situada en la raíz del clon.
-
-Comprobación inicial:
-
-```bash
-python --version
-python scripts/harness.py --help
-```
-
-GitHub CLI no es necesario para generar contexto ni trabajar en local. Solo facilita algunas operaciones posteriores con Pull Requests.
-
-## 1. Obtener el repositorio
-
-La primera vez:
+Se hace una vez por clon:
 
 ```bash
 git clone https://github.com/Bootcamp-IA-MAD-P7/Proyecto6-Grupo1.git
 cd Proyecto6-Grupo1
 git switch dev
+npm ci
+python scripts/harness.py doctor
 ```
 
-Si el repositorio ya está clonado:
+El diagnóstico correcto muestra cuatro líneas `PASS`: Node.js, OpenSpec, raíz del proyecto y validación estricta.
+
+Requisitos:
+
+- Git;
+- Python 3.12;
+- Node.js 20.19 o superior;
+- acceso de lectura al repositorio.
+
+## 1. Actualizar antes de cada tarea
 
 ```bash
 git switch dev
 git pull --ff-only
+npm ci
+python scripts/harness.py doctor
+git status --short --branch
 ```
 
-Antes de trabajar debe aparecer:
+Si hay cambios locales inesperados, se para y se revisan. No se borran.
 
-```text
-## dev...origin/dev
-```
+## 2. Leer la asignación
 
-## 2. Consultar la asignación
+Abrir:
 
-Abrir [`team.md`](team.md) y localizar:
+- `docs/project_management/team.md`;
+- la historia de Jira, cuando exista;
+- `docs/project_management/delivery_levels.md`.
 
-- persona;
-- rol;
-- spec;
-- tarea;
-- estado o bloqueo.
-
-Después comprobar la tarea en `specs/<spec>/tasks.md`. Jira indica asignación y estado operativo; el repositorio conserva el contrato y las evidencias.
-
-Si la tarea está marcada `[!]`, no se implementa. Se informa del bloqueo y se espera una decisión o dependencia.
+Jira no contiene los requisitos completos. Solo enlaza el cambio OpenSpec y permite seguir su estado.
 
 ## 3. Crear una rama
 
 ```bash
-git switch -c <tipo>/<descripcion-corta>
+git switch -c tipo/descripcion-corta
 ```
 
 Ejemplos:
 
 ```bash
-git switch -c data/cfpb-eda
-git switch -c feature/inference-service
-git switch -c docs/update-analysis
+git switch -c data/analyze-language
+git switch -c feature/complaint-form
+git switch -c docs/update-client-narrative
 ```
 
-## 4. Preparar el contexto
+## 4. Crear un cambio OpenSpec
 
-Ejemplo para `data-analyst`, spec `001` y tarea `T-004`:
+Solo se crea para trabajo nuevo o para una entrega heredada que cambie decisiones o contratos:
+
+```bash
+npm exec openspec new change nombre-del-cambio \
+  --goal "Resultado observable que se quiere conseguir"
+```
+
+El nombre usa minúsculas y guiones. La carpeta aparecerá en:
+
+```text
+openspec/changes/nombre-del-cambio/
+```
+
+La IA debe completar, en este orden, los artefactos que pida OpenSpec:
+
+```text
+proposal.md  -> por qué y qué cambia
+specs/       -> requisitos comprobables
+design.md    -> cómo se plantea resolverlo
+tasks.md     -> pasos pequeños y verificables
+```
+
+Instrucción sencilla para cualquier IA con acceso al repositorio:
+
+```text
+Lee AGENTS.md y openspec/config.yaml.
+Trabaja con OpenSpec sobre el cambio <nombre-del-cambio>.
+Completa primero los artefactos de planificación que falten.
+No implementes nada hasta que la planificación esté completa y validada.
+Antes de editar, dime alcance, archivos, bloqueantes y comprobaciones.
+No inventes decisiones ni evidencias.
+```
+
+Comandos de apoyo:
+
+```bash
+npm exec openspec status --change nombre-del-cambio
+npm exec openspec instructions proposal --change nombre-del-cambio
+npm exec openspec instructions specs --change nombre-del-cambio
+npm exec openspec instructions design --change nombre-del-cambio
+npm exec openspec instructions tasks --change nombre-del-cambio
+npm exec openspec validate nombre-del-cambio --type change --strict
+```
+
+Las carpetas `.codex/`, `.github/`, `.claude/`, `.cursor/` y `.gemini/` ya contienen los adaptadores oficiales generados por OpenSpec. Cada herramienta puede reconocer sus skills o comandos; el flujo de terminal anterior funciona siempre.
+
+## 5. Dar contexto a la IA mediante el arnés
+
+Cuando la planificación esté completa:
+
+```bash
+python scripts/harness.py start \
+  --role architect \
+  --change nombre-del-cambio
+```
+
+Roles disponibles:
+
+- `architect`;
+- `data-analyst`;
+- `backend-developer`;
+- `frontend-developer`.
+
+El comando consulta al OpenSpec real, valida el cambio y crea un único Markdown en `exports/ai-handoffs/`.
+
+- Si la IA ve el repositorio, se le indica que lea ese archivo.
+- Si no ve el repositorio, se sube únicamente ese Markdown después de revisarlo.
+- Nunca se suben CSV, narrativas CFPB, secretos, modelos, `.env` o logs.
+
+## 6. Trabajo anterior a OpenSpec
+
+Víctor y Abel pueden terminar las tareas ya asignadas sin rehacerlas:
 
 ```bash
 python scripts/harness.py start \
@@ -92,127 +153,105 @@ python scripts/harness.py start \
   --task T-004
 ```
 
-La terminal muestra una ruta dentro de:
-
-```text
-exports/ai-handoffs/
+```bash
+python scripts/harness.py start \
+  --role frontend-developer \
+  --spec 003 \
+  --task T-006
 ```
 
-### Si la IA puede leer el repositorio
+Esta opción es transitoria. Si durante el trabajo aparece una decisión nueva que cambia el contrato, se crea antes un cambio OpenSpec.
 
-Abrir la raíz del proyecto en la herramienta y escribir:
+## 7. Implementar y verificar
 
-```text
-Lee el paquete generado en exports/ai-handoffs/.
+Se trabajan las tareas de `openspec/changes/<nombre>/tasks.md` en orden. Al completar una:
 
-No modifiques nada todavía.
-Explícame el objetivo, el alcance, los archivos previstos,
-los bloqueantes, los requisitos del briefing y las comprobaciones.
-Después trabaja únicamente en la tarea indicada.
-```
+1. se ejecutan sus comprobaciones;
+2. se registra evidencia real;
+3. se cambia `[ ]` por `[x]`.
 
-Si la IA dispone de terminal, también puede ejecutar el comando del arnés por petición de la persona responsable.
-
-### Si la IA no puede leer el repositorio
-
-Subir únicamente el Markdown generado y utilizar la misma instrucción. No se seleccionan documentos manualmente y nunca se adjuntan datasets, narrativas, secretos, modelos ni logs.
-
-## 5. Trabajar
-
-La IA debe explicar antes de editar:
-
-1. qué pide la tarea;
-2. qué queda fuera;
-3. qué archivos propone modificar;
-4. qué decisiones están abiertas;
-5. cómo comprobará el resultado.
-
-La persona responsable revisa el alcance y el diff. El rol orienta a la IA, pero no le concede permiso para ignorar bloqueos ni tomar decisiones pendientes.
-
-## 6. Verificar
-
-Preparar el contexto de verificación:
+Contexto de verificación:
 
 ```bash
 python scripts/harness.py verify \
   --role <rol> \
-  --spec <spec> \
-  --task <T-XXX>
+  --change nombre-del-cambio
 ```
 
-Como mínimo deben ejecutarse:
+Comprobaciones mínimas:
 
 ```bash
-git diff --check
+npm run openspec:validate
 python scripts/quality/check_repository.py
-git status --short --branch
+python -m unittest discover -s tests/unit -p "test_*.py" -v
+python -m unittest discover -s tests/contract -p "test_*.py" -v
+git diff --check
+git status --short
 ```
 
-Además se ejecutan los tests definidos en la tarea. Un resultado con checks fallidos no se presenta como terminado.
+Cada área añade sus propios tests.
 
-## 7. Revisar
-
-Preparar una revisión independiente:
+## 8. Revisar el cambio
 
 ```bash
 python scripts/harness.py review \
   --role <rol> \
-  --spec <spec> \
-  --task <T-XXX>
+  --change nombre-del-cambio
 ```
 
-La revisión busca defectos, riesgos, fugas de datos, contratos rotos, tests ausentes y afirmaciones que no coincidan con el estado real.
+La IA ayuda a buscar contradicciones, riesgos, datos sensibles y evidencia ausente. La persona responsable revisa el diff completo.
 
-## 8. Preparar la Pull Request
+## 9. Archivar y preparar la Pull Request
 
-Cuando la tarea esté verificada y marcada `[x]`:
+Cuando todas las tareas estén marcadas y verificadas:
 
 ```bash
-python scripts/harness.py prepare-pr \
-  --role <rol> \
-  --spec <spec> \
-  --task <T-XXX>
+npm exec openspec archive nombre-del-cambio --yes
 ```
 
-La IA debe leer `.github/pull_request_template.md` y devolverla completa en Markdown. La persona copia ese contenido en la PR, revisa las casillas y firma el cambio.
+Archivar:
+
+- mueve el expediente terminado al histórico;
+- actualiza `openspec/specs/` con la capacidad vigente;
+- no hace commit, push ni merge.
 
 Después:
 
 ```bash
 git add <archivos-revisados>
-git commit -m "tipo: descripción del cambio"
+git diff --cached --check
+git commit -m "tipo: descripción breve"
 git push -u origin <rama>
 ```
 
-La Pull Request apunta a `dev`. No se hace merge hasta que los checks pasen y las conversaciones estén resueltas.
-
-## Relación con el briefing
-
-Todo paquete incluye [`delivery_levels.md`](delivery_levels.md). La IA debe indicar qué identificadores `ESS`, `MED`, `ADV` o `EXP` afecta la tarea.
-
-Un requisito solo cambia a `Verificado` cuando existe la evidencia mínima definida en ese documento.
-
-## Relación con Jira
-
-Cada historia debe incluir, como mínimo:
+Se abre una Pull Request hacia `dev`. La plantilla aparece automáticamente. Puede pedirse a la IA:
 
 ```text
-Spec: specs/<spec>/
-Tarea: T-XXX
-Responsable:
-Criterios del briefing:
+Lee .github/pull_request_template.md y el diff de esta rama.
+Devuélveme la plantilla completa en Markdown.
+No inventes tests, evidencias ni resultados.
 ```
 
-Jira mantiene asignación, prioridad y estado diario. La spec conserva el contrato; Git y la Pull Request conservan implementación y evidencias. Si se contradicen, se detiene el trabajo y se corrige el origen antes de continuar.
+Solo hay que copiar y pegar el Markdown resultante en la descripción de la PR.
 
-## Si algo falla
+## 10. Cierre
 
-| Mensaje | Qué significa |
+Antes del merge:
+
+- OpenSpec y CI pasan;
+- no quedan conversaciones pendientes;
+- las tareas y evidencias coinciden;
+- la daily refleja únicamente aportaciones reales;
+- NotebookLM se actualiza solo si cambian hechos útiles para la presentación;
+- una persona confirma el merge.
+
+## Errores frecuentes
+
+| Mensaje o situación | Qué hacer |
 |---|---|
-| `Unknown role` | El rol no existe en `ai-specs/agents/` |
-| `Task ... does not exist` | La tarea o la spec no coinciden |
-| `blocked` | La tarea tiene una dependencia sin resolver |
-| `must be completed` | Se intentó preparar la PR antes de verificar la tarea |
-| `Source ... is not allowed` | Se intentó incluir una fuente insegura o no versionada |
-
-No se desactiva la comprobación. Se corrige la entrada o se consulta el bloqueo.
+| `OpenSpec is not installed locally` | Ejecutar `npm ci` |
+| `planning artifacts are incomplete` | Completar propuesta, requisitos, diseño y tareas |
+| `does not pass strict validation` | Ejecutar la validación y corregir requisitos o escenarios |
+| `unfinished tasks` al preparar PR | Verificar y marcar las tareas restantes |
+| Tarea heredada contradice una decisión | Abrir un cambio OpenSpec antes de seguir |
+| La IA pide el CSV o narrativas | No compartirlos; utilizar evidencias agregadas y contratos |

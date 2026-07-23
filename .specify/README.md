@@ -1,69 +1,39 @@
-# Trabajo basado en specs
+# Intención y compatibilidad del método de specs
 
-Las conversaciones ayudan a explorar. Las specs conservan dentro del repositorio lo que el equipo ha decidido construir.
+[`intent.md`](intent.md) define el propósito, las restricciones globales y los principios estables del proyecto. Sigue siendo una fuente vigente.
 
-## Jerarquía documental
-
-```text
-intent -> spec -> plan -> tasks -> implementation -> verification -> closure
-```
-
-- [`intent.md`](intent.md) define el propósito, las restricciones globales y los principios estables del proyecto.
-- `specs/` contiene un contrato independiente por descubrimiento, funcionalidad o cambio relevante.
-- `templates/` proporciona la estructura mínima para redactar esos contratos.
-
-El intent no selecciona una idea de negocio ni sustituye las specs. Solo cambia cuando cambia el propósito global del proyecto.
-
-## Una carpeta por cambio
+Desde el 23 de julio de 2026, los cambios nuevos se gestionan con OpenSpec:
 
 ```text
-specs/001-nombre-del-cambio/
-├── spec.md
-├── plan.md
-├── tasks.md
-└── decisions.md
+intent
+  -> openspec/changes/<change>/
+  -> propuesta + requisitos + diseño + tareas
+  -> implementación + verificación
+  -> openspec/specs/ + archivo histórico
 ```
 
-Las plantillas están en `.specify/templates/`.
+Las plantillas de `.specify/templates/` y las carpetas numeradas de `specs/` se conservan para interpretar y terminar el trabajo creado antes de la adopción. No deben utilizarse para iniciar cambios nuevos.
 
-## Secuencia
-
-1. **Spec:** problema, usuario, alcance, escenarios y criterios de aceptación.
-2. **Plan:** solución técnica, contratos, archivos, pruebas, riesgos y reversión.
-3. **Tasks:** unidades pequeñas con dependencias y verificación.
-4. **Implementación:** únicamente tareas activas.
-5. **Verificación:** tests, métricas, comandos o revisión manual.
-6. **Cierre:** sincronizar tareas, decisiones, documentación y comportamiento real.
-
-## Estados
-
-- `[ ]` pendiente.
-- `[~]` en curso.
-- `[x]` completada y verificada.
-- `[!]` bloqueada.
-- `[-]` descartada con motivo.
-
-## Puertas de avance
-
-No se pasa a implementación si existen preguntas bloqueantes sobre el comportamiento. No se cierra una spec si sus criterios de aceptación carecen de evidencia.
-
-## Specs activas
-
-- [`000-problem-discovery`](../specs/000-problem-discovery/spec.md) gobierna el cierre del descubrimiento.
-- [`001-cfpb-target-contract`](../specs/001-cfpb-target-contract/spec.md) fija las reglas compartidas de clases y datos mientras el EDA avanza en paralelo.
-- [`002-team-ai-workflow`](../specs/002-team-ai-workflow/spec.md) conserva el flujo independiente de proveedor y está cerrada.
-- [`003-complaint-routing-experience`](../specs/003-complaint-routing-experience/spec.md) define la experiencia React PWA y el contrato de inferencia para mocks.
-- [`004-agentic-harness`](../specs/004-agentic-harness/spec.md) convierte roles, procedimientos, briefing y tareas en un flujo autoservicio.
-
-No se crea una spec por cada notebook o tarea pequeña. Se crea cuando varias personas o componentes necesitan compartir un comportamiento, una decisión o una evidencia verificable.
-
-## Empezar una tarea
-
-La [guía autoservicio](../docs/project_management/harness_quickstart.md) y el [flujo operativo](../docs/project_management/workflow.md) conectan Jira, spec, rama, IA, verificaciones y Pull Request. Cada integrante genera el contexto desde su propio clon:
+## Empezar un cambio nuevo
 
 ```bash
-python scripts/harness.py start \
-  --role data-analyst \
-  --spec 001 \
-  --task T-004
+npm ci
+python scripts/harness.py doctor
+npm exec openspec new change <nombre-en-kebab-case>
 ```
+
+Después se completan los artefactos que indique OpenSpec y se genera el contexto de trabajo:
+
+```bash
+python scripts/harness.py start --role <rol> --change <nombre>
+```
+
+La guía completa está en [`docs/project_management/harness_quickstart.md`](../docs/project_management/harness_quickstart.md).
+
+## Trabajo anterior aún asignado
+
+- Víctor puede terminar `001/T-004`.
+- Abel puede terminar `003/T-006`.
+- Si esas entregas incorporan decisiones nuevas o contradicen los contratos vigentes, se abre un cambio OpenSpec antes de integrarlas.
+
+Jira registra quién hace el trabajo y su estado. OpenSpec conserva qué se acuerda construir y cómo se demuestra.

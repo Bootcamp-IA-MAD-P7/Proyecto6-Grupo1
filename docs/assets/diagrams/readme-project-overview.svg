@@ -1,0 +1,59 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="520" viewBox="0 0 1200 520" role="img" aria-labelledby="title desc">
+  <title id="title">Visión del sistema de apoyo al enrutamiento</title>
+  <desc id="desc">Una reclamación escrita pasa por controles de privacidad, clasificación multiclase y revisión humana antes de convertirse en una sugerencia de enrutamiento.</desc>
+  <defs>
+    <style>
+      .bg{fill:#f7f5ef}.panel{fill:#fff;stroke:#173f4f;stroke-width:2}.planned{fill:#fff;stroke:#8b6f3d;stroke-width:2;stroke-dasharray:8 6}
+      .title{font:700 28px system-ui,sans-serif;fill:#173f4f}.label{font:700 18px system-ui,sans-serif;fill:#173f4f}
+      .copy{font:400 15px system-ui,sans-serif;fill:#3f4e55}.small{font:600 13px system-ui,sans-serif;fill:#6d5b38}
+      .arrow{stroke:#52755b;stroke-width:4;fill:none;marker-end:url(#end)}.accent{fill:#dbe9e2}.warn{fill:#f1e7d3}
+    </style>
+    <marker id="end" markerWidth="12" markerHeight="12" refX="10" refY="6" orient="auto">
+      <path d="M0 0L12 6L0 12Z" fill="#52755b"/>
+    </marker>
+  </defs>
+  <rect class="bg" width="1200" height="520" rx="24"/>
+  <text class="title" x="70" y="70">De texto libre a una recomendación revisable</text>
+  <text class="copy" x="70" y="101">Dirección de producto aprobada · El modelo y la inferencia real todavía no están implementados</text>
+
+  <rect class="panel" x="70" y="160" width="220" height="210" rx="18"/>
+  <rect class="accent" x="92" y="184" width="76" height="34" rx="17"/>
+  <text class="small" x="108" y="206">ENTRADA</text>
+  <text class="label" x="92" y="258">Reclamación escrita</text>
+  <text class="copy" x="92" y="292">Narrativa sin campos que</text>
+  <text class="copy" x="92" y="316">revelen directamente</text>
+  <text class="copy" x="92" y="340">la categoría objetivo.</text>
+
+  <path class="arrow" d="M290 265H365"/>
+
+  <rect class="planned" x="385" y="160" width="220" height="210" rx="18"/>
+  <rect class="warn" x="407" y="184" width="96" height="34" rx="17"/>
+  <text class="small" x="423" y="206">PREVISTO</text>
+  <text class="label" x="407" y="258">Clasificación</text>
+  <text class="copy" x="407" y="292">Una familia entre once</text>
+  <text class="copy" x="407" y="316">clases canónicas, con</text>
+  <text class="copy" x="407" y="340">confianza y alternativas.</text>
+
+  <path class="arrow" d="M605 265H680"/>
+
+  <rect class="planned" x="700" y="160" width="220" height="210" rx="18"/>
+  <rect class="warn" x="722" y="184" width="96" height="34" rx="17"/>
+  <text class="small" x="738" y="206">PREVISTO</text>
+  <text class="label" x="722" y="258">Revisión humana</text>
+  <text class="copy" x="722" y="292">La persona confirma,</text>
+  <text class="copy" x="722" y="316">corrige o deriva el caso.</text>
+  <text class="copy" x="722" y="340">No hay decisión automática.</text>
+
+  <path class="arrow" d="M920 265H995"/>
+
+  <rect class="panel" x="1015" y="160" width="115" height="210" rx="18"/>
+  <text class="label" x="1037" y="235">Cola</text>
+  <text class="label" x="1037" y="261">sugerida</text>
+  <text class="copy" x="1037" y="302">Regla</text>
+  <text class="copy" x="1037" y="326">separada y</text>
+  <text class="copy" x="1037" y="350">configurable.</text>
+
+  <line x1="70" y1="425" x2="1130" y2="425" stroke="#c9d3d6" stroke-width="2"/>
+  <text class="small" x="70" y="463">ESTADO VERIFICADO · 23 JUL 2026</text>
+  <text class="copy" x="330" y="463">Dataset y target contratados · EDA en curso · 0 modelos · 0 despliegues</text>
+</svg>

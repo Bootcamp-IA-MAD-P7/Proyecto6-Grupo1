@@ -2,6 +2,7 @@
 
 from __future__ import annotations
 
+import json
 import re
 import subprocess
 import sys
@@ -13,6 +14,13 @@ ROOT = Path(__file__).resolve().parents[2]
 DAILY_PATTERN = re.compile(r"^\d{4}-\d{2}-\d{2}\.md$")
 SPEC_DIRECTORY_PATTERN = re.compile(r"^\d{3}-[a-z0-9]+(?:-[a-z0-9]+)*$")
 SPEC_REQUIRED_FILES = ("spec.md", "plan.md", "tasks.md", "decisions.md")
+LEGACY_SPEC_DIRECTORIES = {
+    "000-problem-discovery",
+    "001-cfpb-target-contract",
+    "002-team-ai-workflow",
+    "003-complaint-routing-experience",
+    "004-agentic-harness",
+}
 TEAM_MEMBERS = ("José", "Abel", "Víctor", "Miguel")
 MAX_TRACKED_SIZE = 10 * 1024 * 1024
 IGNORED_LINK_PREFIXES = ("http://", "https://", "mailto:", "#")
@@ -58,6 +66,14 @@ def check_required_paths(errors: list[str]) -> None:
         "docs/design/documentation_visual_standard.md",
         "docs/notebooklm/source_catalog.md",
         "docs/project_management/dailies/2026-07-22.md",
+        "package.json",
+        "package-lock.json",
+        "openspec/config.yaml",
+        ".codex/skills/openspec-propose/SKILL.md",
+        ".github/prompts/opsx-propose.prompt.md",
+        ".claude/commands/opsx/propose.md",
+        ".cursor/commands/opsx-propose.md",
+        ".gemini/commands/opsx/propose.toml",
     )
     for relative in required:
         if not (ROOT / relative).exists():
@@ -109,6 +125,11 @@ def check_spec_bundles(errors: list[str]) -> None:
         if not SPEC_DIRECTORY_PATTERN.fullmatch(path.name):
             errors.append(f"Invalid spec directory name: {path.name}")
             continue
+        if path.name not in LEGACY_SPEC_DIRECTORIES:
+            errors.append(
+                "New numbered spec directories are not allowed after OpenSpec "
+                f"adoption: {path.name}"
+            )
         for filename in SPEC_REQUIRED_FILES:
             if not (path / filename).is_file():
                 errors.append(f"Spec {path.name} is missing {filename}")
@@ -123,6 +144,63 @@ def check_tracked_files(files: list[Path], errors: list[str]) -> None:
             errors.append(f"Tracked file exceeds 10 MiB: {relative}")
 
 
+def check_openspec_configuration(errors: list[str]) -> None:
+    package_path = ROOT / "package.json"
+    lock_path = ROOT / "package-lock.json"
+    config_path = ROOT / "openspec/config.yaml"
+    if not package_path.is_file() or not lock_path.is_file() or not config_path.is_file():
+        return
+
+    try:
+        package = json.loads(package_path.read_text(encoding="utf-8"))
+        lock = json.loads(lock_path.read_text(encoding="utf-8"))
+    except json.JSONDecodeError as exc:
+        errors.append(f"Invalid repository tooling JSON: {exc}")
+        return
+
+    expected_version = "1.6.0"
+    dependency = package.get("devDependencies", {}).get("@fission-ai/openspec")
+    if dependency != expected_version:
+        errors.append(
+            "@fission-ai/openspec must be pinned exactly to "
+            f"{expected_version}; found {dependency!r}"
+        )
+    if package.get("engines", {}).get("node") != ">=20.19.0":
+        errors.append("package.json must require Node.js >=20.19.0")
+    if package.get("scripts", {}).get("openspec:validate") != (
+        "openspec validate --all --strict --no-interactive"
+    ):
+        errors.append("package.json is missing the strict OpenSpec validation script")
+
+    locked_version = (
+        lock.get("packages", {})
+        .get("node_modules/@fission-ai/openspec", {})
+        .get("version")
+    )
+    if locked_version != expected_version:
+        errors.append(
+            "package-lock.json must resolve @fission-ai/openspec "
+            f"{expected_version}; found {locked_version!r}"
+        )
+
+    config = config_path.read_text(encoding="utf-8")
+    required_fragments = (
+        "schema: spec-driven",
+        "OpenSpec manages every new change",
+        "Never add CFPB narratives",
+    )
+    for fragment in required_fragments:
+        if fragment not in config:
+            errors.append(f"OpenSpec config is missing required policy: {fragment}")
+
+    changes = ROOT / "openspec/changes"
+    specs = ROOT / "openspec/specs"
+    if not changes.is_dir():
+        errors.append("Missing OpenSpec changes directory")
+    if not specs.is_dir():
+        errors.append("Missing OpenSpec specifications directory")
+
+
 def main() -> int:
     errors: list[str] = []
     files = tracked_files()
@@ -132,6 +210,7 @@ def main() -> int:
     check_dailies(errors)
     check_spec_bundles(errors)
     check_tracked_files(files or local_files, errors)
+    check_openspec_configuration(errors)
 
     if errors:
         print("Repository quality checks failed:")

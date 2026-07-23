@@ -38,7 +38,8 @@ Documentos actualizados conforme avanza el proyecto:
 
 - README;
 - changelog;
-- specs activas;
+- cambios y capacidades OpenSpec;
+- expedientes numerados únicamente cuando aporten contexto histórico necesario;
 - estado de tareas;
 - dailies;
 - catálogo de fuentes;
@@ -62,7 +63,7 @@ Define audiencia, duración, narrativa, tono, hechos obligatorios, afirmaciones 
 ## Flujo diario
 
 1. Completar la daily del equipo.
-2. Actualizar specs, decisiones y evidencias afectadas.
+2. Actualizar OpenSpec, decisiones y evidencias afectadas.
 3. Revisar `source_catalog.md`.
 4. Actualizar `project_facts.md`, `technical_status.md` y `business_narrative.md` únicamente cuando cambien sus hechos.
 5. Generar el paquete con `scripts/documentation/build_notebooklm_pack.py`.

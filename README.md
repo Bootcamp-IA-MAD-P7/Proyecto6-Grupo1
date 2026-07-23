@@ -1,152 +1,325 @@
-# Proyecto de Clasificación Multiclase
-
-Repositorio del Proyecto 6 del Grupo 1.
+# Clasificación y enrutamiento asistido de reclamaciones
 
 <p align="center">
-  <img alt="Estado: descubrimiento" src="https://img.shields.io/badge/estado-descubrimiento-315C66">
-  <img alt="Rama de integración: dev" src="https://img.shields.io/badge/integración-dev-4C6B50">
-  <img alt="Calidad: SPEC y CI" src="https://img.shields.io/badge/calidad-SPEC%20%2B%20CI-7A5C3E">
+  <strong>Proyecto 6 · Grupo 1 · Clasificación multiclase</strong>
 </p>
 
-## Estado actual
+<p align="center">
+  <a href="https://github.com/Bootcamp-IA-MAD-P7/Proyecto6-Grupo1/actions/workflows/repository-quality.yml"><img alt="Repository quality" src="https://github.com/Bootcamp-IA-MAD-P7/Proyecto6-Grupo1/actions/workflows/repository-quality.yml/badge.svg?branch=dev"></a>
+  <img alt="OpenSpec 1.6.0" src="https://img.shields.io/badge/OpenSpec-1.6.0-173F4F">
+  <img alt="Python 3.12" src="https://img.shields.io/badge/Python-3.12-52755B">
+  <img alt="Estado: EDA en curso" src="https://img.shields.io/badge/estado-EDA%20en%20curso-D5B56E">
+  <img alt="Entrega verificada: 0 de 25" src="https://img.shields.io/badge/criterios%20verificados-0%2F25-6B7478">
+</p>
 
-El proyecto se encuentra en fase de descubrimiento y validación de datos.
+> Una herramienta de apoyo para proponer la categoría y el circuito inicial de una reclamación financiera escrita. La propuesta siempre debe poder ser revisada por una persona.
 
-El equipo ha elegido por unanimidad la clasificación y el enrutamiento de reclamaciones financieras mediante narrativas públicas del CFPB. La decisión es condicional: antes de implementar deben validarse la extracción, las clases, el desbalanceo, la calidad y la privacidad.
+![Visión del sistema de apoyo al enrutamiento](docs/assets/diagrams/readme-project-overview.svg)
 
-El spike preliminar ha verificado 2.306.723 narrativas, catorce etiquetas observadas y un desbalanceo severo. La API y el contrato narrative-only son reproducibles. La spec [`001-cfpb-target-contract`](specs/001-cfpb-target-contract/spec.md) fija once clases canónicas y las reglas compartidas para el EDA; idioma y privacidad siguen abiertos antes de entrenar.
+## Estado de un vistazo
 
-La spec [`003-complaint-routing-experience`](specs/003-complaint-routing-experience/spec.md) define el flujo React PWA y un OpenAPI para trabajar con mocks. Son contratos verificables, no una aplicación ni un servicio implementados.
+| Dimensión | Estado verificable |
+|---|---|
+| Idea de negocio | Elegida por unanimidad: clasificación de reclamaciones CFPB |
+| Dataset | Consumer Complaint Database, viable con condiciones |
+| Ventana analizada | 2.306.723 narrativas entre 2023-08-24 y 2026-07-23 |
+| Target | Once familias canónicas en `config/cfpb_target_contract.json` |
+| Desbalanceo preliminar | Clase mayoritaria: 72,45 % |
+| EDA | En curso, responsabilidad de Víctor |
+| Modelo | No iniciado |
+| Aplicación | React PWA prevista; no implementada ni integrada |
+| Backend e inferencia | No iniciados |
+| Despliegue y MLOps | No iniciados |
+| Método de trabajo | OpenSpec + arnés implantados y comprobados |
 
-La spec [`004-agentic-harness`](specs/004-agentic-harness/spec.md) proporciona una primera versión operativa del arnés de trabajo: cada integrante puede generar desde `dev` un contexto limitado por rol, spec y tarea para utilizarlo con la IA que prefiera. La herramienta está automatizada y verificada; su adopción continúa en evaluación mediante el piloto con Víctor.
+La palabra “previsto” no significa “implementado”. Los contratos y mocks sirven para coordinar trabajo; no demuestran una capacidad de producto.
 
-Todavía no se han decidido de forma definitiva:
+## El problema
 
-- la política de idioma y el tratamiento final de duplicados;
-- la estrategia de partición y desbalanceo basada en el EDA;
-- la métrica principal;
-- el framework de backend y el contrato de inferencia;
-- la arquitectura de despliegue.
+Las organizaciones que reciben reclamaciones financieras deben interpretar texto libre y asignarlo a una categoría y un circuito. El proceso manual consume tiempo, puede ser inconsistente y se enfrenta a cambios de vocabulario, volumen y distribución.
 
-La estructura inicial prepara el repositorio para evolucionar desde el nivel esencial hasta el nivel experto del briefing, sin presentar ninguna capacidad como implementada antes de tiempo.
+La propuesta del equipo es estudiar si un modelo multiclase puede:
 
-## Objetivo académico
+1. recibir una narrativa sin campos que revelen directamente la respuesta;
+2. proponer una de once familias de producto;
+3. mostrar confianza y alternativas;
+4. permitir confirmación o corrección humana;
+5. traducir la categoría a una cola mediante una regla separada.
 
-Construir una solución de clasificación supervisada multiclase con un mínimo de tres clases, análisis exploratorio, evaluación por clase, aplicación de inferencia y control de overfitting inferior al 5 %.
+No resolverá reclamaciones ni tomará decisiones financieras, legales o de elegibilidad.
 
-El alcance aspiracional incluye modelos ensemble, validación cruzada, optimización, feedback, recolección de datos, Docker, base de datos, despliegue, tests, redes neuronales y un ciclo MLOps con A/B testing, Data Drift y promoción controlada de modelos.
+## Datos y límites
 
-## Evolución prevista
+| Contrato | Decisión vigente |
+|---|---|
+| Fuente | [Consumer Complaint Database del CFPB](https://www.consumerfinance.gov/data-research/consumer-complaints/) |
+| Entrada candidata | `complaint_what_happened` |
+| Target de origen | `product` |
+| Target derivado | `product_canonical` |
+| Número de clases | 11 |
+| Exclusiones | Etiquetas ambiguas definidas por contrato |
+| Leakage | Prohibidos los campos que revelan la clase |
+| Privacidad | Ninguna narrativa real en Git, prompts, informes o presentaciones |
+| Decisiones abiertas | Idioma, deduplicación final, split, desbalanceo y métrica principal |
+
+Evidencias: [informe de viabilidad](reports/validation/cfpb_viability.md), [contrato de target](config/cfpb_target_contract.json) y [expediente del EDA](specs/001-cfpb-target-contract/spec.md).
+
+## Harness Engineering implantado
+
+Este repositorio no se limita a tener muchos Markdown. El arnés conecta instrucciones, herramientas, entorno, estado y retroalimentación:
+
+| Componente del arnés | Implementación real |
+|---|---|
+| Instrucciones | `AGENTS.md`, `openspec/config.yaml`, intención, contratos y briefing |
+| Herramientas | OpenSpec local, roles, skills, generadores, GitHub Actions |
+| Entorno | Node y Python fijados; instalación reproducible con lockfile |
+| Estado | Cambios, tareas y capacidades versionados por OpenSpec; Jira para seguimiento |
+| Retroalimentación | Validación estricta, tests, revisión, PR, CI y archivo |
 
 ```mermaid
 flowchart LR
-    D[Descubrimiento] --> E[Nivel esencial]
-    E --> M[Nivel medio]
-    M --> A[Nivel avanzado]
-    A --> X[Nivel experto]
-
-    classDef discovery fill:#E8F0F2,stroke:#315C66,color:#1F3439
-    classDef essential fill:#E8F1E9,stroke:#4C6B50,color:#253A28
-    classDef medium fill:#F3EEDF,stroke:#8A7441,color:#443819
-    classDef advanced fill:#F3E7DD,stroke:#9A603A,color:#4A2D1C
-    classDef expert fill:#ECE7F2,stroke:#67547A,color:#33283D
-
-    class D discovery
-    class E essential
-    class M medium
-    class A advanced
-    class X expert
+    J[Jira<br/>responsable y estado] --> O[OpenSpec change<br/>propuesta · requisitos · diseño · tareas]
+    O --> H[Arnés<br/>rol · reglas · contexto seguro]
+    H --> W[Trabajo en rama]
+    W --> V[Validación · tests · revisión]
+    V -->|fallo| O
+    V -->|correcto| A[Archivo OpenSpec]
+    A --> P[Pull Request + CI]
+    P --> D[dev]
 ```
 
-| Nivel | Resultado protegido | Estado |
-|---|---|---|
-| Descubrimiento | Idea, usuario, datos y viabilidad | Idea elegida; datos en validación |
-| Esencial | Solución multiclase completa y demostrable | En curso: EDA activo |
-| Medio | Champion, feedback y recolección | No iniciado |
-| Avanzado | Contenedores, persistencia, cloud y tests | No iniciado |
-| Experto | Challenger, A/B, drift y promoción gobernada | No iniciado |
+### Qué aporta OpenSpec
+
+- motor estándar de propuestas, requisitos, diseño y tareas;
+- validación estricta antes de implementar;
+- archivo histórico y especificaciones vigentes;
+- adaptadores oficiales para Codex, GitHub Copilot, Claude Code, Cursor y Gemini CLI.
+
+### Qué aporta nuestro arnés
+
+- reglas de privacidad del CFPB;
+- roles de arquitectura, datos, backend y frontend;
+- contexto limitado a cada cambio;
+- diagnóstico de instalación;
+- paquetes seguros para una IA sin acceso al repositorio;
+- bloqueo de cambios incompletos y PR con tareas pendientes.
+
+### Qué sigue siendo humano
+
+- aprobar alcance y decisiones;
+- revisar datos, código, diff y evidencias;
+- autorizar commit, push, archivo, PR y merge;
+- decidir si el resultado satisface al usuario.
+
+## Inicio rápido
+
+```bash
+git clone https://github.com/Bootcamp-IA-MAD-P7/Proyecto6-Grupo1.git
+cd Proyecto6-Grupo1
+git switch dev
+npm ci
+python scripts/harness.py doctor
+```
+
+Nuevo cambio:
+
+```bash
+git switch -c tipo/descripcion-corta
+npm exec openspec new change nombre-del-cambio \
+  --goal "Resultado observable"
+npm exec openspec status --change nombre-del-cambio
+python scripts/harness.py start \
+  --role architect \
+  --change nombre-del-cambio
+```
+
+Víctor y Abel pueden terminar sus tareas anteriores mediante el modo de compatibilidad:
+
+```bash
+python scripts/harness.py start --role data-analyst --spec 001 --task T-004
+python scripts/harness.py start --role frontend-developer --spec 003 --task T-006
+```
+
+Manual completo: [OpenSpec + arnés para el equipo](docs/project_management/harness_quickstart.md).
+
+## Arquitectura prevista
+
+```mermaid
+flowchart LR
+    UI[React PWA] --> API[API de aplicación]
+    API --> UC[Casos de uso]
+    UC --> DOM[Dominio]
+    UC --> INF[Puerto de inferencia]
+    INF --> MODEL[Modelo versionado]
+    UC --> DB[(Feedback)]
+    PIPE[Pipeline de datos y ML] --> MODEL
+    MODEL --> MON[Evaluación y monitorización]
+
+    classDef planned fill:#fff7e7,stroke:#8b6f3d,stroke-dasharray:6 4,color:#423719
+    class UI,API,UC,DOM,INF,MODEL,DB,PIPE,MON planned
+```
+
+Todos los nodos de este diagrama son arquitectura prevista. Ninguno acredita todavía una aplicación funcional.
+
+Principios:
+
+- dominio independiente de frameworks;
+- entrenamiento separado de inferencia;
+- contratos estables entre frontend, backend y modelo;
+- configuración fuera del código;
+- observabilidad sin datos sensibles;
+- artefactos versionados y reversibles.
+
+Detalle: [blueprint arquitectónico](docs/architecture/system_blueprint.md).
+
+## Estado frente al briefing
+
+![Estado de los veinticinco criterios del briefing](docs/assets/charts/delivery-status-2026-07-23.svg)
+
+### Nivel esencial — 0 de 10 verificados
+
+| ID | Criterio | Estado | Evidencia necesaria |
+|---|---|---|---|
+| ESS-01 | Modelo multiclase funcional | No iniciado | Pipeline, artefacto y predicciones válidas |
+| ESS-02 | EDA orientado a clasificación | **En curso** | Clases, distribuciones, tiempo, nulos, duplicados, idioma y conclusiones |
+| ESS-03 | Overfitting inferior al 5 % | No iniciado | Misma métrica en train/validation y gap `< 0.05` |
+| ESS-04 | Aplicación que productiviza el modelo | No iniciado | React PWA conectada a inferencia real |
+| ESS-05 | Accuracy global | No iniciado | Validation y test protegido |
+| ESS-06 | Precision, recall y F1 por clase | No iniciado | Once clases, macro y weighted |
+| ESS-07 | Matriz de confusión | No iniciado | Tabla, figura y lectura reproducibles |
+| ESS-08 | Feature importance | No iniciado | Método compatible y limitaciones |
+| ESS-09 | Análisis de errores | No iniciado | Patrones por clase y acciones |
+| ESS-10 | Informe técnico y guía | No iniciado | Métricas, decisiones, límites y ejecución |
+
+### Nivel medio — 0 de 5 verificados
+
+| ID | Criterio | Estado | Evidencia necesaria |
+|---|---|---|---|
+| MED-01 | Ensemble comparado con baseline | No iniciado | Mismo split y métricas |
+| MED-02 | Validación cruzada estratificada | No iniciado | Folds, semillas y variabilidad |
+| MED-03 | Optimización de hiperparámetros | No iniciado | Búsqueda reproducible sin usar test |
+| MED-04 | Feedback y métricas operativas | No iniciado | Versión de modelo y privacidad |
+| MED-05 | Recolección para reentrenamiento | No iniciado | Pipeline, trazabilidad y validación |
+
+### Nivel avanzado — 0 de 6 verificados
+
+| ID | Criterio | Estado | Evidencia necesaria |
+|---|---|---|---|
+| ADV-01 | Dockerización completa | No iniciado | Imágenes, healthcheck y ejecución |
+| ADV-02 | Base de datos integrada | No iniciado | Esquema, migraciones y mínimo privilegio |
+| ADV-03 | Despliegue cloud | No iniciado | Entorno, smoke test y rollback |
+| ADV-04 | Tests de integridad de datos | No iniciado | Esquema, clases, duplicados y leakage |
+| ADV-05 | Tests del modelo | No iniciado | Carga, salida, clases e inferencia |
+| ADV-06 | Tests de métricas mínimas | No iniciado | Umbrales y overfitting como quality gates |
+
+### Nivel experto — 0 de 4 verificados
+
+| ID | Criterio | Estado | Evidencia necesaria |
+|---|---|---|---|
+| EXP-01 | Red neuronal multiclase | No iniciado | Evaluación comparable con Champion |
+| EXP-02 | A/B testing | No iniciado | Experimento o simulación reproducible |
+| EXP-03 | Data Drift con alertas | No iniciado | Referencia, umbrales y alerta verificable |
+| EXP-04 | Promoción automática gobernada | No iniciado | Champion/Challenger, aprobación y rollback |
+
+Contrato detallado: [niveles y evidencias](docs/project_management/delivery_levels.md).
+
+## Calidad automática
+
+La Pull Request no puede integrarse en `dev` si falla `repository-quality`:
+
+```text
+npm ci
+npm audit --audit-level=high
+OpenSpec doctor
+OpenSpec validate --all --strict
+convenciones y enlaces del repositorio
+tests unitarios
+tests de contrato
+whitespace del cambio
+```
+
+Además, `dev` exige PR, historial lineal, conversaciones resueltas y bloqueo de borrado y force-push. Las aprobaciones humanas están temporalmente en cero hasta que el equipo acuerde exigir reviewers.
 
 ## Estructura
 
 ```text
 .
-├── .specify/              # Intención, método y plantillas para trabajar con specs
-├── specs/                 # Una carpeta por funcionalidad o cambio relevante
-├── app/                   # Capa de entrega: interfaz y, si aplica, API
-├── config/                # Configuración versionada no sensible
-├── data/                  # Datos por etapa del procesamiento
-├── docs/                  # Arquitectura, decisiones y gestión del proyecto
-├── infra/                 # Docker y despliegue en la nube
-├── models/                # Artefactos y metadatos de modelos
-├── notebooks/             # Exploración y experimentos narrativos
-├── reports/               # Métricas, figuras y evidencias de validación
-├── scripts/               # Automatizaciones reproducibles
-├── src/                   # Código reutilizable de datos, ML y MLOps
-└── tests/                 # Pruebas por nivel
+├── openspec/        # cambios, capacidades vigentes y reglas OpenSpec
+├── ai-specs/        # roles y procedimientos propios del arnés
+├── .codex/          # adaptadores oficiales OpenSpec para Codex
+├── .github/         # CI, PR, Dependabot y adaptadores de Copilot
+├── .claude/         # adaptadores oficiales para Claude Code
+├── .cursor/         # adaptadores oficiales para Cursor
+├── .gemini/         # adaptadores oficiales para Gemini CLI
+├── .specify/        # intención global y plantillas históricas
+├── specs/           # expedientes anteriores en compatibilidad
+├── config/          # contratos y configuración no sensible
+├── data/            # datos locales por etapa, fuera de Git
+├── notebooks/       # EDA y experimentos narrativos
+├── src/             # dominio, aplicación, ML e infraestructura
+├── app/             # futura capa de entrega
+├── tests/           # pruebas automatizadas
+├── reports/         # evidencias agregadas y verificaciones
+├── docs/            # arquitectura, producto, gestión y presentación
+└── scripts/         # automatizaciones reproducibles
 ```
 
-La responsabilidad de cada carpeta se detalla en [docs/architecture/repository_structure.md](docs/architecture/repository_structure.md).
+Las subcarpetas aparecen con su primer archivo real. No se crean árboles vacíos para simular madurez.
 
-## Pilares de calidad
+## Equipo y trabajo activo
 
-| Pilar | Aplicación desde el inicio |
-|---|---|
-| Producto y UX | Investigación, flujos, accesibilidad y sistema visual antes de las pantallas. |
-| Datos y ML | Contratos, reproducibilidad, evaluación por clase y test final protegido. |
-| Plataforma | Docker y CI/CD diseñados desde la fundación, activados por etapas. |
-| Seguridad | Secretos, datos, dependencias y permisos con mínimo privilegio. |
-| Documentación | README, diagramas, evidencias, dailies y fuentes curadas para NotebookLM. |
-| Gobierno | Specs, ADR, PR, tags, releases y quality gates trazables. |
+| Persona | Área | Trabajo actual |
+|---|---|---|
+| José | Backend | Integración real bloqueada hasta EDA y modelo |
+| Abel | Frontend y UX | React PWA desde cero sobre `003/T-006` |
+| Víctor | Datos y EDA | Evidencia agregada sobre `001/T-004` |
+| Miguel | Arquitectura y método | OpenSpec, arnés y coordinación transversal |
 
-## Forma de trabajo
+Jira se utilizará para asignación y seguimiento. OpenSpec conservará los requisitos y decisiones; ninguna historia de Jira los sustituirá.
 
-Los cambios relevantes seguirán este flujo:
+## Documentación para cliente y NotebookLM
 
-```text
-intent -> spec -> plan -> tareas -> implementación -> verificación -> cierre
+La narrativa para cliente comienza por el problema, el usuario, el valor y la evidencia; no por OpenSpec ni por terminología interna.
+
+Fuentes principales:
+
+- [narrativa de negocio](docs/notebooklm/business_narrative.md);
+- [hechos verificados](docs/notebooklm/project_facts.md);
+- [estado técnico](docs/notebooklm/technical_status.md);
+- [catálogo y reglas de fuentes](docs/notebooklm/source_catalog.md);
+- [dailies del equipo](docs/project_management/dailies/README.md).
+
+Generación local:
+
+```bash
+python scripts/documentation/build_notebooklm_pack.py --date 2026-07-23
 ```
 
-La [intención del proyecto](.specify/intent.md) fija el propósito y los límites globales. La guía está en [.specify/README.md](.specify/README.md) y las normas de colaboración en [CONTRIBUTING.md](CONTRIBUTING.md).
+Antes de subir un paquete a NotebookLM se excluyen secretos, datos brutos, narrativas reales y fuentes internas que desordenen el relato de cliente.
 
-### Incorporación rápida al equipo
+## Seguridad y privacidad
 
-1. Seguir la [guía autoservicio para trabajar con IA](docs/project_management/harness_quickstart.md).
-2. Leer [`AGENTS.md`](AGENTS.md): resume decisiones y límites vigentes.
-3. Consultar la asignación en [`team.md`](docs/project_management/team.md).
-4. Localizar la spec y tarea desde [`specs/`](specs/README.md).
-5. Utilizar Jira para el estado diario y una Pull Request para integrar evidencias.
+- ninguna narrativa real en Git o servicios externos;
+- allowlist de features y target versionado;
+- secretos fuera del repositorio;
+- dependencias auditadas y actualizadas mediante Dependabot;
+- mínimo privilegio en workflows;
+- revisión humana antes de acciones externas;
+- [baseline de seguridad](docs/security/security_baseline.md) y [modelo de amenazas](docs/security/threat_model.md).
 
-Cada integrante genera desde su propio clon un contexto acotado mediante `scripts/harness.py`. Las IA con acceso al repositorio leen el paquete local; para una herramienta externa se sube únicamente ese Markdown. Nunca se comparten datos brutos ni narrativas CFPB.
+## Próximos hitos
 
-## Ramas
+1. Incorporar el EDA de Víctor y decidir idioma, duplicados, split y desbalanceo.
+2. Construir un baseline reproducible y elegir la métrica principal.
+3. Avanzar la React PWA con mocks sin presentarla como inferencia real.
+4. Definir backend e integrar el modelo cuando exista un Champion aprobado.
+5. Proteger primero el nivel esencial; investigar niveles superiores sin desestabilizarlo.
 
-- `dev`: rama de integración y rama predeterminada durante el desarrollo.
-- `main`: se reservará para versiones estables cuando exista una primera entrega verificable.
-- Ramas de trabajo: se crearán desde `dev` y volverán mediante Pull Request.
+## Referencias
 
-## Objetivos de madurez
-
-- [Mapa de niveles y evidencias](docs/project_management/delivery_levels.md)
-- [Principios de calidad del proyecto](docs/project_management/project_principles.md)
-- [Gobierno Git y releases](docs/project_management/git_governance.md)
-- [Estrategia CI/CD](docs/project_management/ci_cd_strategy.md)
-
-## Documentación viva
-
-La documentación se considera parte del producto. Debe alimentar el trabajo diario, las revisiones, las presentaciones y las fuentes curadas para NotebookLM.
-
-- [Sistema de fuentes para NotebookLM](docs/notebooklm/README.md)
-- [Dailies del equipo](docs/project_management/dailies/README.md)
-- [Estándar visual de documentación](docs/design/documentation_visual_standard.md)
-- [Blueprint arquitectónico](docs/architecture/system_blueprint.md)
-- [Baseline de seguridad](docs/security/security_baseline.md)
-- [Estrategia de pruebas](docs/quality/test_strategy.md)
-
-## Próximo hito
-
-El trabajo activo se concentra en dos objetivos:
-
-- Datos/ML: recibir el EDA de Víctor e incorporarlo a [`001-cfpb-target-contract`](specs/001-cfpb-target-contract/spec.md) para cerrar idioma, duplicados, partición, desbalanceo y privacidad antes de entrenar.
-- Arquitectura y método: pilotar con Víctor desde `dev` la spec [`004-agentic-harness`](specs/004-agentic-harness/spec.md) y utilizar su feedback para cerrar la primera versión.
-
-Abel desarrollará la React PWA desde cero sobre `003/T-006`. Es responsable de las decisiones de frontend y UX dentro del contrato OpenAPI, los límites de privacidad y los criterios ya aprobados; todavía no existe una aplicación integrada.
+- [OpenSpec](https://github.com/Fission-AI/OpenSpec)
+- [LIDR Specboot, referencia del workshop](https://github.com/LIDR-academy/lidr-specboot)
+- [Consumer Complaint Database](https://www.consumerfinance.gov/data-research/consumer-complaints/)
+- [Contribución](CONTRIBUTING.md)
+- [Seguridad](SECURITY.md)
+- [Changelog](CHANGELOG.md)

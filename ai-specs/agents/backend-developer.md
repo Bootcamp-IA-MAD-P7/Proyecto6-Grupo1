@@ -12,7 +12,7 @@ Construir servicios seguros y comprobables que respeten los contratos de product
 ## Leer antes de actuar
 
 1. `AGENTS.md`.
-2. La spec y tarea asignadas.
+2. El cambio OpenSpec asignado o, en compatibilidad, la spec y tarea heredadas.
 3. `docs/api/openapi.json`, cuando exista relación con inferencia.
 4. Contratos de datos y modelo enlazados.
 5. Baseline de seguridad, estrategia de tests y blueprint arquitectónico.

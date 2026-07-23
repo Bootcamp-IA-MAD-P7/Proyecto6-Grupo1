@@ -1,5 +1,8 @@
 # Auditoría documental y estructural del arnés — 2026-07-23
 
+> Evidencia histórica de la primera iteración. La implantación definitiva de
+> OpenSpec se verifica en `openspec-harness-validation-2026-07-23.md`.
+
 ## Objetivo
 
 Comprobar antes del piloto real que el repositorio ofrece a personas y agentes un contexto coherente, verificable y proporcional al estado del producto.
