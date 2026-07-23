@@ -2,7 +2,7 @@
 
 ## Estado confirmado del proyecto
 
-- Fase: descubrimiento, EDA e implantación del flujo OpenSpec + Harness Engineering.
+- Fase: descubrimiento y EDA con OpenSpec + Harness Engineering operativos.
 - Problema: clasificación y apoyo al enrutamiento de reclamaciones financieras escritas.
 - Dataset: Consumer Complaint Database del CFPB, viable con condiciones.
 - Entrada candidata permitida: `complaint_what_happened`.
