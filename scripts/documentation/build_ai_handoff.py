@@ -19,6 +19,7 @@ COMMON_SOURCES = (
     ".specify/README.md",
     ".specify/intent.md",
     "docs/project_management/delivery_levels.md",
+    "docs/project_management/jira_workflow.md",
 )
 SPEC_FILES = ("spec.md", "plan.md", "tasks.md", "decisions.md")
 ALLOWED_SUFFIXES = {".md", ".json", ".yml", ".yaml", ".txt"}

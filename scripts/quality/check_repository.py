@@ -38,6 +38,10 @@ DELIVERY_ID_GROUPS = {
     "ADV": 6,
     "EXP": 4,
 }
+JIRA_TRACKING_PATTERN = re.compile(r"(?m)^- Jira:\s*`PG-[1-9]\d*`\.\s*$")
+JIRA_EXCEPTION_PATTERN = re.compile(
+    r"(?m)^- Jira exception:\s*`(?:bootstrap|emergency|automation)`\.\s*$"
+)
 NON_BREAKING_HYPHEN = "\N{NON-BREAKING HYPHEN}"
 IGNORED_LOCAL_DIRECTORIES = {
     ".git",
@@ -79,6 +83,7 @@ def check_required_paths(errors: list[str]) -> None:
         "docs/architecture/repository_structure.md",
         "docs/design/documentation_visual_standard.md",
         "docs/notebooklm/source_catalog.md",
+        "docs/project_management/jira_workflow.md",
         "docs/project_management/dailies/2026-07-22.md",
         "package.json",
         "package-lock.json",
@@ -340,6 +345,7 @@ def check_openspec_configuration(errors: list[str]) -> None:
         "schema: spec-driven",
         "OpenSpec manages every new change",
         "Never add CFPB narratives",
+        "Include a Tracking section with one Jira key",
     )
     for fragment in required_fragments:
         if fragment not in config:
@@ -351,6 +357,46 @@ def check_openspec_configuration(errors: list[str]) -> None:
         errors.append("Missing OpenSpec changes directory")
     if not specs.is_dir():
         errors.append("Missing OpenSpec specifications directory")
+
+
+def proposal_has_jira_tracking(text: str) -> bool:
+    return bool(
+        "## Tracking" in text
+        and (
+            JIRA_TRACKING_PATTERN.search(text)
+            or JIRA_EXCEPTION_PATTERN.search(text)
+        )
+    )
+
+
+def check_jira_work_tracking(errors: list[str]) -> None:
+    template_path = ROOT / ".github/pull_request_template.md"
+    if template_path.is_file():
+        template = template_path.read_text(encoding="utf-8")
+        required_fragments = (
+            "Jira work item or approved exception:",
+            "OpenSpec change:",
+            "Jira, OpenSpec and this PR describe the same scope and state.",
+        )
+        for fragment in required_fragments:
+            if fragment not in template:
+                errors.append(f"Pull Request template is missing Jira policy: {fragment}")
+
+    changes_path = ROOT / "openspec/changes"
+    if not changes_path.is_dir():
+        return
+    for change in sorted(path for path in changes_path.iterdir() if path.is_dir()):
+        if change.name == "archive":
+            continue
+        proposal_path = change / "proposal.md"
+        if not proposal_path.is_file():
+            continue
+        proposal = proposal_path.read_text(encoding="utf-8")
+        if not proposal_has_jira_tracking(proposal):
+            errors.append(
+                "Active OpenSpec proposal lacks valid Jira tracking: "
+                f"{proposal_path.relative_to(ROOT).as_posix()}"
+            )
 
 
 def main() -> int:
@@ -366,6 +412,7 @@ def main() -> int:
     check_delivery_state_consistency(errors)
     check_svg_assets(errors)
     check_openspec_configuration(errors)
+    check_jira_work_tracking(errors)
 
     if errors:
         print("Repository quality checks failed:")

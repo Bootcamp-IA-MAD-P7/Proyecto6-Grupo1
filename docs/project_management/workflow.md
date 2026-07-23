@@ -48,3 +48,4 @@ Jira
 No se actualizan todos los documentos por rutina. Se actualizan porque cambió su significado.
 
 La ejecución paso a paso está en [harness_quickstart.md](harness_quickstart.md).
+La frontera y el uso diario de Jira están en [jira_workflow.md](jira_workflow.md).

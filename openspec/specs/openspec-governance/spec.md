@@ -3,7 +3,6 @@
 ## Purpose
 
 Establecer un ciclo de cambios OpenSpec reproducible, seguro e independiente del asistente utilizado, integrado con los roles, las comprobaciones y el gobierno humano del proyecto.
-
 ## Requirements
 ### Requirement: OpenSpec reproducible en el repositorio
 
@@ -17,13 +16,14 @@ El repositorio MUST fijar una versión exacta de OpenSpec y una versión mínima
 
 ### Requirement: Ciclo OpenSpec para cambios nuevos
 
-Todo cambio nuevo relevante MUST comenzar en `openspec/changes/` y completar los artefactos exigidos por su esquema antes de aplicar tareas.
+Todo cambio nuevo relevante MUST comenzar en `openspec/changes/`, completar los artefactos exigidos por su esquema y enlazar su elemento Jira antes de aplicar tareas, salvo una excepción explícita de bootstrap, emergencia o automatización.
 
 #### Scenario: Propuesta antes de implementación
 
 - **WHEN** se solicita una nueva funcionalidad, cambio arquitectónico, automatización o modificación de contrato
 - **THEN** se crea un cambio OpenSpec con propuesta, delta de requisitos, diseño cuando corresponda y tareas
-- **AND** no comienza la implementación mientras el estado de OpenSpec indique artefactos bloqueados
+- **AND** se enlaza la clave Jira después de aprobar el desglose operativo
+- **AND** no comienza la implementación mientras el estado de OpenSpec indique artefactos bloqueados o falte tracking sin excepción
 
 ### Requirement: Estado vigente y propuestas separados
 

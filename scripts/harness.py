@@ -43,6 +43,14 @@ ACTION_LABELS = {
 }
 ROLE_PATTERN = re.compile(r"^[a-z0-9]+(?:-[a-z0-9]+)*$")
 CHANGE_PATTERN = ROLE_PATTERN
+JIRA_KEY_PATTERN = re.compile(r"^PG-[1-9]\d*$")
+JIRA_EXCEPTIONS = {"automation", "bootstrap", "emergency"}
+JIRA_BROWSE_URL = "https://miguel-redondo.atlassian.net/browse"
+LEGACY_JIRA_MAP = {
+    ("001-cfpb-target-contract", "T-004"): "PG-2",
+    ("003-complaint-routing-experience", "T-006"): "PG-4",
+    ("003-complaint-routing-experience", "T-007"): "PG-5",
+}
 TASK_HEADING_PATTERN = re.compile(r"^## (T-\d{3})\b", re.MULTILINE)
 TASK_STATE_PATTERN = re.compile(r"^- Estado:\s*`(\[[ x~!\-]\])`", re.MULTILINE)
 STARTABLE_STATES = {"[ ]", "[~]"}
@@ -212,6 +220,50 @@ def normalize_change(value: str) -> str:
     return change
 
 
+def resolve_jira_tracking(
+    jira: str | None,
+    jira_exception: str | None,
+    *,
+    required: bool,
+) -> tuple[str | None, str | None]:
+    if jira and jira_exception:
+        raise HarnessError("--jira and --jira-exception cannot be combined")
+    if jira:
+        if not JIRA_KEY_PATTERN.fullmatch(jira):
+            raise HarnessError("Jira key must use format PG-N, for example PG-12")
+        return jira, None
+    if jira_exception:
+        if jira_exception not in JIRA_EXCEPTIONS:
+            choices = ", ".join(sorted(JIRA_EXCEPTIONS))
+            raise HarnessError(f"Jira exception must be one of: {choices}")
+        return None, jira_exception
+    if required:
+        raise HarnessError(
+            "OpenSpec work requires --jira PG-N or "
+            "--jira-exception bootstrap|emergency|automation"
+        )
+    return None, None
+
+
+def jira_tracking_lines(
+    jira: str | None,
+    jira_exception: str | None,
+) -> list[str]:
+    if jira:
+        return [
+            f"- Jira work item: [{jira}]({JIRA_BROWSE_URL}/{jira})",
+            "- Jira stores owner, status and blockers; OpenSpec remains authoritative.",
+        ]
+    if jira_exception:
+        return [
+            f"- Jira exception: `{jira_exception}`",
+            "- The exception must be justified in the OpenSpec proposal and Pull Request.",
+        ]
+    return [
+        "- Jira work item: legacy compatibility without an assigned Jira item.",
+    ]
+
+
 def openspec_context_source(value: str) -> str:
     normalized = value.replace("\\", "/")
     is_windows_absolute = bool(
@@ -264,6 +316,7 @@ COMMON_OPENSPEC_SOURCES = (
     "CONTRIBUTING.md",
     ".specify/intent.md",
     "docs/project_management/delivery_levels.md",
+    "docs/project_management/jira_workflow.md",
 )
 
 
@@ -274,10 +327,17 @@ def build_openspec_harness_pack(
     includes: list[str] | None = None,
     output_directory: Path = OUTPUT_DIRECTORY,
     runner: OpenSpecRunner = run_openspec_json,
+    jira: str | None = None,
+    jira_exception: str | None = None,
 ) -> Path:
     action = normalize_action(action_value)
     role_path = resolve_role(role_value)
     change = normalize_change(change_value)
+    jira, jira_exception = resolve_jira_tracking(
+        jira,
+        jira_exception,
+        required=True,
+    )
     skill_path = ROOT / "ai-specs" / "skills" / ACTION_SKILLS[action] / "SKILL.md"
     if not skill_path.is_file():
         raise HarnessError(f"Workflow definition not found: {relative(skill_path)}")
@@ -328,6 +388,11 @@ def build_openspec_harness_pack(
         f"Adopt the role defined in {relative(role_path)}.",
         f"Follow the workflow in {relative(skill_path)}.",
         f"Work only on OpenSpec change {change}.",
+        (
+            f"Use Jira work item {jira} only for owner, status and blockers."
+            if jira
+            else f"Use the approved Jira exception {jira_exception} for this change."
+        ),
         "Treat OpenSpec artifacts, AGENTS.md and referenced contracts as authoritative.",
         "Before changing files, explain scope, planned files, blockers and checks.",
         "Do not invent decisions, evidence or implemented capabilities.",
@@ -345,6 +410,10 @@ def build_openspec_harness_pack(
         "```text",
         *instructions,
         "```",
+        "",
+        "## Work tracking",
+        "",
+        *jira_tracking_lines(jira, jira_exception),
         "",
         "## OpenSpec status",
         "",
@@ -376,11 +445,18 @@ def build_harness_pack(
     task_value: str,
     includes: list[str] | None = None,
     output_directory: Path = OUTPUT_DIRECTORY,
+    jira: str | None = None,
 ) -> Path:
     action = normalize_action(action_value)
     role_path = resolve_role(role_value)
     spec = resolve_spec(spec_value)
     task = normalized_task(task_value)
+    mapped_jira = LEGACY_JIRA_MAP.get((spec.name, task))
+    if jira and mapped_jira and jira != mapped_jira:
+        raise HarnessError(
+            f"{spec.name}/{task} is mapped to {mapped_jira}, not {jira}"
+        )
+    jira, _ = resolve_jira_tracking(jira or mapped_jira, None, required=False)
     state = validate_task_action(action, spec, task)
     skill_path = ROOT / "ai-specs" / "skills" / ACTION_SKILLS[action] / "SKILL.md"
     if not skill_path.is_file():
@@ -393,6 +469,11 @@ def build_harness_pack(
         f"Adopt the role defined in {relative(role_path)}.",
         f"Follow the workflow in {relative(skill_path)}.",
         f"Work only on {task} from spec {spec.name}, currently in state {state}.",
+        (
+            f"Use Jira work item {jira} only for owner, status and blockers."
+            if jira
+            else "This legacy task has no Jira item; do not invent one."
+        ),
         "Treat AGENTS.md, the spec bundle and referenced contracts as authoritative.",
         "Before changing files, explain scope, planned files, blockers and checks.",
         "Do not invent decisions, evidence or implemented capabilities.",
@@ -421,6 +502,13 @@ def main() -> int:
     source.add_argument("--change", help="OpenSpec change identifier")
     source.add_argument("--spec", help="Legacy spec directory name or unique prefix")
     parser.add_argument("--task", help="Legacy task identifier in format T-NNN")
+    tracking = parser.add_mutually_exclusive_group()
+    tracking.add_argument("--jira", help="Jira work item in format PG-N")
+    tracking.add_argument(
+        "--jira-exception",
+        choices=sorted(JIRA_EXCEPTIONS),
+        help="Controlled exception when no Jira item can exist",
+    )
     parser.add_argument(
         "--include",
         action="append",
@@ -449,14 +537,19 @@ def main() -> int:
                 args.role,
                 args.change,
                 args.include,
+                jira=args.jira,
+                jira_exception=args.jira_exception,
             )
         else:
+            if args.jira_exception:
+                parser.error("--jira-exception is only valid with --change")
             output = build_harness_pack(
                 args.action,
                 args.role,
                 args.spec,
                 args.task,
                 args.include,
+                jira=args.jira,
             )
     except (HarnessError, HandoffError, OSError, subprocess.CalledProcessError) as exc:
         print(f"Cannot build harness pack: {exc}", file=sys.stderr)

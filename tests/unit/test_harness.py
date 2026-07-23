@@ -16,6 +16,7 @@ from scripts.harness import (
     build_openspec_harness_pack,
     doctor_report,
     openspec_context_source,
+    resolve_jira_tracking,
 )
 
 
@@ -128,6 +129,43 @@ class HarnessTests(unittest.TestCase):
         self.assertIn("config/cfpb_target_contract.json", content)
         self.assertIn("docs/project_management/delivery_levels.md", content)
         self.assertIn("ESS-02", content)
+        self.assertIn("Jira work item PG-2", content)
+        self.assertNotIn("gho_", content)
+        self.assertNotIn("ATLAS_TOKEN", content)
+
+    def test_rejects_wrong_jira_key_for_legacy_mapping(self) -> None:
+        with tempfile.TemporaryDirectory() as directory:
+            with self.assertRaisesRegex(HarnessError, "mapped to PG-2"):
+                build_harness_pack(
+                    "start",
+                    "data-analyst",
+                    "001",
+                    "T-004",
+                    output_directory=Path(directory),
+                    jira="PG-4",
+                )
+
+    def test_validates_jira_tracking(self) -> None:
+        self.assertEqual(
+            resolve_jira_tracking("PG-12", None, required=True),
+            ("PG-12", None),
+        )
+        self.assertEqual(
+            resolve_jira_tracking(None, "bootstrap", required=True),
+            (None, "bootstrap"),
+        )
+
+        invalid_values = ("pg-12", "PG-0", "PG-", "OTHER-12")
+        for value in invalid_values:
+            with self.subTest(value=value):
+                with self.assertRaisesRegex(HarnessError, "format PG-N"):
+                    resolve_jira_tracking(value, None, required=True)
+
+        with self.assertRaisesRegex(HarnessError, "cannot be combined"):
+            resolve_jira_tracking("PG-12", "bootstrap", required=True)
+
+        with self.assertRaisesRegex(HarnessError, "requires --jira"):
+            resolve_jira_tracking(None, None, required=True)
 
     def test_rejects_unknown_role(self) -> None:
         with tempfile.TemporaryDirectory() as directory:
@@ -206,6 +244,7 @@ class HarnessTests(unittest.TestCase):
                 "test-change",
                 output_directory=Path(directory),
                 runner=openspec_runner,
+                jira="PG-12",
             )
             content = output.read_text(encoding="utf-8")
 
@@ -218,6 +257,32 @@ class HarnessTests(unittest.TestCase):
         self.assertIn('"remaining": 1', content)
         self.assertIn("ai-specs/agents/architect.md", content)
         self.assertIn("openspec/config.yaml", content)
+        self.assertIn("Jira work item: [PG-12]", content)
+
+    def test_builds_openspec_pack_with_controlled_jira_exception(self) -> None:
+        with tempfile.TemporaryDirectory() as directory:
+            output = build_openspec_harness_pack(
+                "start",
+                "architect",
+                "test-change",
+                output_directory=Path(directory),
+                runner=openspec_runner,
+                jira_exception="bootstrap",
+            )
+            content = output.read_text(encoding="utf-8")
+
+        self.assertIn("Jira exception: `bootstrap`", content)
+
+    def test_openspec_pack_requires_jira_tracking(self) -> None:
+        with tempfile.TemporaryDirectory() as directory:
+            with self.assertRaisesRegex(HarnessError, "requires --jira"):
+                build_openspec_harness_pack(
+                    "start",
+                    "architect",
+                    "test-change",
+                    output_directory=Path(directory),
+                    runner=openspec_runner,
+                )
 
     def test_rejects_invalid_openspec_change(self) -> None:
         def invalid_runner(arguments: tuple[str, ...]) -> dict[str, Any]:
@@ -231,6 +296,7 @@ class HarnessTests(unittest.TestCase):
                     "test-change",
                     output_directory=Path(directory),
                     runner=invalid_runner,
+                    jira="PG-12",
                 )
 
     def test_rejects_incomplete_openspec_planning(self) -> None:
@@ -245,6 +311,7 @@ class HarnessTests(unittest.TestCase):
                     "test-change",
                     output_directory=Path(directory),
                     runner=incomplete_runner,
+                    jira="PG-12",
                 )
 
     def test_rejects_blocked_openspec_change(self) -> None:
@@ -259,6 +326,7 @@ class HarnessTests(unittest.TestCase):
                     "test-change",
                     output_directory=Path(directory),
                     runner=blocked_runner,
+                    jira="PG-12",
                 )
 
     def test_prepare_pr_rejects_unfinished_openspec_tasks(self) -> None:
@@ -270,6 +338,7 @@ class HarnessTests(unittest.TestCase):
                     "test-change",
                     output_directory=Path(directory),
                     runner=openspec_runner,
+                    jira="PG-12",
                 )
 
     def test_prepare_pr_accepts_completed_openspec_tasks(self) -> None:
@@ -283,6 +352,7 @@ class HarnessTests(unittest.TestCase):
                 "test-change",
                 output_directory=Path(directory),
                 runner=completed_runner,
+                jira="PG-12",
             )
             self.assertTrue(output.is_file())
 

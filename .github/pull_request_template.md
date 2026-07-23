@@ -1,5 +1,7 @@
 ## Specification and scope
 
+- Jira work item or approved exception:
+- OpenSpec change:
 - Specification:
 - Tasks:
 - Acceptance criteria:
@@ -53,6 +55,7 @@ Commands and results:
 ## Checklist
 
 - [ ] This branch is up to date with `dev`.
+- [ ] Jira, OpenSpec and this PR describe the same scope and state.
 - [ ] This PR targets `dev`, or is an approved release PR targeting `main`.
 - [ ] The change follows its specification or updates it explicitly.
 - [ ] The PR has a coherent scope and contains no unrelated work.

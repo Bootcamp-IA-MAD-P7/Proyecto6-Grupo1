@@ -7,6 +7,8 @@
 - Dataset: Consumer Complaint Database del CFPB viable con condiciones; target y reglas de EDA versionados.
 - Código de producto funcional: no iniciado; existen scripts de validación y automatización del trabajo.
 - Despliegue: no iniciado.
+- Seguimiento: Jira `PG` operativo para responsables, estados y bloqueos; `PG-1`
+  agrupa el nivel esencial sin sustituir requisitos ni evidencias versionadas.
 
 ## Capacidades verificadas
 
@@ -38,6 +40,14 @@
 - Ruleset `Protect dev` activo con PR y check de calidad obligatorios, historial lineal y bloqueo de force push y borrado.
 - Aprobaciones humanas no requeridas temporalmente.
 - Estructura simplificada para crear subcarpetas de aplicación, ML, MLOps, infraestructura y evidencias únicamente cuando contengan una capacidad real.
+- Backlog esencial creado después de aprobación humana: `PG-1` y seis elementos
+  `PG-2` a `PG-7`; `PG-2` está asignada a Víctor y `PG-4` a Abel.
+- El arnés valida referencias `PG-N`, admite excepciones controladas de bootstrap,
+  emergencia o automatización y transporta el seguimiento sin credenciales.
+- Jira conserva ocho relaciones de bloqueo verificadas entre `PG-2` y `PG-7`;
+  la jerarquía y las dependencias coinciden con el orden de entrega esencial.
+- La capacidad OpenSpec `jira-work-tracking` está vigente después del archivo
+  revisado de `integrate-jira-workflow`.
 
 ## Capacidades previstas, no implementadas
 
