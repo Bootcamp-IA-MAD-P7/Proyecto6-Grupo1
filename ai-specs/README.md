@@ -14,7 +14,7 @@ No contiene una segunda versión del proyecto. Las fuentes de verdad continúan 
 ```text
 ai-specs/
 ├── agents/       # Responsabilidad y límites de cada rol
-└── skills/       # Procedimientos reutilizables; se añadirá en 004/T-003
+└── skills/       # Procedimientos reutilizables para el ciclo de trabajo
 ```
 
 Un agente es una ficha de responsabilidad para orientar a una IA. No es una persona autónoma, no concede permisos y no sustituye a quien revisa y firma el trabajo.
@@ -29,6 +29,15 @@ Un agente es una ficha de responsabilidad para orientar a una IA. No es una pers
 | [`frontend-developer`](agents/frontend-developer.md) | React PWA, UX, accesibilidad, estados y consumo del contrato |
 
 La asignación humana vigente se consulta en `docs/project_management/team.md`; no se duplica aquí.
+
+## Procedimientos iniciales
+
+| Procedimiento | Resultado |
+|---|---|
+| [`start-task`](skills/start-task/SKILL.md) | Resume alcance, archivos, checks y bloqueantes antes de editar |
+| [`verify-task`](skills/verify-task/SKILL.md) | Contrasta el trabajo con criterios y evidencias |
+| [`review-change`](skills/review-change/SKILL.md) | Busca defectos, riesgos e inconsistencias sin modificar |
+| [`prepare-pr`](skills/prepare-pr/SKILL.md) | Completa la plantilla oficial con información comprobada |
 
 ## Regla de uso
 

@@ -46,7 +46,7 @@
 
 ## T-003 Definir procedimientos reutilizables
 
-- Estado: `[ ]`
+- Estado: `[x]`
 - Responsable: `Miguel / arquitectura`
 - Dependencias: `T-001`
 - Requisitos cubiertos: `R-004, R-006, R-011`
@@ -60,7 +60,10 @@
   - Comando o revisión: validación de secciones y enlaces.
   - Resultado esperado: cuatro procedimientos componibles y legibles.
 - Evidencia obtenida:
-  - Pendiente.
+  - Existen `start-task`, `verify-task`, `review-change` y `prepare-pr`.
+  - Los cuatro procedimientos superaron `quick_validate.py`.
+  - `python scripts/quality/check_repository.py` superó la comprobación con 172 archivos locales.
+  - `git diff --check` no informó de errores.
 
 ## T-004 Implementar la entrada única
 
