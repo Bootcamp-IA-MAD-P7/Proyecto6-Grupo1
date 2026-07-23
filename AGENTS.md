@@ -18,7 +18,7 @@ Siguen abiertas la métrica principal, modelos, política de idioma, tratamiento
 
 ## Antes de actuar
 
-1. Leer `README.md`, `.specify/README.md` y `CONTRIBUTING.md`.
+1. Leer `README.md`, `.specify/README.md`, `.specify/intent.md`, `CONTRIBUTING.md` y `docs/project_management/delivery_levels.md`.
 2. Comprobar la rama y el estado de Git.
 3. Identificar la spec y las tareas activas.
 4. Identificar la historia de Jira cuando exista y comprobar que no contradice la spec.
@@ -27,7 +27,7 @@ Siguen abiertas la métrica principal, modelos, política de idioma, tratamiento
 7. Limitar los cambios al alcance solicitado.
 8. Revisar el impacto en documentación, fuentes de NotebookLM, UX, seguridad y CI/CD.
 
-Si el agente no tiene acceso al repositorio, debe recibir un paquete generado mediante `scripts/harness.py`, no una selección manual de archivos ni datos brutos.
+Cada integrante debe obtener el contexto desde su propio clon actualizado. Si la IA accede al repositorio, debe leer las fuentes versionadas directamente. Si no accede, la propia persona genera un paquete mediante `scripts/harness.py`; no se utiliza una selección manual de archivos ni se comparten datos brutos.
 
 ## Flujo obligatorio para cambios relevantes
 
@@ -48,6 +48,7 @@ spec -> plan -> tasks -> implementation -> verification -> closure
 - No presentar React PWA, backend, modelo, Docker, despliegue o MLOps como implementados sin código y evidencia.
 - No actualizar todos los documentos por rutina: revisar únicamente los que cambien de significado o estado.
 - No interpretar un rol de área como autorización para saltarse dependencias, preguntas bloqueantes o criterios de aceptación.
+- No marcar un requisito de `docs/project_management/delivery_levels.md` como verificado sin la evidencia mínima indicada.
 
 ## Responsabilidad humana
 

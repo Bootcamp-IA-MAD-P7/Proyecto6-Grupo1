@@ -20,7 +20,8 @@ Como integrante del equipo, quiero seleccionar mi rol, spec y tarea y obtener un
 Convertir el flujo actual en un ciclo guiado y repetible:
 
 ```text
-tarea elegida
+repositorio clonado o actualizado
+    -> tarea elegida
     -> contexto y rol preparados
     -> trabajo limitado por la spec
     -> verificaciones ejecutadas
@@ -37,6 +38,8 @@ tarea elegida
 - Definir procedimientos reutilizables para iniciar, verificar, revisar y preparar una Pull Request.
 - Generar un único paquete Markdown con rol, spec, tarea, límites y verificaciones.
 - Reutilizar `AGENTS.md`, las specs y `build_ai_handoff.py` como fuentes de verdad.
+- Permitir que cada integrante obtenga todo el contexto desde su propio clon sin depender de otra persona.
+- Incluir el contrato de niveles de entrega en todo contexto generado.
 - Añadir validaciones automáticas para evitar referencias rotas, tareas inexistentes y contenido inseguro.
 - Probar el flujo con una tarea real y activa del EDA, sin modificar su resultado científico.
 - Documentar un manual breve, independiente de la IA utilizada.
@@ -54,14 +57,13 @@ tarea elegida
 
 ### Principal
 
-1. Una persona actualiza `dev` y crea una rama.
-2. Selecciona su rol, la spec y la tarea asignada.
-3. Ejecuta un único comando del arnés.
-4. El sistema valida las referencias y genera un Markdown acotado.
-5. La persona entrega ese Markdown a la IA que prefiera.
-6. La IA explica alcance, archivos y bloqueantes antes de modificar nada.
-7. Tras el trabajo, la persona ejecuta la verificación y revisa el diff.
-8. El arnés ayuda a preparar la descripción de la Pull Request y las evidencias de cierre.
+1. Una persona clona o actualiza `dev` y crea una rama.
+2. Consulta en el repositorio su rol, la spec y la tarea asignada.
+3. Si su IA accede al repositorio, abre la raíz y utiliza las fuentes directamente.
+4. Si no accede, ejecuta por sí misma un único comando del arnés y genera un Markdown local.
+5. La IA explica alcance, archivos, requisitos del briefing y bloqueantes antes de modificar nada.
+6. Tras el trabajo, la persona ejecuta la verificación y revisa el diff.
+7. El arnés ayuda a preparar la descripción de la Pull Request y las evidencias de cierre.
 
 ### Alternativos y errores
 
@@ -85,6 +87,8 @@ tarea elegida
 - R-010: Las comprobaciones del arnés deben poder ejecutarse localmente y en CI.
 - R-011: La persona responsable debe conservar el control sobre decisiones, diff, publicación y merge.
 - R-012: El piloto debe usar una tarea real sin alterar su contenido, estado ni resultado esperado.
+- R-013: Todo contexto debe incluir la intención y el contrato verificable de niveles de entrega.
+- R-014: El flujo debe poder iniciarse desde un clon actualizado sin recibir archivos preparados por otra persona.
 
 ## Criterios de aceptación
 
@@ -97,6 +101,8 @@ tarea elegida
 - AC-007: Dado el piloto sobre `001/T-004`, cuando se completa la demostración, entonces el flujo queda probado sin modificar el EDA ni marcar la tarea como completada.
 - AC-008: Dado el repositorio en CI, cuando se altera una definición del arnés, entonces se validan referencias, seguridad y tests.
 - AC-009: Dada una persona nueva, cuando lee el manual breve, entonces puede completar el flujo sin conocer Specboot, OpenSpec ni terminología agéntica.
+- AC-010: Dado un paquete generado, cuando se inspeccionan sus fuentes, entonces incluye `.specify/intent.md` y `docs/project_management/delivery_levels.md`.
+- AC-011: Dado un integrante con acceso a Git, cuando clona o actualiza el repositorio, entonces puede localizar su asignación y preparar el contexto sin intermediarios.
 
 ## Requisitos no funcionales
 

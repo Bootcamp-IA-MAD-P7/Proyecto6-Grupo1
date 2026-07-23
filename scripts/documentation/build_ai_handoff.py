@@ -17,6 +17,8 @@ COMMON_SOURCES = (
     "README.md",
     "CONTRIBUTING.md",
     ".specify/README.md",
+    ".specify/intent.md",
+    "docs/project_management/delivery_levels.md",
 )
 SPEC_FILES = ("spec.md", "plan.md", "tasks.md", "decisions.md")
 ALLOWED_SUFFIXES = {".md", ".json", ".yml", ".yaml", ".txt"}

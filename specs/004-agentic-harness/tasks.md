@@ -99,10 +99,11 @@
   - `exports/`, no versionado
   - documentación de evidencia, si procede
 - Trabajo:
-  - Generar el contexto para `data-analyst`, `001-cfpb-target-contract` y `T-004`.
-  - Confirmar que permite entender el trabajo sin cambiar el EDA ni su estado.
+  - Confirmar el inicio autoservicio desde un clon actualizado.
+  - Generar el contexto para `data-analyst`, `001-cfpb-target-contract` y `T-004` sin recibir archivos de otra persona.
+  - Confirmar que incluye el briefing y permite entender el trabajo sin cambiar el EDA ni su estado.
 - Criterio de cierre:
-  - Víctor puede explicar alcance, límites y verificaciones usando el paquete.
+  - Víctor puede localizar su tarea, generar o leer el contexto y explicar alcance, límites, briefing y verificaciones sin intermediarios.
 - Verificación:
   - Comando o revisión: demostración manual y revisión del Markdown generado.
   - Resultado esperado: flujo comprensible y sin datos sensibles.

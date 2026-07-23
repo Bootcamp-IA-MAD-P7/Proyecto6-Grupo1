@@ -25,16 +25,16 @@ ai-specs/
 └── skills/       # Cómo iniciar, verificar, revisar y preparar una PR
 ```
 
-Una entrada de línea de comandos compondrá esas definiciones con el generador existente. La salida seguirá siendo un único Markdown efímero en `exports/`.
+Una entrada de línea de comandos compondrá esas definiciones con el generador existente. Cada integrante la ejecutará desde su propio clon cuando su IA no pueda leer el repositorio. La salida seguirá siendo un único Markdown efímero en `exports/`.
 
 ```text
-rol + spec + tarea
+clon actualizado + rol + spec + tarea
         |
         v
 validación de referencias y estado
         |
         v
-AGENTS + rol + procedimiento + bundle de la spec
+AGENTS + intent + briefing + rol + procedimiento + bundle de la spec
         |
         v
 Markdown para cualquier IA
@@ -50,11 +50,12 @@ checks + revisión humana + PR
 3. `harness`: entrada única que valida y compone fuentes existentes.
 4. `tests`: contratos de nombres, referencias, estados y seguridad.
 5. `quickstart`: instrucciones humanas con ejemplos copiables.
-6. `pilot`: generación y revisión del paquete de `001/T-004`.
+6. `pilot`: inicio autoservicio desde un clon y revisión de `001/T-004`.
 
 ## Datos, contratos y compatibilidad
 
 - `AGENTS.md`, `specs/` y los contratos versionados siguen siendo las fuentes de verdad.
+- `.specify/intent.md` y `docs/project_management/delivery_levels.md` forman parte obligatoria de todo contexto.
 - `ai-specs/` solo explica cómo actuar; no redefine producto, datos ni arquitectura.
 - `build_ai_handoff.py` se reutilizará directamente o mediante una capa compatible.
 - Las salidas permanecerán ignoradas por Git.

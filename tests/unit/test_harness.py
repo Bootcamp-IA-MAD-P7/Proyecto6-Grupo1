@@ -56,6 +56,8 @@ class HarnessTests(unittest.TestCase):
         self.assertIn("Work only on T-004", content)
         self.assertIn("Human review is required", content)
         self.assertIn("config/cfpb_target_contract.json", content)
+        self.assertIn("docs/project_management/delivery_levels.md", content)
+        self.assertIn("ESS-02", content)
 
     def test_rejects_unknown_role(self) -> None:
         with tempfile.TemporaryDirectory() as directory:

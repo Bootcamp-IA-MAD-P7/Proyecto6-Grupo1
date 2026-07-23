@@ -21,6 +21,10 @@ class BuildAIHandoffTests(unittest.TestCase):
             content = output.read_text(encoding="utf-8")
 
         self.assertIn("AGENTS.md", content)
+        self.assertIn(".specify/intent.md", content)
+        self.assertIn("docs/project_management/delivery_levels.md", content)
+        self.assertIn("ESS-01", content)
+        self.assertIn("EXP-04", content)
         self.assertIn("specs/001-cfpb-target-contract/spec.md", content)
         self.assertIn("config/cfpb_target_contract.json", content)
         self.assertIn("reports/validation/cfpb_viability.md", content)
