@@ -26,9 +26,9 @@
 - React PWA confirmada como dirección frontend inicial; backend, implementación de inferencia y evolución nativa siguen pendientes.
 - Spec `003-complaint-routing-experience` preparada con arquitectura de información, OpenAPI contract-only y siete tests; no existe aún frontend ni servicio.
 - Flujo humano-IA independiente de proveedor implementado y verificado, con generación acotada de contexto por spec y tarea.
-- Capa agéntica en desarrollo con cuatro roles, cuatro procedimientos y una entrada única probada localmente; todavía no está integrada en `dev`.
+- Primera versión operativa del arnés integrada en `dev` con cuatro roles, cuatro procedimientos y una entrada única probada localmente.
 - Responsabilidades principales confirmadas: Miguel en arquitectura y arnés, José en backend, Abel en frontend/UX y Víctor en datos y EDA.
-- El único trabajo de producto activo desde `dev` es la incorporación de evidencia del EDA en `001/T-004`.
+- El trabajo de producto activo desde `dev` comprende la incorporación de evidencia del EDA en `001/T-004` y el inicio desde cero de la React PWA en `003/T-006`.
 - Workflow `repository-quality` ejecutado correctamente y asociado automáticamente a las Pull Requests `#14` y `#15`.
 - El workflow `repository-quality` ejecuta 30 tests unitarios, siete tests de contrato, convenciones del repositorio y whitespace sobre el rango real del cambio.
 - El arnés dispone de una versión operativa para trabajar desde `dev`; el piloto de adopción con Víctor continúa pendiente y no se presenta todavía como validado por todo el equipo.

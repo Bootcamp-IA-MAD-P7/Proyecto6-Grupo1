@@ -149,4 +149,4 @@ El trabajo activo se concentra en dos objetivos:
 - Datos/ML: recibir el EDA de Víctor e incorporarlo a [`001-cfpb-target-contract`](specs/001-cfpb-target-contract/spec.md) para cerrar idioma, duplicados, partición, desbalanceo y privacidad antes de entrenar.
 - Arquitectura y método: pilotar con Víctor desde `dev` la spec [`004-agentic-harness`](specs/004-agentic-harness/spec.md) y utilizar su feedback para cerrar la primera versión.
 
-La React PWA permanece como propuesta experimental en una Pull Request separada y no forma parte del estado integrado en `dev`. Antes de retomarla deberá actualizarse desde `dev` y revisarse con Abel.
+Abel desarrollará la React PWA desde cero sobre `003/T-006`. Es responsable de las decisiones de frontend y UX dentro del contrato OpenAPI, los límites de privacidad y los criterios ya aprobados; todavía no existe una aplicación integrada.

@@ -34,8 +34,9 @@
 - React PWA se confirma como dirección frontend inicial; la evolución nativa queda sujeta a requisitos futuros.
 - Las instrucciones de agentes y el workflow reflejan las decisiones actuales y un método independiente de proveedor.
 - La estructura adopta creación incremental: conserva contratos en los README y elimina subcarpetas vacías para capacidades todavía no implementadas.
-- El estado activo se concentra en el EDA de Víctor y el piloto del arnés; la propuesta React PWA permanece fuera de `dev` y pendiente de revisión.
+- El estado activo comprende el EDA de Víctor, el piloto del arnés y el inicio desde cero de la React PWA por Abel mediante `003/T-006`.
 - El piloto de adopción se ejecutará desde `dev` sobre la versión operativa, sin ramas temporales ni entregas manuales de contexto.
+- La propuesta frontend experimental de la PR `#14` se cierra sin mergear para que Abel defina e implemente el frontend desde una base limpia.
 
 ### Fixed
 
