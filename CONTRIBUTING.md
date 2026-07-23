@@ -4,7 +4,7 @@
 
 1. Actualizar `dev`.
 2. Ejecutar `npm ci` y `python scripts/harness.py doctor`.
-3. Crear una rama de trabajo desde `dev`.
+3. Crear una rama de trabajo desde `dev`, incluyendo la clave Jira cuando exista.
 4. Crear o continuar el cambio OpenSpec correspondiente.
 5. Implementar únicamente sus tareas acordadas.
 6. Verificar y archivar el cambio.
@@ -16,14 +16,17 @@ Las tareas `001/T-004` y `003/T-006` pueden terminarse con el flujo numerado ant
 Nombres recomendados:
 
 ```text
-feature/<descripcion>
-fix/<descripcion>
-docs/<descripcion>
-test/<descripcion>
-ci/<descripcion>
-chore/<descripcion>
-refactor/<descripcion>
+feature/PG-N-<descripcion>
+fix/PG-N-<descripcion>
+docs/PG-N-<descripcion>
+test/PG-N-<descripcion>
+ci/PG-N-<descripcion>
+chore/PG-N-<descripcion>
+refactor/PG-N-<descripcion>
 ```
+
+Las automatizaciones gestionadas, como Dependabot, conservan su convención. Las
+ramas anteriores a Jira no se renombran únicamente por formato.
 
 ## Commits
 
@@ -41,6 +44,7 @@ test: cover model inference contract
 Cada PR debe:
 
 - apuntar a `dev`, salvo un release aprobado;
+- enlazar Jira `PG-N` o explicar una excepción aprobada de bootstrap, emergencia o automatización;
 - enlazar el cambio OpenSpec y las tareas que cubre, o el expediente heredado aplicable;
 - mantener un alcance coherente;
 - explicar cómo se verificó;

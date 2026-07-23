@@ -32,6 +32,10 @@
 - Validación estricta de OpenSpec, auditoría npm y diagnóstico del arnés incorporados al quality gate.
 - Comprobaciones de regresión para tablas de entrega, SVG documentales accesibles, sincronización de estados y placeholders permitidos.
 - Capacidad OpenSpec `repository-presentation-quality` y auditoría final de presentación y estructura.
+- Proyecto Jira `PG` integrado con un Epic del nivel esencial, seis elementos de
+  entrega y ocho relaciones de bloqueo verificadas.
+- Manual operativo de Jira y referencias `PG-N` en OpenSpec, arnés, ramas y
+  Pull Requests, sin credenciales en el repositorio.
 
 ### Changed
 
@@ -44,6 +48,8 @@
 - OpenSpec gobierna los cambios nuevos; `specs/` conserva únicamente los expedientes anteriores y las tareas ya asignadas.
 - El piloto con Víctor deja de ser una condición de implantación y pasa a ser una oportunidad de feedback durante su trabajo real.
 - La propuesta frontend experimental de la PR `#14` se cierra sin mergear para que Abel defina e implemente el frontend desde una base limpia.
+- Jira pasa a conservar responsable, estado y bloqueos; OpenSpec conserva
+  requisitos y decisiones, y GitHub conserva implementación y evidencia.
 
 ### Fixed
 

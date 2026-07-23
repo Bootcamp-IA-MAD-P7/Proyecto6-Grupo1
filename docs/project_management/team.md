@@ -15,10 +15,10 @@ Los roles principales reflejan el acuerdo actual. Los respaldos y la cobertura e
 
 | Área | Persona | Referencia | Estado |
 |---|---|---|---|
-| Datos y EDA | Víctor | `001-cfpb-target-contract/T-004` | Activa |
-| Arquitectura y arnés | Miguel | `openspec-governance` | Operativo; mantenimiento y coordinación |
-| Frontend y UX | Abel | `003-complaint-routing-experience/T-006` | Activa; desarrollo desde cero |
-| Backend | José | `003-complaint-routing-experience/T-007` | Bloqueada por datos y modelo |
+| Datos y EDA | Víctor | `PG-2` · `001/T-004` | En curso y asignada en Jira |
+| Arquitectura y arnés | Miguel | `integrate-jira-workflow` · excepción `bootstrap` | Activa |
+| Frontend y UX | Abel | `PG-4` · `003/T-006` | En curso y asignada en Jira; desarrollo desde cero |
+| Backend | José | `PG-5` · `003/T-007` | Bloqueada por `PG-2` y `PG-3` |
 
 La tabla describe el estado de `dev`. Una rama o Pull Request abierta no se considera capacidad integrada ni cambia por sí sola estas asignaciones.
 
@@ -30,6 +30,7 @@ La tabla describe el estado de `dev`. Una rama o Pull Request abierta no se cons
 - La persona asignada conserva la responsabilidad de revisar código, datos, decisiones y evidencias.
 - No se comparten narrativas CFPB, secretos o datos brutos con servicios externos.
 - El [flujo operativo](workflow.md) explica cómo preparar contexto y cerrar una tarea.
+- El [manual de Jira](jira_workflow.md) explica qué actualizar y qué no duplicar.
 
 ## Cambios de composición
 

@@ -18,6 +18,7 @@ Este catálogo indica qué documentos pueden alimentar una presentación y con q
 | `docs/product/candidates/` | Fichas y evidencias de alternativas consideradas | Durante descubrimiento | Equipo | Activa |
 | `docs/project_management/dailies/YYYY-MM-DD.md` | Actividad y bloqueantes | Diaria | Equipo | Activa |
 | `docs/project_management/workflow.md` | Método común desde Jira hasta Pull Request | Cuando cambie el proceso | Equipo | Activa |
+| `docs/project_management/jira_workflow.md` | Frontera, backlog y manual operativo de Jira | Cuando cambie el seguimiento | Miguel / equipo | Activa técnica |
 | `docs/project_management/harness_quickstart.md` | Guía autoservicio del arnés | Cuando cambie el proceso | Miguel / equipo | Activa técnica |
 | `ai-specs/` | Roles y procedimientos reutilizables para IA | Cuando cambie el arnés | Miguel / equipo | Activa técnica |
 | `openspec/config.yaml` | Contexto y reglas obligatorias de los cambios | Cuando cambie el gobierno | Miguel / equipo | Activa técnica |
@@ -27,6 +28,7 @@ Este catálogo indica qué documentos pueden alimentar una presentación y con q
 | `reports/validation/repository_harness_audit_2026-07-23.md` | Evidencia puntual de coherencia documental y estructural | Cierre del arnés | Miguel / arquitectura | Activa técnica |
 | `reports/validation/openspec-harness-validation-2026-07-23.md` | Evidencia de implantación real de OpenSpec y el arnés | Cierre de la adopción | Miguel / arquitectura | Activa técnica |
 | `reports/validation/repository-final-review-2026-07-23.md` | Evidencia final de presentación, estructura, estados y quality gates | Cierre documental | Miguel / arquitectura | Activa técnica |
+| `reports/validation/jira-harness-integration-2026-07-23.md` | Evidencia de backlog, dependencias y arnés Jira | Cierre de la integración | Miguel / arquitectura | Activa técnica |
 | `docs/notebooklm/project_facts.md` | Hechos verificados del producto | Diaria o por hito | Miguel / responsables de evidencia | Activa |
 | `docs/notebooklm/business_narrative.md` | Historia para audiencia no técnica | Cuando se defina el negocio | Equipo | Activa con límites explícitos |
 | `docs/notebooklm/technical_status.md` | Estado técnico consolidado | Diaria o por PR | Miguel / equipo | Activa |

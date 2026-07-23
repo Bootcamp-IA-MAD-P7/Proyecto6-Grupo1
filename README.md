@@ -124,13 +124,14 @@ python scripts/harness.py doctor
 Nuevo cambio:
 
 ```bash
-git switch -c tipo/descripcion-corta
-npm exec openspec new change nombre-del-cambio \
+git switch -c tipo/PG-N-descripcion-corta
+npm exec -- openspec new change nombre-del-cambio \
   --goal "Resultado observable"
-npm exec openspec status --change nombre-del-cambio
+npm exec -- openspec status --change nombre-del-cambio
 python scripts/harness.py start \
   --role architect \
-  --change nombre-del-cambio
+  --change nombre-del-cambio \
+  --jira PG-N
 ```
 
 Víctor y Abel pueden terminar sus tareas anteriores mediante el modo de compatibilidad:
@@ -140,7 +141,8 @@ python scripts/harness.py start --role data-analyst --spec 001 --task T-004
 python scripts/harness.py start --role frontend-developer --spec 003 --task T-006
 ```
 
-Manual completo: [OpenSpec + arnés para el equipo](docs/project_management/harness_quickstart.md).
+Manuales: [OpenSpec + arnés para el equipo](docs/project_management/harness_quickstart.md)
+y [Jira, OpenSpec y GitHub](docs/project_management/jira_workflow.md).
 
 ## Arquitectura prevista
 
@@ -270,12 +272,14 @@ Las subcarpetas aparecen con su primer archivo real. No se crean árboles vacío
 
 | Persona | Área | Trabajo actual |
 |---|---|---|
-| José | Backend | Integración real bloqueada hasta EDA y modelo |
-| Abel | Frontend y UX | React PWA desde cero sobre `003/T-006` |
-| Víctor | Datos y EDA | Evidencia agregada sobre `001/T-004` |
-| Miguel | Arquitectura y método | OpenSpec, arnés y coordinación transversal |
+| José | Backend | `PG-5` / `003/T-007`, bloqueada por datos y modelo |
+| Abel | Frontend y UX | `PG-4` / `003/T-006`, React PWA desde cero |
+| Víctor | Datos y EDA | `PG-2` / `001/T-004`, evidencia agregada |
+| Miguel | Arquitectura y método | Integración Jira–OpenSpec–arnés mediante bootstrap |
 
-Jira se utilizará para asignación y seguimiento. OpenSpec conservará los requisitos y decisiones; ninguna historia de Jira los sustituirá.
+El [backlog `PG`](https://miguel-redondo.atlassian.net/browse/PG-1) sigue el nivel
+esencial. Jira conserva responsable, estado y bloqueos; OpenSpec conserva
+requisitos y decisiones; GitHub conserva implementación y evidencia.
 
 ## Documentación para cliente y NotebookLM
 

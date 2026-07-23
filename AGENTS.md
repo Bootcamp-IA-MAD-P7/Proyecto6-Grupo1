@@ -9,7 +9,8 @@
 - Target derivado: `product_canonical`, con once clases en `config/cfpb_target_contract.json`.
 - Frontend previsto: React PWA; una evolución nativa solo se evaluará si aparece evidencia que la justifique.
 - Responsabilidades: Miguel coordina arquitectura; José, backend; Abel, frontend/UX; Víctor, datos y EDA. Josué está fuera del equipo.
-- Trabajo heredado activo: `specs/001-cfpb-target-contract/T-004` para Víctor y `specs/003-complaint-routing-experience/T-006` para Abel.
+- Jira: proyecto `PG`; `PG-1` agrupa el nivel esencial.
+- Trabajo heredado activo: `PG-2` / `001/T-004` para Víctor, `PG-4` / `003/T-006` para Abel y `PG-5` / `003/T-007` para José cuando se resuelvan `PG-2` y `PG-3`.
 - No existe todavía modelo entrenado, inferencia real, aplicación integrada, base de datos, despliegue ni capacidad MLOps.
 
 Siguen abiertas la métrica principal, los modelos, la política de idioma, el tratamiento final de duplicados, la partición, el desbalanceo, el backend, la persistencia y el proveedor cloud. No deben cerrarse sin evidencia y una decisión versionada.
@@ -37,7 +38,7 @@ proposal -> specs -> design -> tasks -> apply -> verify -> archive -> PR
 3. Ejecutar `python scripts/harness.py doctor`.
 4. Comprobar rama y estado de Git.
 5. Identificar el cambio OpenSpec activo o, solo para trabajo heredado, la spec y tarea numeradas.
-6. Identificar la historia de Jira cuando exista y comprobar que no contradice el repositorio.
+6. Identificar la historia Jira `PG-N` o la excepción permitida y comprobar que no contradice el repositorio.
 7. Resumir alcance, archivos previstos, bloqueantes y comprobaciones antes de editar.
 8. Limitar los cambios al alcance autorizado y revisar impacto en documentación, NotebookLM, UX, seguridad y CI/CD.
 
@@ -48,8 +49,8 @@ Si una IA no puede leer el repositorio, la persona responsable genera un paquete
 Para un cambio nuevo:
 
 ```bash
-npm exec openspec new change <nombre-en-kebab-case>
-python scripts/harness.py start --role <rol> --change <nombre>
+npm exec -- openspec new change <nombre-en-kebab-case>
+python scripts/harness.py start --role <rol> --change <nombre> --jira PG-N
 ```
 
 Para una tarea heredada ya asignada:
@@ -70,6 +71,7 @@ python scripts/harness.py start \
 - No utilizar iconografía genérica de IA en documentación o producto.
 - No debilitar quality gates, permisos o controles de seguridad.
 - No incorporar narrativas CFPB reales a Git, informes, logs, capturas, prompts o servicios externos.
+- No copiar requisitos completos a Jira ni tratar su estado como evidencia de implementación.
 - No utilizar como features campos prohibidos por `config/cfpb_target_contract.json`.
 - No presentar React PWA, backend, modelo, Docker, despliegue o MLOps como implementados sin código y evidencia.
 - No marcar requisitos de `docs/project_management/delivery_levels.md` como verificados sin su evidencia mínima.

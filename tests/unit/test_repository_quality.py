@@ -8,6 +8,23 @@ from scripts.quality import check_repository
 
 
 class RepositoryQualityTests(unittest.TestCase):
+    def test_accepts_jira_key_or_controlled_exception(self) -> None:
+        jira = "## Tracking\n\n- Jira: `PG-12`.\n"
+        bootstrap = "## Tracking\n\n- Jira exception: `bootstrap`.\n"
+
+        self.assertTrue(check_repository.proposal_has_jira_tracking(jira))
+        self.assertTrue(check_repository.proposal_has_jira_tracking(bootstrap))
+        self.assertFalse(
+            check_repository.proposal_has_jira_tracking(
+                "## Tracking\n\n- Jira: `OTHER-12`.\n"
+            )
+        )
+        self.assertFalse(
+            check_repository.proposal_has_jira_tracking(
+                "## Tracking\n\n- Jira exception: `convenience`.\n"
+            )
+        )
+
     def test_readme_delivery_ids_cannot_wrap(self) -> None:
         errors: list[str] = []
 

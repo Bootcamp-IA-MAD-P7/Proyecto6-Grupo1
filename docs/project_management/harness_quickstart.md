@@ -52,23 +52,23 @@ Si hay cambios locales inesperados, se para y se revisan. No se borran.
 Abrir:
 
 - `docs/project_management/team.md`;
-- la historia de Jira, cuando exista;
+- la historia Jira `PG-N` o la excepción permitida;
 - `docs/project_management/delivery_levels.md`.
 
-Jira no contiene los requisitos completos. Solo enlaza el cambio OpenSpec y permite seguir su estado.
+Jira no contiene los requisitos completos. Solo enlaza el cambio OpenSpec y permite seguir su estado. El [manual de Jira](jira_workflow.md) recoge el backlog y sus límites.
 
 ## 3. Crear una rama
 
 ```bash
-git switch -c tipo/descripcion-corta
+git switch -c tipo/PG-N-descripcion-corta
 ```
 
 Ejemplos:
 
 ```bash
-git switch -c data/analyze-language
-git switch -c feature/complaint-form
-git switch -c docs/update-client-narrative
+git switch -c data/PG-2-analyze-language
+git switch -c feature/PG-4-complaint-form
+git switch -c docs/PG-7-update-client-narrative
 ```
 
 ## 4. Crear un cambio OpenSpec
@@ -76,7 +76,7 @@ git switch -c docs/update-client-narrative
 Solo se crea para trabajo nuevo o para una entrega heredada que cambie decisiones o contratos:
 
 ```bash
-npm exec openspec new change nombre-del-cambio \
+npm exec -- openspec new change nombre-del-cambio \
   --goal "Resultado observable que se quiere conseguir"
 ```
 
@@ -85,6 +85,17 @@ El nombre usa minúsculas y guiones. La carpeta aparecerá en:
 ```text
 openspec/changes/nombre-del-cambio/
 ```
+
+La propuesta incorpora su seguimiento:
+
+```markdown
+## Tracking
+
+- Jira: `PG-N`.
+```
+
+Las únicas excepciones admitidas son `bootstrap`, `emergency` y `automation`;
+deben incluir motivo en la propuesta y en la Pull Request.
 
 La IA debe completar, en este orden, los artefactos que pida OpenSpec:
 
@@ -109,12 +120,12 @@ No inventes decisiones ni evidencias.
 Comandos de apoyo:
 
 ```bash
-npm exec openspec status --change nombre-del-cambio
-npm exec openspec instructions proposal --change nombre-del-cambio
-npm exec openspec instructions specs --change nombre-del-cambio
-npm exec openspec instructions design --change nombre-del-cambio
-npm exec openspec instructions tasks --change nombre-del-cambio
-npm exec openspec validate nombre-del-cambio --type change --strict
+npm exec -- openspec status --change nombre-del-cambio
+npm exec -- openspec instructions proposal --change nombre-del-cambio
+npm exec -- openspec instructions specs --change nombre-del-cambio
+npm exec -- openspec instructions design --change nombre-del-cambio
+npm exec -- openspec instructions tasks --change nombre-del-cambio
+npm exec -- openspec validate nombre-del-cambio --type change --strict
 ```
 
 Las carpetas `.codex/`, `.github/`, `.claude/`, `.cursor/` y `.gemini/` ya contienen los adaptadores oficiales generados por OpenSpec. Cada herramienta puede reconocer sus skills o comandos; el flujo de terminal anterior funciona siempre.
@@ -126,7 +137,8 @@ Cuando la planificación esté completa:
 ```bash
 python scripts/harness.py start \
   --role architect \
-  --change nombre-del-cambio
+  --change nombre-del-cambio \
+  --jira PG-N
 ```
 
 Roles disponibles:
@@ -141,6 +153,7 @@ El comando consulta al OpenSpec real, valida el cambio y crea un único Markdown
 - Si la IA ve el repositorio, se le indica que lea ese archivo.
 - Si no ve el repositorio, se sube únicamente ese Markdown después de revisarlo.
 - Nunca se suben CSV, narrativas CFPB, secretos, modelos, `.env` o logs.
+- El arnés valida la forma `PG-N`, pero no almacena credenciales ni consulta Jira.
 
 ## 6. Trabajo anterior a OpenSpec
 
@@ -175,7 +188,8 @@ Contexto de verificación:
 ```bash
 python scripts/harness.py verify \
   --role <rol> \
-  --change nombre-del-cambio
+  --change nombre-del-cambio \
+  --jira PG-N
 ```
 
 Comprobaciones mínimas:
@@ -196,7 +210,8 @@ Cada área añade sus propios tests.
 ```bash
 python scripts/harness.py review \
   --role <rol> \
-  --change nombre-del-cambio
+  --change nombre-del-cambio \
+  --jira PG-N
 ```
 
 La IA ayuda a buscar contradicciones, riesgos, datos sensibles y evidencia ausente. La persona responsable revisa el diff completo.
@@ -206,7 +221,7 @@ La IA ayuda a buscar contradicciones, riesgos, datos sensibles y evidencia ausen
 Cuando todas las tareas estén marcadas y verificadas:
 
 ```bash
-npm exec openspec archive nombre-del-cambio --yes
+npm exec -- openspec archive nombre-del-cambio --yes
 ```
 
 Archivar:
@@ -233,6 +248,7 @@ No inventes tests, evidencias ni resultados.
 ```
 
 Solo hay que copiar y pegar el Markdown resultante en la descripción de la PR.
+La plantilla exige la clave Jira o una excepción aprobada y el cambio OpenSpec.
 
 ## 10. Cierre
 

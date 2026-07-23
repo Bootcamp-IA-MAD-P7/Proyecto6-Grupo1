@@ -14,11 +14,11 @@ openspec/
 ```bash
 npm ci
 python scripts/harness.py doctor
-npm exec openspec new change <nombre>
-npm exec openspec status --change <nombre>
-npm exec openspec validate <nombre> --type change --strict
+npm exec -- openspec new change <nombre>
+npm exec -- openspec status --change <nombre>
+npm exec -- openspec validate <nombre> --type change --strict
 python scripts/harness.py start --role <rol> --change <nombre>
-npm exec openspec archive <nombre> --yes
+npm exec -- openspec archive <nombre> --yes
 ```
 
 Los adaptadores oficiales para Codex, GitHub Copilot, Claude Code, Cursor y Gemini CLI están versionados en sus carpetas correspondientes. No se requiere una instalación global.
