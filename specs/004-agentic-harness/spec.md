@@ -109,8 +109,8 @@ tarea elegida
 
 ## Preguntas abiertas
 
-- [ ] Q-001: ¿Conviene ampliar `build_ai_handoff.py` o crear una entrada única que lo componga sin modificar su contrato actual?
-- [ ] Q-002: ¿Qué sintaxis de comando será más sencilla para el equipo en Windows y Git Bash?
+- [x] Q-001: Se crea `scripts/harness.py` como entrada y se reutiliza `build_ai_handoff.py` mediante parámetros opcionales compatibles con su contrato anterior.
+- [x] Q-002: Se adopta una acción posicional y opciones explícitas, compatibles con PowerShell y Git Bash.
 - [ ] Q-003: ¿La adaptación futura a Specboot u OpenSpec aportará valor suficiente para justificar una migración?
 
 Estas preguntas afectan a la implementación interna, pero no bloquean la definición ni el piloto del flujo.

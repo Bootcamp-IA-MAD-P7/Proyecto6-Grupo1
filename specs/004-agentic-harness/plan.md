@@ -100,6 +100,6 @@ No se instalarán dependencias ni se modificarán la PWA experimental, el EDA o 
 
 ## Decisiones pendientes
 
-- [ ] Elegir la forma final del comando tras probar dos ejemplos locales.
+- [x] Utilizar `python scripts/harness.py <acción> --role <rol> --spec <spec> --task <tarea>`.
 - [ ] Decidir si la validación entra en `repository-quality` después del piloto.
 - [ ] Evaluar compatibilidad con Specboot u OpenSpec solo al cerrar esta primera versión.

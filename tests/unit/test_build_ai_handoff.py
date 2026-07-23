@@ -69,6 +69,16 @@ class BuildAIHandoffTests(unittest.TestCase):
                     Path(directory),
                 )
 
+    def test_rejects_unsafe_output_filename(self) -> None:
+        with tempfile.TemporaryDirectory() as directory:
+            with self.assertRaisesRegex(HandoffError, "safe Markdown filename"):
+                build_handoff(
+                    "001",
+                    "T-004",
+                    output_directory=Path(directory),
+                    output_filename="../outside.md",
+                )
+
 
 if __name__ == "__main__":
     unittest.main()

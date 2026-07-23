@@ -67,7 +67,7 @@
 
 ## T-004 Implementar la entrada única
 
-- Estado: `[ ]`
+- Estado: `[x]`
 - Responsable: `Miguel / arquitectura`
 - Dependencias: `T-002, T-003`
 - Requisitos cubiertos: `R-002 a R-009`
@@ -83,7 +83,11 @@
   - Comando o revisión: tests unitarios y generación de ejemplo.
   - Resultado esperado: paquete seguro en `exports/`.
 - Evidencia obtenida:
-  - Pendiente.
+  - `scripts/harness.py` compone acción, rol, spec y tarea sobre el generador seguro existente.
+  - La suite conjunta superó 15 tests, incluida la comprobación de nombre de salida seguro.
+  - El comando real generó `exports/ai-handoffs/harness-start-data-analyst-001-cfpb-target-contract-T-004.md`.
+  - El archivo generado está ignorado por Git y su índice contiene solo fuentes documentales y contratos permitidos.
+  - `python scripts/quality/check_repository.py` superó la comprobación con 174 archivos locales.
 
 ## T-005 Pilotar con la tarea real de datos
 

@@ -10,6 +10,7 @@ No se añadirán scripts que oculten pasos manuales no documentados.
 - `documentation/new_daily.py`: crea una daily y su actualización editorial sin sobrescribir documentos.
 - `documentation/build_notebooklm_pack.py`: genera un paquete curado para NotebookLM.
 - `documentation/build_ai_handoff.py`: genera un contexto seguro y acotado para una spec y tarea.
+- `harness.py`: combina rol, procedimiento, spec y tarea en un único Markdown para cualquier IA.
 - `data/cfpb_viability.py`: prueba la API CFPB o inspecciona CSV/ZIP sin persistir narrativas en los informes.
 
 ## Spike CFPB
@@ -34,3 +35,14 @@ python scripts/documentation/build_ai_handoff.py \
 ```
 
 El generador solo admite fuentes documentales seguidas por Git, comprueba que la tarea exista y escribe en `exports/ai-handoffs/`. No sustituye la revisión humana ni permite adjuntar datos brutos, secretos o narrativas.
+
+## Entrada del arnés agéntico
+
+```bash
+python scripts/harness.py start \
+  --role data-analyst \
+  --spec 001 \
+  --task T-004
+```
+
+Las acciones disponibles son `start`, `verify`, `review` y `prepare-pr`. El comando valida el rol, la tarea y su estado antes de generar un paquete en `exports/ai-handoffs/`. No ejecuta el trabajo, no publica cambios y no sustituye la revisión humana.

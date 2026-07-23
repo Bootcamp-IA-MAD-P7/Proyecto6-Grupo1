@@ -88,3 +88,33 @@ Se adopta la opción 2. La persona responsable revisará los cambios, las eviden
 ### Evidencia
 
 El ruleset de `dev` y la guía de contribución ya exigen Pull Request y quality gates.
+
+## ADR-004 Componer el arnés sobre el generador existente
+
+- Fecha: `2026-07-23`
+- Estado: `accepted`
+- Relacionada con: `R-002 a R-010 | AC-001 a AC-006 | T-004`
+
+### Contexto
+
+`build_ai_handoff.py` ya valida specs, tareas, seguimiento Git, formatos y áreas prohibidas. Reimplementar esas protecciones en otra herramienta crearía dos comportamientos difíciles de mantener.
+
+### Opciones consideradas
+
+1. Sustituir el generador por una herramienta nueva.
+2. Copiar su lógica dentro de un comando del arnés.
+3. Crear una entrada pequeña que lo componga con rol, procedimiento y validación de estado.
+
+### Decisión
+
+Se adopta la opción 3. `scripts/harness.py` utiliza una acción posicional y opciones explícitas para rol, spec y tarea. El generador original conserva su uso anterior y recibe parámetros opcionales para título, instrucciones y nombre seguro de salida.
+
+### Consecuencias
+
+- Beneficios: una única política de seguridad, compatibilidad con el flujo anterior y uso equivalente en PowerShell y Git Bash.
+- Costes o límites: los dos scripts quedan relacionados y deben probarse juntos.
+- Trabajo posterior: integrar la suite conjunta en CI después del piloto.
+
+### Evidencia
+
+El comando real de inicio generó un paquete para `001/T-004`; los tests cubren roles y acciones inválidos, tareas bloqueadas, estados incompatibles y compatibilidad del generador original.
