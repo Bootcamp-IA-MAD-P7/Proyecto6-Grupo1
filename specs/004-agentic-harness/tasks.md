@@ -89,18 +89,41 @@
   - El archivo generado está ignorado por Git y su índice contiene solo fuentes documentales y contratos permitidos.
   - `python scripts/quality/check_repository.py` superó la comprobación con 174 archivos locales.
 
-## T-005 Pilotar con la tarea real de datos
+## T-005 Documentar el uso autoservicio
+
+- Estado: `[x]`
+- Responsable: `Miguel / arquitectura`
+- Dependencias: `T-004`
+- Requisitos cubiertos: `R-013, R-014, AC-009 a AC-011`
+- Archivos previstos:
+  - `docs/project_management/harness_quickstart.md`
+  - puntos de entrada documentales
+- Trabajo:
+  - Explicar clonación, asignación, rama, contexto, trabajo, verificación, revisión y PR.
+  - Actualizar los puntos de entrada para que no dependan del generador antiguo.
+- Criterio de cierre:
+  - Una persona puede localizar el flujo completo desde el README sin recibir instrucciones externas.
+- Verificación:
+  - Comando o revisión: enlaces, quality check y revisión manual de comandos.
+  - Resultado esperado: instrucciones coherentes, copiables y sin fuentes manuales.
+- Evidencia obtenida:
+  - `docs/project_management/harness_quickstart.md` cubre clonación, asignación, rama, contexto, trabajo, verificación, revisión, PR, briefing y Jira.
+  - README, workflow, `.specify/README.md` y el catálogo de specs enlazan el flujo vigente.
+  - El comando documentado generó correctamente el paquete de `001/T-004`.
+  - La suite del arnés superó 15 tests y `check_repository.py` validó 175 archivos locales.
+
+## T-006 Pilotar con la tarea real de datos
 
 - Estado: `[ ]`
 - Responsable: `Miguel y Víctor`
-- Dependencias: `T-004`
-- Requisitos cubiertos: `R-012, AC-004, AC-007, AC-009`
+- Dependencias: `T-005`
+- Requisitos cubiertos: `R-012 a R-014, AC-004, AC-007, AC-009 a AC-011`
 - Archivos previstos:
   - `exports/`, no versionado
   - documentación de evidencia, si procede
 - Trabajo:
   - Confirmar el inicio autoservicio desde un clon actualizado.
-  - Generar el contexto para `data-analyst`, `001-cfpb-target-contract` y `T-004` sin recibir archivos de otra persona.
+  - Generar el contexto para `data-analyst`, `001-cfpb-target-contract` y `T-004`.
   - Confirmar que incluye el briefing y permite entender el trabajo sin cambiar el EDA ni su estado.
 - Criterio de cierre:
   - Víctor puede localizar su tarea, generar o leer el contexto y explicar alcance, límites, briefing y verificaciones sin intermediarios.
@@ -110,24 +133,23 @@
 - Evidencia obtenida:
   - Pendiente.
 
-## T-006 Integrar comprobaciones y manual breve
+## T-007 Integrar comprobaciones y cerrar
 
 - Estado: `[ ]`
 - Responsable: `Miguel / arquitectura y QA`
-- Dependencias: `T-005`
-- Requisitos cubiertos: `R-010, R-011, AC-005, AC-006, AC-008, AC-009`
+- Dependencias: `T-006`
+- Requisitos cubiertos: `R-010, R-011, AC-005, AC-006, AC-008`
 - Archivos previstos:
   - `.github/workflows/repository-quality.yml`
-  - `docs/project_management/harness_quickstart.md`
   - documentación viva afectada
 - Trabajo:
   - Integrar los tests validados en CI.
-  - Explicar el flujo en lenguaje corriente con comandos copiables.
+  - Cerrar tareas, decisiones, documentación y evidencias.
 - Criterio de cierre:
-  - El quality gate detecta definiciones rotas y el equipo puede usar el manual.
+  - El quality gate detecta definiciones rotas y el estado documentado coincide con el real.
 - Verificación:
-  - Comando o revisión: suite local, `check_repository.py`, CI y prueba manual.
-  - Resultado esperado: comprobaciones correctas y manual utilizable.
+  - Comando o revisión: suite local, `check_repository.py`, CI y revisión final.
+  - Resultado esperado: comprobaciones correctas y spec cerrada sin capacidades exageradas.
 - Evidencia obtenida:
   - Pendiente.
 

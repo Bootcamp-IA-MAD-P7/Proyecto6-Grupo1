@@ -108,12 +108,13 @@ La [intención del proyecto](.specify/intent.md) fija el propósito y los límit
 
 ### Incorporación rápida al equipo
 
-1. Leer [`AGENTS.md`](AGENTS.md) aunque se trabaje sin IA: resume decisiones y límites vigentes.
-2. Consultar el [flujo operativo](docs/project_management/workflow.md).
-3. Localizar la spec y tarea asignadas desde [`specs/`](specs/README.md).
-4. Utilizar Jira para el estado diario y una Pull Request para integrar evidencias.
+1. Seguir la [guía autoservicio para trabajar con IA](docs/project_management/harness_quickstart.md).
+2. Leer [`AGENTS.md`](AGENTS.md): resume decisiones y límites vigentes.
+3. Consultar la asignación en [`team.md`](docs/project_management/team.md).
+4. Localizar la spec y tarea desde [`specs/`](specs/README.md).
+5. Utilizar Jira para el estado diario y una Pull Request para integrar evidencias.
 
-Las IA con acceso al repositorio leen las fuentes directamente. Para una herramienta externa se genera un paquete acotado con `scripts/documentation/build_ai_handoff.py`; nunca se comparten datos brutos ni narrativas CFPB.
+Cada integrante genera desde su propio clon un contexto acotado mediante `scripts/harness.py`. Las IA con acceso al repositorio leen el paquete local; para una herramienta externa se sube únicamente ese Markdown. Nunca se comparten datos brutos ni narrativas CFPB.
 
 ## Ramas
 

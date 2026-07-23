@@ -2,6 +2,8 @@
 
 Esta guía explica cómo trabaja una persona del equipo, utilice o no una IA. Jira mantiene el estado operativo; el repositorio conserva contratos, decisiones y evidencias.
 
+La incorporación paso a paso está en la [guía autoservicio del arnés](harness_quickstart.md).
+
 ## Mapa sencillo
 
 ```text
@@ -22,11 +24,13 @@ Merge y actualización de Jira
 
 ## 1. Antes de empezar
 
-1. Leer la historia de Jira y localizar la spec y tarea indicadas.
-2. Actualizar `dev` y crear una rama pequeña.
-3. Leer `AGENTS.md`, `README.md`, `CONTRIBUTING.md` y el bundle de la spec.
-4. Confirmar qué queda fuera del alcance y qué preguntas bloquean.
-5. Indicar en Jira que el trabajo está en curso.
+1. Clonar o actualizar el repositorio desde GitHub.
+2. Leer la historia de Jira y localizar en `team.md` la spec y tarea indicadas.
+3. Actualizar `dev` y crear una rama pequeña.
+4. Preparar desde el propio clon el contexto del rol, spec y tarea.
+5. Leer `AGENTS.md`, el briefing y el bundle de la spec.
+6. Confirmar qué queda fuera del alcance y qué preguntas bloquean.
+7. Indicar en Jira que el trabajo está en curso.
 
 ```bash
 git switch dev
@@ -34,36 +38,22 @@ git pull --ff-only
 git switch -c <tipo>/<descripcion>
 ```
 
-## 2. Trabajar con una IA que accede al repositorio
+## 2. Preparar el contexto desde el repositorio
 
-Abrir la raíz del proyecto y utilizar esta instrucción, adaptando spec y tarea:
+Cada integrante ejecuta el arnés desde su propio clon. Ejemplo:
 
-```text
-Lee AGENTS.md, README.md y CONTRIBUTING.md.
-
-Trabaja únicamente en la tarea T-004 de
-specs/001-cfpb-target-contract/tasks.md.
-
-Lee también spec.md, plan.md y decisions.md de esa carpeta.
-Antes de editar, resume el alcance, los archivos previstos y los bloqueantes.
-No amplíes el alcance ni inventes decisiones pendientes.
-Al terminar, ejecuta las verificaciones de la tarea y presenta evidencias.
+```bash
+python scripts/harness.py start \
+  --role data-analyst \
+  --spec 001 \
+  --task T-004
 ```
 
-No es necesario copiar todos los Markdown al chat: el agente debe leerlos desde el repositorio.
+Si la IA accede al repositorio, lee el paquete generado desde `exports/ai-handoffs/`. No es necesario copiar documentos al chat.
 
 ## 3. Trabajar con una IA sin acceso al repositorio
 
-Generar un único paquete temporal desde fuentes versionadas:
-
-```bash
-python scripts/documentation/build_ai_handoff.py \
-  --spec 001-cfpb-target-contract \
-  --task T-004 \
-  --include reports/validation/cfpb_viability.md
-```
-
-El archivo se crea en `exports/ai-handoffs/`, que está excluido de Git. Debe revisarse antes de compartirlo. No se adjuntarán datasets, `.env`, modelos, logs ni narrativas reales.
+La propia persona sube únicamente el mismo paquete generado. El archivo está excluido de Git y debe revisarse antes de compartirlo. No se adjuntarán datasets, `.env`, modelos, logs ni narrativas reales.
 
 ## 4. Durante el trabajo
 
@@ -90,12 +80,15 @@ No todo el equipo debe actualizar todos los documentos en cada PR.
 
 ## 6. Verificación y Pull Request
 
-1. Ejecutar las pruebas de la spec y `python scripts/quality/check_repository.py`.
-2. Revisar `git diff --check` y el diff completo.
-3. Actualizar tarea, decisión y documentación realmente afectadas.
-4. Crear un commit descriptivo y publicar la rama.
-5. Abrir Pull Request hacia `dev` con la plantilla completa.
-6. Resolver checks y conversaciones antes del merge.
+1. Generar el contexto `verify` y ejecutar las pruebas de la spec.
+2. Ejecutar `python scripts/quality/check_repository.py`.
+3. Revisar `git diff --check` y el diff completo.
+4. Generar el contexto `review` y atender los hallazgos.
+5. Actualizar tarea, decisión y documentación realmente afectadas.
+6. Crear un commit descriptivo y publicar la rama.
+7. Generar el contexto `prepare-pr` y completar la plantilla.
+8. Abrir Pull Request hacia `dev`.
+9. Resolver checks y conversaciones antes del merge.
 
 El cierre debe indicar:
 
