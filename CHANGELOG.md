@@ -25,6 +25,7 @@
 - Spec `004-agentic-harness`, cuatro roles, cuatro procedimientos reutilizables y una entrada única para generar contexto seguro por tarea.
 - Contrato verificable de niveles de entrega con criterios `ESS`, `MED`, `ADV` y `EXP`.
 - Guía autoservicio para que cada integrante utilice el arnés desde su propio clon y con cualquier IA compatible con Markdown.
+- Suites unitarias y de contrato del arnés integradas en `repository-quality`.
 
 ### Changed
 
@@ -34,6 +35,7 @@
 - Las instrucciones de agentes y el workflow reflejan las decisiones actuales y un método independiente de proveedor.
 - La estructura adopta creación incremental: conserva contratos en los README y elimina subcarpetas vacías para capacidades todavía no implementadas.
 - El estado activo se concentra en el EDA de Víctor y el piloto del arnés; la propuesta React PWA permanece fuera de `dev` y pendiente de revisión.
+- El piloto de adopción se ejecutará desde `dev` sobre la versión operativa, sin ramas temporales ni entregas manuales de contexto.
 
 ### Fixed
 

@@ -113,7 +113,7 @@ Se adopta la opción 3. `scripts/harness.py` utiliza una acción posicional y op
 
 - Beneficios: una única política de seguridad, compatibilidad con el flujo anterior y uso equivalente en PowerShell y Git Bash.
 - Costes o límites: los dos scripts quedan relacionados y deben probarse juntos.
-- Trabajo posterior: integrar la suite conjunta en CI después del piloto.
+- Trabajo posterior: mantener la suite conjunta en CI y ampliarla cuando aparezcan nuevos contratos del arnés.
 
 ### Evidencia
 
@@ -148,3 +148,33 @@ Se adopta la opción 3. Se conservan las cuatro etapas locales de `data/` porque
 ### Evidencia
 
 La corrección elimina 42 archivos `.gitkeep` y conserva únicamente las cuatro etapas locales de datos utilizadas por el trabajo activo.
+
+## ADR-006 Integrar la versión operativa antes del piloto de adopción
+
+- Fecha: `2026-07-23`
+- Estado: `accepted`
+- Relacionada con: `R-010 a R-014, AC-005 a AC-011, T-006, T-007`
+
+### Contexto
+
+Condicionar la incorporación del arnés a un piloto previo obligaba a Víctor a comprobar una rama especial y retrasaba el acceso autoservicio desde `dev`. El código, la documentación y las comprobaciones automáticas ya pueden verificarse sin modificar el EDA. El piloto sigue siendo necesario para valorar la comprensión y utilidad del flujo, pero no para hacer disponible la herramienta.
+
+### Opciones consideradas
+
+1. Mantener la PR en borrador hasta completar el piloto desde su rama remota.
+2. Integrar una versión operativa verificada en `dev` y realizar el piloto desde el flujo normal.
+3. Entregar el arnés a Víctor mediante archivos o instrucciones externas.
+
+### Decisión
+
+Se adopta la opción 2. La versión operativa se integra después de ejecutar suites unitarias, de contrato, calidad y whitespace en CI. La spec permanece `in_progress` hasta completar el piloto con Víctor; su feedback se incorporará mediante una Pull Request posterior si exige ajustes.
+
+### Consecuencias
+
+- Beneficios: el equipo trabaja desde `dev`, el manual no contiene excepciones temporales y el piloto reproduce el uso real.
+- Costes o límites: la primera versión puede requerir ajustes después del feedback.
+- Reversión: el cambio está aislado del producto y puede revertirse mediante una Pull Request sin afectar EDA, contratos de datos ni aplicación.
+
+### Evidencia
+
+La suite local contiene 30 tests unitarios y siete tests de contrato. El workflow `repository-quality` incorpora ambas suites, la comprobación del repositorio y un diff de whitespace que no oculta fallos.

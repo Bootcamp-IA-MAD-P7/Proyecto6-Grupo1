@@ -18,6 +18,8 @@ El spike preliminar ha verificado 2.306.723 narrativas, catorce etiquetas observ
 
 La spec [`003-complaint-routing-experience`](specs/003-complaint-routing-experience/spec.md) define el flujo React PWA y un OpenAPI para trabajar con mocks. Son contratos verificables, no una aplicación ni un servicio implementados.
 
+La spec [`004-agentic-harness`](specs/004-agentic-harness/spec.md) proporciona una primera versión operativa del arnés de trabajo: cada integrante puede generar desde `dev` un contexto limitado por rol, spec y tarea para utilizarlo con la IA que prefiera. La herramienta está automatizada y verificada; su adopción continúa en evaluación mediante el piloto con Víctor.
+
 Todavía no se han decidido de forma definitiva:
 
 - la política de idioma y el tratamiento final de duplicados;
@@ -145,6 +147,6 @@ La documentación se considera parte del producto. Debe alimentar el trabajo dia
 El trabajo activo se concentra en dos objetivos:
 
 - Datos/ML: recibir el EDA de Víctor e incorporarlo a [`001-cfpb-target-contract`](specs/001-cfpb-target-contract/spec.md) para cerrar idioma, duplicados, partición, desbalanceo y privacidad antes de entrenar.
-- Arquitectura y método: pilotar con Víctor la spec [`004-agentic-harness`](specs/004-agentic-harness/spec.md), incorporar sus comprobaciones a CI y cerrar la primera versión del arnés.
+- Arquitectura y método: pilotar con Víctor desde `dev` la spec [`004-agentic-harness`](specs/004-agentic-harness/spec.md) y utilizar su feedback para cerrar la primera versión.
 
 La React PWA permanece como propuesta experimental en una Pull Request separada y no forma parte del estado integrado en `dev`. Antes de retomarla deberá actualizarse desde `dev` y revisarse con Abel.

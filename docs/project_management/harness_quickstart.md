@@ -53,18 +53,6 @@ Antes de trabajar debe aparecer:
 ## dev...origin/dev
 ```
 
-### Piloto de la PR #15 antes del merge
-
-Mientras el arnés no esté integrado en `dev`, Víctor podrá probar exactamente la rama remota de la PR:
-
-```bash
-git fetch origin
-git switch --track origin/chore/adopt-agentic-harness
-git status --short --branch
-```
-
-Debe aparecer la rama `chore/adopt-agentic-harness` sin cambios locales. Esta excepción es solo para `004/T-006`; después del merge, el flujo normal comienza siempre desde `dev`.
-
 ## 2. Consultar la asignación
 
 Abrir [`team.md`](team.md) y localizar:

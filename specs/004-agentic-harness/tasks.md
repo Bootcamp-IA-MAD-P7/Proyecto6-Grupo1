@@ -123,7 +123,7 @@
   - documentación de evidencia, si procede
 - Trabajo:
   - Confirmar el inicio autoservicio desde un clon actualizado.
-  - Durante el piloto previo al merge, comprobar la rama remota de la PR `#15` siguiendo la guía autoservicio.
+  - Ejecutar el piloto desde `dev`, utilizando el mismo flujo que seguirá el resto del equipo.
   - Generar el contexto para `data-analyst`, `001-cfpb-target-contract` y `T-004`.
   - Confirmar que incluye el briefing y permite entender el trabajo sin cambiar el EDA ni su estado.
 - Criterio de cierre:
@@ -133,14 +133,14 @@
   - Resultado esperado: flujo comprensible y sin datos sensibles.
 - Evidencia obtenida:
   - Auditoría previa completada y registrada en `reports/validation/repository_harness_audit_2026-07-23.md`: responsables, estados, README, changelog, daily, fuentes de NotebookLM y estructura fueron revisados y alineados.
-  - Guía preparada con requisitos locales y checkout explícito de la rama remota para el piloto previo al merge.
+  - Guía autoservicio preparada para comenzar directamente desde un `dev` actualizado.
   - Demostración con Víctor pendiente.
 
-## T-007 Integrar comprobaciones y cerrar
+## T-007 Integrar comprobaciones automáticas
 
-- Estado: `[ ]`
+- Estado: `[~]`
 - Responsable: `Miguel / arquitectura y QA`
-- Dependencias: `T-006`
+- Dependencias: `T-005`
 - Requisitos cubiertos: `R-010, R-011, AC-005, AC-006, AC-008`
 - Archivos previstos:
   - `.github/workflows/repository-quality.yml`
@@ -156,7 +156,8 @@
 - Evidencia obtenida:
   - El check automático `repository-quality` de la PR `#15` finalizó correctamente.
   - La ejecución manual `workflow_dispatch` confirmó que el workflow puede lanzarse sobre la rama.
-  - Integración de las suites unitarias y de contrato y corrección final del quality gate pendientes hasta completar T-006.
+  - El workflow incorpora 30 tests unitarios, siete tests de contrato, el control del repositorio y una comprobación de whitespace sobre el rango real del cambio.
+  - Pendiente confirmar la nueva versión del workflow en GitHub Actions antes de marcar la tarea como completada.
 
 ## Checklist de cierre
 

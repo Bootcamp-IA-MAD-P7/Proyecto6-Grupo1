@@ -88,7 +88,7 @@ checks + revisión humana + PR
 |---|---|---|
 | Duplicar specs o reglas | Confusión y contradicciones | Componer siempre desde fuentes actuales |
 | Exceso de carpetas | Mayor coste de mantenimiento | Mantener solo cuatro roles y cuatro procedimientos iniciales |
-| Automatización prematura | Flujo difícil de cambiar | Pilotar antes de integrar en CI |
+| Automatización prematura | Flujo difícil de cambiar | Integrar una versión mínima reversible y ajustar con el piloto |
 | Falsa autonomía | Cambios sin control humano | Limitar el arnés a contexto, checks y preparación |
 | Fuga de información | Riesgo de privacidad | Lista cerrada de fuentes documentales versionadas |
 | Dependencia de Specboot | Bloqueo tecnológico | Adaptar conceptos, no instalarlo todavía |
@@ -102,5 +102,5 @@ No se instalarán dependencias ni se modificarán la PWA experimental, el EDA o 
 ## Decisiones pendientes
 
 - [x] Utilizar `python scripts/harness.py <acción> --role <rol> --spec <spec> --task <tarea>`.
-- [ ] Decidir si la validación entra en `repository-quality` después del piloto.
+- [x] Integrar las suites unitarias y de contrato en `repository-quality` antes de publicar la versión operativa.
 - [ ] Evaluar compatibilidad con Specboot u OpenSpec solo al cerrar esta primera versión.

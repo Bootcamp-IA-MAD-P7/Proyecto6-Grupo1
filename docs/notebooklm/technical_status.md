@@ -30,7 +30,8 @@
 - Responsabilidades principales confirmadas: Miguel en arquitectura y arnés, José en backend, Abel en frontend/UX y Víctor en datos y EDA.
 - El único trabajo de producto activo desde `dev` es la incorporación de evidencia del EDA en `001/T-004`.
 - Workflow `repository-quality` ejecutado correctamente y asociado automáticamente a las Pull Requests `#14` y `#15`.
-- La PR `#15` mantiene 30 tests unitarios y siete tests de contrato verificados localmente; su incorporación al workflow continúa pendiente de `004/T-007`.
+- El workflow `repository-quality` ejecuta 30 tests unitarios, siete tests de contrato, convenciones del repositorio y whitespace sobre el rango real del cambio.
+- El arnés dispone de una versión operativa para trabajar desde `dev`; el piloto de adopción con Víctor continúa pendiente y no se presenta todavía como validado por todo el equipo.
 - Ruleset `Protect dev` activo con PR y check de calidad obligatorios, historial lineal y bloqueo de force push y borrado.
 - Aprobaciones humanas no requeridas temporalmente.
 - Estructura simplificada para crear subcarpetas de aplicación, ML, MLOps, infraestructura y evidencias únicamente cuando contengan una capacidad real.

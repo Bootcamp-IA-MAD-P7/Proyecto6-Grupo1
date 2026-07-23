@@ -63,14 +63,19 @@ Los archivos de `exports/` permanecen ignorados por Git y se revisan antes de co
 - Ambas PR modifican diez documentos comunes.
 - Ruleset `Protect dev`: PR y check obligatorios, historial lineal, bloqueo de force push y borrado, sin aprobaciones humanas obligatorias todavía.
 
+## Decisión de integración posterior a la auditoría
+
+La revisión detectó que exigir el piloto antes del merge obligaba a utilizar una rama excepcional y retrasaba el acceso autoservicio. Se decidió integrar la versión operativa después de ampliar CI y ejecutar el piloto desde `dev`, que es el recorrido real del equipo.
+
+El workflow incorpora 30 tests unitarios, siete tests de contrato, convenciones del repositorio y whitespace sobre el rango completo del cambio.
+
 ## Pendientes deliberados
 
-- Completar con Víctor el piloto `004/T-006`.
-- Incorporar las suites del arnés a CI y corregir el control de whitespace en `004/T-007`.
-- Mantener la PR `#15` como borrador hasta cerrar piloto, CI y documentación.
-- Tras integrar `#15`, actualizar la rama de `#14` desde `dev` y reconciliar sus documentos antes de revisión con Abel.
+- Completar con Víctor el piloto `004/T-006` desde `dev`.
+- Cerrar la spec `004` con el feedback del piloto mediante una Pull Request posterior.
+- Actualizar la rama de `#14` desde `dev` y reconciliar sus documentos antes de revisión con Abel.
 - Automatizar perfiles separados de NotebookLM para negocio y técnica mediante un cambio acotado posterior; la separación editorial ya está documentada.
 
 ## Conclusión
 
-El repositorio queda preparado para el piloto sin presentar como implementadas la PWA, el backend, el modelo, el despliegue o MLOps. La primera versión del arnés continúa en curso y no se cerrará hasta obtener feedback real y CI reproducible.
+El repositorio queda preparado para integrar una versión operativa del arnés y ejecutar el piloto desde el flujo oficial, sin presentar como implementadas la PWA, el backend, el modelo, el despliegue o MLOps. La spec continúa en curso hasta obtener feedback real de Víctor.
