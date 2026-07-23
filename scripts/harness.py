@@ -213,24 +213,24 @@ def normalize_change(value: str) -> str:
 
 
 def openspec_context_source(value: str) -> str:
-    candidate = Path(value).resolve()
-    try:
-        return candidate.relative_to(ROOT).as_posix()
-    except ValueError:
-        normalized = value.replace("\\", "/")
+    normalized = value.replace("\\", "/")
+    is_windows_absolute = bool(
+        re.match(r"^[A-Za-z]:/", normalized)
+    ) or normalized.startswith("//")
+    if is_windows_absolute:
         marker = "/openspec/"
         marker_index = normalized.lower().find(marker)
         if marker_index == -1:
             raise HarnessError("OpenSpec referenced a file outside the repository")
-        relative = normalized[marker_index + 1 :]
-        resolved = (ROOT / relative).resolve()
-        try:
-            resolved.relative_to(ROOT)
-        except ValueError as exc:
-            raise HarnessError(
-                "OpenSpec referenced a file outside the repository"
-            ) from exc
-        return relative
+        return normalized[marker_index + 1 :]
+
+    candidate = Path(value).resolve()
+    try:
+        return candidate.relative_to(ROOT).as_posix()
+    except ValueError as exc:
+        raise HarnessError(
+            "OpenSpec referenced a file outside the repository"
+        ) from exc
 
 
 def _openspec_sources(

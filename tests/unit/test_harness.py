@@ -72,6 +72,9 @@ class HarnessTests(unittest.TestCase):
         with self.assertRaisesRegex(HarnessError, "outside the repository"):
             openspec_context_source(r"C:\outside\proposal.md")
 
+        with self.assertRaisesRegex(HarnessError, "outside the repository"):
+            openspec_context_source("/outside/openspec/changes/test/proposal.md")
+
     def test_doctor_confirms_real_local_openspec(self) -> None:
         ok, lines = doctor_report()
 
