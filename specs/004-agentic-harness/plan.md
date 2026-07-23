@@ -97,7 +97,7 @@ checks + revisión humana + PR
 
 La implementación se realizará en cambios pequeños dentro de esta rama. El primer punto de control será únicamente documental. La capa podrá retirarse eliminando `ai-specs/` y su entrada de composición, sin migrar specs, código de producto, datos ni historial.
 
-No se instalarán dependencias ni se modificarán la PWA experimental, el EDA o los contratos de producto durante esta spec.
+No se instalarán dependencias ni se modificarán el trabajo frontend, el EDA o los contratos de producto durante esta spec.
 
 ## Decisiones pendientes
 

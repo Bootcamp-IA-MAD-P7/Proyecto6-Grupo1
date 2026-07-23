@@ -10,8 +10,9 @@
 - Frontend: React con capacidades PWA como dirección inicial; una evolución nativa solo se evaluará si aparecen requisitos que la justifiquen.
 - Specs activas: `000-problem-discovery`, `001-cfpb-target-contract`, `003-complaint-routing-experience`, `004-agentic-harness` y la spec asignada a la tarea actual.
 - Responsabilidades: Miguel coordina arquitectura y arnés; José, backend; Abel, frontend/UX; Víctor, datos y EDA. Josué está fuera del equipo.
-- Asignación de producto activa desde `dev`: `001/T-004` para Víctor.
-- La PWA experimental permanece fuera de `dev`; no debe tratarse como aplicación implementada ni como tarea activa desde esta rama.
+- Asignaciones activas desde `dev`: `001/T-004` para Víctor y `003/T-006` para Abel.
+- Abel inicia la React PWA desde cero y conserva las decisiones de frontend y UX dentro de los contratos, límites de seguridad y requisitos ya aprobados.
+- No existe una aplicación integrada; `003/T-006` no debe presentarse como completada hasta disponer de implementación y evidencias.
 - La integración real `003/T-007` continúa bloqueada hasta disponer de EDA, modelo aprobado y decisiones de datos.
 
 Siguen abiertas la métrica principal, modelos, política de idioma, tratamiento final de duplicados, partición, estrategia de desbalanceo, backend, persistencia y proveedor cloud. No deben inventarse ni cerrarse sin evidencia y decisión registrada.

@@ -17,7 +17,7 @@ Los roles principales reflejan el acuerdo actual. Los respaldos y la cobertura e
 |---|---|---|---|
 | Datos y EDA | Víctor | `001-cfpb-target-contract/T-004` | Activa |
 | Arquitectura y arnés | Miguel | `004-agentic-harness` | Activa |
-| Frontend y UX | Abel | Propuesta experimental fuera de `dev` | En pausa; no existe aplicación integrada |
+| Frontend y UX | Abel | `003-complaint-routing-experience/T-006` | Activa; desarrollo desde cero |
 | Backend | José | `003-complaint-routing-experience/T-007` | Bloqueada por datos y modelo |
 
 La tabla describe el estado de `dev`. Una rama o Pull Request abierta no se considera capacidad integrada ni cambia por sí sola estas asignaciones.
