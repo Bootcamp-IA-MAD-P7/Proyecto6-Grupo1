@@ -1,53 +1,42 @@
 ---
 name: verify-task
-description: "Comprobar una tarea implementada contra su spec, criterios de aceptación, tests y estado real del repositorio. Usar antes de marcar T-XXX como completada o afirmar que un cambio está listo."
+description: "Verificar una implementación contra OpenSpec, contratos, tests y estado real."
 ---
 
-# Verificar una tarea
-
-Buscar evidencia, no justificar el resultado.
-
-## Entradas necesarias
-
-- Spec y tarea verificadas.
-- Cambio local o commit que se quiere comprobar.
-- Rol responsable.
+# Verificar trabajo
 
 ## Procedimiento
 
-1. Leer los requisitos y criterios cubiertos por la tarea.
+1. Leer requisitos, escenarios y tareas del cambio OpenSpec; usar el expediente numerado solo para trabajo heredado.
 2. Revisar el diff y confirmar que no mezcla trabajo ajeno.
-3. Ejecutar las comprobaciones indicadas en `tasks.md`.
+3. Ejecutar las comprobaciones exactas de las tareas.
 4. Ejecutar como mínimo:
 
 ```bash
-git diff --check
+npm run openspec:validate
 python scripts/quality/check_repository.py
+git diff --check
 git status --short --branch
 ```
 
-5. Añadir los tests específicos del área modificada.
-6. Revisar privacidad, seguridad, documentación y contratos afectados.
-7. Comparar las afirmaciones documentales con el comportamiento real.
-8. Clasificar el resultado:
-   - `PASS`: criterios cubiertos y checks correctos;
-   - `BLOCKED`: falta una dependencia o decisión;
-   - `FAIL`: existe un incumplimiento reproducible.
-9. Registrar únicamente evidencias observadas.
+5. Añadir los tests del área.
+6. Revisar privacidad, seguridad, contratos, documentación y briefing.
+7. Comparar cada afirmación con evidencia real.
+8. Clasificar `PASS`, `BLOCKED` o `FAIL`.
+9. Marcar una tarea solo después de observar el resultado correcto.
 
 ## Reglas
 
-- No marcar una tarea `[x]` si una comprobación obligatoria falla.
-- No ocultar warnings, tests omitidos ni verificaciones no ejecutadas.
+- No ocultar warnings, omisiones ni checks no ejecutados.
 - No cambiar criterios para hacer pasar el trabajo.
 - No usar datos sensibles como evidencia.
-- No corregir trabajo fuera de alcance durante una revisión.
+- No corregir trabajo fuera de alcance durante una verificación.
 
 ## Resultado
 
 ```text
 Resultado:
-Criterios comprobados:
+Requisitos y escenarios:
 Comandos y resultados:
 Revisión manual:
 Incumplimientos:

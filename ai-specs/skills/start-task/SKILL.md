@@ -1,51 +1,40 @@
 ---
 name: start-task
-description: "Preparar el inicio de una tarea asignada a partir de un rol, una spec y un identificador T-XXX. Usar cuando una persona pida comenzar, retomar o explicar una tarea antes de modificar archivos."
+description: "Preparar un cambio OpenSpec o una tarea heredada antes de modificar archivos."
 ---
 
-# Iniciar una tarea
+# Iniciar trabajo
 
-Preparar el trabajo antes de editar.
+## Entradas
 
-## Entradas necesarias
-
-- Rol de `ai-specs/agents/`.
-- Carpeta de la spec.
-- Identificador `T-XXX`.
-
-Si falta una entrada, pedirla o limitarse a explicar el flujo.
+- rol de `ai-specs/agents/`;
+- cambio OpenSpec con planificación completa;
+- o, solo en compatibilidad, spec numerada y tarea `T-XXX`.
 
 ## Procedimiento
 
-1. Leer `AGENTS.md`, `README.md` y `CONTRIBUTING.md`.
+1. Leer `AGENTS.md`, `README.md`, `CONTRIBUTING.md` y `openspec/config.yaml`.
 2. Comprobar rama y estado de Git.
-3. Leer `spec.md`, `plan.md`, `tasks.md` y `decisions.md` de la spec.
-4. Localizar la tarea exacta y comprobar estado, responsable y dependencias.
+3. Para OpenSpec, consumir propuesta, requisitos, diseño, tareas y estado indicados por `openspec instructions apply`.
+4. Para compatibilidad, leer los cuatro documentos del expediente numerado y localizar la tarea exacta.
 5. Leer el rol y únicamente los contratos enlazados necesarios.
-6. Distinguir hechos confirmados, decisiones abiertas y bloqueantes.
-7. Presentar antes de editar:
-   - objetivo de la tarea;
-   - alcance incluido y excluido;
-   - archivos previstos;
-   - comprobaciones exigidas;
-   - bloqueantes y riesgos.
-8. Trabajar solo si la tarea existe, no está bloqueada y el cambio está autorizado.
+6. Separar hechos, decisiones abiertas, dependencias y bloqueantes.
+7. Presentar objetivo, alcance, archivos, checks, riesgos y fuera de alcance.
+8. Editar solo si el trabajo existe, está autorizado y no está bloqueado.
 
 ## Reglas
 
-- No interpretar el rol como permiso para ampliar el alcance.
-- No comenzar una tarea `[!]`, descartada o con dependencias incumplidas.
-- No reabrir una tarea `[x]` sin una corrección o decisión explícita.
-- No inventar Jira, evidencias, decisiones ni requisitos.
-- No incluir datos sensibles en el contexto.
+- El rol no amplía el alcance.
+- No implementar con planificación OpenSpec incompleta.
+- No reabrir tareas terminadas sin una corrección aprobada.
+- No inventar Jira, evidencia, decisiones ni requisitos.
+- No incorporar datos sensibles al contexto.
 
 ## Resultado
 
-Entregar un resumen de inicio con:
-
 ```text
 Rol:
-Spec y tarea:
+Cambio OpenSpec o tarea heredada:
 Objetivo:
 Incluido:
 Fuera de alcance:

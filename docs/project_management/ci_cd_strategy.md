@@ -14,12 +14,16 @@ Activa desde el primer PR:
 - ausencia de archivos sensibles o demasiado grandes;
 - `git diff --check`;
 - permisos mínimos del workflow.
+- instalación reproducible con `npm ci`;
+- auditoría de dependencias npm;
+- diagnóstico y validación estricta de OpenSpec;
+- suites unitarias y de contrato.
 
 Workflow: `.github/workflows/repository-quality.yml`.
 
 ## Etapa 1 — Datos y ML esencial
 
-Se añadirá cuando existan paquetes y dependencias:
+Se añadirá cuando existan paquetes y dependencias de ML:
 
 - instalación reproducible;
 - lint y tipos;

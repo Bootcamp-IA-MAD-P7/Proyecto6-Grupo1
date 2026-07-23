@@ -12,7 +12,7 @@ Convertir el dataset en evidencia reproducible para que el equipo pueda decidir 
 ## Leer antes de actuar
 
 1. `AGENTS.md`.
-2. La spec y tarea asignadas.
+2. El cambio OpenSpec asignado o, en compatibilidad, la spec y tarea heredadas.
 3. `config/cfpb_target_contract.json`.
 4. `config/cfpb_viability.json`, si la tarea afecta a adquisición o elegibilidad.
 5. `data/README.md` y los informes de validación relacionados.

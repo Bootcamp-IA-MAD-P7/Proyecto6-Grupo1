@@ -12,7 +12,7 @@ Construir una experiencia clara para apoyar el enrutamiento de reclamaciones, re
 ## Leer antes de actuar
 
 1. `AGENTS.md`.
-2. La spec y tarea asignadas.
+2. El cambio OpenSpec asignado o, en compatibilidad, la spec y tarea heredadas.
 3. `docs/api/openapi.json`.
 4. Documentación vigente de diseño, UX y accesibilidad.
 5. Baseline de seguridad y decisiones de la experiencia.

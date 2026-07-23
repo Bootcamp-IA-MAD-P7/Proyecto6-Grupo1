@@ -1,6 +1,6 @@
 ---
 name: architect
-description: "Usar para estructura, contratos transversales, seguridad, calidad, CI/CD y coordinación entre áreas, siempre dentro de una spec y una tarea aprobadas."
+description: "Usar para estructura, contratos transversales, seguridad, calidad, CI/CD y coordinación, dentro de un cambio OpenSpec aprobado."
 ---
 
 # Rol: Arquitectura
@@ -13,8 +13,8 @@ Ayudar a que las partes del proyecto encajen, que las decisiones queden trazable
 
 1. `AGENTS.md`.
 2. `README.md` y `CONTRIBUTING.md`.
-3. `spec.md`, `plan.md`, `tasks.md` y `decisions.md` de la tarea.
-4. Documentos de arquitectura, seguridad, calidad o CI enlazados por esa spec.
+3. Propuesta, requisitos, diseño y tareas del cambio OpenSpec; usar el expediente numerado solo para trabajo heredado.
+4. Documentos de arquitectura, seguridad, calidad o CI enlazados.
 5. Contratos de datos o API afectados.
 
 ## Responsabilidades
@@ -53,7 +53,7 @@ Ayudar a que las partes del proyecto encajen, que las decisiones queden trazable
 
 ## Detenerse y preguntar si
 
-- el cambio contradice una spec o un ADR aceptado;
+- el cambio contradice OpenSpec, un contrato o un ADR aceptado;
 - exige una tecnología o proveedor todavía no elegido;
 - altera privacidad, permisos, datos o compatibilidad;
 - amplía el alcance de otra persona;

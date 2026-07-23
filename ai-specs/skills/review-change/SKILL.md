@@ -1,45 +1,22 @@
 ---
 name: review-change
-description: "Revisar un diff, commit o rama frente a la spec y las reglas del proyecto. Usar para una revisión independiente antes de preparar la Pull Request o cuando se solicite buscar riesgos, regresiones e inconsistencias."
+description: "Revisar un diff frente al cambio OpenSpec, contratos y reglas del proyecto."
 ---
 
 # Revisar un cambio
 
-Realizar una revisión de solo lectura antes de proponer correcciones.
+La revisión es de solo lectura.
 
-## Entradas necesarias
-
-- Spec y tareas relacionadas.
-- Diff, commit o rama que se revisará.
-- Evidencias de verificación disponibles.
-
-## Procedimiento
-
-1. Confirmar la base y el alcance del cambio.
-2. Leer requisitos, decisiones y límites aplicables.
-3. Revisar primero:
-   - errores funcionales;
-   - seguridad y privacidad;
-   - contratos y compatibilidad;
-   - pérdida o fuga de datos;
-   - tests ausentes o insuficientes.
+1. Confirmar base, alcance y cambio OpenSpec; usar el expediente numerado solo si es trabajo heredado.
+2. Leer requisitos, diseño, decisiones, tareas y evidencias.
+3. Revisar primero funcionalidad, privacidad, seguridad, contratos, datos y tests.
 4. Revisar después mantenibilidad, duplicidad, UX y documentación.
-5. Comprobar que no se presenta un mock, contrato o carpeta como capacidad real.
-6. Ordenar hallazgos por gravedad:
-   - `blocking`;
-   - `high`;
-   - `medium`;
-   - `low`.
+5. Comprobar que ningún mock, contrato o carpeta se presenta como capacidad real.
+6. Ordenar hallazgos como `blocking`, `high`, `medium` o `low`.
 7. Indicar archivo, ubicación, impacto y corrección esperada.
-8. Si no hay hallazgos, explicar qué se revisó y qué riesgo residual permanece.
+8. Si no hay hallazgos, explicar alcance revisado y riesgo residual.
 
-## Reglas
-
-- No modificar archivos durante la revisión.
-- No confundir preferencias de estilo con defectos.
-- No afirmar que todo está correcto si no se ejecutaron las comprobaciones.
-- No aprobar cambios fuera de la spec.
-- No inventar fallos sin una forma concreta de reproducirlos.
+No modificar archivos, confundir preferencias con defectos, aprobar alcance no acordado ni inventar fallos.
 
 ## Resultado
 

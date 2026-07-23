@@ -1,5 +1,8 @@
 # Decisiones: Arnés agéntico de trabajo
 
+> Expediente histórico. Las decisiones ADR-001 y ADR-002 fueron válidas para la
+> primera iteración, pero ADR-007 las sustituye para los cambios nuevos.
+
 ## ADR-001 Adoptar los principios de Harness Engineering de forma incremental
 
 - Fecha: `2026-07-23`
@@ -178,3 +181,29 @@ Se adopta la opción 2. La versión operativa se integra después de ejecutar su
 ### Evidencia
 
 La suite local contiene 30 tests unitarios y siete tests de contrato. El workflow `repository-quality` incorpora ambas suites, la comprobación del repositorio y un diff de whitespace que no oculta fallos.
+
+## ADR-007 Adoptar OpenSpec como motor de cambios
+
+- Fecha: `2026-07-23`
+- Estado: `accepted`
+- Sustituye parcialmente: `ADR-001`, `ADR-002`, `ADR-006`
+
+### Contexto
+
+La primera iteración del arnés resolvió roles, procedimientos y composición de contexto, pero no aportaba un motor estándar para propuesta, requisitos, diseño, tareas, validación y archivo. El checkpoint exige una implantación real y reproducible, no una aproximación.
+
+### Decisión
+
+Se instala `@fission-ai/openspec` `1.6.0` como dependencia local exacta y OpenSpec pasa a gobernar todos los cambios nuevos. Las carpetas numeradas se conservan únicamente para las tareas ya asignadas. El arnés consulta `status`, `instructions` y `validate` del OpenSpec local, manteniendo las protecciones de privacidad y los roles propios.
+
+### Consecuencias
+
+- El equipo ejecuta `npm ci`; no necesita una instalación global.
+- Codex, GitHub Copilot, Claude Code, Cursor y Gemini CLI disponen de adaptadores oficiales versionados.
+- Los cambios nuevos viven en `openspec/changes/` y, al archivarse, actualizan `openspec/specs/`.
+- El flujo heredado sigue disponible solo para `001/T-004` y `003/T-006`.
+- CI bloquea artefactos OpenSpec inválidos.
+
+### Reversión
+
+Revertir la PR elimina la dependencia, configuración y adaptadores. Los expedientes numerados y el código de producto no se pierden.

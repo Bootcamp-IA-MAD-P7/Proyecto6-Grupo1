@@ -1,44 +1,33 @@
 ---
 name: prepare-pr
-description: "Preparar el Markdown completo de una Pull Request usando la plantilla oficial y evidencias reales. Usar después de verificar y revisar una tarea, antes de abrir o actualizar una PR hacia dev."
+description: "Preparar la plantilla completa de una PR con evidencias reales después de terminar OpenSpec."
 ---
 
 # Preparar una Pull Request
 
-Completar la plantilla sin publicar nada automáticamente.
+## Entradas
 
-## Entradas necesarias
-
-- Spec y tareas relacionadas.
-- Diff o commits finales.
-- Resultado de verificación.
-- Resultado de revisión.
+- cambio OpenSpec archivado, o tarea heredada completada;
+- diff o commits finales;
+- resultados de verificación y revisión.
 
 ## Procedimiento
 
 1. Leer `.github/pull_request_template.md` completa.
-2. Confirmar rama de trabajo, base `dev` y estado de Git.
-3. Resumir únicamente cambios presentes en el diff.
-4. Enlazar spec, tareas y, cuando exista, Jira.
-5. Copiar comandos y resultados reales de verificación.
-6. Explicar impacto en documentación, NotebookLM, UX, seguridad y contratos.
-7. Registrar riesgos y una reversión concreta.
-8. Marcar solo las casillas demostradas.
-9. Entregar la plantilla completa dentro de un único bloque Markdown.
+2. Confirmar rama, base `dev` y estado de Git.
+3. Confirmar que no quedan tareas OpenSpec pendientes.
+4. Resumir únicamente cambios del diff.
+5. Enlazar cambio, requisitos, tareas y Jira cuando exista.
+6. Copiar comandos y resultados reales.
+7. Explicar impacto en documentación, NotebookLM, UX, seguridad y contratos.
+8. Registrar riesgos y reversión.
+9. Marcar solo casillas demostradas.
+10. Entregar la plantilla completa en Markdown.
 
-## Reglas
-
-- No eliminar secciones de la plantilla.
-- No escribir `No aplica` sin explicar por qué.
-- No marcar checks no ejecutados.
-- No afirmar que CI pasa antes de que exista ese resultado.
-- No abrir, publicar, pushear ni mergear sin petición humana explícita.
-- Conservar saltos de línea y bloques de código para no romper el formato.
+No eliminar secciones, inventar CI, evidencias o tests, ni publicar sin autorización humana. Conservar saltos y bloques de código.
 
 ## Resultado
 
-Devolver:
-
-1. título Conventional Commit propuesto;
-2. cuerpo completo de la PR en Markdown;
-3. comprobaciones o campos todavía pendientes fuera del bloque.
+1. título Conventional Commit;
+2. cuerpo completo de PR;
+3. campos todavía pendientes.
