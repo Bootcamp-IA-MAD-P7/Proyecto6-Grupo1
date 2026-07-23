@@ -5,6 +5,7 @@
 `PASS` local y remoto.
 
 - Pull Request: `#17`.
+- Integración: squash merge en `dev` el 23 de julio de 2026.
 - GitHub Actions: ejecución `30000072621`.
 - Check obligatorio: `repository-quality` finalizado correctamente en Linux.
 

@@ -16,7 +16,7 @@ Los roles principales reflejan el acuerdo actual. Los respaldos y la cobertura e
 | Área | Persona | Referencia | Estado |
 |---|---|---|---|
 | Datos y EDA | Víctor | `001-cfpb-target-contract/T-004` | Activa |
-| Arquitectura y arnés | Miguel | `openspec-governance` | Implantación de OpenSpec activa |
+| Arquitectura y arnés | Miguel | `openspec-governance` | Operativo; mantenimiento y coordinación |
 | Frontend y UX | Abel | `003-complaint-routing-experience/T-006` | Activa; desarrollo desde cero |
 | Backend | José | `003-complaint-routing-experience/T-007` | Bloqueada por datos y modelo |
 

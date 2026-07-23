@@ -180,46 +180,46 @@ Detalle: [blueprint arquitectónico](docs/architecture/system_blueprint.md).
 
 | ID | Criterio | Estado | Evidencia necesaria |
 |---|---|---|---|
-| ESS-01 | Modelo multiclase funcional | No iniciado | Pipeline, artefacto y predicciones válidas |
-| ESS-02 | EDA orientado a clasificación | **En curso** | Clases, distribuciones, tiempo, nulos, duplicados, idioma y conclusiones |
-| ESS-03 | Overfitting inferior al 5 % | No iniciado | Misma métrica en train/validation y gap `< 0.05` |
-| ESS-04 | Aplicación que productiviza el modelo | No iniciado | React PWA conectada a inferencia real |
-| ESS-05 | Accuracy global | No iniciado | Validation y test protegido |
-| ESS-06 | Precision, recall y F1 por clase | No iniciado | Once clases, macro y weighted |
-| ESS-07 | Matriz de confusión | No iniciado | Tabla, figura y lectura reproducibles |
-| ESS-08 | Feature importance | No iniciado | Método compatible y limitaciones |
-| ESS-09 | Análisis de errores | No iniciado | Patrones por clase y acciones |
-| ESS-10 | Informe técnico y guía | No iniciado | Métricas, decisiones, límites y ejecución |
+| ESS‑01 | Modelo multiclase funcional | No iniciado | Pipeline, artefacto y predicciones válidas |
+| ESS‑02 | EDA orientado a clasificación | **En curso** | Clases, distribuciones, tiempo, nulos, duplicados, idioma y conclusiones |
+| ESS‑03 | Overfitting inferior al 5 % | No iniciado | Misma métrica en train/validation y gap `< 0.05` |
+| ESS‑04 | Aplicación que productiviza el modelo | No iniciado | React PWA conectada a inferencia real |
+| ESS‑05 | Accuracy global | No iniciado | Validation y test protegido |
+| ESS‑06 | Precision, recall y F1 por clase | No iniciado | Once clases, macro y weighted |
+| ESS‑07 | Matriz de confusión | No iniciado | Tabla, figura y lectura reproducibles |
+| ESS‑08 | Feature importance | No iniciado | Método compatible y limitaciones |
+| ESS‑09 | Análisis de errores | No iniciado | Patrones por clase y acciones |
+| ESS‑10 | Informe técnico y guía | No iniciado | Métricas, decisiones, límites y ejecución |
 
 ### Nivel medio — 0 de 5 verificados
 
 | ID | Criterio | Estado | Evidencia necesaria |
 |---|---|---|---|
-| MED-01 | Ensemble comparado con baseline | No iniciado | Mismo split y métricas |
-| MED-02 | Validación cruzada estratificada | No iniciado | Folds, semillas y variabilidad |
-| MED-03 | Optimización de hiperparámetros | No iniciado | Búsqueda reproducible sin usar test |
-| MED-04 | Feedback y métricas operativas | No iniciado | Versión de modelo y privacidad |
-| MED-05 | Recolección para reentrenamiento | No iniciado | Pipeline, trazabilidad y validación |
+| MED‑01 | Ensemble comparado con baseline | No iniciado | Mismo split y métricas |
+| MED‑02 | Validación cruzada estratificada | No iniciado | Folds, semillas y variabilidad |
+| MED‑03 | Optimización de hiperparámetros | No iniciado | Búsqueda reproducible sin usar test |
+| MED‑04 | Feedback y métricas operativas | No iniciado | Versión de modelo y privacidad |
+| MED‑05 | Recolección para reentrenamiento | No iniciado | Pipeline, trazabilidad y validación |
 
 ### Nivel avanzado — 0 de 6 verificados
 
 | ID | Criterio | Estado | Evidencia necesaria |
 |---|---|---|---|
-| ADV-01 | Dockerización completa | No iniciado | Imágenes, healthcheck y ejecución |
-| ADV-02 | Base de datos integrada | No iniciado | Esquema, migraciones y mínimo privilegio |
-| ADV-03 | Despliegue cloud | No iniciado | Entorno, smoke test y rollback |
-| ADV-04 | Tests de integridad de datos | No iniciado | Esquema, clases, duplicados y leakage |
-| ADV-05 | Tests del modelo | No iniciado | Carga, salida, clases e inferencia |
-| ADV-06 | Tests de métricas mínimas | No iniciado | Umbrales y overfitting como quality gates |
+| ADV‑01 | Dockerización completa | No iniciado | Imágenes, healthcheck y ejecución |
+| ADV‑02 | Base de datos integrada | No iniciado | Esquema, migraciones y mínimo privilegio |
+| ADV‑03 | Despliegue cloud | No iniciado | Entorno, smoke test y rollback |
+| ADV‑04 | Tests de integridad de datos | No iniciado | Esquema, clases, duplicados y leakage |
+| ADV‑05 | Tests del modelo | No iniciado | Carga, salida, clases e inferencia |
+| ADV‑06 | Tests de métricas mínimas | No iniciado | Umbrales y overfitting como quality gates |
 
 ### Nivel experto — 0 de 4 verificados
 
 | ID | Criterio | Estado | Evidencia necesaria |
 |---|---|---|---|
-| EXP-01 | Red neuronal multiclase | No iniciado | Evaluación comparable con Champion |
-| EXP-02 | A/B testing | No iniciado | Experimento o simulación reproducible |
-| EXP-03 | Data Drift con alertas | No iniciado | Referencia, umbrales y alerta verificable |
-| EXP-04 | Promoción automática gobernada | No iniciado | Champion/Challenger, aprobación y rollback |
+| EXP‑01 | Red neuronal multiclase | No iniciado | Evaluación comparable con Champion |
+| EXP‑02 | A/B testing | No iniciado | Experimento o simulación reproducible |
+| EXP‑03 | Data Drift con alertas | No iniciado | Referencia, umbrales y alerta verificable |
+| EXP‑04 | Promoción automática gobernada | No iniciado | Champion/Challenger, aprobación y rollback |
 
 Contrato detallado: [niveles y evidencias](docs/project_management/delivery_levels.md).
 

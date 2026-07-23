@@ -26,6 +26,7 @@ Este catálogo indica qué documentos pueden alimentar una presentación y con q
 | `docs/security/threat_model.md` | Amenazas y controles del producto | Cuando cambien datos o arquitectura | Seguridad / equipo | Activa |
 | `reports/validation/repository_harness_audit_2026-07-23.md` | Evidencia puntual de coherencia documental y estructural | Cierre del arnés | Miguel / arquitectura | Activa técnica |
 | `reports/validation/openspec-harness-validation-2026-07-23.md` | Evidencia de implantación real de OpenSpec y el arnés | Cierre de la adopción | Miguel / arquitectura | Activa técnica |
+| `reports/validation/repository-final-review-2026-07-23.md` | Evidencia final de presentación, estructura, estados y quality gates | Cierre documental | Miguel / arquitectura | Activa técnica |
 | `docs/notebooklm/project_facts.md` | Hechos verificados del producto | Diaria o por hito | Miguel / responsables de evidencia | Activa |
 | `docs/notebooklm/business_narrative.md` | Historia para audiencia no técnica | Cuando se defina el negocio | Equipo | Activa con límites explícitos |
 | `docs/notebooklm/technical_status.md` | Estado técnico consolidado | Diaria o por PR | Miguel / equipo | Activa |

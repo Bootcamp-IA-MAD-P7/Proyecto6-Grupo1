@@ -30,6 +30,8 @@
 - Flujo reproducible para propuesta, requisitos, diseño, tareas, validación y archivo de cambios.
 - Integración del arnés con el estado e instrucciones reales de OpenSpec, diagnóstico local y compatibilidad temporal con las tareas numeradas ya asignadas.
 - Validación estricta de OpenSpec, auditoría npm y diagnóstico del arnés incorporados al quality gate.
+- Comprobaciones de regresión para tablas de entrega, SVG documentales accesibles, sincronización de estados y placeholders permitidos.
+- Capacidad OpenSpec `repository-presentation-quality` y auditoría final de presentación y estructura.
 
 ### Changed
 
@@ -38,7 +40,7 @@
 - React PWA se confirma como dirección frontend inicial; la evolución nativa queda sujeta a requisitos futuros.
 - Las instrucciones de agentes y el workflow reflejan las decisiones actuales y un método OpenSpec independiente del proveedor de IA.
 - La estructura adopta creación incremental: conserva contratos en los README y elimina subcarpetas vacías para capacidades todavía no implementadas.
-- El estado activo comprende el EDA de Víctor, la implantación de OpenSpec y el inicio desde cero de la React PWA por Abel mediante `003/T-006`.
+- El estado activo comprende el EDA de Víctor, el uso operativo de OpenSpec y el inicio desde cero de la React PWA por Abel mediante `003/T-006`.
 - OpenSpec gobierna los cambios nuevos; `specs/` conserva únicamente los expedientes anteriores y las tareas ya asignadas.
 - El piloto con Víctor deja de ser una condición de implantación y pasa a ser una oportunidad de feedback durante su trabajo real.
 - La propuesta frontend experimental de la PR `#14` se cierra sin mergear para que Abel defina e implemente el frontend desde una base limpia.
@@ -49,3 +51,5 @@
 - README y niveles de entrega describen el nivel esencial como `En curso` por el EDA activo.
 - La primera iteración del arnés deja de presentarse como la solución definitiva; el expediente `004` queda sustituido por la capacidad OpenSpec versionada.
 - La normalización de rutas OpenSpec distingue correctamente rutas Windows y POSIX sin permitir fuentes externas al repositorio.
+- Las etiquetas del diagrama principal conservan margen interior y centrado consistentes.
+- Los veinticinco IDs del briefing permanecen completos en tablas estrechas y se contrastan automáticamente con su estado canónico.

@@ -6,6 +6,7 @@ import json
 import re
 import subprocess
 import sys
+import xml.etree.ElementTree as ET
 from pathlib import Path
 from urllib.parse import unquote
 
@@ -25,6 +26,19 @@ TEAM_MEMBERS = ("José", "Abel", "Víctor", "Miguel")
 MAX_TRACKED_SIZE = 10 * 1024 * 1024
 IGNORED_LINK_PREFIXES = ("http://", "https://", "mailto:", "#")
 FORBIDDEN_TRACKED_NAMES = {".env", "id_rsa", "id_ed25519"}
+ALLOWED_GITKEEP_PATHS = {
+    Path("data/external/.gitkeep"),
+    Path("data/interim/.gitkeep"),
+    Path("data/processed/.gitkeep"),
+    Path("data/raw/.gitkeep"),
+}
+DELIVERY_ID_GROUPS = {
+    "ESS": 10,
+    "MED": 5,
+    "ADV": 6,
+    "EXP": 4,
+}
+NON_BREAKING_HYPHEN = "\N{NON-BREAKING HYPHEN}"
 IGNORED_LOCAL_DIRECTORIES = {
     ".git",
     ".venv",
@@ -142,6 +156,144 @@ def check_tracked_files(files: list[Path], errors: list[str]) -> None:
             errors.append(f"Sensitive filename is tracked: {relative}")
         if path.exists() and path.stat().st_size > MAX_TRACKED_SIZE:
             errors.append(f"Tracked file exceeds 10 MiB: {relative}")
+        if path.name == ".gitkeep" and relative not in ALLOWED_GITKEEP_PATHS:
+            errors.append(f"Placeholder file is not allowed: {relative}")
+
+
+def check_readme_delivery_ids(errors: list[str]) -> None:
+    readme_path = ROOT / "README.md"
+    if not readme_path.is_file():
+        return
+
+    text = readme_path.read_text(encoding="utf-8")
+    expected = {
+        f"{prefix}{NON_BREAKING_HYPHEN}{index:02d}"
+        for prefix, count in DELIVERY_ID_GROUPS.items()
+        for index in range(1, count + 1)
+    }
+    missing = sorted(identifier for identifier in expected if f"| {identifier} |" not in text)
+    if missing:
+        errors.append(
+            "README delivery IDs must use a non-breaking hyphen: "
+            + ", ".join(missing)
+        )
+
+    ascii_row = re.search(r"^\| (?:ESS|MED|ADV|EXP)-\d{2} \|", text, re.MULTILINE)
+    if ascii_row:
+        errors.append(
+            "README contains a delivery ID that can wrap at its ASCII hyphen: "
+            f"{ascii_row.group(0)}"
+        )
+
+
+def check_delivery_state_consistency(errors: list[str]) -> None:
+    readme_path = ROOT / "README.md"
+    levels_path = ROOT / "docs/project_management/delivery_levels.md"
+    chart_path = ROOT / "docs/assets/charts/delivery-status-2026-07-23.svg"
+    if not readme_path.is_file() or not levels_path.is_file():
+        return
+
+    readme_states: dict[str, str] = {}
+    for line in readme_path.read_text(encoding="utf-8").splitlines():
+        columns = [column.strip() for column in line.split("|")]
+        if len(columns) < 5:
+            continue
+        identifier = columns[1].replace(NON_BREAKING_HYPHEN, "-")
+        if re.fullmatch(r"(?:ESS|MED|ADV|EXP)-\d{2}", identifier):
+            readme_states[identifier] = columns[3].strip("*` ")
+
+    level_states: dict[str, str] = {}
+    for line in levels_path.read_text(encoding="utf-8").splitlines():
+        columns = [column.strip() for column in line.split("|")]
+        if len(columns) < 6:
+            continue
+        identifier = columns[1].strip("` ")
+        if re.fullmatch(r"(?:ESS|MED|ADV|EXP)-\d{2}", identifier):
+            level_states[identifier] = columns[3].strip("*` ")
+
+    expected_count = sum(DELIVERY_ID_GROUPS.values())
+    if len(readme_states) != expected_count:
+        errors.append(
+            f"README must expose {expected_count} delivery states; "
+            f"found {len(readme_states)}"
+        )
+    if len(level_states) != expected_count:
+        errors.append(
+            f"delivery_levels.md must define {expected_count} delivery states; "
+            f"found {len(level_states)}"
+        )
+
+    for identifier in sorted(set(readme_states) | set(level_states)):
+        if readme_states.get(identifier) != level_states.get(identifier):
+            errors.append(
+                "Delivery state mismatch for "
+                f"{identifier}: README={readme_states.get(identifier)!r}, "
+                f"delivery_levels={level_states.get(identifier)!r}"
+            )
+
+    if chart_path.is_file() and level_states:
+        chart = chart_path.read_text(encoding="utf-8")
+        state_counts = {
+            state: sum(value == state for value in level_states.values())
+            for state in ("Verificado", "En curso", "No iniciado")
+        }
+        for state, count in state_counts.items():
+            if f"{state} {count}" not in chart:
+                errors.append(
+                    "Delivery chart is not synchronized with delivery_levels.md: "
+                    f"expected '{state} {count}'"
+                )
+
+
+def check_svg_assets(errors: list[str]) -> None:
+    assets_directory = ROOT / "docs/assets"
+    if not assets_directory.is_dir():
+        return
+
+    for path in assets_directory.rglob("*.svg"):
+        relative = path.relative_to(ROOT)
+        try:
+            root = ET.parse(path).getroot()
+        except ET.ParseError as exc:
+            errors.append(f"Invalid SVG XML in {relative}: {exc}")
+            continue
+
+        namespace = ""
+        if root.tag.startswith("{"):
+            namespace = root.tag.split("}", 1)[0] + "}"
+        if root.attrib.get("role") != "img":
+            errors.append(f"SVG is missing role=\"img\": {relative}")
+        if not root.attrib.get("viewBox"):
+            errors.append(f"SVG is missing viewBox: {relative}")
+        if root.find(f"{namespace}title") is None:
+            errors.append(f"SVG is missing an accessible title: {relative}")
+        if root.find(f"{namespace}desc") is None:
+            errors.append(f"SVG is missing an accessible description: {relative}")
+
+        if relative.as_posix() == "docs/assets/diagrams/readme-project-overview.svg":
+            status_labels = [
+                element
+                for element in root.findall(f"{namespace}text")
+                if (element.text or "").strip() in {"ENTRADA", "PREVISTO"}
+            ]
+            if len(status_labels) != 3 or any(
+                label.attrib.get("text-anchor") != "middle"
+                for label in status_labels
+            ):
+                errors.append(
+                    "Primary README diagram status labels must be centered "
+                    "inside their backgrounds"
+                )
+            pill_widths = [
+                float(element.attrib.get("width", "0"))
+                for element in root.findall(f"{namespace}rect")
+                if element.attrib.get("class") in {"accent", "warn"}
+            ]
+            if len(pill_widths) != 3 or min(pill_widths, default=0) < 96:
+                errors.append(
+                    "Primary README diagram status backgrounds need at least "
+                    "96 units of width"
+                )
 
 
 def check_openspec_configuration(errors: list[str]) -> None:
@@ -210,6 +362,9 @@ def main() -> int:
     check_dailies(errors)
     check_spec_bundles(errors)
     check_tracked_files(files or local_files, errors)
+    check_readme_delivery_ids(errors)
+    check_delivery_state_consistency(errors)
+    check_svg_assets(errors)
     check_openspec_configuration(errors)
 
     if errors:
