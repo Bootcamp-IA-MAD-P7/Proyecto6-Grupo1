@@ -1,10 +1,12 @@
 import { useState, type FormEvent } from 'react'
-import { useNavigate } from 'react-router-dom'
+import { Link, useNavigate } from 'react-router-dom'
 import { useAuth } from '@/hooks/use-auth'
 import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
 import { Label } from '@/components/ui/label'
 import { Alert, AlertDescription } from '@/components/ui/alert'
+import { buttonVariants } from '@/lib/button-variants'
+import { cn } from '@/lib/utils'
 
 export default function LoginPage() {
   const { login } = useAuth()
@@ -31,6 +33,13 @@ export default function LoginPage() {
 
   return (
     <form onSubmit={handleSubmit} className="space-y-4">
+      <Alert variant="warning">
+        <AlertDescription>
+          <strong>Mock authentication proposal only.</strong> This screen uses fixed demo identities
+          and accepts any password. It provides no real identity, security, authorization or access
+          control.
+        </AlertDescription>
+      </Alert>
       <div className="space-y-2">
         <Label htmlFor="email">Email</Label>
         <Input
@@ -59,10 +68,13 @@ export default function LoginPage() {
         </Alert>
       )}
       <Button type="submit" className="w-full" disabled={isLoading}>
-        {isLoading ? 'Signing in...' : 'Sign in'}
+        {isLoading ? 'Starting mock session...' : 'Enter mock session'}
       </Button>
+      <Link to="/classify" className={cn(buttonVariants({ variant: 'outline' }), 'w-full')}>
+        Continue without mock login
+      </Link>
       <p className="text-center text-xs text-ink-soft">
-        Mock auth: any password works with the listed emails.
+        Demo identities: ana@example.com (user) and carlos@example.com (admin).
       </p>
     </form>
   )

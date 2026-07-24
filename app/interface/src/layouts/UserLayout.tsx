@@ -1,7 +1,8 @@
-import { NavLink, Outlet, useNavigate } from 'react-router-dom'
+import { Link, NavLink, Outlet, useNavigate } from 'react-router-dom'
 import { useAuth } from '@/hooks/use-auth'
 import { Button } from '@/components/ui/button'
 import { Badge } from '@/components/ui/badge'
+import { buttonVariants } from '@/lib/button-variants'
 import { cn } from '@/lib/utils'
 
 const navItems = [
@@ -15,7 +16,7 @@ export default function UserLayout() {
 
   const handleLogout = () => {
     logout()
-    navigate('/login')
+    navigate('/classify')
   }
 
   return (
@@ -24,7 +25,7 @@ export default function UserLayout() {
         <div className="p-6">
           <h2 className="font-serif text-lg font-semibold">Complaint Routing</h2>
           <Badge variant="mock" className="mt-2">
-            Mock auth
+            Public prototype
           </Badge>
         </div>
         <nav className="px-4">
@@ -51,12 +52,23 @@ export default function UserLayout() {
         <header className="flex items-center justify-between border-b border-line bg-paper px-6 py-3">
           <div />
           <div className="flex items-center gap-4">
-            <span className="text-sm text-ink-soft">
-              {user?.name} ({user?.role})
-            </span>
-            <Button variant="ghost" size="sm" onClick={handleLogout}>
-              Logout
-            </Button>
+            {user ? (
+              <>
+                <span className="text-sm text-ink-soft">
+                  Mock session: {user.name} ({user.role})
+                </span>
+                <Button variant="ghost" size="sm" onClick={handleLogout}>
+                  End mock session
+                </Button>
+              </>
+            ) : (
+              <>
+                <span className="text-sm text-ink-soft">Public prototype · no identity</span>
+                <Link to="/login" className={cn(buttonVariants({ variant: 'ghost', size: 'sm' }))}>
+                  Review mock login
+                </Link>
+              </>
+            )}
           </div>
         </header>
         <main className="flex-1 overflow-auto p-6">

@@ -115,10 +115,11 @@
 
 ## 7. Capacidades propuestas
 
-- [ ] 7.1 Separar login y autenticación mock del flujo principal, conservar su código como propuesta y dejar claro que no aporta seguridad, identidad ni permisos reales.
+- [x] 7.1 Separar login y autenticación mock del flujo principal, conservar su código como propuesta y dejar claro que no aporta seguridad, identidad ni permisos reales.
   - **Responsable:** Abel / frontend, con revisión de Miguel / seguridad.
   - **Dependencias:** 4.2.
   - **Evidencia:** acceso al flujo principal sin autenticación ficticia obligatoria y aviso visible cuando se revise la propuesta de login.
+  - **Resultado:** `/classify` y el layout de usuario son públicos y no crean una identidad ni escriben el estado de autenticación. La cabecera distingue `Public prototype · no identity` de una sesión mock y permite revisar la propuesta de login sin convertirla en requisito. `/login` conserva las identidades de demostración, pero muestra de forma persistente que acepta cualquier contraseña y no aporta identidad, seguridad, autorización ni control de acceso reales; también ofrece volver al flujo público. Finalizar una sesión mock elimina únicamente su clave local y vuelve a `/classify`. Dos tests de rutas y almacenamiento se añaden a una batería total de veintiséis pruebas correctas; la revisión manual confirmó ambos estados con contenido exclusivamente sintético.
   - **Verificación:** `cd app/interface && npm test -- --run`; revisión manual de rutas y almacenamiento.
 
 - [ ] 7.2 Conservar panel administrativo, entrenamiento y registro o comparación de modelos como propuestas aisladas, retirando cifras confundibles con resultados reales y etiquetando cualquier contenido sintético.

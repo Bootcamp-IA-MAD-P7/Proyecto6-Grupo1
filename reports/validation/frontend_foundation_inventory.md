@@ -809,3 +809,42 @@ sintético de la interfaz.
 Las capturas se revisaron durante la sesión y no contienen narrativas reales,
 audio ni datos del CFPB. No se incorporan artefactos del navegador al
 repositorio.
+
+## Separación de autenticación mock — tarea 7.1
+
+El flujo principal dejó de depender de la autenticación ficticia:
+
+- `/classify` y el layout de usuario son accesibles sin sesión;
+- visitar el flujo público no crea `complaint-routing-auth` ni otra identidad;
+- la cabecera muestra `Public prototype · no identity` y enlaza a la revisión
+  opcional del login;
+- una sesión ficticia activa se identifica como `Mock session`;
+- `End mock session` elimina solo la clave de la demo y vuelve a `/classify`;
+- `/login` se conserva como propuesta y permite regresar mediante
+  `Continue without mock login`.
+
+La pantalla de login muestra antes del formulario:
+
+> Mock authentication proposal only. This screen uses fixed demo identities
+> and accepts any password. It provides no real identity, security,
+> authorization or access control.
+
+| Comprobación | Resultado |
+|---|---|
+| Acceso directo a `/classify` sin sesión | Correcto |
+| Identidad mostrada en el flujo público | `Public prototype · no identity` |
+| Escritura de autenticación al visitar el flujo | Ninguna |
+| Acceso a `/login` como revisión opcional | Correcto |
+| Advertencia persistente de ausencia de seguridad | Visible |
+| Retorno al flujo sin iniciar sesión | Correcto |
+| Tests de rutas añadidos | `2` aprobados |
+| Tests frontend totales | `26` aprobados |
+| Typecheck, ESLint y Prettier | Correctos |
+| Build PWA | Correcto |
+
+La revisión manual se realizó el `2026-07-24` sobre `vite preview`. Las
+capturas muestran únicamente identidades sintéticas de la propia demo y no se
+incorporan al repositorio. El código de autenticación mock y su almacenamiento
+local se conservan solo para evaluar la propuesta; no constituyen un control de
+seguridad. Las rutas administrativas y sus contenidos se revisan por separado
+en la tarea 7.2.
