@@ -10,38 +10,42 @@ export default function HomePage() {
   return (
     <div className="space-y-8">
       <div>
-        <h1 className="font-serif text-4xl font-semibold text-ink">Dashboard</h1>
-        <p className="mt-2 text-ink-soft">Welcome back, {user?.name}. Select an action below.</p>
+        <h1 className="font-serif text-4xl font-semibold text-ink">Prototype overview</h1>
+        <p className="mt-2 text-ink-soft">
+          {user
+            ? `Mock session active for ${user.name}.`
+            : 'Explore the public complaint-routing interface without creating an identity.'}
+        </p>
       </div>
 
       <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
         <Card>
           <CardHeader>
-            <CardTitle>Total Complaints</CardTitle>
+            <CardTitle>Complaint intake</CardTitle>
           </CardHeader>
           <CardContent>
-            <p className="font-serif text-3xl font-semibold text-ink">1,247</p>
-            <p className="text-sm text-ink-soft">Last 30 days (mock)</p>
+            <p className="font-serif text-2xl font-semibold text-ink">Interface ready</p>
+            <p className="text-sm text-ink-soft">Use synthetic text to review the form.</p>
           </CardContent>
         </Card>
 
         <Card>
           <CardHeader>
-            <CardTitle>Model Accuracy</CardTitle>
+            <CardTitle>Recommendation</CardTitle>
           </CardHeader>
           <CardContent>
-            <p className="font-serif text-3xl font-semibold text-forest">87.3%</p>
-            <p className="text-sm text-ink-soft">Mock metric</p>
+            <p className="font-serif text-2xl font-semibold text-forest">Synthetic only</p>
+            <p className="text-sm text-ink-soft">No model or calibrated score exists.</p>
           </CardContent>
         </Card>
 
         <Card>
           <CardHeader>
-            <CardTitle>Pending Review</CardTitle>
+            <CardTitle>Operational workflow</CardTitle>
           </CardHeader>
           <CardContent>
-            <p className="font-serif text-3xl font-semibold text-gold">23</p>
-            <p className="text-sm text-ink-soft">Requires human review</p>
+            <p className="font-serif text-2xl font-semibold text-gold">Not connected</p>
+            <p className="text-sm text-ink-soft">Human review remains a proposed next step.</p>
           </CardContent>
         </Card>
       </div>
@@ -53,7 +57,7 @@ export default function HomePage() {
         {hasRole('admin') && (
           <Link to="/admin">
             <Button variant="outline" size="lg">
-              Admin Dashboard
+              Review administration concept
             </Button>
           </Link>
         )}
@@ -61,8 +65,8 @@ export default function HomePage() {
 
       <div className="flex gap-2">
         <Badge variant="mock">Prototype</Badge>
-        <Badge variant="mock">Mock data</Badge>
-        {hasRole('admin') && <Badge variant="review">Admin role</Badge>}
+        <Badge variant="mock">Synthetic responses</Badge>
+        {hasRole('admin') && <Badge variant="review">Mock admin role</Badge>}
       </div>
     </div>
   )

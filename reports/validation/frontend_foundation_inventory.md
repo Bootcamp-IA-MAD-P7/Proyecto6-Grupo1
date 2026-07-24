@@ -848,3 +848,51 @@ incorporan al repositorio. El código de autenticación mock y su almacenamiento
 local se conservan solo para evaluar la propuesta; no constituyen un control de
 seguridad. Las rutas administrativas y sus contenidos se revisan por separado
 en la tarea 7.2.
+
+## Capacidades administrativas como propuestas — tarea 7.2
+
+El trabajo visual de Abel se conserva sin presentar madurez inexistente. Las
+rutas administrativas continúan disponibles para revisión mediante la identidad
+sintética `carlos@example.com`, pero el layout las identifica de forma
+persistente como conceptos sin autorización real:
+
+| Ruta | Capacidad conservada | Estado verificable |
+|---|---|---|
+| `/admin` | Resumen administrativo | Concepto sin datos operativos ni servicio conectado |
+| `/admin/training` | Flujo de entrenamiento | Propuesta sin dataset, ejecución ni resultados |
+| `/admin/models` | Registro y comparación | Propuesta vacía sin modelos ni evidencias |
+
+Se eliminaron las cifras que podían confundirse con resultados del proyecto:
+volúmenes, porcentajes, latencias, muestras de entrenamiento, versiones, fechas
+y estados de modelos. En su lugar, la interfaz utiliza estados textuales
+inequívocos y no accionables. La portada pública también dejó de presentar
+métricas simuladas y diferencia la interfaz disponible de los flujos todavía no
+conectados.
+
+El aviso común comunica que no existen:
+
+- permisos reales;
+- datos operativos;
+- trabajos de entrenamiento;
+- modelos registrados;
+- resultados de comparación;
+- servicios desplegados.
+
+| Comprobación | Resultado |
+|---|---|
+| Rutas administrativas conservadas | `3` |
+| Tests de rutas de propuesta | `3` aprobados |
+| Tests frontend totales | `29` aprobados |
+| Typecheck | Correcto |
+| ESLint | Correcto |
+| Prettier | Correcto |
+| Build PWA | Correcto |
+| Búsqueda de métricas y afirmaciones confundibles | Sin resultados |
+
+La revisión manual se realizó el `2026-07-24` con Chrome sobre `vite preview`.
+Se inspeccionaron el resumen administrativo, el concepto de entrenamiento y el
+concepto de registro de modelos. Las tres vistas conservaron el aviso
+persistente, no ofrecieron acciones operativas y no mostraron cifras o estados
+atribuibles a un sistema real. Las capturas contienen únicamente una identidad
+de demostración incluida en la propia interfaz y no se incorporan al
+repositorio.

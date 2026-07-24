@@ -2,12 +2,13 @@ import { NavLink, Outlet, useNavigate } from 'react-router-dom'
 import { useAuth } from '@/hooks/use-auth'
 import { Button } from '@/components/ui/button'
 import { Badge } from '@/components/ui/badge'
+import ProposalNotice from '@/components/ProposalNotice'
 import { cn } from '@/lib/utils'
 
 const navItems = [
-  { to: '/admin', label: 'Dashboard', end: true },
-  { to: '/admin/training', label: 'Training' },
-  { to: '/admin/models', label: 'Models' },
+  { to: '/admin', label: 'Concept overview', end: true },
+  { to: '/admin/training', label: 'Training concept' },
+  { to: '/admin/models', label: 'Model registry concept' },
 ]
 
 export default function AdminLayout() {
@@ -25,7 +26,7 @@ export default function AdminLayout() {
         <div className="p-6">
           <h2 className="font-serif text-lg font-semibold">Complaint Routing</h2>
           <Badge variant="review" className="mt-2">
-            Admin
+            Proposal only
           </Badge>
         </div>
         <nav className="px-4">
@@ -53,15 +54,18 @@ export default function AdminLayout() {
           <div />
           <div className="flex items-center gap-4">
             <span className="text-sm text-ink-soft">
-              {user?.name} ({user?.role})
+              Mock role: {user?.name} ({user?.role}) · no authorization
             </span>
             <Button variant="ghost" size="sm" onClick={handleLogout}>
-              Logout
+              End mock session
             </Button>
           </div>
         </header>
         <main className="flex-1 overflow-auto p-6">
-          <Outlet />
+          <div className="mx-auto max-w-6xl space-y-6">
+            <ProposalNotice />
+            <Outlet />
+          </div>
         </main>
       </div>
     </div>

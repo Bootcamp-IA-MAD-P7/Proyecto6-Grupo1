@@ -7,6 +7,18 @@ const renderRoute = (path: string) => {
   return render(<AppRouter />)
 }
 
+const storeMockAdmin = () => {
+  localStorage.setItem(
+    'complaint-routing-auth',
+    JSON.stringify({
+      id: 'synthetic-admin',
+      name: 'Synthetic reviewer',
+      email: 'reviewer@example.com',
+      role: 'admin',
+    }),
+  )
+}
+
 afterEach(() => {
   localStorage.clear()
   window.history.pushState({}, '', '/')
@@ -32,5 +44,20 @@ describe('application routes', () => {
       'href',
       '/classify',
     )
+  })
+
+  it.each([
+    ['/admin', 'Administration concept'],
+    ['/admin/training', 'Training concept'],
+    ['/admin/models', 'Model registry concept'],
+  ])('labels the proposed capability at %s without fabricated results', async (path, heading) => {
+    storeMockAdmin()
+
+    renderRoute(path)
+
+    expect(await screen.findByRole('heading', { name: heading })).toBeVisible()
+    expect(screen.getByText('Administration concept only')).toBeVisible()
+    expect(screen.getByText(/there are no real permissions/i)).toBeVisible()
+    expect(document.body).not.toHaveTextContent(/87\.3%|50,000|v1\.1|2026-07-20/i)
   })
 })
