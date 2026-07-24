@@ -154,10 +154,11 @@
 
 ## 9. Verificación funcional, UX y repositorio
 
-- [ ] 9.1 Ejecutar la batería automática completa del frontend sobre una instalación limpia.
+- [x] 9.1 Ejecutar la batería automática completa del frontend sobre una instalación limpia.
   - **Responsable:** Abel / frontend.
   - **Dependencias:** 4.3, 5.2, 6.2, 7.2, 8.3.
   - **Evidencia:** comandos, fecha, entorno y resultados en `reports/validation/frontend_foundation_integration.md`.
+  - **Resultado:** sobre el commit `62b0dba` y una instalación reconstruida mediante `npm ci`, pasan typecheck, ESLint, Prettier, los veintinueve tests, el build React, el build del service worker y la auditoría con cero vulnerabilidades. El informe fija Node.js `24.18.0`, npm `11.16.0`, el hash del lockfile y diferencia expresamente esta evidencia automática de las revisiones manuales pendientes.
   - **Verificación:** `cd app/interface && npm ci`; `cd app/interface && npm run typecheck`; `cd app/interface && npm run lint`; `cd app/interface && npm run format:check`; `cd app/interface && npm test -- --run`; `cd app/interface && npm run build`; `cd app/interface && npm audit --audit-level=high`.
 
 - [ ] 9.2 Verificar con contenido sintético teclado, foco, anuncios de estado, contraste, movimiento reducido y responsive en móvil, tablet y escritorio.
