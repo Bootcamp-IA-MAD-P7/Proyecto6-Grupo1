@@ -4,10 +4,7 @@ import { MemoryRouter } from 'react-router-dom'
 import { describe, it, expect, vi } from 'vitest'
 import ClassificationPage from './ClassificationPage'
 import { createMockPredictionClient } from '@/services/mock-prediction-client'
-import {
-  PredictionClientError,
-  type PredictionClient,
-} from '@/services/prediction-client'
+import { PredictionClientError, type PredictionClient } from '@/services/prediction-client'
 
 const renderWithRouter = (component: React.ReactNode) => {
   return render(<MemoryRouter>{component}</MemoryRouter>)
@@ -73,9 +70,11 @@ describe('ClassificationPage', () => {
   it('presents a safe service error', async () => {
     const user = userEvent.setup()
     const failingClient: PredictionClient = {
-      createPrediction: vi.fn().mockRejectedValue(
-        new PredictionClientError('service_unavailable', 'internal stack trace'),
-      ),
+      createPrediction: vi
+        .fn()
+        .mockRejectedValue(
+          new PredictionClientError('service_unavailable', 'internal stack trace'),
+        ),
     }
 
     renderWithRouter(<ClassificationPage predictionClient={failingClient} />)
@@ -85,7 +84,9 @@ describe('ClassificationPage', () => {
 
     await waitFor(() => {
       expect(screen.getAllByRole('alert').length).toBeGreaterThanOrEqual(1)
-      expect(screen.getByText(/The simulated prediction service is unavailable/)).toBeInTheDocument()
+      expect(
+        screen.getByText(/The simulated prediction service is unavailable/),
+      ).toBeInTheDocument()
     })
     expect(screen.queryByText(/internal stack/i)).not.toBeInTheDocument()
   })

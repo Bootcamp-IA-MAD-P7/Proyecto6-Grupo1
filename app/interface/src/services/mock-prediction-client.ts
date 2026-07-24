@@ -29,9 +29,7 @@ export const createMockPredictionClient = (
       model_version: 'mock-not-a-model',
       taxonomy_version: '1.0',
       created_at: new Date().toISOString(),
-      warnings: [
-        'Synthetic response for interface testing. This is not a model prediction.',
-      ],
+      warnings: ['Synthetic response for interface testing. This is not a model prediction.'],
     }
 
     return response

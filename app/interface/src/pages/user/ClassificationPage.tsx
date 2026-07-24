@@ -29,10 +29,7 @@ const safeErrorMessage = (error: unknown) => {
 }
 
 export default function ClassificationPage({ predictionClient }: ClassificationPageProps) {
-  const client = useMemo(
-    () => predictionClient ?? createMockPredictionClient(),
-    [predictionClient],
-  )
+  const client = useMemo(() => predictionClient ?? createMockPredictionClient(), [predictionClient])
   const isOnline = useOnlineStatus()
   const narrativeRef = useRef<HTMLTextAreaElement>(null)
   const errorRef = useRef<HTMLDivElement>(null)
@@ -166,14 +163,10 @@ export default function ClassificationPage({ predictionClient }: ClassificationP
               >
                 {isRecording ? '⏹ Stop recording' : '🎤 Dictate'}
               </Button>
-              {isRecording && (
-                <span className="animate-pulse text-xs text-rust">Recording…</span>
-              )}
+              {isRecording && <span className="animate-pulse text-xs text-rust">Recording…</span>}
             </div>
           )}
-          {voiceError && (
-            <p className="text-xs text-rust">{voiceError}</p>
-          )}
+          {voiceError && <p className="text-xs text-rust">{voiceError}</p>}
         </div>
 
         {validationMessage && (

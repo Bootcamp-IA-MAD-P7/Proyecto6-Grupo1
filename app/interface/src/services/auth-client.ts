@@ -32,10 +32,7 @@ export function clearStoredUser(): void {
   localStorage.removeItem(STORAGE_KEY)
 }
 
-export async function loginWithMock(
-  email: string,
-  password: string,
-): Promise<AuthUser> {
+export async function loginWithMock(email: string, password: string): Promise<AuthUser> {
   void password
   await new Promise((resolve) => setTimeout(resolve, 400))
 

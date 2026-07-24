@@ -12,9 +12,7 @@ export default function ModelsPage() {
     <div className="space-y-8">
       <div>
         <h1 className="font-serif text-4xl font-semibold text-ink">Models</h1>
-        <p className="mt-2 text-ink-soft">
-          Model versions and their performance metrics.
-        </p>
+        <p className="mt-2 text-ink-soft">Model versions and their performance metrics.</p>
       </div>
 
       <Card>

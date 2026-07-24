@@ -3,17 +3,12 @@ import { cn } from '@/lib/utils'
 import { buttonVariants, type ButtonVariants } from '@/lib/button-variants'
 
 export interface ButtonProps
-  extends React.ButtonHTMLAttributes<HTMLButtonElement>,
-    ButtonVariants {}
+  extends React.ButtonHTMLAttributes<HTMLButtonElement>, ButtonVariants {}
 
 const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
   ({ className, variant, size, ...props }, ref) => {
     return (
-      <button
-        className={cn(buttonVariants({ variant, size, className }))}
-        ref={ref}
-        {...props}
-      />
+      <button className={cn(buttonVariants({ variant, size, className }))} ref={ref} {...props} />
     )
   },
 )

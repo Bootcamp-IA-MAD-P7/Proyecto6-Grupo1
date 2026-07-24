@@ -11,9 +11,7 @@ export default function HomePage() {
     <div className="space-y-8">
       <div>
         <h1 className="font-serif text-4xl font-semibold text-ink">Dashboard</h1>
-        <p className="mt-2 text-ink-soft">
-          Welcome back, {user?.name}. Select an action below.
-        </p>
+        <p className="mt-2 text-ink-soft">Welcome back, {user?.name}. Select an action below.</p>
       </div>
 
       <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">

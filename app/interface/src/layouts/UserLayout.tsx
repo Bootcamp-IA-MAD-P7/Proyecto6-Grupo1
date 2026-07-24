@@ -36,7 +36,9 @@ export default function UserLayout() {
               className={({ isActive }) =>
                 cn(
                   'block rounded-md px-4 py-2 text-sm font-medium transition-colors',
-                  isActive ? 'bg-white/20 text-white' : 'text-white/70 hover:bg-white/10 hover:text-white',
+                  isActive
+                    ? 'bg-white/20 text-white'
+                    : 'text-white/70 hover:bg-white/10 hover:text-white',
                 )
               }
             >

@@ -6,9 +6,7 @@ export default function DashboardPage() {
     <div className="space-y-8">
       <div>
         <h1 className="font-serif text-4xl font-semibold text-ink">Admin Dashboard</h1>
-        <p className="mt-2 text-ink-soft">
-          System overview and model performance metrics.
-        </p>
+        <p className="mt-2 text-ink-soft">System overview and model performance metrics.</p>
       </div>
 
       <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-4">

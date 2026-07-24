@@ -46,7 +46,9 @@ export function PredictionResult({ result, onReset }: PredictionResultProps) {
           </CardHeader>
           <CardContent>
             <p className="font-serif text-2xl">
-              {result.confidence === null ? 'Not available' : `${Math.round(result.confidence * 100)}%`}
+              {result.confidence === null
+                ? 'Not available'
+                : `${Math.round(result.confidence * 100)}%`}
             </p>
             <p className="mt-1 text-sm text-ink-soft">
               No percentage is shown unless the model provides calibrated confidence.

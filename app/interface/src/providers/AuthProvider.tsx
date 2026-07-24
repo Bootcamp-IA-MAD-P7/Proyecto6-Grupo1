@@ -1,11 +1,6 @@
 import { useState, useCallback, type ReactNode } from 'react'
 import { AuthContext } from '@/hooks/use-auth'
-import {
-  type AuthUser,
-  getStoredUser,
-  loginWithMock,
-  logoutMock,
-} from '@/services/auth-client'
+import { type AuthUser, getStoredUser, loginWithMock, logoutMock } from '@/services/auth-client'
 
 export function AuthProvider({ children }: { children: ReactNode }) {
   const [user, setUser] = useState<AuthUser | null>(() => getStoredUser())
@@ -20,10 +15,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     setUser(null)
   }, [])
 
-  const hasRole = useCallback(
-    (role: string) => user?.role === role,
-    [user],
-  )
+  const hasRole = useCallback((role: string) => user?.role === role, [user])
 
   return (
     <AuthContext.Provider

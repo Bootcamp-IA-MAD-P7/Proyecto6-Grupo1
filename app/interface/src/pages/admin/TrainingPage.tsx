@@ -6,9 +6,7 @@ export default function TrainingPage() {
     <div className="space-y-8">
       <div>
         <h1 className="font-serif text-4xl font-semibold text-ink">Training</h1>
-        <p className="mt-2 text-ink-soft">
-          Model training simulation and configuration.
-        </p>
+        <p className="mt-2 text-ink-soft">Model training simulation and configuration.</p>
       </div>
 
       <Card>
