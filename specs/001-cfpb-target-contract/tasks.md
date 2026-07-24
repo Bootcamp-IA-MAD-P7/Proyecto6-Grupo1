@@ -34,13 +34,18 @@
 
 ## T-004 Incorporar evidencia del EDA
 
-- Estado: `[~]`
+- Estado: `[x]`
 - Responsable: `Víctor / Datos y EDA`
 - Dependencias: `T-003`
 - Requisitos cubiertos: `R-006, R-007, R-009`
 - Trabajo: contrastar soporte, drift, idioma, duplicados y alternativas de desbalanceo.
 - Verificación: informe reproducible, revisión cruzada y ausencia de narrativas versionadas.
-- Evidencia obtenida: trabajo activo fuera de esta rama; pendiente de incorporar informe, gráficos y revisión.
+- Evidencia obtenida:
+  - `scripts/data/convert_cfpb_to_parquet.py` — conversor CSV → Parquet con filtrado, mapping y hashing.
+  - `notebooks/01_eda.py` — notebook EDA reproducible con análisis de clase, temporal, duplicados, longitud e idioma.
+  - `reports/figures/class_distribution.png`, `temporal_trend.png`, `duplicates_analysis.png`, `length_distribution.png` — figuras agregadas.
+  - `reports/validation/cfpb_eda.md` — informe EDA con respuestas a Q-001 a Q-004.
+  - `data/interim/cfpb.parquet` — Parquet de 2.27M filas (gitignored).
 
 ## T-005 Implementar el constructor reproducible
 
