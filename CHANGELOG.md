@@ -59,8 +59,8 @@
 - Jira pasa a conservar responsable, estado y bloqueos; OpenSpec conserva
   requisitos y decisiones, y GitHub conserva implementación y evidencia.
 - El estado de aplicación pasa de “prevista” a “prototipo validado pendiente de
-  revisión y merge”; `ESS-04` continúa sin verificar hasta conectar una
-  inferencia real.
+  PR y merge”; `ESS-04` continúa sin verificar hasta conectar una inferencia
+  real.
 
 ### Fixed
 

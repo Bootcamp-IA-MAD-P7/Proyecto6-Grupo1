@@ -6,7 +6,7 @@
 - Idea de negocio: clasificación y enrutamiento de reclamaciones financieras, elegida por unanimidad con condiciones.
 - Dataset: Consumer Complaint Database del CFPB viable con condiciones; target y reglas de EDA versionados.
 - Producto demostrable: prototipo React PWA validado en la rama de `PG-4` con
-  respuestas sintéticas, pendiente de revisión y merge; todavía no existe una
+  respuestas sintéticas, pendiente de PR y merge; todavía no existe una
   predicción real ni un servicio operativo.
 - Despliegue: no iniciado.
 - Seguimiento: Jira `PG` operativo para responsables, estados y bloqueos; `PG-1`
@@ -33,9 +33,10 @@
 - Spec `003-complaint-routing-experience` aporta la arquitectura de información
   y el OpenAPI `0.1.0` contract-only; el frontend implementa su lado del
   contrato mediante un cliente TypeScript y un mock explícito.
-- La rama de integración frontend conserva la autoría del trabajo de Abel y
-  está gobernada por el cambio OpenSpec `integrate-frontend-foundation`; todavía
-  no se ha publicado su Pull Request ni fusionado en `dev`.
+- La rama de integración frontend conserva la autoría del trabajo de Abel. El
+  cambio OpenSpec `integrate-frontend-foundation` está archivado y la capacidad
+  `complaint-routing-interface` está vigente; todavía no se ha publicado su
+  Pull Request ni fusionado en `dev`.
 - La batería frontend aprueba typecheck, lint, formato, 31 tests, build PWA y
   auditoría npm con cero vulnerabilidades.
 - Chrome 150 en Windows verificó instalación, actualización, dictado con permiso
@@ -51,9 +52,9 @@
 - El arnés consulta validación, estado, instrucciones y tareas de OpenSpec; conserva el modo numerado solo para el EDA y frontend ya asignados.
 - El quality gate incorpora instalación reproducible, auditoría npm, diagnóstico y validación estricta de OpenSpec.
 - Responsabilidades principales confirmadas: Miguel en arquitectura y arnés, José en backend, Abel en frontend/UX y Víctor en datos y EDA.
-- El trabajo activo comprende la evidencia del EDA en `001/T-004` y la revisión
-  humana y preparación de PR de la React PWA mediante `PG-4` y
-  `integrate-frontend-foundation`.
+- El trabajo activo comprende la evidencia del EDA en `001/T-004` y la
+  publicación para revisión de la React PWA mediante `PG-4`; su expediente
+  `integrate-frontend-foundation` ya está archivado.
 - Workflow `repository-quality` ejecutado correctamente y asociado automáticamente a las Pull Requests `#14` y `#15`.
 - La PR `#17` se integró en `dev` y verificó en Linux las suites Python, convenciones, whitespace, auditoría npm, diagnóstico y validación estricta de OpenSpec; la ejecución `30000072621` finalizó correctamente.
 - El piloto con Víctor ya no bloquea la implantación; su tarea real servirá para recoger feedback del uso heredado y adaptar decisiones nuevas mediante OpenSpec.

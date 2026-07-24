@@ -212,8 +212,9 @@
   - **Resultado:** `exports/pr-bodies/integrate-frontend-foundation.md` completa la plantilla con `PG-4`, OpenSpec, alcance, verificaciones, evidencias, revisión transversal, riesgos, rollback y checklist. El borrador permanece local e ignorado por Git. En el instante de preparación la rama está actualizada con `dev` (`0 62`), contiene 79 rutas y conserva treinta commits de Abel y treinta y dos de Miguel; pasan el paquete `verify` del arnés, quality gate, whitespace, validación estricta, simulación de integración, typecheck, lint, formato, 31 tests, build React/PWA y auditoría sin vulnerabilidades. Los recuentos se recalcularán antes de publicar.
   - **Verificación:** `python scripts/harness.py verify --role architect --change integrate-frontend-foundation --jira PG-4`; `git diff --check`; `git status --short --branch`.
 
-- [ ] 10.5 Solicitar revisión humana antes de cualquier archive, commit final de cierre, push, Pull Request o merge.
+- [x] 10.5 Solicitar revisión humana antes de cualquier archive, commit final de cierre, push, Pull Request o merge.
   - **Responsable:** Miguel / coordinación.
   - **Dependencias:** 10.4.
   - **Evidencia:** aprobación explícita y checks correctos; Jira `PG-4` conserva el estado operativo.
+  - **Resultado:** Miguel aprobó explícitamente el 24 de julio de 2026 archivar el cambio OpenSpec, crear el commit final, publicar la rama y abrir una Pull Request en borrador hacia `dev`. El merge no está autorizado y requerirá una decisión humana posterior tras revisar CI y la PR.
   - **Verificación:** no ejecutar acciones de publicación hasta recibir aprobación.

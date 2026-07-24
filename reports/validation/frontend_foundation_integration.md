@@ -11,7 +11,8 @@
 | Commit de partida para la revisión manual | `cc323215ea5ee16ae792d345df7b38748bc85504` |
 | Fecha | `2026-07-24` |
 | Estado automático | Correcto |
-| Estado de revisión | Tareas 9.2 a 10.3 correctas |
+| Estado de revisión | Tareas 1.1 a 10.5 completadas |
+| Estado OpenSpec | Capacidad sincronizada y expediente archivado |
 
 Este informe reúne la evidencia automática de la tarea 9.1 y la revisión manual
 de accesibilidad y responsive de la tarea 9.2, además de la verificación de
@@ -269,7 +270,7 @@ que el control de formato sea reproducible en Windows.
 La documentación global adopta una única formulación:
 
 - existe una React PWA prototipo validada con contenido sintético;
-- la entrega permanece en su rama, pendiente de revisión humana y merge;
+- la entrega permanece en su rama, con revisión humana completada y pendiente de PR y merge;
 - no existe backend, modelo entrenado ni inferencia real;
 - el modo offline conserva el shell, pero bloquea la clasificación;
 - login, administración, entrenamiento y registro de modelos son propuestas;
@@ -317,10 +318,9 @@ El borrador enlaza `PG-4`, el cambio OpenSpec, la delta spec, las tareas, los do
 informes de validación, el manual, el contrato y las capturas sintéticas. También
 incluye:
 
-  - 79 rutas modificadas en el instante de preparación;
-  - 62 commits propios respecto de `dev` en ese mismo instante;
-  - 30 commits atribuidos a Abel y 32 a Miguel antes del commit de esta
-    evidencia;
+- 79 rutas modificadas en el instante de preparación;
+- 62 commits propios respecto de `dev` en ese mismo instante;
+- 30 commits atribuidos a Abel y 32 a Miguel antes del commit de esta evidencia;
 - 31 tests frontend correctos;
 - build React y PWA correctos;
 - auditoría con cero vulnerabilidades;
@@ -332,6 +332,25 @@ y la simulación de integración terminaron correctamente. El arnés generó el
 paquete de verificación acotado a `PG-4`. Los recuentos se volverán a calcular
 antes de publicar porque los commits de cierre todavía son locales.
 
-## Verificaciones pendientes
+## Aprobación de publicación — tarea 10.5
 
-- Tarea 10.5: solicitar aprobación antes de archivar o publicar.
+Miguel aprobó explícitamente el 24 de julio de 2026:
+
+1. archivar el cambio OpenSpec y sincronizar su capacidad;
+2. crear el commit final de cierre;
+3. publicar la rama;
+4. abrir una Pull Request en borrador hacia `dev`.
+
+El merge queda expresamente fuera de esta autorización. Deberá decidirse después
+de revisar la Pull Request, sus conversaciones y los checks remotos.
+
+## Archivo OpenSpec
+
+La delta spec se sincronizó como capacidad vigente en
+`openspec/specs/complaint-routing-interface/spec.md`. El expediente completo,
+incluidos propuesta, diseño, tareas, delta spec y metadatos, se archivó en
+`openspec/changes/archive/2026-07-24-integrate-frontend-foundation/`.
+
+El archivo no modifica el alcance implementado ni acredita `ESS-04`; convierte
+los requisitos verificados de esta integración en la fuente de verdad para
+futuros cambios del frontend.

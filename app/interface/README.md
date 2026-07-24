@@ -1,8 +1,9 @@
 # Complaint Routing Interface
 
 React PWA para introducir una reclamación escrita y revisar una recomendación de
-clasificación. Esta entrega corresponde a Jira `PG-4` y al cambio OpenSpec
-[`integrate-frontend-foundation`](../../openspec/changes/integrate-frontend-foundation/).
+clasificación. Esta entrega corresponde a Jira `PG-4`, a la capacidad vigente
+[`complaint-routing-interface`](../../openspec/specs/complaint-routing-interface/spec.md)
+y al [expediente OpenSpec archivado](../../openspec/changes/archive/2026-07-24-integrate-frontend-foundation/).
 
 ## Estado real
 

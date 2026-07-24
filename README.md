@@ -27,16 +27,16 @@
 | Desbalanceo preliminar | Clase mayoritaria: 72,45 % |
 | EDA | En curso, responsabilidad de Víctor |
 | Modelo | No iniciado |
-| Aplicación | Prototipo React PWA validado en la rama de `PG-4`, pendiente de revisión y merge; sin predicción real |
+| Aplicación | Prototipo React PWA validado en la rama de `PG-4`, pendiente de PR y merge; sin predicción real |
 | Backend e inferencia | No iniciados |
 | Despliegue y MLOps | No iniciados |
 | Método de trabajo | OpenSpec + arnés implantados y comprobados |
 
 La rama de integración ya permite revisar el recorrido previsto con contenido
-sintético, dictado, instalación PWA y comportamiento offline seguro. Todavía
-requiere revisión humana y Pull Request antes de llegar a `dev`. Esto no
-acredita `ESS-04`: no existe un modelo ni un servicio de inferencia al que
-conectarla. Véanse el [manual del frontend](app/interface/README.md) y su
+sintético, dictado, instalación PWA y comportamiento offline seguro. La revisión
+humana está completada y todavía requiere Pull Request antes de llegar a `dev`.
+Esto no acredita `ESS-04`: no existe un modelo ni un servicio de inferencia al
+que conectarla. Véanse el [manual del frontend](app/interface/README.md) y su
 [informe de validación](reports/validation/frontend_foundation_integration.md).
 
 ## El problema
@@ -169,7 +169,7 @@ flowchart LR
 ```
 
 La React PWA representa un prototipo validado en su rama de integración, todavía
-pendiente de revisión y merge, con respuestas sintéticas. Los demás nodos siguen
+pendiente de PR y merge, con respuestas sintéticas. Los demás nodos siguen
 siendo arquitectura prevista; el diagrama no acredita backend, modelo,
 persistencia, inferencia ni monitorización reales.
 
