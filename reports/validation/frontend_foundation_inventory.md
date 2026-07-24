@@ -375,4 +375,51 @@ npm audit --package-lock-only --json
 python scripts/quality/check_repository.py
 ```
 
+## Incorporación selectiva — tarea 2.2
+
+Los treinta commits aprobados se incorporaron individualmente y en el orden
+original después del commit documental `a47e1d2`. La operación:
+
+- finalizó sin conflictos;
+- conservó `Abel Cañas <abelstor@gmail.com>` como autor de los treinta commits;
+- no modificó ninguna ruta fuera de `app/interface/`;
+- no incorporó el merge commit `70cf2d9` ni documentación histórica;
+- dejó intacta `origin/feature/frontend-foundation` en
+  `70cf2d9479047eefad07b02f05b3b64467b77fd9`;
+- produjo un árbol `app/interface/` sin diferencias respecto al snapshot
+  aprobado `b7e95da`.
+
+| Commit fuente | Commit integrado | Mensaje |
+|---|---|---|
+| `2b9bfd6` | `00510a7` | feat: create package.json with full stack dependencies |
+| `64fda0e` | `016c57f` | chore: install npm dependencies |
+| `d701e21` | `3c220a0` | feat: configure Vite with PWA plugin |
+| `3d7e191` | `653c606` | chore: configure TypeScript |
+| `e556a10` | `d535b24` | feat: add Tailwind CSS configuration |
+| `8345f00` | `58074c5` | feat: initialize shadcn/ui |
+| `f664323` | `bcb7cc8` | chore: configure ESLint and Prettier |
+| `97ae83e` | `5486d3b` | feat: create index.html and entry points |
+| `d55d0a0` | `d4425da` | feat: create project folder structure |
+| `c7be18d` | `c1a8dbd` | feat: implement AuthLayout |
+| `8cd069d` | `e12de40` | feat: implement UserLayout |
+| `5b41c0a` | `66bd297` | feat: implement AdminLayout |
+| `a82abe9` | `fbf2135` | feat: implement mock auth with localStorage |
+| `c703213` | `de2c934` | feat: create AuthProvider and useAuth hook |
+| `68398d0` | `355e23b` | feat: configure React Router with base routes |
+| `7bda4a5` | `11784e6` | fix: resolve ESLint errors in UI components and auth |
+| `3bf162e` | `0fee48c` | feat: integrate PredictionResult with Tailwind + shadcn |
+| `4000e8c` | `f321202` | feat: configure TanStack Query |
+| `37a0270` | `2947e03` | feat: create ClassificationPage with full form |
+| `45a31b3` | `433a518` | feat: add voice dictation with Whisper Tiny |
+| `c3eb915` | `a200c1e` | fix: resolve lint errors in voice dictation hook |
+| `8509889` | `f8f5859` | test: add main flow tests for ClassificationPage |
+| `1455179` | `b1012e3` | fix: simplify voice dictation to use pipeline API for type safety |
+| `6bb667f` | `c9e1b58` | chore: remove .gitkeep files and finalize directory structure |
+| `5a1db32` | `f50d6e4` | fix: resolve transformers.js HTML parsing error with Vite SPA fallback |
+| `e1a0e1b` | `39883cd` | fix: set Spanish language for Whisper transcription |
+| `e1552cc` | `0d0b24c` | fix: use low-level Whisper API with forced Spanish language |
+| `b6863d5` | `0057dbe` | fix: pass input_features correctly to Whisper model.generate() |
+| `23a1aee` | `10098b9` | fix: replace @xenova/transformers with Web Speech API for voice dictation |
+| `b7e95da` | `a1f41a0` | feat: Implement PWA features and offline support |
+
 No se usaron narrativas reales, credenciales, secretos, datasets ni servicios externos de IA.

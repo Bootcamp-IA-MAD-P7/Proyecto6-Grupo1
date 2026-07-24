@@ -21,10 +21,11 @@
   - **Resultado:** `e525a3e0e85c2246634fa84e72550aa8286acb09`; tres archivos, `104` líneas añadidas y autoría `Miguel Redondo Nunez <miguel.rnunez@gmail.com>` confirmada.
   - **Verificación:** `git show --stat --format=fuller HEAD`; `git diff-tree --no-commit-id --name-only -r HEAD`; `git status --short --branch`.
 
-- [ ] 2.2 Incorporar en orden únicamente los treinta commits frontend aprobados por el inventario, conservando `Abel Cañas <abelstor@gmail.com>` como autor de cada commit y sin incluir el merge commit ni documentación histórica.
+- [x] 2.2 Incorporar en orden únicamente los treinta commits frontend aprobados por el inventario, conservando `Abel Cañas <abelstor@gmail.com>` como autor de cada commit y sin incluir el merge commit ni documentación histórica.
   - **Responsable:** Miguel / integración, con revisión de Abel.
   - **Dependencias:** 2.1.
   - **Evidencia:** historial de `app/interface/` con autoría original y lista final de commits incorporados.
+  - **Resultado:** treinta commits incorporados entre `00510a7` y `a1f41a0`; todos conservan `Abel Cañas <abelstor@gmail.com>` como autor, no modifican rutas fuera de `app/interface/` y reproducen sin diferencias el snapshot `b7e95da`.
   - **Verificación:** `git log --format="%H%x09%an%x09%ae%x09%s" origin/dev..HEAD -- app/interface`; `git diff --name-status origin/dev...HEAD`.
 
 - [ ] 2.3 Resolver los conflictos de incorporación contra los contratos vigentes de `dev`, comparar cada resolución con la rama fuente y excluir archivos ajenos a `PG-4`.
