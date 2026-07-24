@@ -12,11 +12,16 @@
 | Stage | Rows |
 |---|---|
 | Source CSV (all rows) | 40,213,168 |
-| In window + non-empty narrative+product | 2,272,802 |
-| Excluded ambiguous (Credit card or prepaid card) | 111 |
-| **Corpus (canonical mapped)** | **2,272,802** |
+| Corpus after window, non-empty fields and contract mapping | 2,272,802 |
+| Excluded ambiguous source labels | 111 |
+| **Corpus used by the EDA (canonical mapped)** | **2,272,802** |
 | Unique narrative groups | 1,227,982 |
 | Unique complaint IDs | 2,272,802 |
+
+The converter reports 111 ambiguous source labels excluded before writing the
+Parquet corpus. The pre-exclusion row count is not recorded as a separate
+artifact; 2,272,802 is the final corpus consumed by the notebook and reflected
+by the class totals below.
 
 ## 2. Class distribution
 

@@ -37,7 +37,10 @@ Este catálogo indica qué documentos pueden alimentar una presentación y con q
 | `docs/assets/diagrams/readme-project-overview.svg` | Flujo de valor y límites del producto | Cuando cambie el flujo | Arquitectura / producto | Activa visual |
 | `docs/assets/charts/delivery-status-2026-07-23.svg` | Estado de las 25 puertas del briefing | Cuando cambie un criterio | Miguel / QA | Activa visual |
 | `reports/metrics/` | Evidencia cuantitativa | Por experimento | ML/QA | Pendiente |
-| `reports/figures/` | Gráficos finales | Por experimento | ML/Docs | Pendiente |
+| `reports/figures/` | Gráficos finales | Por experimento | ML/Docs | Activa técnica |
+| `notebooks/01_eda.py` | EDA reproducible del CFPB | Por cambio de datos | Víctor / Datos | Activa técnica |
+| `scripts/data/convert_cfpb_to_parquet.py` | Conversión reproducible y filtrado seguro | Por cambio de datos | Víctor / Datos | Activa técnica |
+| `reports/validation/cfpb_eda.md` | Evidencia agregada del EDA | Por hito de datos | Víctor / Datos | Activa |
 | `reports/validation/screenshots/PG-4/` | Evidencia visual sintética del prototipo | Por cambio de UI | UX/QA | Activa técnica |
 | `docs/assets/screenshots/` | Evidencia visual general del producto | Por cambio de UI | UX/QA | Pendiente |
 

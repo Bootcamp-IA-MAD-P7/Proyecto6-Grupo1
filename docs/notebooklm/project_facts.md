@@ -18,6 +18,8 @@
 - Desbalanceo: la etiqueta mayoritaria contiene 1.671.242 observaciones, el 72,45 % del total.
 - Calidad preliminar: una muestra temporal de 1.000 registros contiene cero IDs repetidos, 122 narrativas exactamente duplicadas y cuatro señales heurísticas de URL; no es una muestra aleatoria.
 - Contrato del EDA: única entrada candidata `complaint_what_happened`; resultados agregados y ninguna narrativa real en Git, informes o NotebookLM.
+- EDA incorporado mediante la PR #24: notebook reproducible, conversor CSV→Parquet, cuatro figuras agregadas e informe `reports/validation/cfpb_eda.md`.
+- Hallazgos del EDA: 2.272.802 filas canónicas en el informe, mayoría del 73,5 %, 171.426 grupos de narrativas duplicadas, 1.744 grupos conflictivos y 98,6 % de inglés en una muestra de 5.000.
 
 ## Modelo
 
@@ -28,8 +30,8 @@
 
 ## Producto y operación
 
-- Aplicación: prototipo React PWA incorporado y validado en la rama de `PG-4`,
-  con revisión humana completada y todavía pendiente de PR y merge. Permite
+- Aplicación: prototipo React PWA incorporado, validado y fusionado mediante la
+  PR #25, con revisión humana completada. Permite
   revisar con texto sintético el formulario, dictado, respuesta mock, revisión
   humana, instalación y shell offline. No existe backend, modelo ni inferencia
   real, por lo que `ESS-04` continúa sin verificar. La necesidad de una
