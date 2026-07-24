@@ -1,0 +1,46 @@
+schema: spec-driven
+
+context: |
+  Project: CFPB financial complaint multiclass classification and routing support.
+  Repository language: documentation is primarily Spanish; code identifiers follow each area standard.
+  Product status: discovery and EDA are active. No trained model, real inference service, deployed application, database, or MLOps capability exists yet.
+  Product direction: eleven canonical CFPB product classes, narrative-only candidate input, React PWA, human review, and no automatic operational routing in the first version.
+
+  Read before creating or applying artifacts:
+  - AGENTS.md
+  - .specify/intent.md
+  - CONTRIBUTING.md
+  - docs/project_management/delivery_levels.md
+  - docs/security/security_baseline.md
+  - the relevant contracts and legacy execution dossier under specs/
+  - the relevant role and workflow under ai-specs/
+
+  Source-of-truth boundary:
+  - OpenSpec manages every new change proposal, requirements delta, design, task plan, validation, and archive.
+  - Existing numbered folders under specs/ remain compatibility dossiers for work already assigned before OpenSpec adoption.
+  - Do not copy product requirements into ai-specs/. That directory contains roles and reusable procedures only.
+  - A Jira item tracks assignment and operational state; it never replaces a versioned requirement or decision.
+
+  Safety and evidence:
+  - Never add CFPB narratives, datasets, credentials, secrets, local artifacts, model binaries, or sensitive logs to OpenSpec artifacts or AI prompts.
+  - Do not present mocks, contracts, planned folders, or documents as implemented capabilities.
+  - A task is complete only after proportional checks and versioned evidence.
+  - Do not weaken security or quality gates to make a change pass.
+
+rules:
+  proposal:
+    - State why the change is needed, measurable outcomes, explicit non-goals, affected delivery-level IDs, and privacy or security impact.
+    - Identify every new or modified capability using stable kebab-case names.
+    - Include a Tracking section with one Jira key in format PG-N, or a justified bootstrap, emergency, or automation exception.
+    - Keep implementation details in design.md.
+  specs:
+    - Use normative and testable requirements with at least one Given/When/Then scenario each.
+    - Reference existing repository contracts instead of duplicating class lists, schemas, or metric thresholds.
+    - Mark unresolved decisions explicitly; do not invent product, data, model, frontend, backend, or infrastructure choices.
+  design:
+    - Record context, constraints, alternatives, decisions, consequences, risks, rollback, security, testing, and documentation impact.
+    - Preserve boundaries between product, application, data, ML, MLOps, infrastructure, and agent workflows.
+  tasks:
+    - Use small ordered tasks with owner or role, dependencies, acceptance evidence, and exact verification commands.
+    - Include documentation, NotebookLM sources, security, and Pull Request closure only when the change affects them.
+    - Never mark implementation tasks complete before checks have run successfully.

@@ -4,6 +4,7 @@
 
 | Integrante | Rol principal | Rol de respaldo | Estado |
 |---|---|---|---|
+<<<<<<< HEAD
 | José | Backend | Pendiente de acordar | Activo |
 | Abel | Frontend / UX | Pendiente de acordar | Activo |
 | Víctor | Datos / EDA del CSV | Pendiente de acordar | Activo |
@@ -55,17 +56,39 @@ Una asignación operativa concreta el trabajo inmediato, pero no levanta bloqueo
 - Jira refleja estado operativo; las specs y decisiones versionadas conservan el contrato.
 - Cada responsable puede utilizar una IA distinta, pero debe entregar diff, verificaciones y evidencias revisadas.
 - Las decisiones transversales se revisan con Miguel; la aceptación del resultado sigue perteneciendo al equipo.
+=======
+| José | Backend | Por acordar | Activo |
+| Abel | Frontend y UX | Por acordar | Activo |
+| Víctor | Datos y EDA | Por acordar | Activo |
+| Miguel | Arquitectura, OpenSpec, arnés y coordinación transversal | Por acordar | Activo |
+
+Los roles principales reflejan el acuerdo actual. Los respaldos y la cobertura estable de producto, MLOps y QA siguen pendientes; no deben asignarse por suposición.
+
+## Asignaciones vigentes
+
+| Área | Persona | Referencia | Estado |
+|---|---|---|---|
+| Datos y EDA | Víctor | `PG-2` · `001/T-004` | En curso y asignada en Jira |
+| Arquitectura y arnés | Miguel | `integrate-jira-workflow` · excepción `bootstrap` | Activa |
+| Frontend y UX | Abel | `PG-4` · `003/T-006` | En curso y asignada en Jira; desarrollo desde cero |
+| Backend | José | `PG-5` · `003/T-007` | Bloqueada por `PG-2` y `PG-3` |
+
+La tabla describe el estado de `dev`. Una rama o Pull Request abierta no se considera capacidad integrada ni cambia por sí sola estas asignaciones.
+>>>>>>> 5558ae2204151767a53be0e45102bd04a3b6da83
 
 ## Acuerdo de trabajo con IA
 
 - Cada integrante puede utilizar la herramienta de IA que considere adecuada.
-- El repositorio, Jira, las specs y las Pull Requests son el contexto compartido.
+- El repositorio, Jira, OpenSpec y las Pull Requests son el contexto compartido.
+- Cada integrante instala las herramientas del propio clon mediante `npm ci`; no depende de archivos preparados por otra persona.
 - La persona asignada conserva la responsabilidad de revisar código, datos, decisiones y evidencias.
 - No se comparten narrativas CFPB, secretos o datos brutos con servicios externos.
 - El [flujo operativo](workflow.md) explica cómo preparar contexto y cerrar una tarea.
+- El [manual de Jira](jira_workflow.md) explica qué actualizar y qué no duplicar.
 
 ## Cambios de composición
 
 | Fecha | Integrante | Cambio |
 |---|---|---|
 | 2026-07-22 | Josué | Baja del Bootcamp comunicada; deja de formar parte del equipo activo. |
+| 2026-07-23 | Equipo activo | Responsabilidades principales confirmadas y trabajo activo limitado al EDA y al arnés. |

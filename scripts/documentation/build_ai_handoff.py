@@ -6,6 +6,7 @@ import argparse
 import re
 import subprocess
 import sys
+from collections.abc import Sequence
 from pathlib import Path
 
 
@@ -16,6 +17,9 @@ COMMON_SOURCES = (
     "README.md",
     "CONTRIBUTING.md",
     ".specify/README.md",
+    ".specify/intent.md",
+    "docs/project_management/delivery_levels.md",
+    "docs/project_management/jira_workflow.md",
 )
 SPEC_FILES = ("spec.md", "plan.md", "tasks.md", "decisions.md")
 ALLOWED_SUFFIXES = {".md", ".json", ".yml", ".yaml", ".txt"}
@@ -106,15 +110,32 @@ def build_handoff(
     task_value: str,
     includes: list[str] | None = None,
     output_directory: Path = OUTPUT_DIRECTORY,
+    *,
+    title: str | None = None,
+    instruction_lines: Sequence[str] | None = None,
+    output_filename: str | None = None,
 ) -> Path:
     spec = resolve_spec(spec_value)
     task = normalized_task(task_value)
     sources = source_paths(spec, task, includes or [])
     output_directory.mkdir(parents=True, exist_ok=True)
-    output = output_directory / f"{spec.name}-{task}.md"
+    filename = output_filename or f"{spec.name}-{task}.md"
+    if Path(filename).name != filename or not re.fullmatch(r"[A-Za-z0-9_.-]+\.md", filename):
+        raise HandoffError("Output filename must be a safe Markdown filename")
+    output = output_directory / filename
+    instructions = list(
+        instruction_lines
+        or (
+            f"Work only on {task} from spec {spec.name}.",
+            "Use the attached sources as the project contract.",
+            "Before editing, summarize scope, planned files and blockers.",
+            "Do not expand scope or present pending capabilities as implemented.",
+            "At closure, report changed files, checks, decisions and remaining risks.",
+        )
+    )
 
     lines = [
-        f"# AI handoff — {spec.name} / {task}",
+        title or f"# AI handoff — {spec.name} / {task}",
         "",
         "> Generated from tracked project sources. Review before sharing.",
         "> Never attach datasets, secrets or real CFPB narratives.",
@@ -122,16 +143,9 @@ def build_handoff(
         "## Suggested instruction",
         "",
         "```text",
-        f"Work only on {task} from spec {spec.name}.",
-        "Use the attached sources as the project contract.",
-        "Before editing, summarize scope, planned files and blockers.",
-        "Do not expand scope or present pending capabilities as implemented.",
-        "At closure, report changed files, checks, decisions and remaining risks.",
-        "```",
-        "",
-        "## Source index",
-        "",
     ]
+    lines.extend(instructions)
+    lines.extend(("```", "", "## Source index", ""))
     lines.extend(f"- `{path.relative_to(ROOT).as_posix()}`" for path in sources)
 
     for path in sources:

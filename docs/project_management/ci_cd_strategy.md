@@ -14,12 +14,20 @@ Activa desde el primer PR:
 - ausencia de archivos sensibles o demasiado grandes;
 - `git diff --check`;
 - permisos mínimos del workflow.
+- instalación reproducible con `npm ci`;
+- auditoría de dependencias npm;
+- diagnóstico y validación estricta de OpenSpec;
+- suites unitarias y de contrato.
 
 Workflow: `.github/workflows/repository-quality.yml`.
 
 ## Etapa 1 — Contratos de datos y ML esencial
 
+<<<<<<< HEAD
 Estado: parcialmente activa para contratos y tests Python; el pipeline de datos y entrenamiento todavía no existe.
+=======
+Se añadirá cuando existan paquetes y dependencias de ML:
+>>>>>>> 5558ae2204151767a53be0e45102bd04a3b6da83
 
 - instalación reproducible;
 - lint y tipos;

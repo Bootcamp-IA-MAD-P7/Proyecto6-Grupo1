@@ -46,6 +46,7 @@ La primera versión envía una narrativa para una predicción puntual, no la reg
 - El contrato admite baselines sin falsa precisión.
 - El umbral de revisión permanece pendiente de evaluación experimental.
 
+<<<<<<< HEAD
 ## ADR-004 Utilizar una base PWA mínima y sustituible
 
 - Fecha: `2026-07-22`
@@ -143,3 +144,25 @@ Confirmar `app/interface/` como la ubicación permanente del frontend React. No 
 - Se mantiene la coherencia con la estructura existente del proyecto.
 - No se duplican configuraciones ni contratos.
 - La PR #14 referencia correctamente `app/interface/`.
+=======
+## ADR-004 Utilizar React PWA para productivizar el modelo
+
+- Fecha: `2026-07-23`
+- Estado: `accepted`
+- Relacionada con: `ESS-04, R-001 a R-012, T-006, T-007`
+
+### Contexto
+
+El briefing propone Streamlit, Gradio o Dash como ejemplos de aplicación. El equipo ha confirmado que el objetivo evaluable es productivizar el modelo, no utilizar obligatoriamente una de esas tecnologías.
+
+### Decisión
+
+La aplicación del proyecto será una React PWA. Esta elección cumple el criterio tecnológico cuando la interfaz consuma inferencia real y permita introducir datos válidos y obtener una predicción multiclase.
+
+### Consecuencias
+
+- No es necesario añadir una segunda interfaz en Streamlit, Gradio o Dash.
+- El contrato y los mocks permiten avanzar en UX, pero no verifican `ESS-04`.
+- `ESS-04` solo se cumple cuando frontend, servicio y modelo real están integrados y probados.
+- Una evolución nativa permanece fuera de alcance mientras no exista una necesidad demostrada.
+>>>>>>> 5558ae2204151767a53be0e45102bd04a3b6da83

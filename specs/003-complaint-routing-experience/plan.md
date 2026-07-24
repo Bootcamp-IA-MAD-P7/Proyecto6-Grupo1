@@ -1,7 +1,11 @@
 # Plan técnico: Experiencia de clasificación de reclamaciones
 
 - Spec: [`spec.md`](spec.md)
+<<<<<<< HEAD
 - Estado: `mock_implemented`
+=======
+- Estado: `approved`
+>>>>>>> 5558ae2204151767a53be0e45102bd04a3b6da83
 
 ## Solución propuesta
 

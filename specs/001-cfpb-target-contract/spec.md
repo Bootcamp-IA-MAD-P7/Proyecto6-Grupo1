@@ -9,7 +9,11 @@
 
 El spike CFPB confirmó que el dataset es viable, pero observó catorce etiquetas de `product`: once vigentes, dos históricas equivalentes y una histórica ambigua. También detectó desbalanceo, narrativas repetidas y riesgo residual de información personal.
 
+<<<<<<< HEAD
 Víctor está realizando el análisis del CSV y el EDA. Necesita reglas compartidas que eviten comparar resultados construidos con clases, filtros o columnas incompatibles, sin convertir esta spec en un notebook ni repetir su análisis. Miguel mantiene el contrato y revisa su coherencia con arquitectura, privacidad y experiencia de producto.
+=======
+Víctor tiene asignado el EDA y debe trabajar con reglas compartidas que eviten resultados construidos con clases, filtros o columnas incompatibles, sin convertir esta spec en un notebook ni repetir su análisis.
+>>>>>>> 5558ae2204151767a53be0e45102bd04a3b6da83
 
 ## Usuario y necesidad
 

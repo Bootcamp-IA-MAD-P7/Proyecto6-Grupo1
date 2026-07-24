@@ -12,12 +12,15 @@ ROOT = Path(__file__).resolve().parents[2]
 OUTPUT_DIRECTORY = ROOT / "exports/notebooklm"
 
 STABLE_SOURCES = (
-    "AGENTS.md",
+    "docs/notebooklm/business_narrative.md",
+    "docs/notebooklm/project_facts.md",
     "README.md",
-    "CHANGELOG.md",
     ".specify/intent.md",
-    "docs/project_management/project_principles.md",
     "docs/project_management/delivery_levels.md",
+    "docs/notebooklm/technical_status.md",
+    "CHANGELOG.md",
+    "AGENTS.md",
+    "docs/project_management/project_principles.md",
     "docs/project_management/workflow.md",
     "docs/architecture/repository_structure.md",
     "docs/architecture/system_blueprint.md",
@@ -30,9 +33,6 @@ STABLE_SOURCES = (
     "docs/security/security_baseline.md",
     "docs/security/threat_model.md",
     "docs/notebooklm/source_catalog.md",
-    "docs/notebooklm/project_facts.md",
-    "docs/notebooklm/business_narrative.md",
-    "docs/notebooklm/technical_status.md",
 )
 
 
@@ -50,6 +50,7 @@ def optional_project_sources() -> list[Path]:
         "specs/[0-9]*/plan.md",
         "specs/[0-9]*/tasks.md",
         "specs/[0-9]*/decisions.md",
+        "openspec/specs/*/spec.md",
         "docs/adr/[0-9]*.md",
         "docs/product/candidates/*.md",
         "docs/notebooklm/briefs/*.md",

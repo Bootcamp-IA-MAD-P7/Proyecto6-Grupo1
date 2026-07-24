@@ -13,7 +13,11 @@ updates:
     open-pull-requests-limit: 5
 
   - package-ecosystem: npm
+<<<<<<< HEAD
     directory: "/app/interface"
+=======
+    directory: "/"
+>>>>>>> 5558ae2204151767a53be0e45102bd04a3b6da83
     schedule:
       interval: weekly
     open-pull-requests-limit: 5

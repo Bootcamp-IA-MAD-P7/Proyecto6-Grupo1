@@ -163,7 +163,7 @@ La ventana se congela en `[2023-08-24, 2026-07-23)`. El arnés permite únicamen
 ## PDR-001 Seleccionar problema, usuario y dataset candidato
 
 - Fecha: `2026-07-22`
-- Estado: `accepted-with-conditions`
+- Estado: `accepted`
 - Relacionada con: `R-011, AC-008, AC-009, T-008`
 
 ### Contexto

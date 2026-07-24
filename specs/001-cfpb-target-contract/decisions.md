@@ -33,7 +33,11 @@ Conservar once clases canónicas, normalizar las dos equivalencias directas y ex
 
 ### Contexto
 
+<<<<<<< HEAD
 El EDA está asignado a Víctor mediante `T-004`. Mezclar sus notebooks con la definición del target duplicaría trabajo y podría fijar decisiones de modelado antes de observar la evidencia. Miguel mantiene el contrato y revisa los cambios transversales sin sustituir el análisis.
+=======
+Al aprobar esta decisión, el EDA se planteó como trabajo paralelo. La responsabilidad operativa vigente corresponde a Víctor. Mezclar notebooks con la definición del target duplicaría trabajo y podría fijar decisiones de modelado antes de observar la evidencia.
+>>>>>>> 5558ae2204151767a53be0e45102bd04a3b6da83
 
 ### Decisión
 

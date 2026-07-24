@@ -2,12 +2,18 @@
 
 ## Principio
 
-La estructura permite crecer hasta nivel experto, pero mantiene desacoplado el núcleo esencial. Tener una carpeta no significa que esa capacidad esté implementada.
+La estructura permite crecer hasta nivel experto, pero mantiene desacoplado el núcleo esencial. Las carpetas raíz documentan límites estables; las subcarpetas se crean cuando contienen código, configuración o evidencia real.
+
+No se versionan árboles vacíos para representar capacidades futuras. El mapa siguiente define destinos previstos, no una obligación de materializarlos antes de necesitarlos.
 
 ## Capas
 
 | Ruta | Responsabilidad |
 |---|---|
+| `openspec/` | Cambios, requisitos vigentes y reglas del ciclo de vida. |
+| `ai-specs/` | Roles y procedimientos propios que amplían OpenSpec. |
+| `.codex/`, `.github/`, `.claude/`, `.cursor/`, `.gemini/` | Adaptadores oficiales por herramienta; no son fuentes de requisitos. |
+| `specs/` | Expedientes anteriores conservados para trabajo ya asignado. |
 | `data/` | Datos originales, intermedios, procesados y externos. |
 | `notebooks/` | Exploración, EDA y experimentos narrativos. |
 | `src/domain/` | Reglas, entidades y contratos independientes de frameworks. |
@@ -49,6 +55,10 @@ Este flujo es una capacidad estructural prevista, no una afirmación de implemen
 - El nivel medio añadirá challengers, tuning, feedback y recolección.
 - El nivel avanzado activará infraestructura, persistencia, despliegue y tests operativos.
 - El nivel experto activará experimentos, monitorización, registro y promoción controlada.
+
+Cada ruta aparecerá de forma incremental en la Pull Request que implemente su primera capacidad. Un README puede conservar el contrato futuro sin acompañarse de `.gitkeep` ni subcarpetas vacías.
+
+Los cambios nuevos no crean carpetas numeradas en `specs/`: utilizan `openspec/changes/` y actualizan `openspec/specs/` al archivarse.
 
 ## Regla de dependencias
 

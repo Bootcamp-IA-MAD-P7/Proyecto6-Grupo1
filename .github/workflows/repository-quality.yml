@@ -14,6 +14,9 @@ on:
 permissions:
   contents: read
 
+env:
+  OPENSPEC_TELEMETRY: "0"
+
 concurrency:
   group: repository-quality-${{ github.ref }}
   cancel-in-progress: true
@@ -26,15 +29,36 @@ jobs:
     steps:
       - name: Checkout repository
         uses: actions/checkout@v7
+        with:
+          fetch-depth: 0
 
       - name: Set up Python
         uses: actions/setup-python@v7
         with:
           python-version: "3.12"
 
+      - name: Set up Node.js
+        uses: actions/setup-node@v6
+        with:
+          node-version: "24"
+          cache: npm
+
+      - name: Install repository tooling
+        run: npm ci
+
+      - name: Audit repository tooling
+        run: npm audit --audit-level=high
+
+      - name: Diagnose OpenSpec
+        run: python scripts/harness.py doctor
+
+      - name: Validate all OpenSpec artifacts
+        run: npm run openspec:validate
+
       - name: Check repository conventions
         run: python scripts/quality/check_repository.py
 
+<<<<<<< HEAD
       - name: Run Python tests
         run: python -m unittest discover -s tests -v
 
@@ -63,3 +87,23 @@ jobs:
       - name: Build interface PWA
         working-directory: app/interface
         run: npm run build
+=======
+      - name: Run unit tests
+        run: python -m unittest discover -s tests/unit -p "test_*.py" -v
+
+      - name: Run contract tests
+        run: python -m unittest discover -s tests/contract -p "test_*.py" -v
+
+      - name: Check whitespace errors
+        shell: bash
+        run: |
+          if [[ "${{ github.event_name }}" == "pull_request" ]]; then
+            git diff --check \
+              "${{ github.event.pull_request.base.sha }}" \
+              "${{ github.event.pull_request.head.sha }}"
+          elif [[ "${{ github.event_name }}" == "push" ]]; then
+            git diff --check "${{ github.event.before }}" "${{ github.sha }}"
+          else
+            git diff --check HEAD^ HEAD
+          fi
+>>>>>>> 5558ae2204151767a53be0e45102bd04a3b6da83

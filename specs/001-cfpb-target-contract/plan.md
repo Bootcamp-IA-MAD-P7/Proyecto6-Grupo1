@@ -8,8 +8,12 @@
 - El spike reproduce 2.306.723 narrativas y catorce etiquetas en la ventana congelada.
 - Once etiquetas corresponden a la taxonomía vigente, dos tienen equivalencia semántica directa y una es ambigua.
 - La narrativa es la única entrada admitida por `config/cfpb_viability.json`.
+<<<<<<< HEAD
 - Víctor realiza el EDA del CSV bajo `T-004`; permanece fuera de esta implementación y está en curso.
 - Miguel mantiene el contrato de target y coordina su impacto en arquitectura, privacidad y producto.
+=======
+- El EDA está asignado a Víctor y permanece fuera de esta implementación.
+>>>>>>> 5558ae2204151767a53be0e45102bd04a3b6da83
 
 ## Solución propuesta
 

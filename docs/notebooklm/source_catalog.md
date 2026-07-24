@@ -6,8 +6,15 @@ Este catálogo indica qué documentos pueden alimentar una presentación y con q
 |---|---|---|---|---|
 | `.specify/intent.md` | Propósito, restricciones y principios globales | Cuando cambie la intención | Miguel / equipo | Activa |
 | `AGENTS.md` | Decisiones vigentes y límites para agentes y equipo | Cuando cambie el contexto operativo | Equipo | Activa |
+<<<<<<< HEAD
 | `specs/*/` | Specs, planes, tareas y decisiones | Por cambio de alcance | Equipo | Activa |
 | `config/cfpb_target_contract.json` | Clases, mappings y límites aplicables al EDA CFPB | Cuando cambie el contrato de datos | Miguel / arquitectura; Víctor / evidencia | Activa |
+=======
+| `openspec/specs/` | Capacidades vigentes después de archivar cambios | Por cambio de alcance | Equipo | Activa principal |
+| `openspec/changes/` | Propuestas, requisitos, diseño y tareas activos | Durante cada cambio | Equipo | Activa técnica |
+| `specs/*/` | Expedientes anteriores a OpenSpec | Solo para trabajo heredado | Equipo | Compatibilidad |
+| `config/cfpb_target_contract.json` | Clases, mappings y límites aplicables al EDA CFPB | Cuando cambie el contrato de datos | Datos / ML | Activa |
+>>>>>>> 5558ae2204151767a53be0e45102bd04a3b6da83
 | `README.md` | Visión general y acceso al proyecto | Cada hito | Equipo | Activa |
 | `CHANGELOG.md` | Evolución por versiones | Cada cambio relevante | Miguel / equipo | Activa |
 | `docs/architecture/repository_structure.md` | Arquitectura del repositorio | Cuando cambie la estructura | Miguel | Activa |
@@ -16,6 +23,7 @@ Este catálogo indica qué documentos pueden alimentar una presentación y con q
 | `docs/product/candidates/` | Fichas y evidencias de alternativas consideradas | Durante descubrimiento | Equipo | Activa |
 | `docs/project_management/dailies/YYYY-MM-DD.md` | Actividad y bloqueantes | Diaria | Equipo | Activa |
 | `docs/project_management/workflow.md` | Método común desde Jira hasta Pull Request | Cuando cambie el proceso | Equipo | Activa |
+<<<<<<< HEAD
 | `docs/design/information_architecture.md` | Usuario, tareas, estados y accesibilidad del flujo | Cuando cambie la experiencia | Abel / equipo | Activa |
 | `docs/api/openapi.json` | Contrato entre React PWA y futura inferencia | Cuando cambie la API | Miguel / arquitectura; José / backend | Activa contract-only |
 | `app/interface/README.md` | Estado, ejecución y límites de la React PWA | Por cambio de interfaz | Abel | Activa con mock |
@@ -24,6 +32,24 @@ Este catálogo indica qué documentos pueden alimentar una presentación y con q
 | `docs/notebooklm/business_narrative.md` | Historia para audiencia no técnica | Cuando cambie la hipótesis o su validación | Equipo | Activa con límites explícitos |
 | `docs/notebooklm/technical_status.md` | Estado técnico consolidado | Diaria o por PR | Miguel / equipo | Activa |
 | `docs/notebooklm/briefs/` | Narrativa, audiencia y límites de cada presentación | Por presentación | Miguel / equipo | Activa |
+=======
+| `docs/project_management/jira_workflow.md` | Frontera, backlog y manual operativo de Jira | Cuando cambie el seguimiento | Miguel / equipo | Activa técnica |
+| `docs/project_management/harness_quickstart.md` | Guía autoservicio del arnés | Cuando cambie el proceso | Miguel / equipo | Activa técnica |
+| `ai-specs/` | Roles y procedimientos reutilizables para IA | Cuando cambie el arnés | Miguel / equipo | Activa técnica |
+| `openspec/config.yaml` | Contexto y reglas obligatorias de los cambios | Cuando cambie el gobierno | Miguel / equipo | Activa técnica |
+| `docs/design/information_architecture.md` | Usuario, tareas, estados y accesibilidad del flujo | Cuando cambie la experiencia | Producto / UX | Activa |
+| `docs/api/openapi.json` | Contrato entre React PWA y futura inferencia | Cuando cambie la API | Aplicación / plataforma | Activa contract-only |
+| `docs/security/threat_model.md` | Amenazas y controles del producto | Cuando cambien datos o arquitectura | Seguridad / equipo | Activa |
+| `reports/validation/repository_harness_audit_2026-07-23.md` | Evidencia puntual de coherencia documental y estructural | Cierre del arnés | Miguel / arquitectura | Activa técnica |
+| `reports/validation/openspec-harness-validation-2026-07-23.md` | Evidencia de implantación real de OpenSpec y el arnés | Cierre de la adopción | Miguel / arquitectura | Activa técnica |
+| `reports/validation/repository-final-review-2026-07-23.md` | Evidencia final de presentación, estructura, estados y quality gates | Cierre documental | Miguel / arquitectura | Activa técnica |
+| `reports/validation/jira-harness-integration-2026-07-23.md` | Evidencia de backlog, dependencias y arnés Jira | Cierre de la integración | Miguel / arquitectura | Activa técnica |
+| `docs/notebooklm/project_facts.md` | Hechos verificados del producto | Diaria o por hito | Miguel / responsables de evidencia | Activa |
+| `docs/notebooklm/business_narrative.md` | Historia para audiencia no técnica | Cuando se defina el negocio | Equipo | Activa con límites explícitos |
+| `docs/notebooklm/technical_status.md` | Estado técnico consolidado | Diaria o por PR | Miguel / equipo | Activa |
+| `docs/assets/diagrams/readme-project-overview.svg` | Flujo de valor y límites del producto | Cuando cambie el flujo | Arquitectura / producto | Activa visual |
+| `docs/assets/charts/delivery-status-2026-07-23.svg` | Estado de las 25 puertas del briefing | Cuando cambie un criterio | Miguel / QA | Activa visual |
+>>>>>>> 5558ae2204151767a53be0e45102bd04a3b6da83
 | `reports/metrics/` | Evidencia cuantitativa | Por experimento | ML/QA | Pendiente |
 | `reports/validation/complaint_routing_pwa.md` | Evidencia de tests, build, accesibilidad y límites del mock | Por cambio de experiencia | Abel / frontend | Activa |
 | `reports/figures/` | Gráficos finales | Por experimento | ML/Docs | Pendiente |
@@ -32,3 +58,11 @@ Este catálogo indica qué documentos pueden alimentar una presentación y con q
 ## Regla editorial
 
 Una fuente marcada como pendiente o propuesta no puede utilizarse para afirmar que una capacidad ya existe.
+
+## Selección según audiencia
+
+- Cliente o negocio: comenzar por `business_narrative.md`, `project_facts.md`, el brief concreto y evidencia visual o cuantitativa revisada.
+- Presentación técnica: añadir `technical_status.md`, contratos, specs relevantes, informes y niveles de entrega.
+- Trabajo interno con IA: utilizar `AGENTS.md`, OpenSpec, `ai-specs/`, tareas y decisiones; estas fuentes no deben ordenar la narrativa de una presentación para cliente.
+
+El paquete generado reúne fuentes para revisión interna. Antes de subirlo a un notebook orientado a cliente se debe comprobar el brief y excluir fuentes que introduzcan proceso técnico antes del problema, usuario, valor y evidencia.

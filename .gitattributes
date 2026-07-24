@@ -3,18 +3,25 @@
 .gitattributes text eol=lf
 .gitignore text eol=lf
 .editorconfig text eol=lf
+<<<<<<< HEAD
 
+=======
+>>>>>>> 5558ae2204151767a53be0e45102bd04a3b6da83
 *.py text eol=lf
 *.sh text eol=lf
 *.md text eol=lf
 *.json text eol=lf
 *.yml text eol=lf
 *.yaml text eol=lf
+<<<<<<< HEAD
 *.js text eol=lf
 *.ts text eol=lf
 *.tsx text eol=lf
 *.css text eol=lf
 *.html text eol=lf
+=======
+*.toml text eol=lf
+>>>>>>> 5558ae2204151767a53be0e45102bd04a3b6da83
 *.svg text eol=lf
 
 *.png binary

@@ -51,9 +51,10 @@
 
 ## T-003 Validar el problema, usuario y decisión
 
-- Estado: `[~]`
-- Responsable: `Producto / descubrimiento, por asignar`
+- Estado: `[!]`
+- Responsable: `Producto / equipo`
 - Dependencias: `T-002`
+- Bloqueante: falta contrastar el flujo con una persona usuaria o responsable de negocio.
 - Requisitos cubiertos: `R-001, R-008, AC-002, AC-007`
 - Archivos previstos:
   - `docs/product/`
@@ -100,9 +101,15 @@
 
 ## T-005 Evaluar seguridad, privacidad, ética y sesgo
 
+<<<<<<< HEAD
 - Estado: `[~]`
 - Responsable: `Víctor / Datos, con revisión transversal del equipo`
+=======
+- Estado: `[!]`
+- Responsable: `Seguridad / datos / equipo`
+>>>>>>> 5558ae2204151767a53be0e45102bd04a3b6da83
 - Dependencias: `T-002, T-004`
+- Bloqueante: falta completar la revisión amplia de privacidad y acordar responsable y controles antes del modelado.
 - Requisitos cubiertos: `R-006, AC-006`
 - Archivos previstos:
   - `docs/product/`
@@ -124,9 +131,15 @@
 
 ## T-006 Evaluar UX, demo y evolución técnica
 
+<<<<<<< HEAD
 - Estado: `[~]`
 - Responsable: `Abel / Frontend-UX y Miguel / Arquitectura`
+=======
+- Estado: `[!]`
+- Responsable: `Producto / UX / equipo`
+>>>>>>> 5558ae2204151767a53be0e45102bd04a3b6da83
 - Dependencias: `T-003, T-004`
+- Bloqueante: depende de validar con negocio el usuario y el flujo B2B propuestos.
 - Requisitos cubiertos: `R-009`
 - Archivos previstos:
   - `docs/product/`
@@ -147,9 +160,10 @@
 
 ## T-007 Puntuar y comparar alternativas
 
-- Estado: `[~]`
+- Estado: `[x]`
 - Responsable: `Equipo`
-- Dependencias: `T-003, T-004, T-005, T-006`
+- Dependencias: `T-002, T-004`
+- Entradas condicionadas consultadas: evidencia parcial de `T-003, T-005, T-006`.
 - Requisitos cubiertos: `R-007, R-008, R-010, AC-005, AC-007`
 - Archivos previstos:
   - `docs/product/idea_evaluation_template.md`
@@ -166,8 +180,13 @@
 - Evidencia obtenida:
   - Las dos candidatas recibieron una preevaluación documental con la matriz `1.0`: `CAND-001`, 75/100; `CAND-002`, 73/100.
   - `docs/product/candidates/comparison-2026-07-22.md` registra la comparación cualitativa y la sensibilidad a plazo, riesgo y tipo de demo.
+<<<<<<< HEAD
   - Pendiente conservar las puntuaciones individuales o una ratificación explícita de la matriz consolidada; no se atribuyen valores individuales al equipo.
   - T-004 está completada para viabilidad preliminar. El cierre de esta tarea depende de ratificar la matriz consolidada o conservar las puntuaciones individuales y de confirmar que las puertas restantes se trasladan sin pérdida a las specs activas.
+=======
+  - José, Abel, Víctor y Miguel ratificaron la selección resultante por unanimidad; no se atribuyen puntuaciones individuales que no fueron recogidas.
+  - Las puertas abiertas de producto y privacidad permanecen como condiciones explícitas de la candidata, no como parte oculta de la puntuación.
+>>>>>>> 5558ae2204151767a53be0e45102bd04a3b6da83
 
 ## T-008 Registrar la decisión del equipo
 
@@ -189,8 +208,13 @@
 - Evidencia obtenida:
   - José, Abel, Víctor y Miguel eligieron `CAND-001` por unanimidad el `2026-07-22`.
   - `PDR-001` registra cuatro votos favorables, cero contrarios y cero abstenciones.
+<<<<<<< HEAD
   - La aceptación autoriza el spike, el contrato de datos y la validación de experiencia contra mock; no autoriza entrenamiento ni inferencia real.
   - Las condiciones pendientes permanecen trazadas en `001` y `003` sin invalidar el registro de la decisión.
+=======
+  - La aceptación es condicionada y autoriza el spike de viabilidad, no el entrenamiento ni la integración funcional.
+  - Las condiciones pendientes permanecen trazadas en T-003, T-005, T-006 y T-007 sin invalidar el registro de la decisión.
+>>>>>>> 5558ae2204151767a53be0e45102bd04a3b6da83
 
 ## T-009 Sincronizar documentación y fuentes
 

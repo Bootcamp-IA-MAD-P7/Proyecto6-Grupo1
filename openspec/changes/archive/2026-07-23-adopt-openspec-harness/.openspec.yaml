@@ -1,0 +1,4 @@
+schema: spec-driven
+created: 2026-07-23
+goal: Adopt OpenSpec as the SDD engine beneath the project agentic harness
+  without duplicating existing sources of truth.

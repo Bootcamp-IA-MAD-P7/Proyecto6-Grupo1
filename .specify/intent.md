@@ -6,7 +6,7 @@
 | Fase | Descubrimiento, EDA y validación de experiencia en paralelo |
 | Alcance | Global del proyecto |
 | Responsable | Equipo |
-| Última revisión | 2026-07-22 |
+| Última revisión | 2026-07-23 |
 
 ## Función de este documento
 
@@ -56,7 +56,7 @@ Estas decisiones están pendientes de descubrimiento. No deben inferirse ni cerr
 | Coste relativo de los errores | Pendiente | Impacto por clase y contexto de uso |
 | Métrica principal | Pendiente | Relación con el objetivo y el coste de error |
 | Modelo o familia de modelos | Pendiente | Baseline y comparación experimental |
-| Framework de aplicación | Decidido para frontend | React PWA como primera entrega; evolución nativa sujeta a evidencia |
+| Framework de aplicación | Decidido | React PWA válida para productivizar el modelo; evolución nativa sujeta a evidencia |
 | Persistencia y base de datos | Pendiente | Necesidades de feedback, auditoría y reentrenamiento |
 | Proveedor y arquitectura cloud | Pendiente | Coste, seguridad, operación y restricciones del producto |
 | Identidad visual definitiva | Pendiente | Audiencia, contexto y sistema de diseño |
@@ -179,9 +179,13 @@ Hasta cerrar las puertas activas de datos, privacidad y producto, no se debe:
 
 El equipo activo está formado por José, Abel, Víctor y Miguel. Josué comunicó su baja del Bootcamp el 22 de julio de 2026 y dejó de formar parte del equipo.
 
+<<<<<<< HEAD
 Las responsabilidades principales vigentes son: Miguel en arquitectura y coherencia transversal, José en backend, Abel en frontend/UX y Víctor en datos/EDA del CSV. La asignación no desbloquea tareas que una spec mantenga bloqueadas ni sustituye la revisión del equipo. Los roles de respaldo siguen pendientes de acuerdo.
 
 El reparto detallado, los límites y las asignaciones operativas se mantienen en `docs/project_management/team.md` para evitar duplicar instrucciones en este contrato global.
+=======
+Las responsabilidades principales están asignadas: Miguel coordina arquitectura y arnés; José, backend; Abel, frontend/UX; Víctor, datos y EDA. Los roles de respaldo y la cobertura estable de producto, MLOps y QA continúan pendientes y no deben asignarse por suposición.
+>>>>>>> 5558ae2204151767a53be0e45102bd04a3b6da83
 
 Las decisiones relevantes deben quedar registradas. Las conversaciones ayudan a explorar; el repositorio conserva el acuerdo verificable.
 

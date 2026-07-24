@@ -1,17 +1,20 @@
-# Trabajo basado en specs
+# Intención y compatibilidad del método de specs
 
-Las conversaciones ayudan a explorar. Las specs conservan dentro del repositorio lo que el equipo ha decidido construir.
+[`intent.md`](intent.md) define el propósito, las restricciones globales y los principios estables del proyecto. Sigue siendo una fuente vigente.
 
-## Jerarquía documental
+Desde el 23 de julio de 2026, los cambios nuevos se gestionan con OpenSpec:
 
 ```text
-intent -> spec -> plan -> tasks -> implementation -> verification -> closure
+intent
+  -> openspec/changes/<change>/
+  -> propuesta + requisitos + diseño + tareas
+  -> implementación + verificación
+  -> openspec/specs/ + archivo histórico
 ```
 
-- [`intent.md`](intent.md) define el propósito, las restricciones globales y los principios estables del proyecto.
-- `specs/` contiene un contrato independiente por descubrimiento, funcionalidad o cambio relevante.
-- `templates/` proporciona la estructura mínima para redactar esos contratos.
+Las plantillas de `.specify/templates/` y las carpetas numeradas de `specs/` se conservan para interpretar y terminar el trabajo creado antes de la adopción. No deben utilizarse para iniciar cambios nuevos.
 
+<<<<<<< HEAD
 El intent no selecciona una idea de negocio ni sustituye las specs. Solo cambia cuando cambia el propósito global del proyecto.
 
 ## Una carpeta por cambio
@@ -69,9 +72,28 @@ No se crea una spec por cada notebook o tarea pequeña. Se crea cuando varias pe
 ## Empezar una tarea
 
 El [flujo operativo del equipo](../docs/project_management/workflow.md) conecta Jira, spec, rama, IA, verificaciones y Pull Request. Si una IA no puede leer el repositorio, puede recibir un paquete generado desde fuentes versionadas:
+=======
+## Empezar un cambio nuevo
+>>>>>>> 5558ae2204151767a53be0e45102bd04a3b6da83
 
 ```bash
-python scripts/documentation/build_ai_handoff.py \
-  --spec 001-cfpb-target-contract \
-  --task T-004
+npm ci
+python scripts/harness.py doctor
+npm exec openspec new change <nombre-en-kebab-case>
 ```
+
+Después se completan los artefactos que indique OpenSpec y se genera el contexto de trabajo:
+
+```bash
+python scripts/harness.py start --role <rol> --change <nombre>
+```
+
+La guía completa está en [`docs/project_management/harness_quickstart.md`](../docs/project_management/harness_quickstart.md).
+
+## Trabajo anterior aún asignado
+
+- Víctor puede terminar `001/T-004`.
+- Abel puede terminar `003/T-006`.
+- Si esas entregas incorporan decisiones nuevas o contradicen los contratos vigentes, se abre un cambio OpenSpec antes de integrarlas.
+
+Jira registra quién hace el trabajo y su estado. OpenSpec conserva qué se acuerda construir y cómo se demuestra.

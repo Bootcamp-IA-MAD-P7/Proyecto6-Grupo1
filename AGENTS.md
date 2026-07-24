@@ -2,6 +2,7 @@
 
 ## Estado confirmado del proyecto
 
+<<<<<<< HEAD
 - Fase: descubrimiento, EDA y validación de la experiencia en paralelo.
 - Problema: clasificación y apoyo al enrutamiento de reclamaciones financieras escritas.
 - Dataset: Consumer Complaint Database del CFPB, viable con condiciones.
@@ -11,62 +12,100 @@
 - Specs activas: `000-problem-discovery`, `001-cfpb-target-contract`, `003-complaint-routing-experience` y la spec asignada a la tarea actual.
 - Responsabilidades: Miguel coordina arquitectura; José, backend; Abel, frontend/UX; Víctor, datos y EDA del CSV. Josué está fuera del equipo.
 - Asignaciones activas: `001/T-004` para Víctor, `003/T-008` para Abel y `003/T-007` para José cuando se resuelvan sus bloqueantes.
+=======
+- Fase: descubrimiento y EDA con OpenSpec + Harness Engineering operativos.
+- Problema: clasificación y apoyo al enrutamiento de reclamaciones financieras escritas.
+- Dataset: Consumer Complaint Database del CFPB, viable con condiciones.
+- Entrada candidata permitida: `complaint_what_happened`.
+- Target derivado: `product_canonical`, con once clases en `config/cfpb_target_contract.json`.
+- Frontend previsto: React PWA; una evolución nativa solo se evaluará si aparece evidencia que la justifique.
+- Responsabilidades: Miguel coordina arquitectura; José, backend; Abel, frontend/UX; Víctor, datos y EDA. Josué está fuera del equipo.
+- Jira: proyecto `PG`; `PG-1` agrupa el nivel esencial.
+- Trabajo heredado activo: `PG-2` / `001/T-004` para Víctor, `PG-4` / `003/T-006` para Abel y `PG-5` / `003/T-007` para José cuando se resuelvan `PG-2` y `PG-3`.
+- No existe todavía modelo entrenado, inferencia real, aplicación integrada, base de datos, despliegue ni capacidad MLOps.
+>>>>>>> 5558ae2204151767a53be0e45102bd04a3b6da83
 
-Siguen abiertas la métrica principal, modelos, política de idioma, tratamiento final de duplicados, partición, estrategia de desbalanceo, backend, persistencia y proveedor cloud. No deben inventarse ni cerrarse sin evidencia y decisión registrada.
+Siguen abiertas la métrica principal, los modelos, la política de idioma, el tratamiento final de duplicados, la partición, el desbalanceo, el backend, la persistencia y el proveedor cloud. No deben cerrarse sin evidencia y una decisión versionada.
+
+## Fuente de verdad para cambios
+
+Todo cambio relevante nuevo se gobierna en `openspec/`:
+
+```text
+proposal -> specs -> design -> tasks -> apply -> verify -> archive -> PR
+```
+
+- `openspec/changes/<change>/` conserva la propuesta activa, los requisitos, el diseño y las tareas.
+- `openspec/specs/` conserva las capacidades vigentes después de archivar un cambio.
+- `openspec/config.yaml` aporta el contexto y las reglas obligatorias para los artefactos.
+- `ai-specs/` contiene roles y procedimientos reutilizables; no contiene requisitos de producto.
+- `.specify/intent.md` conserva la intención global.
+- Las carpetas numeradas de `specs/` son expedientes de compatibilidad anteriores a OpenSpec. Solo pueden actualizarse para terminar o adaptar el trabajo ya asignado; no se crearán carpetas numeradas nuevas.
+- Jira registra asignación y estado operativo. Nunca sustituye requisitos, diseño, decisiones ni evidencias versionadas.
 
 ## Antes de actuar
 
-1. Leer `README.md`, `.specify/README.md` y `CONTRIBUTING.md`.
-2. Comprobar la rama y el estado de Git.
-3. Identificar la spec y las tareas activas.
-4. Identificar la historia de Jira cuando exista y comprobar que no contradice la spec.
-5. Distinguir entre contexto aportado y autorización para modificar archivos.
-6. Resumir alcance, archivos previstos y bloqueantes antes de editar.
-7. Limitar los cambios al alcance solicitado.
-8. Revisar el impacto en documentación, fuentes de NotebookLM, UX, seguridad y CI/CD.
+1. Leer `README.md`, este archivo, `CONTRIBUTING.md` y `.specify/intent.md`.
+2. Ejecutar `npm ci` si todavía no están instaladas las herramientas locales.
+3. Ejecutar `python scripts/harness.py doctor`.
+4. Comprobar rama y estado de Git.
+5. Identificar el cambio OpenSpec activo o, solo para trabajo heredado, la spec y tarea numeradas.
+6. Identificar la historia Jira `PG-N` o la excepción permitida y comprobar que no contradice el repositorio.
+7. Resumir alcance, archivos previstos, bloqueantes y comprobaciones antes de editar.
+8. Limitar los cambios al alcance autorizado y revisar impacto en documentación, NotebookLM, UX, seguridad y CI/CD.
 
-Si el agente no tiene acceso al repositorio, debe recibir un paquete generado mediante `scripts/documentation/build_ai_handoff.py`, no una selección manual de archivos ni datos brutos.
+Si una IA no puede leer el repositorio, la persona responsable genera un paquete seguro con `scripts/harness.py`. No se seleccionan archivos manualmente ni se adjuntan datos brutos.
 
-## Flujo obligatorio para cambios relevantes
+## Flujo obligatorio
 
-```text
-spec -> plan -> tasks -> implementation -> verification -> closure
+Para un cambio nuevo:
+
+```bash
+npm exec -- openspec new change <nombre-en-kebab-case>
+python scripts/harness.py start --role <rol> --change <nombre> --jira PG-N
+```
+
+Para una tarea heredada ya asignada:
+
+```bash
+python scripts/harness.py start \
+  --role <rol> \
+  --spec <id> \
+  --task <T-NNN>
 ```
 
 - No implementar preguntas bloqueantes.
 - No ampliar silenciosamente el alcance.
-- Si el código necesita contradecir una spec, actualizar primero el contrato y registrar la decisión.
-- Una tarea solo se completa cuando existe evidencia de verificación.
-- No afirmar que una carpeta vacía representa una capacidad implementada.
-- No inventar contenido para una daily; usar pendientes explícitos si el equipo no ha aportado información.
+- Si el código contradice un requisito, actualizar primero el cambio OpenSpec y registrar la decisión.
+- Una tarea solo se completa con evidencia proporcional.
+- No afirmar que una carpeta, contrato, mock o documento representa una capacidad implementada.
+- No inventar contenido de dailies ni evidencias.
 - No utilizar iconografía genérica de IA en documentación o producto.
-- No debilitar quality gates, permisos o controles de seguridad para hacer pasar un cambio.
+- No debilitar quality gates, permisos o controles de seguridad.
 - No incorporar narrativas CFPB reales a Git, informes, logs, capturas, prompts o servicios externos.
+- No copiar requisitos completos a Jira ni tratar su estado como evidencia de implementación.
 - No utilizar como features campos prohibidos por `config/cfpb_target_contract.json`.
 - No presentar React PWA, backend, modelo, Docker, despliegue o MLOps como implementados sin código y evidencia.
+<<<<<<< HEAD
 - No actualizar todos los documentos por rutina: revisar únicamente los que cambien de significado o estado.
 - No interpretar un rol de área como autorización para saltarse dependencias, preguntas bloqueantes o criterios de aceptación.
 
 ## Responsabilidad humana
 
 La IA puede proponer, implementar y verificar dentro del alcance autorizado. La persona responsable de la rama debe revisar el diff, proteger datos, confirmar las decisiones y firmar la Pull Request. Una conversación con una IA no sustituye Jira, una spec, una decisión versionada ni una revisión humana.
+=======
+- No marcar requisitos de `docs/project_management/delivery_levels.md` como verificados sin su evidencia mínima.
+- No ejecutar commit, push, archive, Pull Request o merge sin revisión humana.
+>>>>>>> 5558ae2204151767a53be0e45102bd04a3b6da83
 
 ## Cierre de una intervención
 
 Indicar:
 
-- spec y tareas relacionadas;
+- cambio OpenSpec o tarea heredada relacionada;
 - archivos modificados;
 - comprobaciones ejecutadas y resultados;
 - decisiones tomadas;
-- riesgos o trabajo pendiente.
+- riesgos y trabajo pendiente.
 
-## Documentación viva
-
-Cuando un cambio altere comportamiento, métricas, arquitectura, UX o estado de entrega, revisar:
-
-- `README.md`;
-- spec, tareas y decisiones;
-- `CHANGELOG.md`;
-- `docs/notebooklm/source_catalog.md` y las fuentes afectadas;
-- diagramas, capturas e informes relevantes.
+Cuando cambien comportamiento, métricas, arquitectura, UX o estado de entrega, revisar únicamente los documentos que cambien de significado: `README.md`, el cambio OpenSpec, `CHANGELOG.md`, las fuentes de NotebookLM y las evidencias relevantes.
