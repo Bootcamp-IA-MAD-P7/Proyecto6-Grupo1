@@ -729,13 +729,13 @@ La búsqueda estática requerida conserva hallazgos fuera del flujo de dictado:
 Estos hallazgos no se ocultan ni se consideran aprobados: la autenticación mock
 se revisa en 7.1 y los límites del service worker en 6.2 y 9.3.
 
-## Política de caché y shell offline — tarea 6.2 pendiente de revisión manual
+## Política de caché y shell offline — tarea 6.2
 
 La implementación anterior aplicaba caché dinámica a casi cualquier petición
 GET y la página offline afirmaba que las clasificaciones se guardarían y
 sincronizarían. Ambas conductas se retiraron.
 
-La nueva política se encuentra en `src/pwa/cache-policy.ts` y dispone de seis
+La nueva política se encuentra en `src/pwa/cache-policy.ts` y dispone de siete
 tests específicos:
 
 | Tipo de petición | Estrategia |
@@ -746,6 +746,7 @@ tests específicos:
 | Fetch de datos sin destino estático | Solo red |
 | Navegación del mismo origen | Red con fallback al shell o ayuda offline |
 | CSS, JavaScript, imágenes, fuentes y manifiesto | Caché estática del mismo origen |
+| `connectivity-check.txt` | Solo red y sin contenido de negocio |
 
 El worker:
 
@@ -753,23 +754,58 @@ El worker:
 - no almacena respuestas de predicción ni peticiones de datos;
 - elimina únicamente cachés antiguas que pertenecen a esta aplicación;
 - precarga los ocho recursos generados por el build;
+- normaliza las URLs antes de precargarlas para evitar peticiones equivalentes
+  duplicadas;
+- recupera recursos estáticos del mismo origen ignorando únicamente diferencias
+  de `Vary`, después de que la política haya descartado API, datos y orígenes
+  externos;
 - no registra peticiones, cuerpos ni narrativas;
 - ofrece un mensaje offline que niega expresamente almacenamiento o
   sincronización de clasificaciones.
 
+La interfaz no depende solo de `navigator.onLine`. Antes de invocar el cliente
+realiza una petición `HEAD` sin caché a `connectivity-check.txt`. Esta sonda no
+incluye la narrativa, no accede a datos ni se precarga. Si falla, actualiza el
+estado a offline, muestra un aviso y deshabilita la acción sin llamar al cliente
+mock.
+
 | Comprobación automática | Resultado |
 |---|---|
-| Tests de política | `6` aprobados |
-| Tests frontend totales | `22` aprobados |
+| Tests de política | `7` aprobados |
+| Tests frontend totales | `24` aprobados |
 | Typecheck, ESLint y Prettier | Correctos |
 | Build PWA | Correcto |
 | Entradas de precaché | `8` |
 | `vite preview` `/` | HTTP `200` |
 | `vite preview` `/offline.html` | HTTP `200` y texto honesto |
 | `vite preview` `/sw.js` | HTTP `200` y política incluida |
+| OpenSpec estricto | Correcto |
+| Quality gate del repositorio | Correcto |
 
-No se marca todavía 6.2 como completada. El navegador automatizado no estuvo
-disponible en esta sesión, por lo que faltan la inspección manual de Cache
-Storage, la simulación offline, la confirmación visual del bloqueo de
-clasificación y las capturas sin datos sensibles. Esta limitación no se
-sustituye por una afirmación de cumplimiento.
+### Revisión manual en navegador
+
+La revisión se realizó el `2026-07-24` con Chrome y DevTools sobre
+`http://127.0.0.1:4173/classify`, utilizando exclusivamente el ejemplo
+sintético de la interfaz.
+
+1. La primera instalación falló porque rutas como `app-mark.svg` y
+   `/app-mark.svg` se convertían en la misma petición. Se normalizó y deduplicó
+   el precaché, y se añadió una prueba de regresión.
+2. El primer shell offline quedó sin estilos ni JavaScript porque las respuestas
+   de Vite incluían `Vary: Origin`. Se restringió primero el acceso a recursos
+   estáticos del mismo origen y se utilizó `ignoreVary` solo en esa caché.
+3. Chrome mantuvo `navigator.onLine` durante la simulación de Service Worker y
+   permitió inicialmente una respuesta mock. Se añadió la sonda anónima de
+   conectividad y una prueba que demuestra que el cliente no se invoca cuando
+   la sonda falla.
+4. La versión final del worker quedó `activated and running`.
+5. Cache Storage mostró únicamente `/`, `app-mark.svg`, los bundles CSS y
+   JavaScript, el helper de Workbox, `index.html`, `manifest.webmanifest` y
+   `offline.html`; no aparecieron `/api`, narrativas ni respuestas.
+6. Con `Offline` activo, `/classify` recargó el shell completo, mostró
+   `You are offline. A prediction requires a service connection.`, mantuvo el
+   campo vacío, deshabilitó `Classify complaint` y no presentó resultado.
+
+Las capturas se revisaron durante la sesión y no contienen narrativas reales,
+audio ni datos del CFPB. No se incorporan artefactos del navegador al
+repositorio.

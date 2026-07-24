@@ -1,7 +1,7 @@
 /// <reference lib="webworker" />
 /// <reference types="vite-plugin-pwa/client" />
 
-import { selectCacheStrategy } from './pwa/cache-policy'
+import { buildPrecacheUrls, selectCacheStrategy } from './pwa/cache-policy'
 
 export {}
 
@@ -15,19 +15,15 @@ declare const self: ServiceWorkerGlobalScope & {
 }
 
 const CACHE_PREFIX = 'complaint-routing-'
-const CACHE_NAME = `${CACHE_PREFIX}v2`
+const CACHE_NAME = `${CACHE_PREFIX}v5`
 const OFFLINE_URL = '/offline.html'
 const APP_SHELL_URL = '/index.html'
 
-const PRECACHE_URLS = [
-  ...new Set([
-    ...self.__WB_MANIFEST.map((entry) => entry.url),
-    '/',
-    APP_SHELL_URL,
-    '/app-mark.svg',
-    OFFLINE_URL,
-  ]),
-]
+const PRECACHE_URLS = buildPrecacheUrls(
+  self.__WB_MANIFEST.map((entry) => entry.url),
+  ['/', APP_SHELL_URL, '/app-mark.svg', OFFLINE_URL],
+  self.location.origin,
+)
 
 self.addEventListener('install', (event) => {
   event.waitUntil(
@@ -68,7 +64,7 @@ const handleNavigation = async (request: Request) => {
 
 const handleStaticResource = async (request: Request) => {
   const cache = await caches.open(CACHE_NAME)
-  const cachedResponse = await cache.match(request)
+  const cachedResponse = await cache.match(request, { ignoreVary: true })
 
   if (cachedResponse) return cachedResponse
 

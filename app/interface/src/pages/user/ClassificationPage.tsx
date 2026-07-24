@@ -1,6 +1,6 @@
 import { useState, useRef, useMemo, useCallback, type FormEvent } from 'react'
 import { PredictionResult } from '@/components/PredictionResult'
-import { useOnlineStatus } from '@/hooks/use-online-status'
+import { useOnlineStatus, type ConnectivityCheck } from '@/hooks/use-online-status'
 import { useVoiceDictation } from '@/hooks/use-voice-dictation'
 import type { PredictionResponse } from '@/contracts/prediction'
 import { createMockPredictionClient } from '@/services/mock-prediction-client'
@@ -14,6 +14,7 @@ const SYNTHETIC_EXAMPLE =
 
 interface ClassificationPageProps {
   predictionClient?: PredictionClient
+  connectivityCheck?: ConnectivityCheck
 }
 
 const safeErrorMessage = (error: unknown) => {
@@ -28,9 +29,12 @@ const safeErrorMessage = (error: unknown) => {
   return 'The simulated prediction service is unavailable. Your narrative was not stored.'
 }
 
-export default function ClassificationPage({ predictionClient }: ClassificationPageProps) {
+export default function ClassificationPage({
+  predictionClient,
+  connectivityCheck,
+}: ClassificationPageProps) {
   const client = useMemo(() => predictionClient ?? createMockPredictionClient(), [predictionClient])
-  const isOnline = useOnlineStatus()
+  const { isOnline, verifyOnline } = useOnlineStatus(connectivityCheck)
   const narrativeRef = useRef<HTMLTextAreaElement>(null)
   const errorRef = useRef<HTMLDivElement>(null)
   const [narrative, setNarrative] = useState('')
@@ -62,15 +66,15 @@ export default function ClassificationPage({ predictionClient }: ClassificationP
       return
     }
 
-    if (!isOnline) {
-      setRequestError('A connection to the prediction service is required.')
-      errorRef.current?.focus()
-      return
-    }
-
     setIsSubmitting(true)
 
     try {
+      if (!(await verifyOnline())) {
+        setRequestError('A connection to the prediction service is required.')
+        window.setTimeout(() => errorRef.current?.focus(), 0)
+        return
+      }
+
       const response = await client.createPrediction({ narrative: narrative.trim() })
       setNarrative('')
       setResult(response)

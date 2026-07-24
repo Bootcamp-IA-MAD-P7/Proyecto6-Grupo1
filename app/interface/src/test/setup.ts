@@ -1,9 +1,14 @@
 import '@testing-library/jest-dom/vitest'
-import { afterEach } from 'vitest'
+import { afterEach, beforeEach, vi } from 'vitest'
 import { cleanup } from '@testing-library/react'
+
+beforeEach(() => {
+  vi.stubGlobal('fetch', vi.fn().mockResolvedValue({ ok: true } as Response))
+})
 
 afterEach(() => {
   cleanup()
+  vi.unstubAllGlobals()
   Object.defineProperty(navigator, 'onLine', {
     configurable: true,
     value: true,

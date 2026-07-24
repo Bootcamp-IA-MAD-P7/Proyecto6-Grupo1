@@ -1,5 +1,5 @@
 import { describe, expect, it } from 'vitest'
-import { selectCacheStrategy, type CacheRequestDescriptor } from './cache-policy'
+import { buildPrecacheUrls, selectCacheStrategy, type CacheRequestDescriptor } from './cache-policy'
 
 const APP_ORIGIN = 'https://complaints.example'
 
@@ -13,6 +13,21 @@ const request = (overrides: Partial<CacheRequestDescriptor> = {}): CacheRequestD
 })
 
 describe('service worker cache policy', () => {
+  it('normalizes and removes duplicate precache requests', () => {
+    expect(
+      buildPrecacheUrls(
+        ['index.html', 'offline.html', 'app-mark.svg', 'app-mark.svg'],
+        ['/', '/index.html', '/offline.html', '/app-mark.svg'],
+        APP_ORIGIN,
+      ),
+    ).toEqual([
+      `${APP_ORIGIN}/index.html`,
+      `${APP_ORIGIN}/offline.html`,
+      `${APP_ORIGIN}/app-mark.svg`,
+      `${APP_ORIGIN}/`,
+    ])
+  })
+
   it('keeps API requests network-only', () => {
     expect(selectCacheStrategy(request({ pathname: '/api/predictions' }), APP_ORIGIN)).toBe(
       'network-only',

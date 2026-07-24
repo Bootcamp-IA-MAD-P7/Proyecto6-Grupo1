@@ -12,6 +12,14 @@ const STATIC_DESTINATIONS = new Set(['style', 'script', 'image', 'font', 'manife
 
 const isApiPath = (pathname: string) => pathname === '/api' || pathname.startsWith('/api/')
 
+export const buildPrecacheUrls = (
+  manifestUrls: string[],
+  requiredUrls: string[],
+  applicationOrigin: string,
+): string[] => [
+  ...new Set([...manifestUrls, ...requiredUrls].map((url) => new URL(url, applicationOrigin).href)),
+]
+
 export const selectCacheStrategy = (
   request: CacheRequestDescriptor,
   applicationOrigin: string,

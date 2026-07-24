@@ -106,11 +106,11 @@
   - **Resultado:** React, configuración Node y service worker disponen de contextos TypeScript separados y referenciados por el mismo `tsc -b`. El worker utiliza tipos `ServiceWorkerGlobalScope`, declara `self.__WB_MANIFEST` y el build `injectManifest` genera `dist/sw.js` con ocho entradas de precaché. Typecheck y build finalizan con código `0`.
   - **Verificación:** `cd app/interface && npm run typecheck`; `cd app/interface && npm run build`.
 
-- [ ] 6.2 Limitar la caché a recursos estáticos, excluir `/api/`, ofrecer fallback de navegación y evitar cualquier respuesta de predicción fabricada sin conexión.
+- [x] 6.2 Limitar la caché a recursos estáticos, excluir `/api/`, ofrecer fallback de navegación y evitar cualquier respuesta de predicción fabricada sin conexión.
   - **Responsable:** Abel / frontend, con revisión de Miguel / arquitectura.
   - **Dependencias:** 6.1.
   - **Evidencia:** inspección del build, prueba sobre `vite preview` y capturas del shell offline y del bloqueo de clasificación.
-  - **Estado:** implementación y verificaciones automáticas completadas. La política comprobable deja API, métodos de escritura, orígenes externos y peticiones de datos en modo `network-only`; solo admite recursos estáticos de mismo origen y utiliza el shell o la página informativa para navegación offline. El build genera ocho entradas de precaché, veintidós tests pasan y `vite preview` responde correctamente para shell, página offline y worker. La tarea permanece abierta porque el navegador de prueba no estuvo disponible para obtener las capturas y comprobar manualmente el bloqueo con DevTools.
+  - **Resultado:** la política deja API, métodos de escritura, orígenes externos, la sonda de conectividad y peticiones de datos en modo `network-only`; solo admite recursos estáticos del mismo origen y utiliza el shell o la página informativa para navegación offline. La revisión manual en Chrome sobre `vite preview` detectó y permitió corregir tres defectos: URLs equivalentes duplicadas en el precaché, recursos estáticos no recuperados por `Vary: Origin` y confianza excesiva en `navigator.onLine`. La caché final `complaint-routing-v5` contiene únicamente ocho recursos estáticos, el shell recarga completo sin conexión, la interfaz muestra `You are offline`, deshabilita la clasificación y no genera una respuesta mock. Pasan veinticuatro tests, typecheck, lint, formato, build PWA, validación OpenSpec estricta y quality gate del repositorio.
   - **Verificación:** `cd app/interface && npm run build`; `cd app/interface && npm run preview -- --host 127.0.0.1`.
 
 ## 7. Capacidades propuestas

@@ -203,6 +203,23 @@ describe('ClassificationPage', () => {
     expect(screen.getByRole('button', { name: 'Classify complaint' })).toBeDisabled()
   })
 
+  it('does not fabricate a result when a real connectivity check fails', async () => {
+    const client = createMockPredictionClient({ latencyMs: 0 })
+    const createPrediction = vi.spyOn(client, 'createPrediction')
+
+    renderWithRouter(
+      <ClassificationPage
+        predictionClient={client}
+        connectivityCheck={vi.fn().mockResolvedValue(false)}
+      />,
+    )
+
+    expect(await screen.findByText('You are offline.')).toBeVisible()
+    expect(createPrediction).not.toHaveBeenCalled()
+    expect(screen.queryByText('Mock response Â· demo only')).not.toBeInTheDocument()
+    expect(screen.getByRole('button', { name: 'Classify complaint' })).toBeDisabled()
+  })
+
   it('presents a safe service error', async () => {
     const user = userEvent.setup()
     const failingClient: PredictionClient = {

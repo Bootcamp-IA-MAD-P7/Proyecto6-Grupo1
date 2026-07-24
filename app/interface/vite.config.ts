@@ -15,7 +15,6 @@ export default defineConfig({
     tailwindcss(),
     VitePWA({
       registerType: 'autoUpdate',
-      includeAssets: ['app-mark.svg'],
       manifest: {
         name: 'Complaint Routing Workspace',
         short_name: 'Complaint Routing',
