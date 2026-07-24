@@ -456,4 +456,36 @@ No son conflictos de incorporación y no se corrigieron durante 2.3 para no
 mezclar responsabilidades. Su corrección y la comprobación completa de formato
 pertenecen a la tarea 3.2.
 
+## Instalación reproducible — tarea 3.1
+
+La instalación se ejecutó desde `app/interface/` sin modificar dependencias:
+
+```bash
+npm ci
+npm ls --depth=0
+```
+
+| Campo | Resultado |
+|---|---|
+| Fecha | `2026-07-24` |
+| Node.js | `24.18.0` |
+| npm | `11.16.0` |
+| Código de salida de `npm ci` | `0` |
+| Paquetes instalados | `585` |
+| Paquetes auditados por npm | `586` |
+| Hash Git del lockfile antes y después | `96cc4da1ecda89b59106069bc482ff16e61b0fa5` |
+| Modificaciones en archivos versionados | Ninguna |
+| `node_modules` ignorado por Git | Sí |
+
+La instalación informó:
+
+- tres vulnerabilidades moderadas;
+- una vulnerabilidad alta;
+- una vulnerabilidad crítica;
+- avisos de obsolescencia para `whatwg-encoding` y `glob`.
+
+No se ejecutó `npm audit fix`, `--force`, una actualización de paquetes ni una
+corrección de código. La identificación de las cadenas de dependencia y su
+tratamiento corresponden a las tareas 8.1–8.3.
+
 No se usaron narrativas reales, credenciales, secretos, datasets ni servicios externos de IA.

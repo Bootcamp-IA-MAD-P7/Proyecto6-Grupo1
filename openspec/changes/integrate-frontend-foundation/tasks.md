@@ -37,10 +37,11 @@
 
 ## 3. Formato, lint y estructura frontend
 
-- [ ] 3.1 Instalar exactamente las dependencias bloqueadas del frontend y comprobar que la estructura importada puede ejecutarse sin modificar dependencias todavía.
+- [x] 3.1 Instalar exactamente las dependencias bloqueadas del frontend y comprobar que la estructura importada puede ejecutarse sin modificar dependencias todavía.
   - **Responsable:** Abel / frontend.
   - **Dependencias:** 2.3.
   - **Evidencia:** instalación reproducible y cualquier fallo inicial registrado antes de corregirlo.
+  - **Resultado:** `npm ci` finalizó con código `0` sobre Node.js `24.18.0` y npm `11.16.0`; instaló `585` paquetes, mantuvo intacto el lockfile `96cc4da1ecda89b59106069bc482ff16e61b0fa5` y dejó `node_modules` ignorado. La línea base informa cinco vulnerabilidades, pendientes de 8.1–8.3.
   - **Verificación:** `cd app/interface && npm ci`.
 
 - [ ] 3.2 Aplicar Prettier únicamente a `app/interface/` y dejar la comprobación de formato sin diferencias.
