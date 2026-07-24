@@ -205,11 +205,12 @@
   - **Resultado:** Abel confirmó el 24 de julio de 2026 que su trabajo se conserva, la atribución es correcta, las adaptaciones respetan el objetivo original y los mocks o propuestas no se presentan como capacidades reales. El historial verificado conserva treinta commits frontend con autoría de Abel y diecisiete commits frontend o de integración de Miguel; la rama original permanece intacta en `70cf2d9`. No existe todavía una Pull Request ni conversaciones asociadas que resolver.
   - **Verificación:** `git log --format="%H%x09%an%x09%ae%x09%s" origin/dev..HEAD -- app/interface`; `npm exec -- openspec validate integrate-frontend-foundation --type change --strict`.
 
-- [ ] 10.4 Preparar, sin publicar hasta aprobación humana, el cuerpo de Pull Request hacia `dev` mediante `.github/pull_request_template.md`, enlazando `PG-4`, este cambio OpenSpec, comandos, evidencias, riesgos y rollback.
+- [x] 10.4 Preparar, sin publicar hasta aprobación humana, el cuerpo de Pull Request hacia `dev` mediante `.github/pull_request_template.md`, enlazando `PG-4`, este cambio OpenSpec, comandos, evidencias, riesgos y rollback.
   - **Responsable:** Miguel / integración.
   - **Dependencias:** 10.3.
   - **Evidencia:** borrador Markdown completo y diferencia final revisada.
-  - **Verificación:** `python scripts/harness.py verify --change integrate-frontend-foundation`; `git diff --check`; `git status --short --branch`.
+  - **Resultado:** `exports/pr-bodies/integrate-frontend-foundation.md` completa la plantilla con `PG-4`, OpenSpec, alcance, verificaciones, evidencias, revisión transversal, riesgos, rollback y checklist. El borrador permanece local e ignorado por Git. En el instante de preparación la rama está actualizada con `dev` (`0 62`), contiene 79 rutas y conserva treinta commits de Abel y treinta y dos de Miguel; pasan el paquete `verify` del arnés, quality gate, whitespace, validación estricta, simulación de integración, typecheck, lint, formato, 31 tests, build React/PWA y auditoría sin vulnerabilidades. Los recuentos se recalcularán antes de publicar.
+  - **Verificación:** `python scripts/harness.py verify --role architect --change integrate-frontend-foundation --jira PG-4`; `git diff --check`; `git status --short --branch`.
 
 - [ ] 10.5 Solicitar revisión humana antes de cualquier archive, commit final de cierre, push, Pull Request o merge.
   - **Responsable:** Miguel / coordinación.

@@ -305,6 +305,33 @@ La confirmación cierra la revisión de autoría y alcance, pero no autoriza por
 sola el archivo, `push`, Pull Request o merge. Esas acciones permanecen
 condicionadas a las tareas 10.4 y 10.5.
 
+## Borrador de Pull Request — tarea 10.4
+
+El cuerpo completo de la Pull Request se preparó localmente en
+`exports/pr-bodies/integrate-frontend-foundation.md` a partir de la plantilla
+del repositorio. El directorio `exports/` permanece ignorado por Git, por lo que
+el borrador no se incorpora a la entrega y puede utilizarse directamente con
+`gh pr create --body-file` después de la autorización humana.
+
+El borrador enlaza `PG-4`, el cambio OpenSpec, la delta spec, las tareas, los dos
+informes de validación, el manual, el contrato y las capturas sintéticas. También
+incluye:
+
+  - 79 rutas modificadas en el instante de preparación;
+  - 62 commits propios respecto de `dev` en ese mismo instante;
+  - 30 commits atribuidos a Abel y 32 a Miguel antes del commit de esta
+    evidencia;
+- 31 tests frontend correctos;
+- build React y PWA correctos;
+- auditoría con cero vulnerabilidades;
+- riesgos, límites y rollback.
+
+La rama quedó actualizada respecto de `origin/dev` con relación `0 62` en el
+instante de preparación; el quality gate, `git diff --check`, OpenSpec estricto
+y la simulación de integración terminaron correctamente. El arnés generó el
+paquete de verificación acotado a `PG-4`. Los recuentos se volverán a calcular
+antes de publicar porque los commits de cierre todavía son locales.
+
 ## Verificaciones pendientes
 
-- Tareas 10.4 y 10.5: preparar el borrador de PR y solicitar aprobación antes de publicar.
+- Tarea 10.5: solicitar aprobación antes de archivar o publicar.
