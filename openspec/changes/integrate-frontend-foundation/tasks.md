@@ -67,10 +67,11 @@
   - **Resultado:** el commit `319fe07` alinea clases y motivos con OpenAPI, valida en ejecución las peticiones y respuestas y mantiene el transporte desacoplado mediante `PredictionTransport` y `PredictionClient`. El formulario envía la narrativa recortada; una respuesta con clase desconocida y una petición en blanco se rechazan. Pasan nueve tests frontend, siete tests Python del contrato y el typecheck completo.
   - **Verificación:** `cd app/interface && npm run typecheck`; `python -m unittest tests.contract.test_inference_contract -v`.
 
-- [ ] 4.2 Consolidar formulario, validación, envío, carga, error, recomendación mock, revisión humana y nueva clasificación sin persistir ni devolver la narrativa.
+- [x] 4.2 Consolidar formulario, validación, envío, carga, error, recomendación mock, revisión humana y nueva clasificación sin persistir ni devolver la narrativa.
   - **Responsable:** Abel / frontend.
   - **Dependencias:** 4.1.
   - **Evidencia:** tests del flujo principal con fixtures sintéticos y captura o registro de los estados relevantes.
+  - **Resultado:** el flujo conserva el formulario y la validación de espacios, anuncia la carga mediante `role="status"`, bloquea envíos duplicados, muestra resultados mock con motivos de revisión, conserva la narrativa solo en memoria para reintentar tras un error seguro y vuelve a un formulario vacío y enfocado al iniciar otra clasificación. Pasan doce tests frontend con contenido sintético.
   - **Verificación:** `cd app/interface && npm test -- --run`.
 
 - [ ] 4.3 Identificar de forma persistente el modo mock, mantener confianza nula cuando no exista evidencia calibrada y eliminar cualquier texto que sugiera inferencia, modelo o rendimiento real.

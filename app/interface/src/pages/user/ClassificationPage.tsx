@@ -103,7 +103,7 @@ export default function ClassificationPage({ predictionClient }: ClassificationP
         </Alert>
       )}
 
-      <form onSubmit={handleSubmit} noValidate className="space-y-6">
+      <form onSubmit={handleSubmit} noValidate aria-busy={isSubmitting} className="space-y-6">
         <div className="flex items-start justify-between gap-4">
           <div>
             <p className="mb-1 text-xs font-bold uppercase tracking-widest text-gold">
@@ -191,6 +191,11 @@ export default function ClassificationPage({ predictionClient }: ClassificationP
             The tool suggests a family. It does not route the complaint or make a final decision.
           </p>
         </div>
+        {isSubmitting && (
+          <p role="status" aria-live="polite" className="sr-only">
+            Creating a simulated result. Please wait.
+          </p>
+        )}
       </form>
 
       <div className="flex gap-2">

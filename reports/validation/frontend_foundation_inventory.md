@@ -608,3 +608,30 @@ el build `injectManifest` no encontraba `self.__WB_MANIFEST`. La solución:
 La política de caché, la exclusión operativa de `/api/` y el comportamiento
 offline completo todavía pertenecen a la tarea 6.2; este resultado no los da por
 verificados.
+
+## Flujo principal — tarea 4.2
+
+El flujo ya aportado por Abel se mantuvo y se reforzó con una indicación
+accesible del envío y pruebas sobre todos sus estados principales.
+
+| Escenario | Resultado verificado |
+|---|---|
+| Formulario inicial | Campo y acción principal disponibles |
+| Entrada en blanco o con espacios | Envío bloqueado y mensaje asociado al campo |
+| Petición válida | Solo envía `PredictionRequest.narrative` recortada |
+| Envío en curso | Estado anunciado, campo y botón deshabilitados |
+| Envío duplicado | Impedido mientras la petición está pendiente |
+| Resultado mock | Clase sintética, alternativas y revisión visibles |
+| Motivo de revisión | `confidence_unavailable` explicado en texto |
+| Error de servicio | Mensaje seguro sin stack ni narrativa |
+| Frecuencia limitada | Mensaje específico sin detalle interno |
+| Reintento | Narrativa conservada únicamente en el estado del formulario |
+| Nueva clasificación | Formulario vacío y foco devuelto al campo |
+| Persistencia o devolución de narrativa | No implementada |
+
+La batería final contiene doce tests aprobados: cuatro de la frontera contractual
+y ocho del flujo de clasificación. También pasan `typecheck`, ESLint, Prettier y
+la comprobación de whitespace.
+
+No existe todavía backend, inferencia ni modelo real. La recomendación sigue
+siendo sintética y su etiquetado definitivo se revisará en la tarea 4.3.
