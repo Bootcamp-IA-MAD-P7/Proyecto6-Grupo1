@@ -728,3 +728,48 @@ La búsqueda estática requerida conserva hallazgos fuera del flujo de dictado:
 
 Estos hallazgos no se ocultan ni se consideran aprobados: la autenticación mock
 se revisa en 7.1 y los límites del service worker en 6.2 y 9.3.
+
+## Política de caché y shell offline — tarea 6.2 pendiente de revisión manual
+
+La implementación anterior aplicaba caché dinámica a casi cualquier petición
+GET y la página offline afirmaba que las clasificaciones se guardarían y
+sincronizarían. Ambas conductas se retiraron.
+
+La nueva política se encuentra en `src/pwa/cache-policy.ts` y dispone de seis
+tests específicos:
+
+| Tipo de petición | Estrategia |
+|---|---|
+| `/api` y `/api/*` | Solo red |
+| Métodos distintos de GET | Solo red |
+| Orígenes externos | Solo red |
+| Fetch de datos sin destino estático | Solo red |
+| Navegación del mismo origen | Red con fallback al shell o ayuda offline |
+| CSS, JavaScript, imágenes, fuentes y manifiesto | Caché estática del mismo origen |
+
+El worker:
+
+- no intercepta ni fabrica respuestas para API o escrituras;
+- no almacena respuestas de predicción ni peticiones de datos;
+- elimina únicamente cachés antiguas que pertenecen a esta aplicación;
+- precarga los ocho recursos generados por el build;
+- no registra peticiones, cuerpos ni narrativas;
+- ofrece un mensaje offline que niega expresamente almacenamiento o
+  sincronización de clasificaciones.
+
+| Comprobación automática | Resultado |
+|---|---|
+| Tests de política | `6` aprobados |
+| Tests frontend totales | `22` aprobados |
+| Typecheck, ESLint y Prettier | Correctos |
+| Build PWA | Correcto |
+| Entradas de precaché | `8` |
+| `vite preview` `/` | HTTP `200` |
+| `vite preview` `/offline.html` | HTTP `200` y texto honesto |
+| `vite preview` `/sw.js` | HTTP `200` y política incluida |
+
+No se marca todavía 6.2 como completada. El navegador automatizado no estuvo
+disponible en esta sesión, por lo que faltan la inspección manual de Cache
+Storage, la simulación offline, la confirmación visual del bloqueo de
+clasificación y las capturas sin datos sensibles. Esta limitación no se
+sustituye por una afirmación de cumplimiento.

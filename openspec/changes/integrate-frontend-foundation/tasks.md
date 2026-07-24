@@ -110,6 +110,7 @@
   - **Responsable:** Abel / frontend, con revisión de Miguel / arquitectura.
   - **Dependencias:** 6.1.
   - **Evidencia:** inspección del build, prueba sobre `vite preview` y capturas del shell offline y del bloqueo de clasificación.
+  - **Estado:** implementación y verificaciones automáticas completadas. La política comprobable deja API, métodos de escritura, orígenes externos y peticiones de datos en modo `network-only`; solo admite recursos estáticos de mismo origen y utiliza el shell o la página informativa para navegación offline. El build genera ocho entradas de precaché, veintidós tests pasan y `vite preview` responde correctamente para shell, página offline y worker. La tarea permanece abierta porque el navegador de prueba no estuvo disponible para obtener las capturas y comprobar manualmente el bloqueo con DevTools.
   - **Verificación:** `cd app/interface && npm run build`; `cd app/interface && npm run preview -- --host 127.0.0.1`.
 
 ## 7. Capacidades propuestas

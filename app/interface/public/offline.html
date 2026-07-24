@@ -1,9 +1,9 @@
 <!doctype html>
-<html lang="es">
+<html lang="en">
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Sin conexión - Complaint Routing</title>
+    <title>Offline - Complaint Routing</title>
     <style>
       * {
         margin: 0;
@@ -28,12 +28,6 @@
         background: white;
         border-radius: 16px;
         box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
-      }
-
-      .icon {
-        font-size: 64px;
-        margin-bottom: 20px;
-        display: block;
       }
 
       h1 {
@@ -80,63 +74,37 @@
   </head>
   <body>
     <div class="container">
-      <span class="icon">📡</span>
-      <h1>Sin conexión a internet</h1>
+      <h1>You are offline</h1>
       <p>
-        No te preocupes, puedes seguir trabajando offline.<br />
-        Tus clasificaciones se guardarán y sincronizarán automáticamente.
+        The application shell and this help page can remain available. Complaint classification
+        requires a connection and no result, narrative or pending request is stored for later
+        synchronization.
       </p>
-      <button class="btn" id="reconnectBtn" onclick="checkConnection()">
-        🔄 Intentar reconectar
-      </button>
-      <div class="status" id="status">Buscando conexión...</div>
+      <button class="btn" id="reconnectBtn" type="button">Try again</button>
+      <div class="status" id="status" role="status">Waiting for a connection.</div>
     </div>
 
     <script>
-      // Verificar conexión cada 5 segundos
-      setInterval(checkConnection, 5000)
-
-      async function checkConnection() {
+      function checkConnection() {
         const btn = document.getElementById('reconnectBtn')
         const status = document.getElementById('status')
 
-        btn.disabled = true
-        btn.textContent = '⏳ Verificando...'
-        status.textContent = 'Verificando conexión...'
-
-        try {
-          const response = await fetch('/api/health', {
-            method: 'HEAD',
-            cache: 'no-cache',
-          })
-
-          if (response.ok) {
-            status.textContent = '✅ Conexión restablecida'
-            btn.textContent = '🔄 Redirigiendo...'
-            setTimeout(() => {
-              window.location.href = '/'
-            }, 1000)
-          } else {
-            throw new Error('API no disponible')
-          }
-        } catch (error) {
+        if (navigator.onLine) {
+          btn.disabled = true
+          status.textContent = 'Connection detected. Reloading the application…'
+          window.location.reload()
+        } else {
           btn.disabled = false
-          btn.textContent = '🔄 Intentar reconectar'
-          status.textContent = '⛔ Sin conexión'
+          status.textContent = 'Still offline. No request has been saved.'
         }
       }
 
-      // Escuchar cambios de conexión
-      window.addEventListener('online', () => {
-        checkConnection()
-      })
-
+      document.getElementById('reconnectBtn').addEventListener('click', checkConnection)
+      window.addEventListener('online', checkConnection)
       window.addEventListener('offline', () => {
-        document.getElementById('status').textContent = '⛔ Desconectado'
+        document.getElementById('status').textContent =
+          'Offline. Classification remains unavailable.'
       })
-
-      // Verificar al cargar
-      document.addEventListener('DOMContentLoaded', checkConnection)
     </script>
   </body>
 </html>
