@@ -298,15 +298,73 @@ El tramo `2b9bfd6^..b7e95da` queda **confirmado con prerrequisitos**:
 - la rama completa no es apta para merge;
 - las correcciones técnicas y de seguridad previstas en tareas posteriores siguen siendo necesarias.
 
-La tarea `1.2` deberá actualizar referencias remotas, confirmar la línea base de la rama de integración y convertir esta conclusión en una lista definitiva de incorporación antes de cualquier cherry-pick.
+La tarea `1.2` actualiza las referencias remotas y confirma la línea base antes de cualquier cherry-pick.
+
+## Confirmación de línea base — tarea 1.2
+
+Las referencias se actualizaron mediante:
+
+```bash
+git fetch --prune origin
+```
+
+El fetch eliminó dos referencias remotas locales correspondientes a ramas ya borradas y descubrió `origin/data/adopt-jupytext-workflow`. No modificó `origin/dev` ni `origin/feature/frontend-foundation`.
+
+### Referencias antes y después
+
+| Referencia | Antes del fetch | Después del fetch | Resultado |
+|---|---|---|---|
+| `origin/dev` | `5558ae2204151767a53be0e45102bd04a3b6da83` | `5558ae2204151767a53be0e45102bd04a3b6da83` | Sin cambios |
+| `origin/feature/frontend-foundation` | `70cf2d9479047eefad07b02f05b3b64467b77fd9` | `70cf2d9479047eefad07b02f05b3b64467b77fd9` | Sin cambios |
+
+La referencia fuente coincide con el commit inventariado en la tarea `1.1`. Por tanto, la rama original de Abel permanece intacta respecto al estado auditado.
+
+### Rama de integración
+
+| Comprobación | Resultado |
+|---|---|
+| Rama | `feature/PG-4-integrate-frontend-foundation` |
+| HEAD confirmado | `90ca53f94da11d724fa2d18bb0560657f3b13c82` |
+| Merge base con `origin/dev` | `5558ae2204151767a53be0e45102bd04a3b6da83` |
+| `origin/dev` es ancestro de HEAD | Sí |
+| Divergencia frente a `origin/dev` | `0` detrás, `2` delante |
+| Archivos modificados frente a `origin/dev` | `6` |
+| Archivos modificados bajo `app/interface/` | `0` |
+
+Los dos commits propios de la rama de integración son:
+
+```text
+1577a504a82ec074174f27791777680995c39e70 docs: define frontend foundation integration
+90ca53f94da11d724fa2d18bb0560657f3b13c82 docs: inventory frontend foundation
+```
+
+Los seis archivos de diferencia son exclusivamente:
+
+```text
+openspec/changes/integrate-frontend-foundation/.openspec.yaml
+openspec/changes/integrate-frontend-foundation/design.md
+openspec/changes/integrate-frontend-foundation/proposal.md
+openspec/changes/integrate-frontend-foundation/specs/complaint-routing-interface/spec.md
+openspec/changes/integrate-frontend-foundation/tasks.md
+reports/validation/frontend_foundation_inventory.md
+```
+
+Conclusión de `1.2`: la rama de integración parte del `dev` vigente observado, contiene únicamente planificación y evidencia aprobadas y no ha incorporado ni modificado el frontend. La rama fuente continúa en el mismo commit auditado. La tarea `2.1` puede plantear la incorporación selectiva sin arrastrar una desviación previa.
 
 ## Comandos de evidencia
 
 ```bash
+git fetch --prune origin
 git rev-parse origin/feature/frontend-foundation
 git rev-parse origin/dev
 git merge-base origin/dev origin/feature/frontend-foundation
+git merge-base origin/dev HEAD
+git merge-base --is-ancestor origin/dev HEAD
 git rev-list --left-right --count origin/dev...origin/feature/frontend-foundation
+git rev-list --left-right --count origin/dev...HEAD
+git log --reverse --format="%H%x09%an%x09%ae%x09%s" origin/dev..HEAD
+git diff --name-only origin/dev...HEAD
+git show-ref refs/remotes/origin/feature/frontend-foundation
 git rev-list --count 2b9bfd6^..b7e95da
 git log --reverse --format="%H%x09%an%x09%ae%x09%s" 2b9bfd6^..b7e95da
 git diff --name-status 2b9bfd6^..b7e95da

@@ -6,7 +6,7 @@
   - **Evidencia:** informe que confirme o corrija el tramo candidato `2b9bfd6^..b7e95da` y diferencie trabajo frontend de cambios ajenos.
   - **Verificación:** `git rev-parse origin/feature/frontend-foundation`; `git log --reverse --format="%H%x09%an%x09%ae%x09%s" 2b9bfd6^..b7e95da`; `git diff --name-status 2b9bfd6^..b7e95da`.
 
-- [ ] 1.2 Confirmar que `feature/PG-4-integrate-frontend-foundation` parte del `dev` vigente, que la rama original permanece intacta y que no hay cambios locales ajenos a los artefactos OpenSpec aprobados.
+- [x] 1.2 Confirmar que `feature/PG-4-integrate-frontend-foundation` parte del `dev` vigente, que la rama original permanece intacta y que no hay cambios locales ajenos a los artefactos OpenSpec aprobados.
   - **Responsable:** Miguel / arquitectura.
   - **Dependencias:** 1.1.
   - **Evidencia:** hashes de `origin/dev`, `HEAD` y rama fuente, más salida de estado incluida en el informe de inventario.
