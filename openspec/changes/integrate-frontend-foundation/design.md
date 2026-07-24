@@ -53,9 +53,15 @@ Stakeholders:
 
 ### 1. Integración selectiva por commits en lugar de merge de rama
 
-Se incorporarán en orden los commits frontend atribuidos a Abel después de completar el inventario. `git cherry-pick` conserva el autor original aunque la persona integradora figure como committer. La rama `feature/frontend-foundation` no se modificará.
+Después de completar el inventario, se materializarán primero los tres archivos base que el tramo de Abel presupone y, a continuación, se incorporarán en orden los commits frontend atribuidos a Abel. `git cherry-pick` conserva el autor original aunque la persona integradora figure como committer. La rama `feature/frontend-foundation` no se modificará.
 
-El tramo `2b9bfd6...^..b7e95da...` es el candidato inicial porque su diferencia neta está acotada a `app/interface/`; el inventario deberá confirmar autores, rutas y dependencias antes de ejecutarlo. El merge commit `70cf2d9...` y los commits previos de documentación o fundación no forman parte de la incorporación prevista.
+El inventario confirmó que el tramo `2b9bfd6...^..b7e95da...` contiene treinta commits de Abel y está acotado a `app/interface/`, pero no es autosuficiente. Antes de incorporarlo se recuperarán exclusivamente desde `3ced1f5...`, conservando la autoría de Miguel, estos tres archivos:
+
+- `app/interface/src/contracts/prediction.ts`;
+- `app/interface/src/services/prediction-client.ts`;
+- `app/interface/src/services/mock-prediction-client.ts`.
+
+El commit `3ced1f5...` no se incorporará completo porque mezcla la fundación anterior con cambios globales. El merge commit `70cf2d9...` y los restantes commits previos de documentación o fundación tampoco forman parte de la incorporación.
 
 Alternativas consideradas:
 
@@ -232,14 +238,15 @@ No se reescribirá documentación global para compensar conflictos de la rama fu
 
 1. Fijar el commit remoto inspeccionado e inventariar commits, autores, rutas y capacidades.
 2. Confirmar que la rama de integración parte del `dev` vigente y que solo contiene este cambio OpenSpec.
-3. Incorporar selectivamente el tramo frontend aprobado, conservando cada autor.
-4. Resolver conflictos únicamente dentro del alcance y comparar el resultado con la rama original.
-5. Alinear contratos, mock, flujo principal, dictado, capacidades propuestas y service worker.
-6. Revisar dependencias y aplicar actualizaciones compatibles.
-7. Ejecutar comprobaciones automáticas y la matriz manual.
-8. Registrar resultados, limitaciones y archivos afectados en el informe de validación.
-9. Revisar las tareas OpenSpec con Abel y Miguel antes de archivar o publicar.
-10. Solo tras aprobación humana, archivar el cambio y preparar una Pull Request hacia `dev`.
+3. Recuperar de forma trazable los tres archivos base desde `3ced1f5...`, sin incorporar el commit completo y conservando la autoría de Miguel.
+4. Incorporar selectivamente el tramo frontend aprobado, conservando la autoría de Abel en cada commit.
+5. Resolver conflictos únicamente dentro del alcance y comparar el resultado con la rama original.
+6. Alinear contratos, mock, flujo principal, dictado, capacidades propuestas y service worker.
+7. Revisar dependencias y aplicar actualizaciones compatibles.
+8. Ejecutar comprobaciones automáticas y la matriz manual.
+9. Registrar resultados, limitaciones y archivos afectados en el informe de validación.
+10. Revisar las tareas OpenSpec con Abel y Miguel antes de archivar o publicar.
+11. Solo tras aprobación humana, archivar el cambio y preparar una Pull Request hacia `dev`.
 
 Rollback:
 

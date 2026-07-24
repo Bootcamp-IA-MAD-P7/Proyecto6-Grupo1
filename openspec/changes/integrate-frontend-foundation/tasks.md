@@ -14,15 +14,21 @@
 
 ## 2. Incorporación selectiva y atribución
 
-- [ ] 2.1 Incorporar en orden únicamente los commits frontend aprobados por el inventario, conservando `Abel Cañas <abelstor@gmail.com>` como autor de cada commit y sin incluir el merge commit ni documentación histórica.
-  - **Responsable:** Miguel / integración, con revisión de Abel.
+- [ ] 2.1 Recuperar exclusivamente desde `3ced1f5` los tres archivos base identificados por el inventario, conservando `Miguel Redondo Nunez <miguel.rnunez@gmail.com>` como autor y sin incorporar el commit completo.
+  - **Responsable:** Miguel / integración.
   - **Dependencias:** 1.2.
+  - **Evidencia:** commit preparatorio limitado a `prediction.ts`, `prediction-client.ts` y `mock-prediction-client.ts`, con autoría original.
+  - **Verificación:** `git show --stat --format=fuller HEAD`; `git diff-tree --no-commit-id --name-only -r HEAD`; `git status --short --branch`.
+
+- [ ] 2.2 Incorporar en orden únicamente los treinta commits frontend aprobados por el inventario, conservando `Abel Cañas <abelstor@gmail.com>` como autor de cada commit y sin incluir el merge commit ni documentación histórica.
+  - **Responsable:** Miguel / integración, con revisión de Abel.
+  - **Dependencias:** 2.1.
   - **Evidencia:** historial de `app/interface/` con autoría original y lista final de commits incorporados.
   - **Verificación:** `git log --format="%H%x09%an%x09%ae%x09%s" origin/dev..HEAD -- app/interface`; `git diff --name-status origin/dev...HEAD`.
 
-- [ ] 2.2 Resolver los conflictos de incorporación contra los contratos vigentes de `dev`, comparar cada resolución con la rama fuente y excluir archivos ajenos a `PG-4`.
+- [ ] 2.3 Resolver los conflictos de incorporación contra los contratos vigentes de `dev`, comparar cada resolución con la rama fuente y excluir archivos ajenos a `PG-4`.
   - **Responsable:** Miguel / integración y Abel / frontend.
-  - **Dependencias:** 2.1.
+  - **Dependencias:** 2.2.
   - **Evidencia:** sección de conflictos y resoluciones en el informe de inventario; diferencia final acotada.
   - **Verificación:** `git diff --check`; `git diff --name-only origin/dev...HEAD`; `git status --short --branch`.
 
@@ -30,7 +36,7 @@
 
 - [ ] 3.1 Instalar exactamente las dependencias bloqueadas del frontend y comprobar que la estructura importada puede ejecutarse sin modificar dependencias todavía.
   - **Responsable:** Abel / frontend.
-  - **Dependencias:** 2.2.
+  - **Dependencias:** 2.3.
   - **Evidencia:** instalación reproducible y cualquier fallo inicial registrado antes de corregirlo.
   - **Verificación:** `cd app/interface && npm ci`.
 
