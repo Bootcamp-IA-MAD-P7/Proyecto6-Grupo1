@@ -422,4 +422,38 @@ original después del commit documental `a47e1d2`. La operación:
 | `23a1aee` | `10098b9` | fix: replace @xenova/transformers with Web Speech API for voice dictation |
 | `b7e95da` | `a1f41a0` | feat: Implement PWA features and offline support |
 
+## Revisión de conflictos y alcance — tarea 2.3
+
+La incorporación no produjo conflictos que requirieran una resolución manual:
+
+| Comprobación | Resultado |
+|---|---|
+| Entradas sin fusionar en el índice | `0` |
+| Marcadores de conflicto en `app/interface/` | `0` |
+| Diferencias frente al snapshot aprobado `b7e95da` | `0` |
+| Rutas inesperadas frente a `origin/dev` | `0` |
+| Estado local después de la revisión | Limpio |
+
+La diferencia frente a `origin/dev` contiene `56` archivos:
+
+- `50` archivos del árbol final `app/interface/`;
+- los cinco artefactos del cambio
+  `openspec/changes/integrate-frontend-foundation/`;
+- este informe de validación.
+
+No se incorporaron documentos históricos, backend, datos, modelos, notebooks ni
+otros archivos ajenos a `PG-4`. La rama fuente permaneció intacta en
+`70cf2d9479047eefad07b02f05b3b64467b77fd9`.
+
+La comprobación reforzada `git diff --check origin/dev...HEAD` identificó
+diecinueve líneas con espacios finales en:
+
+- `app/interface/public/offline.html`;
+- `app/interface/src/sw.ts`;
+- `app/interface/vite.config.ts`.
+
+No son conflictos de incorporación y no se corrigieron durante 2.3 para no
+mezclar responsabilidades. Su corrección y la comprobación completa de formato
+pertenecen a la tarea 3.2.
+
 No se usaron narrativas reales, credenciales, secretos, datasets ni servicios externos de IA.

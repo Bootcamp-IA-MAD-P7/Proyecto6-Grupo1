@@ -28,10 +28,11 @@
   - **Resultado:** treinta commits incorporados entre `00510a7` y `a1f41a0`; todos conservan `Abel Cañas <abelstor@gmail.com>` como autor, no modifican rutas fuera de `app/interface/` y reproducen sin diferencias el snapshot `b7e95da`.
   - **Verificación:** `git log --format="%H%x09%an%x09%ae%x09%s" origin/dev..HEAD -- app/interface`; `git diff --name-status origin/dev...HEAD`.
 
-- [ ] 2.3 Resolver los conflictos de incorporación contra los contratos vigentes de `dev`, comparar cada resolución con la rama fuente y excluir archivos ajenos a `PG-4`.
+- [x] 2.3 Resolver los conflictos de incorporación contra los contratos vigentes de `dev`, comparar cada resolución con la rama fuente y excluir archivos ajenos a `PG-4`.
   - **Responsable:** Miguel / integración y Abel / frontend.
   - **Dependencias:** 2.2.
   - **Evidencia:** sección de conflictos y resoluciones en el informe de inventario; diferencia final acotada.
+  - **Resultado:** incorporación sin conflictos, entradas sin fusionar ni marcadores; cero diferencias frente al snapshot `b7e95da` y cero rutas inesperadas. Los diecinueve hallazgos de espacios finales quedan acotados y asignados a 3.2.
   - **Verificación:** `git diff --check`; `git diff --name-only origin/dev...HEAD`; `git status --short --branch`.
 
 ## 3. Formato, lint y estructura frontend
