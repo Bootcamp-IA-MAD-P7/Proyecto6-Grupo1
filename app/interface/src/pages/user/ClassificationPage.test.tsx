@@ -96,7 +96,7 @@ describe('ClassificationPage', () => {
       <ClassificationPage predictionClient={createMockPredictionClient({ latencyMs: 0 })} />,
     )
 
-    expect(screen.getByRole('heading', { name: /describe what happened/i })).toBeVisible()
+    expect(screen.getByRole('heading', { level: 1, name: /describe what happened/i })).toBeVisible()
     expect(screen.getByLabelText('Complaint narrative')).toBeEnabled()
     expect(screen.getByRole('button', { name: 'Classify complaint' })).toBeEnabled()
   })
@@ -113,6 +113,7 @@ describe('ClassificationPage', () => {
     expect(screen.getByRole('alert')).toHaveTextContent(
       'Enter a complaint narrative before continuing.',
     )
+    expect(screen.getByLabelText('Complaint narrative')).toHaveFocus()
   })
 
   it('shows a synthetic result', async () => {
@@ -128,11 +129,12 @@ describe('ClassificationPage', () => {
     expect(createPrediction).toHaveBeenCalledWith({
       narrative: 'Test complaint text',
     })
-    expect(
-      await screen.findByRole('heading', {
-        name: 'Credit reporting or other personal consumer reports',
-      }),
-    ).toBeInTheDocument()
+    const resultHeading = await screen.findByRole('heading', {
+      level: 1,
+      name: 'Credit reporting or other personal consumer reports',
+    })
+    expect(resultHeading).toBeInTheDocument()
+    expect(resultHeading).toHaveFocus()
     expect(screen.getByText('Mock response · demo only')).toBeVisible()
     expect(screen.getByText(/Interface demonstration only/)).toBeVisible()
     expect(screen.getByText('Human review required')).toBeVisible()

@@ -30,7 +30,10 @@ describe('application routes', () => {
 
     renderRoute('/classify')
 
-    expect(await screen.findByRole('heading', { name: 'Describe what happened' })).toBeVisible()
+    expect(
+      await screen.findByRole('heading', { level: 1, name: 'Describe what happened' }),
+    ).toBeVisible()
+    expect(screen.queryByRole('heading', { name: 'Complaint Routing' })).not.toBeInTheDocument()
     expect(screen.getByText('Public prototype · no identity')).toBeVisible()
     expect(localStorage.getItem('complaint-routing-auth')).toBeNull()
   })

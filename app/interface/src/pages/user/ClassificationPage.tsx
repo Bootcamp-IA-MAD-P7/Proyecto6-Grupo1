@@ -108,12 +108,12 @@ export default function ClassificationPage({
       )}
 
       <form onSubmit={handleSubmit} noValidate aria-busy={isSubmitting} className="space-y-6">
-        <div className="flex items-start justify-between gap-4">
+        <div className="flex flex-col items-start gap-2 sm:flex-row sm:justify-between sm:gap-4">
           <div>
-            <p className="mb-1 text-xs font-bold uppercase tracking-widest text-gold">
+            <p className="mb-1 text-xs font-bold uppercase tracking-widest text-gold-ink">
               01 · Narrative
             </p>
-            <h2 className="font-serif text-3xl font-semibold text-ink">Describe what happened</h2>
+            <h1 className="font-serif text-3xl font-semibold text-ink">Describe what happened</h1>
           </div>
           <Button
             type="button"
@@ -152,7 +152,7 @@ export default function ClassificationPage({
             disabled={isSubmitting}
             className="w-full min-h-56 resize-y rounded-lg border border-line bg-white p-4 text-ink transition-colors placeholder:text-ink-soft focus:border-forest focus:outline-none focus:ring-2 focus:ring-forest/20 disabled:cursor-wait disabled:opacity-66"
           />
-          <div className="flex justify-between text-xs text-ink-soft">
+          <div className="flex flex-col gap-1 text-xs text-ink-soft sm:flex-row sm:justify-between">
             <span id="narrative-counter">{narrative.length} characters</span>
             <span>No text is retained by this prototype.</span>
           </div>
@@ -207,7 +207,7 @@ export default function ClassificationPage({
           </div>
         )}
 
-        <div className="flex items-center gap-4">
+        <div className="flex flex-col items-start gap-3 sm:flex-row sm:items-center sm:gap-4">
           <Button type="submit" disabled={isSubmitting || !isOnline}>
             {isSubmitting ? 'Creating simulated result…' : 'Classify complaint'}
           </Button>
@@ -222,7 +222,7 @@ export default function ClassificationPage({
         )}
       </form>
 
-      <div className="flex gap-2">
+      <div className="flex flex-wrap gap-2">
         <Badge variant="mock">Mock responses</Badge>
         <Badge variant="review">Human review required</Badge>
       </div>

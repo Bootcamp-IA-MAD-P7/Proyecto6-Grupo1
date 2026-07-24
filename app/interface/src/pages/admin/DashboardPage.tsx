@@ -37,7 +37,7 @@ export default function DashboardPage() {
             <CardTitle>Service health</CardTitle>
           </CardHeader>
           <CardContent>
-            <p className="font-serif text-2xl font-semibold text-gold">Unavailable</p>
+            <p className="font-serif text-2xl font-semibold text-gold-ink">Unavailable</p>
             <p className="text-sm text-ink-soft">No backend service is configured.</p>
           </CardContent>
         </Card>

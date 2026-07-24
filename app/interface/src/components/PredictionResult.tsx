@@ -34,14 +34,18 @@ export function PredictionResult({ result, onReset }: PredictionResultProps) {
         </AlertDescription>
       </Alert>
 
-      <div className="flex items-start justify-between gap-4">
+      <div className="flex flex-col items-start gap-2 sm:flex-row sm:justify-between sm:gap-4">
         <div>
-          <p className="mb-1 text-xs font-bold uppercase tracking-widest text-gold">
+          <p className="mb-1 text-xs font-bold uppercase tracking-widest text-gold-ink">
             Mock response · demo only
           </p>
-          <h2 ref={titleRef} tabIndex={-1} className="font-serif text-3xl font-semibold text-ink">
+          <h1
+            ref={titleRef}
+            tabIndex={-1}
+            className="font-serif text-3xl font-semibold text-ink focus:outline-none"
+          >
             {result.predicted_class}
-          </h2>
+          </h1>
         </div>
         <Badge variant="review">Human review required</Badge>
       </div>

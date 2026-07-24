@@ -7,14 +7,16 @@
 | Cambio OpenSpec | `integrate-frontend-foundation` |
 | Jira | `PG-4` |
 | Rama | `feature/PG-4-integrate-frontend-foundation` |
-| Commit verificado | `62b0dbae55fbb6a8d19480e351e680c048483c53` |
+| Línea base automática | `62b0dbae55fbb6a8d19480e351e680c048483c53` |
+| Commit de partida para la revisión manual | `42d0bc153c0aeadd35e6c77d385447fac08ec26d` |
 | Fecha | `2026-07-24` |
 | Estado automático | Correcto |
-| Estado manual | Pendiente de las tareas 9.2 y 9.3 |
+| Estado manual | Tarea 9.2 correcta; tarea 9.3 pendiente |
 
-Este informe comienza con la evidencia automática de la tarea 9.1. Se ampliará
-con las verificaciones manuales de accesibilidad, responsive, PWA, dictado y
-privacidad antes de considerarlo definitivo.
+Este informe reúne la evidencia automática de la tarea 9.1 y la revisión manual
+de accesibilidad y responsive de la tarea 9.2. Todavía debe ampliarse con la
+verificación de instalación, actualización, dictado, permisos y privacidad de
+la tarea 9.3 antes de considerarlo definitivo.
 
 La entrega validada es una interfaz React PWA con respuestas sintéticas. Todavía
 no existe backend, modelo entrenado ni inferencia real, por lo que esta evidencia
@@ -64,6 +66,80 @@ La instalación comunica deprecaciones en dos paquetes transitivos de desarrollo
 No producen vulnerabilidades en la auditoría y su actualización no se fuerza
 dentro de este cambio.
 
+## Revisión de UX y accesibilidad — tarea 9.2
+
+La revisión se realizó sobre el build de producción servido mediante
+`npm run preview -- --host 127.0.0.1` y Chrome
+`150.0.7871.129`. Solo se utilizó el ejemplo sintético incorporado en la
+interfaz.
+
+### Hallazgos y correcciones
+
+La primera inspección detectó cuatro problemas que no impedían compilar, pero
+sí reducían la calidad de la experiencia:
+
+1. La página de clasificación no tenía un encabezado principal de nivel uno y
+   el nombre del producto se exponía como un encabezado de nivel dos.
+2. A `390 px`, el navegador ampliaba el viewport de diseño hasta `540 px` y
+   reducía visualmente toda la aplicación para hacer caber el menú lateral.
+3. El dorado original tenía un contraste de `1.55:1` sobre el fondo de papel y
+   se utilizaba en texto informativo pequeño.
+4. La preferencia de movimiento reducido anulaba las transiciones, pero no
+   detenía la animación de pulso.
+
+Se corrigieron la jerarquía de encabezados, la estructura responsive de los
+layouts público y administrativo, el reflujo de controles, contadores y
+etiquetas, el foco visible de la navegación, el color de texto dorado y la
+política de movimiento reducido. El flujo conserva las mismas capacidades y
+no añade backend, inferencia ni persistencia.
+
+### Matriz de escenarios
+
+| ID | Escenario | Navegador y viewport | Resultado |
+|---|---|---|---|
+| UX-01 | Formulario en escritorio | Chrome 150, `1440 × 900` | Correcto; una sola región principal, sin recorte ni scroll horizontal |
+| UX-02 | Formulario en tablet vertical | Chrome 150, `768 × 1024` | Correcto; controles legibles, textarea y acciones dentro del viewport |
+| UX-03 | Formulario en móvil | Chrome 150, `390 × 844` | Correcto; viewport real de `390 px`, navegación reubicada arriba y sin reducción global ni desbordamiento |
+| UX-04 | Orden de teclado y foco visible | Chrome 150, escritorio | Correcto; `Home` → `Classify` → login mock → ejemplo sintético → narrativa → dictado → envío, con indicador visible |
+| UX-05 | Validación de narrativa vacía | Chrome 150, escritorio | Correcto; el foco vuelve al textarea, `aria-invalid` pasa a `true` y el error queda enlazado mediante `aria-describedby` |
+| UX-06 | Carga y aparición del resultado | Chrome 150, escritorio | Correcto; formulario con `aria-busy`, anuncio `role="status"`, controles bloqueados y foco trasladado al `h1` del resultado |
+| UX-07 | Revisión del resultado en móvil | Chrome 150, `390 × 844` | Correcto; resultado sin porcentaje inventado, revisión humana textual y sin desbordamiento horizontal |
+| UX-08 | Contraste de los tokens de texto | Cálculo WCAG sobre colores renderizados | Correcto; todos los pares de texto revisados superan `4.5:1` |
+| UX-09 | Preferencia de movimiento reducido | Chrome 150, `prefers-reduced-motion: reduce` | Correcto; scroll automático, transiciones de `0.01 ms`, animaciones de `0.01 ms` y una sola iteración |
+
+### Contraste verificado
+
+| Uso | Primer plano | Fondo | Ratio |
+|---|---|---|---|
+| Texto principal | `#17322e` | `#fffdf7` | `13.47:1` |
+| Texto secundario | `#49615d` | `#fffdf7` | `6.55:1` |
+| Texto de acento corregido | `#6b5200` | `#fffdf7` | `7.29:1` |
+| Avisos de revisión | `#a6472f` | `#fffdf7` | `5.79:1` |
+| Navegación | `#ffffff` | `#102925` | `15.37:1` |
+
+### Capturas sin datos sensibles
+
+- [Móvil — 390 × 844](./screenshots/PG-4/frontend-foundation-mobile-390x844.png)
+- [Tablet — 768 × 1024](./screenshots/PG-4/frontend-foundation-tablet-768x1024.png)
+- [Escritorio — 1440 × 900](./screenshots/PG-4/frontend-foundation-desktop-1440x900.png)
+- [Foco de teclado en escritorio](./screenshots/PG-4/frontend-foundation-keyboard-focus-1440x900.png)
+
+### Regresión posterior a las correcciones
+
+```bash
+cd app/interface
+npm run format
+npm run typecheck
+npm run lint
+npm run format:check
+npm test -- --run
+npm run build
+```
+
+Todos los comandos finalizaron correctamente. La batería conserva `4`
+archivos y `29` tests aprobados; el build transforma `123` módulos y el service
+worker mantiene `8` entradas de precaché.
+
 ## Seguridad de la evidencia
 
 - No se utilizaron narrativas reales del CFPB.
@@ -74,8 +150,6 @@ dentro de este cambio.
 
 ## Verificaciones pendientes
 
-- Tarea 9.2: teclado, foco, anuncios, contraste, movimiento reducido y
-  responsive.
 - Tarea 9.3: instalación y actualización PWA, offline, dictado, permisos y
   privacidad.
 - Tarea 9.4: revisión final del alcance y quality gates del repositorio.

@@ -44,7 +44,7 @@ export default function HomePage() {
             <CardTitle>Operational workflow</CardTitle>
           </CardHeader>
           <CardContent>
-            <p className="font-serif text-2xl font-semibold text-gold">Not connected</p>
+            <p className="font-serif text-2xl font-semibold text-gold-ink">Not connected</p>
             <p className="text-sm text-ink-soft">Human review remains a proposed next step.</p>
           </CardContent>
         </Card>

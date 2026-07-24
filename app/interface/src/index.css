@@ -6,6 +6,7 @@
   --color-paper: #fffdf7;
   --color-sand: #eee7d7;
   --color-gold: #f4c95d;
+  --color-gold-ink: #6b5200;
   --color-rust: #a6472f;
   --color-rust-pale: #f8e5de;
   --color-mint: #dcebe4;
@@ -40,5 +41,7 @@ body {
   *::after {
     scroll-behavior: auto !important;
     transition-duration: 0.01ms !important;
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
   }
 }

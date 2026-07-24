@@ -161,10 +161,11 @@
   - **Resultado:** sobre el commit `62b0dba` y una instalación reconstruida mediante `npm ci`, pasan typecheck, ESLint, Prettier, los veintinueve tests, el build React, el build del service worker y la auditoría con cero vulnerabilidades. El informe fija Node.js `24.18.0`, npm `11.16.0`, el hash del lockfile y diferencia expresamente esta evidencia automática de las revisiones manuales pendientes.
   - **Verificación:** `cd app/interface && npm ci`; `cd app/interface && npm run typecheck`; `cd app/interface && npm run lint`; `cd app/interface && npm run format:check`; `cd app/interface && npm test -- --run`; `cd app/interface && npm run build`; `cd app/interface && npm audit --audit-level=high`.
 
-- [ ] 9.2 Verificar con contenido sintético teclado, foco, anuncios de estado, contraste, movimiento reducido y responsive en móvil, tablet y escritorio.
+- [x] 9.2 Verificar con contenido sintético teclado, foco, anuncios de estado, contraste, movimiento reducido y responsive en móvil, tablet y escritorio.
   - **Responsable:** Abel / UX, con revisión de Miguel.
   - **Dependencias:** 9.1.
   - **Evidencia:** matriz de escenarios, navegador, viewport, resultado y capturas no sensibles en el informe de validación.
+  - **Resultado:** la revisión sobre Chrome `150.0.7871.129` detectó y corrigió la ausencia de `h1`, el escalado forzado del layout móvil, el bajo contraste del texto dorado, la animación no cubierta por movimiento reducido y la falta de foco reforzado en la navegación. El flujo final conserva un orden de teclado coherente, devuelve el foco al campo inválido, anuncia la carga, enfoca el resultado, supera `4.5:1` en todos los pares de texto revisados y no presenta desbordamiento horizontal a `390 × 844`, `768 × 1024` ni `1440 × 900`. Cuatro capturas sintéticas y la matriz completa quedan registradas en `reports/validation/frontend_foundation_integration.md`; pasan typecheck, lint, formato, veintinueve tests y build PWA.
   - **Verificación:** revisión manual sobre el build servido por `npm run preview`, documentada escenario por escenario.
 
 - [ ] 9.3 Verificar instalación, actualización, recarga offline, ausencia de predicción sin servicio, dictado soportado y no soportado, permisos y privacidad.
