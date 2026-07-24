@@ -24,7 +24,9 @@ Este catálogo indica qué documentos pueden alimentar una presentación y con q
 | `openspec/config.yaml` | Contexto y reglas obligatorias de los cambios | Cuando cambie el gobierno | Miguel / equipo | Activa técnica |
 | `docs/design/information_architecture.md` | Usuario, tareas, estados y accesibilidad del flujo | Cuando cambie la experiencia | Producto / UX | Activa |
 | `docs/api/openapi.json` | Contrato entre React PWA y futura inferencia | Cuando cambie la API | Aplicación / plataforma | Activa contract-only |
+| `app/interface/README.md` | Uso reproducible y límites del prototipo React PWA | Por cambio de frontend | Abel / frontend | Activa técnica |
 | `docs/security/threat_model.md` | Amenazas y controles del producto | Cuando cambien datos o arquitectura | Seguridad / equipo | Activa |
+| `reports/validation/frontend_foundation_integration.md` | Evidencia automática y manual de la React PWA prototipo | Por hito frontend | Abel / Miguel | Activa técnica |
 | `reports/validation/repository_harness_audit_2026-07-23.md` | Evidencia puntual de coherencia documental y estructural | Cierre del arnés | Miguel / arquitectura | Activa técnica |
 | `reports/validation/openspec-harness-validation-2026-07-23.md` | Evidencia de implantación real de OpenSpec y el arnés | Cierre de la adopción | Miguel / arquitectura | Activa técnica |
 | `reports/validation/repository-final-review-2026-07-23.md` | Evidencia final de presentación, estructura, estados y quality gates | Cierre documental | Miguel / arquitectura | Activa técnica |
@@ -36,7 +38,8 @@ Este catálogo indica qué documentos pueden alimentar una presentación y con q
 | `docs/assets/charts/delivery-status-2026-07-23.svg` | Estado de las 25 puertas del briefing | Cuando cambie un criterio | Miguel / QA | Activa visual |
 | `reports/metrics/` | Evidencia cuantitativa | Por experimento | ML/QA | Pendiente |
 | `reports/figures/` | Gráficos finales | Por experimento | ML/Docs | Pendiente |
-| `docs/assets/screenshots/` | Evidencia visual del producto | Por cambio de UI | UX/QA | Pendiente |
+| `reports/validation/screenshots/PG-4/` | Evidencia visual sintética del prototipo | Por cambio de UI | UX/QA | Activa técnica |
+| `docs/assets/screenshots/` | Evidencia visual general del producto | Por cambio de UI | UX/QA | Pendiente |
 
 ## Regla editorial
 

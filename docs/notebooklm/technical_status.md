@@ -5,7 +5,9 @@
 - Fase: descubrimiento y EDA con OpenSpec + Harness Engineering operativos.
 - Idea de negocio: clasificación y enrutamiento de reclamaciones financieras, elegida por unanimidad con condiciones.
 - Dataset: Consumer Complaint Database del CFPB viable con condiciones; target y reglas de EDA versionados.
-- Código de producto funcional: no iniciado; existen scripts de validación y automatización del trabajo.
+- Producto demostrable: prototipo React PWA validado en la rama de `PG-4` con
+  respuestas sintéticas, pendiente de PR y merge; todavía no existe una
+  predicción real ni un servicio operativo.
 - Despliegue: no iniciado.
 - Seguimiento: Jira `PG` operativo para responsables, estados y bloqueos; `PG-1`
   agrupa el nivel esencial sin sustituir requisitos ni evidencias versionadas.
@@ -25,15 +27,34 @@
 - G-02, G-03, G-04 y G-06 superadas para EDA; G-05 continúa condicionada por la revisión de privacidad.
 - Spec `001-cfpb-target-contract` activa con once clases canónicas, dos aliases, una exclusión ambigua y ocho tests unitarios de contrato de target.
 - El EDA continúa en paralelo y debe aportar evidencia agregada sobre clases, tiempo, ausencias, duplicados, longitud e idioma.
-- React PWA confirmada como dirección frontend inicial; backend, implementación de inferencia y evolución nativa siguen pendientes.
-- Spec `003-complaint-routing-experience` preparada con arquitectura de información, OpenAPI contract-only y siete tests; no existe aún frontend ni servicio.
+- React PWA confirmada como dirección frontend inicial; el prototipo de `PG-4`
+  ya permite recorrer la captura, respuesta sintética y revisión humana, pero
+  backend, inferencia real y evolución nativa siguen pendientes.
+- Spec `003-complaint-routing-experience` aporta la arquitectura de información
+  y el OpenAPI `0.1.0` contract-only; el frontend implementa su lado del
+  contrato mediante un cliente TypeScript y un mock explícito.
+- La rama de integración frontend conserva la autoría del trabajo de Abel. El
+  cambio OpenSpec `integrate-frontend-foundation` está archivado y la capacidad
+  `complaint-routing-interface` está vigente; todavía no se ha publicado su
+  Pull Request ni fusionado en `dev`.
+- La batería frontend aprueba typecheck, lint, formato, 31 tests, build PWA y
+  auditoría npm con cero vulnerabilidades.
+- Chrome 150 en Windows verificó instalación, actualización, dictado con permiso
+  real, responsive, accesibilidad y recarga del shell sin conexión. Edge queda
+  pendiente de la misma comprobación manual.
+- La clasificación se bloquea sin conexión y la política de caché excluye API,
+  narrativas y peticiones de datos; el prototipo no fabrica una predicción.
+- Login, administración, entrenamiento y registro de modelos permanecen como
+  conceptos señalizados: no aportan identidad, permisos, datos, jobs ni modelos.
 - Flujo humano-IA independiente de proveedor implementado y verificado, con generación acotada de contexto por spec y tarea.
 - Primera versión operativa del arnés integrada en `dev` con cuatro roles, cuatro procedimientos y una entrada única probada localmente.
 - OpenSpec `1.6.0` fijado como dependencia local, inicializado con configuración propia y adaptadores oficiales para cinco herramientas de IA.
 - El arnés consulta validación, estado, instrucciones y tareas de OpenSpec; conserva el modo numerado solo para el EDA y frontend ya asignados.
 - El quality gate incorpora instalación reproducible, auditoría npm, diagnóstico y validación estricta de OpenSpec.
 - Responsabilidades principales confirmadas: Miguel en arquitectura y arnés, José en backend, Abel en frontend/UX y Víctor en datos y EDA.
-- El trabajo de producto activo desde `dev` comprende la incorporación de evidencia del EDA en `001/T-004` y el inicio desde cero de la React PWA en `003/T-006`.
+- El trabajo activo comprende la evidencia del EDA en `001/T-004` y la
+  publicación para revisión de la React PWA mediante `PG-4`; su expediente
+  `integrate-frontend-foundation` ya está archivado.
 - Workflow `repository-quality` ejecutado correctamente y asociado automáticamente a las Pull Requests `#14` y `#15`.
 - La PR `#17` se integró en `dev` y verificó en Linux las suites Python, convenciones, whitespace, auditoría npm, diagnóstico y validación estricta de OpenSpec; la ejecución `30000072621` finalizó correctamente.
 - El piloto con Víctor ya no bloquea la implantación; su tarea real servirá para recoger feedback del uso heredado y adaptar decisiones nuevas mediante OpenSpec.
@@ -52,7 +73,7 @@
 ## Capacidades previstas, no implementadas
 
 - Pipeline de datos y entrenamiento.
-- Aplicación React PWA multiclase.
+- Conexión de la React PWA con backend e inferencia multiclase reales.
 - Persistencia y feedback.
 - Docker y despliegue.
 - CI/CD completo.
@@ -62,6 +83,8 @@
 
 - Tratar la viabilidad condicionada como si idioma, privacidad y partición ya estuvieran cerrados.
 - Confundir estructura preparada con funcionalidad implementada.
+- Confundir la respuesta sintética del prototipo, el login mock o las pantallas
+  administrativas propuestas con capacidades operativas.
 - Integrar entregas heredadas de frontend o EDA sin adaptar mediante OpenSpec cualquier decisión que cambie contratos o alcance.
 - Los roles de respaldo y la cobertura estable de producto, MLOps y QA siguen sin asignar.
 - La normalización de target está versionada; idioma, deduplicación final, partición, desbalanceo y privacidad siguen pendientes de la evidencia del EDA.

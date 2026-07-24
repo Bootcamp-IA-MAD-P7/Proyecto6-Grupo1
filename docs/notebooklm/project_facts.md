@@ -28,7 +28,12 @@
 
 ## Producto y operación
 
-- Aplicación: React PWA como dirección frontend inicial; todavía no implementada. Existe un flujo y OpenAPI `0.1.0` contract-only para mocks. La necesidad de una evolución nativa se evaluará después de cubrir el alcance web instalable.
+- Aplicación: prototipo React PWA incorporado y validado en la rama de `PG-4`,
+  con revisión humana completada y todavía pendiente de PR y merge. Permite
+  revisar con texto sintético el formulario, dictado, respuesta mock, revisión
+  humana, instalación y shell offline. No existe backend, modelo ni inferencia
+  real, por lo que `ESS-04` continúa sin verificar. La necesidad de una
+  evolución nativa se evaluará después de cubrir el alcance web instalable.
 - Despliegue: pendiente.
 - Persistencia: pendiente.
 - Estado MLOps: pendiente.

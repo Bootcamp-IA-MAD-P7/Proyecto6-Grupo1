@@ -1,6 +1,7 @@
 # Narrativa de negocio
 
-> Narrativa inicial basada en una selección condicionada. No describe un producto implementado ni resultados de modelo.
+> Narrativa basada en evidencia vigente. Existe un prototipo de interfaz para
+> revisar el recorrido, pero no un producto operativo ni resultados de modelo.
 
 ## Situación actual
 
@@ -36,4 +37,8 @@ El impacto esperado es reducir esfuerzo de clasificación y hacer más consisten
 
 ## Mensaje de cierre
 
-El equipo ha elegido esta dirección por unanimidad, pero el siguiente paso es validar los datos. No se afirmará que existe un producto o un modelo hasta disponer de evidencia reproducible.
+El equipo ha elegido esta dirección por unanimidad y ya puede demostrar el
+recorrido mediante una interfaz con respuestas sintéticas. El siguiente paso
+sigue siendo completar la evidencia de datos y construir el modelo; no se
+afirmará que existe predicción real hasta disponer de resultados reproducibles
+y una integración verificada.

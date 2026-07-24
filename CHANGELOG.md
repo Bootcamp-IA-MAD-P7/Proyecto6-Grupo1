@@ -36,6 +36,14 @@
   entrega y ocho relaciones de bloqueo verificadas.
 - Manual operativo de Jira y referencias `PG-N` en OpenSpec, arnés, ramas y
   Pull Requests, sin credenciales en el repositorio.
+- React PWA de `PG-4` incorporada selectivamente a su rama de integración desde
+  el trabajo de Abel, con formulario público, dictado, respuesta sintética
+  revisable, contrato TypeScript, instalación y shell offline.
+- Evidencia reproducible del frontend con typecheck, lint, formato, 31 tests,
+  build PWA, auditoría sin vulnerabilidades y revisión manual de accesibilidad,
+  responsive, dictado, privacidad, instalación y actualización.
+- Manual operativo del frontend y capturas sintéticas verificadas en móvil,
+  tablet y escritorio.
 
 ### Changed
 
@@ -50,6 +58,9 @@
 - La propuesta frontend experimental de la PR `#14` se cierra sin mergear para que Abel defina e implemente el frontend desde una base limpia.
 - Jira pasa a conservar responsable, estado y bloqueos; OpenSpec conserva
   requisitos y decisiones, y GitHub conserva implementación y evidencia.
+- El estado de aplicación pasa de “prevista” a “prototipo validado pendiente de
+  PR y merge”; `ESS-04` continúa sin verificar hasta conectar una inferencia
+  real.
 
 ### Fixed
 
@@ -59,3 +70,6 @@
 - La normalización de rutas OpenSpec distingue correctamente rutas Windows y POSIX sin permitir fuentes externas al repositorio.
 - Las etiquetas del diagrama principal utilizan fondos de 120 unidades, margen interior amplio y centrado consistente después de su validación visual.
 - Los veinticinco IDs del briefing permanecen completos en tablas estrechas y se contrastan automáticamente con su estado canónico.
+- La PWA bloquea la clasificación sin conexión, excluye narrativas y API de la
+  caché y diferencia de forma persistente mocks, sesiones de demostración y
+  conceptos administrativos de capacidades reales.
