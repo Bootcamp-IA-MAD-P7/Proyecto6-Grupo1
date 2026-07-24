@@ -27,12 +27,17 @@
 | Desbalanceo preliminar | Clase mayoritaria: 72,45 % |
 | EDA | En curso, responsabilidad de Víctor |
 | Modelo | No iniciado |
-| Aplicación | React PWA prevista; no implementada ni integrada |
+| Aplicación | Prototipo React PWA validado en la rama de `PG-4`, pendiente de revisión y merge; sin predicción real |
 | Backend e inferencia | No iniciados |
 | Despliegue y MLOps | No iniciados |
 | Método de trabajo | OpenSpec + arnés implantados y comprobados |
 
-La palabra “previsto” no significa “implementado”. Los contratos y mocks sirven para coordinar trabajo; no demuestran una capacidad de producto.
+La rama de integración ya permite revisar el recorrido previsto con contenido
+sintético, dictado, instalación PWA y comportamiento offline seguro. Todavía
+requiere revisión humana y Pull Request antes de llegar a `dev`. Esto no
+acredita `ESS-04`: no existe un modelo ni un servicio de inferencia al que
+conectarla. Véanse el [manual del frontend](app/interface/README.md) y su
+[informe de validación](reports/validation/frontend_foundation_integration.md).
 
 ## El problema
 
@@ -157,11 +162,16 @@ flowchart LR
     PIPE[Pipeline de datos y ML] --> MODEL
     MODEL --> MON[Evaluación y monitorización]
 
+    classDef prototype fill:#e7f2ed,stroke:#52755b,color:#17322e
     classDef planned fill:#fff7e7,stroke:#8b6f3d,stroke-dasharray:6 4,color:#423719
-    class UI,API,UC,DOM,INF,MODEL,DB,PIPE,MON planned
+    class UI prototype
+    class API,UC,DOM,INF,MODEL,DB,PIPE,MON planned
 ```
 
-Todos los nodos de este diagrama son arquitectura prevista. Ninguno acredita todavía una aplicación funcional.
+La React PWA representa un prototipo validado en su rama de integración, todavía
+pendiente de revisión y merge, con respuestas sintéticas. Los demás nodos siguen
+siendo arquitectura prevista; el diagrama no acredita backend, modelo,
+persistencia, inferencia ni monitorización reales.
 
 Principios:
 
@@ -259,7 +269,7 @@ Además, `dev` exige PR, historial lineal, conversaciones resueltas y bloqueo de
 ├── data/            # datos locales por etapa, fuera de Git
 ├── notebooks/       # EDA y experimentos narrativos
 ├── src/             # dominio, aplicación, ML e infraestructura
-├── app/             # futura capa de entrega
+├── app/             # React PWA prototipo y futuras capas de entrega
 ├── tests/           # pruebas automatizadas
 ├── reports/         # evidencias agregadas y verificaciones
 ├── docs/            # arquitectura, producto, gestión y presentación
@@ -273,9 +283,9 @@ Las subcarpetas aparecen con su primer archivo real. No se crean árboles vacío
 | Persona | Área | Trabajo actual |
 |---|---|---|
 | José | Backend | `PG-5` / `003/T-007`, bloqueada por datos y modelo |
-| Abel | Frontend y UX | `PG-4` / `003/T-006`, React PWA desde cero |
+| Abel | Frontend y UX | `PG-4`, revisión de la React PWA integrada mediante OpenSpec |
 | Víctor | Datos y EDA | `PG-2` / `001/T-004`, evidencia agregada |
-| Miguel | Arquitectura y método | Integración Jira–OpenSpec–arnés mediante bootstrap |
+| Miguel | Arquitectura y método | Integración, evidencia y gobierno Jira–OpenSpec–arnés |
 
 El [backlog `PG`](https://miguel-redondo.atlassian.net/browse/PG-1) sigue el nivel
 esencial. Jira conserva responsable, estado y bloqueos; OpenSpec conserva
@@ -296,7 +306,7 @@ Fuentes principales:
 Generación local:
 
 ```bash
-python scripts/documentation/build_notebooklm_pack.py --date 2026-07-23
+python scripts/documentation/build_notebooklm_pack.py --date 2026-07-24
 ```
 
 Antes de subir un paquete a NotebookLM se excluyen secretos, datos brutos, narrativas reales y fuentes internas que desordenen el relato de cliente.
@@ -315,7 +325,7 @@ Antes de subir un paquete a NotebookLM se excluyen secretos, datos brutos, narra
 
 1. Incorporar el EDA de Víctor y decidir idioma, duplicados, split y desbalanceo.
 2. Construir un baseline reproducible y elegir la métrica principal.
-3. Avanzar la React PWA con mocks sin presentarla como inferencia real.
+3. Revisar e integrar la React PWA validada sin presentarla como inferencia real.
 4. Definir backend e integrar el modelo cuando exista un Champion aprobado.
 5. Proteger primero el nivel esencial; investigar niveles superiores sin desestabilizarlo.
 

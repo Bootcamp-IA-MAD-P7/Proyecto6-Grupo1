@@ -191,10 +191,11 @@
   - **Resultado:** el README local diferencia el prototipo público, la recomendación mock y las capacidades propuestas; documenta instalación, desarrollo, build PWA, rutas, contrato, dictado, caché offline, privacidad, compatibilidad, scripts, estructura, comprobaciones y limitaciones. Los enlaces apuntan a contratos, OpenSpec y evidencia versionada, y el manual mantiene `ESS-04` como no verificado mientras no exista inferencia real. Una política local de atributos fija LF para los archivos web y permite reproducir Prettier en Windows sin depender de `core.autocrlf`.
   - **Verificación:** `python scripts/quality/check_repository.py`; revisión de enlaces y comandos del README.
 
-- [ ] 10.2 Completar `reports/validation/frontend_foundation_integration.md` y actualizar solo los documentos globales cuyo significado cambie: estado técnico de NotebookLM, changelog y referencias mínimas de README.
+- [x] 10.2 Completar `reports/validation/frontend_foundation_integration.md` y actualizar solo los documentos globales cuyo significado cambie: estado técnico de NotebookLM, changelog y referencias mínimas de README.
   - **Responsable:** Miguel / documentación.
   - **Dependencias:** 10.1.
   - **Evidencia:** resultados reales, limitaciones, mocks, riesgos y estado de `ESS-04` todavía no verificado.
+  - **Resultado:** el informe reúne las verificaciones automáticas y manuales y enlaza el manual reproducible. README, changelog, catálogo y fuentes de NotebookLM distinguen ahora una React PWA prototipo validada en su rama, todavía pendiente de revisión y merge, de una aplicación conectada a inferencia real; conservan `ESS-04` sin verificar, identifican como propuestas el login y las pantallas administrativas y mantienen explícitos los límites de backend, modelo, despliegue y Edge. El paquete del 24 de julio se genera desde las fuentes versionadas e incluye el informe sin narrativas reales.
   - **Verificación:** `python scripts/documentation/build_notebooklm_pack.py --date 2026-07-24`; `python scripts/quality/check_repository.py`; `git diff --check`.
 
 - [ ] 10.3 Revisar con Abel que se conserva su trabajo y autoría, que las tareas y evidencias coinciden con la implementación y que no hay capacidades de producción inventadas.

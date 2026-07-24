@@ -11,12 +11,13 @@
 | Commit de partida para la revisión manual | `cc323215ea5ee16ae792d345df7b38748bc85504` |
 | Fecha | `2026-07-24` |
 | Estado automático | Correcto |
-| Estado manual | Tareas 9.2, 9.3 y 9.4 correctas |
+| Estado documental | Tareas 9.2, 9.3, 9.4, 10.1 y 10.2 correctas |
 
 Este informe reúne la evidencia automática de la tarea 9.1 y la revisión manual
 de accesibilidad y responsive de la tarea 9.2, además de la verificación de
 instalación, actualización, offline, dictado, permisos y privacidad de la tarea
-9.3 y la revisión final de alcance y repositorio de la tarea 9.4.
+9.3, la revisión final de alcance y repositorio de la tarea 9.4 y el cierre
+documental reproducible de las tareas 10.1 y 10.2.
 
 La entrega validada es una interfaz React PWA con respuestas sintéticas. Todavía
 no existe backend, modelo entrenado ni inferencia real, por lo que esta evidencia
@@ -257,9 +258,29 @@ modelos, narrativas CFPB reales ni otros artefactos de datos. Los textos de
 prueba y demostración permanecen identificados como sintéticos, mock o
 propuesta.
 
+## Cierre documental — tareas 10.1 y 10.2
+
+El manual `app/interface/README.md` permite instalar, ejecutar, probar y revisar
+el prototipo sin conocimiento previo de la integración. También documenta sus
+rutas, contrato, dictado, política offline, privacidad, compatibilidad y
+limitaciones. `app/interface/.gitattributes` fija LF en los archivos web para
+que el control de formato sea reproducible en Windows.
+
+La documentación global adopta una única formulación:
+
+- existe una React PWA prototipo validada con contenido sintético;
+- la entrega permanece en su rama, pendiente de revisión humana y merge;
+- no existe backend, modelo entrenado ni inferencia real;
+- el modo offline conserva el shell, pero bloquea la clasificación;
+- login, administración, entrenamiento y registro de modelos son propuestas;
+- `ESS-04` continúa sin verificar.
+
+Se actualizaron únicamente el resumen y las referencias del README, el
+changelog y las fuentes de NotebookLM cuyo significado había cambiado. El
+paquete del `2026-07-24` incorpora este informe de forma automática desde
+`reports/**/*.md` y no contiene narrativas reales.
+
 ## Verificaciones pendientes
 
-- Tarea 10.1: completar el manual reproducible del frontend.
-- Tarea 10.2: cerrar evidencias y actualizar la documentación global afectada.
 - Tarea 10.3: revisión humana con Abel.
 - Tareas 10.4 y 10.5: preparar el borrador de PR y solicitar aprobación antes de publicar.
