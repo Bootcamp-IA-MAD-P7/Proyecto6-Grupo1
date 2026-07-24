@@ -67,9 +67,13 @@ describe('ClassificationPage', () => {
         name: 'Credit reporting or other personal consumer reports',
       }),
     ).toBeInTheDocument()
-    expect(screen.getByText('Simulated result')).toBeVisible()
+    expect(screen.getByText('Mock response · demo only')).toBeVisible()
+    expect(screen.getByText(/Interface demonstration only/)).toBeVisible()
     expect(screen.getByText('Human review required')).toBeVisible()
     expect(screen.getByText('Calibrated confidence is not available')).toBeVisible()
+    expect(screen.getByText('Not available')).toBeVisible()
+    expect(screen.queryByText(/\d+%/)).not.toBeInTheDocument()
+    expect(screen.queryByText('Model confidence')).not.toBeInTheDocument()
   })
 
   it('announces progress and prevents duplicate submissions', async () => {
@@ -109,7 +113,7 @@ describe('ClassificationPage', () => {
 
     await user.type(screen.getByLabelText('Complaint narrative'), narrative)
     await user.click(screen.getByRole('button', { name: 'Classify complaint' }))
-    await screen.findByText('Simulated result')
+    await screen.findByText('Mock response · demo only')
 
     expect(screen.queryByText(narrative)).not.toBeInTheDocument()
 

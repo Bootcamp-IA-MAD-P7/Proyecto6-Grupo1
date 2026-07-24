@@ -27,10 +27,17 @@ export function PredictionResult({ result, onReset }: PredictionResultProps) {
 
   return (
     <div className="space-y-6">
+      <Alert variant="warning">
+        <AlertDescription>
+          <strong>Interface demonstration only.</strong> This response is synthetic, has no
+          calibrated score and cannot route a complaint.
+        </AlertDescription>
+      </Alert>
+
       <div className="flex items-start justify-between gap-4">
         <div>
           <p className="mb-1 text-xs font-bold uppercase tracking-widest text-gold">
-            Simulated result
+            Mock response · demo only
           </p>
           <h2 ref={titleRef} tabIndex={-1} className="font-serif text-3xl font-semibold text-ink">
             {result.predicted_class}
@@ -42,7 +49,7 @@ export function PredictionResult({ result, onReset }: PredictionResultProps) {
       <div className="grid gap-4 sm:grid-cols-2">
         <Card>
           <CardHeader>
-            <CardTitle className="text-sm">Model confidence</CardTitle>
+            <CardTitle className="text-sm">Calibrated confidence</CardTitle>
           </CardHeader>
           <CardContent>
             <p className="font-serif text-2xl">
@@ -51,7 +58,7 @@ export function PredictionResult({ result, onReset }: PredictionResultProps) {
                 : `${Math.round(result.confidence * 100)}%`}
             </p>
             <p className="mt-1 text-sm text-ink-soft">
-              No percentage is shown unless the model provides calibrated confidence.
+              No percentage is available for this mock response.
             </p>
           </CardContent>
         </Card>
@@ -88,7 +95,7 @@ export function PredictionResult({ result, onReset }: PredictionResultProps) {
       </Card>
 
       <div className="flex flex-wrap gap-4 font-mono text-xs text-ink-soft">
-        <span>Model: {result.model_version}</span>
+        <span>Mock source: {result.model_version}</span>
         <span>Taxonomy: {result.taxonomy_version}</span>
         <span>Reference: {result.prediction_id.slice(0, 8)}</span>
       </div>

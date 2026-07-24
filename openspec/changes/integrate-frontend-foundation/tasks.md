@@ -74,10 +74,11 @@
   - **Resultado:** el flujo conserva el formulario y la validación de espacios, anuncia la carga mediante `role="status"`, bloquea envíos duplicados, muestra resultados mock con motivos de revisión, conserva la narrativa solo en memoria para reintentar tras un error seguro y vuelve a un formulario vacío y enfocado al iniciar otra clasificación. Pasan doce tests frontend con contenido sintético.
   - **Verificación:** `cd app/interface && npm test -- --run`.
 
-- [ ] 4.3 Identificar de forma persistente el modo mock, mantener confianza nula cuando no exista evidencia calibrada y eliminar cualquier texto que sugiera inferencia, modelo o rendimiento real.
+- [x] 4.3 Identificar de forma persistente el modo mock, mantener confianza nula cuando no exista evidencia calibrada y eliminar cualquier texto que sugiera inferencia, modelo o rendimiento real.
   - **Responsable:** Abel / frontend, con revisión de Miguel / producto.
   - **Dependencias:** 4.2.
   - **Evidencia:** test de etiquetado mock y revisión manual del resultado.
+  - **Resultado:** el resultado principal muestra un aviso persistente de demostración, etiqueta la respuesta como mock, mantiene la confianza sin porcentaje, exige revisión humana y sustituye las referencias visuales a un modelo por una fuente mock. Los doce tests frontend verifican también que no aparece un porcentaje ni la etiqueta `Model confidence`. La búsqueda de términos sensibles solo localiza las métricas sintéticas del registro administrativo conservado, cuyo aislamiento y retirada pertenecen expresamente a 7.2; no aparecen en el flujo de clasificación.
   - **Verificación:** `cd app/interface && npm test -- --run`; `rg -n "accuracy|precision|trained|production|real prediction" app/interface/src`.
 
 ## 5. Dictado, permisos y privacidad

@@ -634,4 +634,32 @@ y ocho del flujo de clasificación. También pasan `typecheck`, ESLint, Prettier
 la comprobación de whitespace.
 
 No existe todavía backend, inferencia ni modelo real. La recomendación sigue
-siendo sintética y su etiquetado definitivo se revisará en la tarea 4.3.
+siendo sintética.
+
+## Etiquetado inequívoco del mock — tarea 4.3
+
+El resultado del flujo principal identifica de forma persistente que se trata de
+una demostración de interfaz. La etiqueta, el aviso y los textos de apoyo no
+atribuyen la respuesta a una capacidad real ni permiten confundirla con una
+decisión automática.
+
+| Comprobación | Resultado |
+|---|---|
+| Etiqueta visible | `Mock response · demo only` |
+| Aviso persistente | Respuesta sintética que no puede enrutar una reclamación |
+| Confianza | `null`; se muestra `Not available` |
+| Porcentaje de confianza | No se renderiza |
+| Revisión humana | Obligatoria y visible |
+| Fuente técnica mostrada | Identificada como mock |
+| Tests frontend | `12` aprobados |
+| Typecheck | Código `0` |
+| ESLint | Código `0` |
+| Prettier | Código `0` |
+| `git diff --check` | Sin errores |
+
+La búsqueda
+`rg -n "accuracy|precision|trained|production|real prediction" app/interface/src`
+solo devuelve las tres propiedades `accuracy` del registro administrativo
+sintético. Esas rutas no forman parte del flujo principal de clasificación y su
+aislamiento, retirada de cifras y etiquetado definitivo están asignados a la
+tarea 7.2. Este resultado no aprueba el panel administrativo ni sus métricas.
