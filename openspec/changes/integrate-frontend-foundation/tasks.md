@@ -198,10 +198,11 @@
   - **Resultado:** el informe reúne las verificaciones automáticas y manuales y enlaza el manual reproducible. README, changelog, catálogo y fuentes de NotebookLM distinguen ahora una React PWA prototipo validada en su rama, todavía pendiente de revisión y merge, de una aplicación conectada a inferencia real; conservan `ESS-04` sin verificar, identifican como propuestas el login y las pantallas administrativas y mantienen explícitos los límites de backend, modelo, despliegue y Edge. El paquete del 24 de julio se genera desde las fuentes versionadas e incluye el informe sin narrativas reales.
   - **Verificación:** `python scripts/documentation/build_notebooklm_pack.py --date 2026-07-24`; `python scripts/quality/check_repository.py`; `git diff --check`.
 
-- [ ] 10.3 Revisar con Abel que se conserva su trabajo y autoría, que las tareas y evidencias coinciden con la implementación y que no hay capacidades de producción inventadas.
+- [x] 10.3 Revisar con Abel que se conserva su trabajo y autoría, que las tareas y evidencias coinciden con la implementación y que no hay capacidades de producción inventadas.
   - **Responsable:** Abel y Miguel.
   - **Dependencias:** 10.2.
   - **Evidencia:** revisión humana registrada en el cambio y conversaciones resueltas antes de cerrar tareas.
+  - **Resultado:** Abel confirmó el 24 de julio de 2026 que su trabajo se conserva, la atribución es correcta, las adaptaciones respetan el objetivo original y los mocks o propuestas no se presentan como capacidades reales. El historial verificado conserva treinta commits frontend con autoría de Abel y diecisiete commits frontend o de integración de Miguel; la rama original permanece intacta en `70cf2d9`. No existe todavía una Pull Request ni conversaciones asociadas que resolver.
   - **Verificación:** `git log --format="%H%x09%an%x09%ae%x09%s" origin/dev..HEAD -- app/interface`; `npm exec -- openspec validate integrate-frontend-foundation --type change --strict`.
 
 - [ ] 10.4 Preparar, sin publicar hasta aprobación humana, el cuerpo de Pull Request hacia `dev` mediante `.github/pull_request_template.md`, enlazando `PG-4`, este cambio OpenSpec, comandos, evidencias, riesgos y rollback.

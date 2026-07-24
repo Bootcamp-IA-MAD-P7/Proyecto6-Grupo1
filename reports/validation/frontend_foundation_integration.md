@@ -11,7 +11,7 @@
 | Commit de partida para la revisión manual | `cc323215ea5ee16ae792d345df7b38748bc85504` |
 | Fecha | `2026-07-24` |
 | Estado automático | Correcto |
-| Estado documental | Tareas 9.2, 9.3, 9.4, 10.1 y 10.2 correctas |
+| Estado de revisión | Tareas 9.2 a 10.3 correctas |
 
 Este informe reúne la evidencia automática de la tarea 9.1 y la revisión manual
 de accesibilidad y responsive de la tarea 9.2, además de la verificación de
@@ -280,7 +280,31 @@ changelog y las fuentes de NotebookLM cuyo significado había cambiado. El
 paquete del `2026-07-24` incorpora este informe de forma automática desde
 `reports/**/*.md` y no contiene narrativas reales.
 
+## Revisión humana con Abel — tarea 10.3
+
+El 24 de julio de 2026, Abel confirmó que:
+
+- su trabajo frontend se ha conservado;
+- la atribución es correcta;
+- las adaptaciones respetan el objetivo original;
+- los mocks y las capacidades propuestas no se presentan como capacidades
+  reales.
+
+La comprobación del historial anterior a registrar esta evidencia produjo:
+
+| Evidencia | Resultado |
+|---|---|
+| Rama original de Abel | Intacta en `70cf2d9479047eefad07b02f05b3b64467b77fd9` |
+| Commit revisado de integración | `46b86034d4a325c726585134b7b986ba95a67447` |
+| Commits frontend atribuidos a Abel | `30` |
+| Commits frontend o de integración atribuidos a Miguel | `17` |
+| Validación estricta OpenSpec | Correcta |
+| Conversaciones de Pull Request | No existen todavía; la PR no se ha publicado |
+
+La confirmación cierra la revisión de autoría y alcance, pero no autoriza por sí
+sola el archivo, `push`, Pull Request o merge. Esas acciones permanecen
+condicionadas a las tareas 10.4 y 10.5.
+
 ## Verificaciones pendientes
 
-- Tarea 10.3: revisión humana con Abel.
 - Tareas 10.4 y 10.5: preparar el borrador de PR y solicitar aprobación antes de publicar.
