@@ -34,7 +34,7 @@
 
 ## T-004 Incorporar evidencia del EDA
 
-- Estado: `[x]`
+- Estado: `[~]`
 - Responsable: `Víctor / Datos y EDA`
 - Dependencias: `T-003`
 - Requisitos cubiertos: `R-006, R-007, R-009`

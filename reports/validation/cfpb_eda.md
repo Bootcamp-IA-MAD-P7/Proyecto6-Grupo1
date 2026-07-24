@@ -1,8 +1,8 @@
 # CFPB Complaint Dataset — EDA Report
 
-**Spec:** 001-cfpb-target-contract / T-004  
-**Date:** 2026-07-24  
-**Tool:** `notebooks/01_eda.py`  
+**Spec:** 001-cfpb-target-contract / T-004
+**Date:** 2026-07-24
+**Tool:** `notebooks/01_eda.py`
 **Contract:** `config/cfpb_target_contract.json`
 
 ---
@@ -34,8 +34,8 @@
 | Prepaid card | 9,577 | 0.4% |
 | Debt or credit management | 5,042 | 0.2% |
 
-**Imbalance ratio (majority/minority):** 331.4×  
-**Majority share:** 73.5%  
+**Imbalance ratio (majority/minority):** 331.4×
+**Majority share:** 73.5%
 **Classes <1%:** 3 (Payday loan, Prepaid card, Debt or credit management)
 
 ## 3. Temporal coverage
