@@ -1,5 +1,10 @@
 import { describe, expect, it } from 'vitest'
-import { buildPrecacheUrls, selectCacheStrategy, type CacheRequestDescriptor } from './cache-policy'
+import {
+  buildPrecacheUrls,
+  buildVersionedCacheName,
+  selectCacheStrategy,
+  type CacheRequestDescriptor,
+} from './cache-policy'
 
 const APP_ORIGIN = 'https://complaints.example'
 
@@ -13,6 +18,26 @@ const request = (overrides: Partial<CacheRequestDescriptor> = {}): CacheRequestD
 })
 
 describe('service worker cache policy', () => {
+  it('creates a stable cache name for the same build regardless of entry order', () => {
+    const entries = [
+      { url: 'assets/app-a.js', revision: null },
+      { url: 'index.html', revision: 'revision-a' },
+    ]
+
+    expect(buildVersionedCacheName('complaint-routing-', entries)).toBe(
+      buildVersionedCacheName('complaint-routing-', [...entries].reverse()),
+    )
+  })
+
+  it('changes the cache name when the build contents change', () => {
+    const firstBuild = [{ url: 'index.html', revision: 'revision-a' }]
+    const secondBuild = [{ url: 'index.html', revision: 'revision-b' }]
+
+    expect(buildVersionedCacheName('complaint-routing-', firstBuild)).not.toBe(
+      buildVersionedCacheName('complaint-routing-', secondBuild),
+    )
+  })
+
   it('normalizes and removes duplicate precache requests', () => {
     expect(
       buildPrecacheUrls(

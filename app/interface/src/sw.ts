@@ -1,26 +1,27 @@
 /// <reference lib="webworker" />
 /// <reference types="vite-plugin-pwa/client" />
 
-import { buildPrecacheUrls, selectCacheStrategy } from './pwa/cache-policy'
+import {
+  buildPrecacheUrls,
+  buildVersionedCacheName,
+  selectCacheStrategy,
+  type PrecacheDescriptor,
+} from './pwa/cache-policy'
 
 export {}
 
-interface PrecacheEntry {
-  url: string
-  revision?: string | null
-}
-
 declare const self: ServiceWorkerGlobalScope & {
-  __WB_MANIFEST: PrecacheEntry[]
+  __WB_MANIFEST: PrecacheDescriptor[]
 }
 
 const CACHE_PREFIX = 'complaint-routing-'
-const CACHE_NAME = `${CACHE_PREFIX}v5`
+const PRECACHE_MANIFEST = self.__WB_MANIFEST
+const CACHE_NAME = buildVersionedCacheName(CACHE_PREFIX, PRECACHE_MANIFEST)
 const OFFLINE_URL = '/offline.html'
 const APP_SHELL_URL = '/index.html'
 
 const PRECACHE_URLS = buildPrecacheUrls(
-  self.__WB_MANIFEST.map((entry) => entry.url),
+  PRECACHE_MANIFEST.map((entry) => entry.url),
   ['/', APP_SHELL_URL, '/app-mark.svg', OFFLINE_URL],
   self.location.origin,
 )

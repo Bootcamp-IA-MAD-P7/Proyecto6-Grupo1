@@ -211,6 +211,13 @@ La revisión manual o asistida por navegador cubrirá:
 
 La evidencia utilizará narrativas sintéticas y no incluirá datos CFPB reales.
 
+Para esta entrega, la matriz mínima de demostración queda limitada a Chrome
+`150.0.7871.129` sobre Windows. Edge `150.0.4078.83` queda registrado como
+navegador Chromium secundario, pero no se presentará como verificado hasta
+completar una revisión manual equivalente. Los escenarios de falta de soporte
+de dictado y permiso denegado se verifican mediante pruebas controladas para no
+confundir compatibilidad teórica con evidencia real.
+
 ### 10. Documentación mínima y fuente de verdad
 
 Durante la aplicación se actualizarán únicamente:
@@ -256,7 +263,6 @@ Rollback:
 
 ## Open Questions
 
-- ¿Qué navegadores y sistemas operativos formarán la matriz mínima de demo para dictado e instalación PWA?
 - ¿Qué configuración de idioma se utilizará en la demo sin convertirla en política definitiva del producto?
 - ¿Qué mecanismo de feature flag o navegación hará visibles las capacidades propuestas durante revisión sin confundirlas con el flujo aprobado?
 - ¿Requiere el equipo una comprobación automatizada adicional de accesibilidad o será suficiente la combinación de lint, tests de componentes y evidencia manual en esta entrega?

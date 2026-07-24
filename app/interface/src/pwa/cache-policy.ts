@@ -8,9 +8,28 @@ export interface CacheRequestDescriptor {
   destination: string
 }
 
+export interface PrecacheDescriptor {
+  url: string
+  revision?: string | null
+}
+
 const STATIC_DESTINATIONS = new Set(['style', 'script', 'image', 'font', 'manifest'])
 
 const isApiPath = (pathname: string) => pathname === '/api' || pathname.startsWith('/api/')
+
+export const buildVersionedCacheName = (prefix: string, entries: PrecacheDescriptor[]): string => {
+  const signature = entries
+    .map(({ url, revision }) => `${url}:${revision ?? 'content-addressed'}`)
+    .sort()
+    .join('|')
+  let hash = 2166136261
+
+  for (let index = 0; index < signature.length; index += 1) {
+    hash = Math.imul(hash ^ signature.charCodeAt(index), 16777619)
+  }
+
+  return `${prefix}${(hash >>> 0).toString(16).padStart(8, '0')}`
+}
 
 export const buildPrecacheUrls = (
   manifestUrls: string[],

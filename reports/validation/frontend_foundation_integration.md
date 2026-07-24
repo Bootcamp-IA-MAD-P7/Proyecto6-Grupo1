@@ -11,12 +11,13 @@
 | Commit de partida para la revisión manual | `42d0bc153c0aeadd35e6c77d385447fac08ec26d` |
 | Fecha | `2026-07-24` |
 | Estado automático | Correcto |
-| Estado manual | Tarea 9.2 correcta; tarea 9.3 pendiente |
+| Estado manual | Tareas 9.2 y 9.3 correctas |
 
 Este informe reúne la evidencia automática de la tarea 9.1 y la revisión manual
-de accesibilidad y responsive de la tarea 9.2. Todavía debe ampliarse con la
-verificación de instalación, actualización, dictado, permisos y privacidad de
-la tarea 9.3 antes de considerarlo definitivo.
+de accesibilidad y responsive de la tarea 9.2, además de la verificación de
+instalación, actualización, offline, dictado, permisos y privacidad de la tarea
+9.3. La revisión final de alcance y repositorio pertenece todavía a la tarea
+9.4.
 
 La entrega validada es una interfaz React PWA con respuestas sintéticas. Todavía
 no existe backend, modelo entrenado ni inferencia real, por lo que esta evidencia
@@ -31,6 +32,8 @@ no permite marcar `ESS-04` como verificado.
 | npm | `11.16.0` |
 | Vitest | `4.1.10` |
 | Vite | `6.4.3` |
+| Chrome verificado | `150.0.7871.129` |
+| Edge secundario no verificado | `150.0.4078.83` |
 | Hash Git del lockfile | `ff078583c3aa9d4a5a5d320b9b9d777414bc9df0` |
 
 ## Batería automática — tarea 9.1
@@ -140,6 +143,78 @@ Todos los comandos finalizaron correctamente. La batería conserva `4`
 archivos y `29` tests aprobados; el build transforma `123` módulos y el service
 worker mantiene `8` entradas de precaché.
 
+## PWA, dictado y privacidad — tarea 9.3
+
+La matriz mínima de demostración de esta entrega se limita a Chrome
+`150.0.7871.129` sobre Windows. Edge `150.0.4078.83` está instalado y se
+registra como navegador Chromium secundario, pero no se presenta como
+verificado porque no se completó en él la misma revisión manual.
+
+### Hallazgos y correcciones
+
+La revisión identificó dos mejoras necesarias antes de considerar verificable
+la instalación y la actualización:
+
+1. El manifest solo ofrecía un icono SVG. Se añadieron iconos PNG de
+   `192 × 192` y `512 × 512`, más un recurso maskable de `512 × 512`, y se
+   conservó el SVG como formato escalable. El recurso maskable mantiene un fondo
+   completo para tolerar el recorte del sistema.
+2. El service worker utilizaba un nombre de caché fijo. Aunque el worker podía
+   actualizarse, recursos con hash de builds anteriores podían permanecer en
+   la misma caché. El nombre se deriva ahora de manera determinista del manifest
+   de precaché; una versión con contenido diferente obtiene otra caché y la fase
+   de activación elimina las anteriores.
+
+La selección de tamaños rasterizados sigue la recomendación de Chromium de
+ofrecer recursos de `192 × 192` y `512 × 512`, manteniendo el SVG como formato
+adicional y no como único recurso:
+<https://web.dev/articles/add-manifest>.
+
+### Matriz de escenarios
+
+| ID | Escenario | Evidencia | Resultado |
+|---|---|---|---|
+| PWA-01 | Manifest y recursos de instalación | Build de producción y revisión de `manifest.webmanifest` | Correcto; nombre, `start_url`, `scope`, modo `standalone`, colores e iconos PNG, maskable y SVG presentes |
+| PWA-02 | Instalación en Chrome | Revisión humana sobre `127.0.0.1` | Correcto; Chrome ofreció instalar `Complaint Routing Workspace` y la abrió en una ventana independiente |
+| PWA-03 | Actualización del worker | `registerType: autoUpdate`, caché versionada por contenido y tests de regresión | Correcto; un build distinto obtiene una caché distinta y la activación elimina cachés anteriores |
+| PWA-04 | Recarga offline | Revisión manual registrada en 6.2 sobre el build de producción | Correcto; el shell completo vuelve a abrirse desde caché y muestra el estado offline |
+| PWA-05 | Clasificación sin servicio | Revisión manual y tests de conectividad | Correcto; el botón queda deshabilitado y no aparece resultado mock ni real |
+| VOICE-01 | Dictado soportado y autorizado | Chrome 150 con permiso real concedido | Correcto; la acción explícita activa el dictado y el texto sintético aparece editable en la narrativa |
+| VOICE-02 | Dictado no soportado | Test con Web Speech API ausente | Correcto; no aparece la acción de dictado, el fallback se explica y el teclado sigue disponible |
+| VOICE-03 | Permiso denegado | Test con error `not-allowed` | Correcto; la escucha se detiene, aparece un mensaje seguro y el teclado continúa disponible |
+| VOICE-04 | Error del proveedor | Test con error de red sintético | Correcto; no se expone detalle interno y la entrada manual permanece operativa |
+| PRIV-01 | Narrativa fuera de almacenamiento y telemetría | Test con spies de Storage, Cache Storage, URL y consola | Correcto; no hay escrituras, cambios de URL ni logs con el texto |
+| PRIV-02 | Caché limitada a recursos estáticos | Política, build y revisión de Cache Storage de 6.2 | Correcto; API, sonda de conectividad, escrituras, datos y orígenes externos permanecen `network-only` |
+
+### Comprobaciones reproducibles posteriores
+
+```bash
+cd app/interface
+npm run typecheck
+npm run lint
+npm run format:check
+npm test -- --run
+npm run build
+```
+
+Todos los comandos finalizaron correctamente. La batería aumenta a `31` tests
+aprobados y el build PWA genera `14` entradas antes de la normalización interna
+de URLs duplicadas. Los tres PNG tienen las dimensiones y el modo RGBA
+esperados.
+
+### Limitaciones conservadas
+
+- No se probó la instalación y el dictado manual en Edge; sigue siendo un
+  navegador secundario pendiente de evidencia.
+- El permiso concedido se verificó con el navegador real. El permiso denegado y
+  el navegador sin soporte se validaron mediante pruebas controladas para no
+  presentar una combinación no observada como evidencia manual.
+- El idioma del reconocimiento procede del documento o del navegador y no
+  establece todavía una política de idioma del producto.
+- La actualización se verificó en la mecánica del worker, el build y la caché;
+  no representa todavía una estrategia de despliegue en producción.
+- Instalar la PWA no añade backend, modelo, autenticación real ni inferencia.
+
 ## Seguridad de la evidencia
 
 - No se utilizaron narrativas reales del CFPB.
@@ -150,6 +225,4 @@ worker mantiene `8` entradas de precaché.
 
 ## Verificaciones pendientes
 
-- Tarea 9.3: instalación y actualización PWA, offline, dictado, permisos y
-  privacidad.
 - Tarea 9.4: revisión final del alcance y quality gates del repositorio.
