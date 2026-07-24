@@ -44,3 +44,46 @@ El EDA describe y devuelve evidencia agregada. Esta spec fija las invariantes co
 - El equipo puede trabajar en paralelo desde hoy.
 - Los notebooks no necesitan contener la lógica definitiva del pipeline.
 - La evidencia puede cambiar decisiones abiertas, pero no silenciosamente las reglas ya aceptadas.
+
+## ADR-003 Adoptar Jupytext con formato percent para notebooks reproducibles
+
+- Fecha: `2026-07-23`
+- Estado: `accepted`
+- Relacionada con: `T-004, T-007`
+
+### Contexto
+
+Los notebooks .ipynb generan diffs JSON difíciles de revisar, no son evaluables
+con Ruff y mezclan código con salidas. El equipo necesita una forma de trabajar
+con celdas que sea lintable, versionable y sincronizable con Jupyter.
+
+### Decisión
+
+Los notebooks se editarán como `.py` con celdas `# %%` (formato percent). Esta
+sintaxis es soportada nativamente por VS Code. Se añade Jupytext para
+sincronizar un `.ipynb` efímero cuando se necesite Jupyter Notebook/Lab o
+ejecución headless con nbconvert.
+
+El `.py` es fuente de verdad; el `.ipynb` se genera por sincronización y no se
+versiona (`*.ipynb` en `.gitignore`).
+
+Configuración:
+- `.jupytext.toml` con `formats = "ipynb,py:percent"`
+- Makefile opcional (comandos oficiales vía Python, no dependen de make)
+- `notebooks/README.md` actualizado con el flujo
+
+Los cambios nuevos de producto se gobernarán con OpenSpec; esta decisión se
+gestiona como tarea heredada dentro de la spec numerada `001`.
+
+### Consecuencias
+
+- Positivas: diffs limpios, Ruff analiza todo, el `.ipynb` se regenera desde
+  el `.py`, cualquiera puede ejecutar celdas en VS Code sin Jupytext.
+- Negativas: quien ejecute con Jupyter Notebook/Lab necesita Jupytext; los
+  `.ipynb` no están disponibles tras clonar sin ejecutar sincronización.
+- Neutral: el flujo se documenta en `notebooks/README.md`.
+
+### Evidencia
+
+- Propuesta registrada y revisada desde el arnés (`004-agentic-harness`).
+- Prueba de concepto validada contra `001/T-004` y `001/T-007`.
