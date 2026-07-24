@@ -14,10 +14,11 @@
 
 ## 2. Incorporación selectiva y atribución
 
-- [ ] 2.1 Recuperar exclusivamente desde `3ced1f5` los tres archivos base identificados por el inventario, conservando `Miguel Redondo Nunez <miguel.rnunez@gmail.com>` como autor y sin incorporar el commit completo.
+- [x] 2.1 Recuperar exclusivamente desde `3ced1f5` los tres archivos base identificados por el inventario, conservando `Miguel Redondo Nunez <miguel.rnunez@gmail.com>` como autor y sin incorporar el commit completo.
   - **Responsable:** Miguel / integración.
   - **Dependencias:** 1.2.
   - **Evidencia:** commit preparatorio limitado a `prediction.ts`, `prediction-client.ts` y `mock-prediction-client.ts`, con autoría original.
+  - **Resultado:** `e525a3e0e85c2246634fa84e72550aa8286acb09`; tres archivos, `104` líneas añadidas y autoría `Miguel Redondo Nunez <miguel.rnunez@gmail.com>` confirmada.
   - **Verificación:** `git show --stat --format=fuller HEAD`; `git diff-tree --no-commit-id --name-only -r HEAD`; `git status --short --branch`.
 
 - [ ] 2.2 Incorporar en orden únicamente los treinta commits frontend aprobados por el inventario, conservando `Abel Cañas <abelstor@gmail.com>` como autor de cada commit y sin incluir el merge commit ni documentación histórica.
