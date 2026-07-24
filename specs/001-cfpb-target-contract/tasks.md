@@ -62,6 +62,17 @@
 - Verificación: revisión del equipo, tests y documentación sincronizada.
 - Evidencia obtenida: pendiente.
 
+## T-007 Adoptar el flujo reproducible de notebooks
+
+- Estado: `[x]`
+- Responsable: `Víctor / Datos y EDA`
+- Dependencias: ninguna (relacionada con T-004, no bloqueante)
+- Requisitos cubiertos: `ADR-003`
+- Trabajo: implementar ADR-003: crear `.jupytext.toml`, actualizar `.gitignore` con `*.ipynb`, crear `Makefile` opcional, actualizar `notebooks/README.md`.
+- Límites: no modificar el EDA (T-004), no entrenar modelos, no crear spec de modelado, no marcar T-004 como completada.
+- Verificación: `git diff --check`, `python scripts/quality/check_repository.py`, sincronización de prueba entre `.py` y `.ipynb`, ausencia de narrativas versionadas.
+- Evidencia obtenida: `.jupytext.toml`, `.gitignore` actualizado, `Makefile`, `notebooks/README.md` actualizado, `pyproject.toml` con uv y dependencias, sincronización jupytext verificada.
+
 ## Checklist de cierre
 
 - [ ] Todos los criterios de aceptación están cubiertos.
