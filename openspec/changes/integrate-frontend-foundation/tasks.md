@@ -131,10 +131,11 @@
 
 ## 8. Dependencias y auditoría
 
-- [ ] 8.1 Obtener una línea base de vulnerabilidades y dependencias desactualizadas, identificando para cada hallazgo alto o crítico el paquete directo o transitivo y su uso real.
+- [x] 8.1 Obtener una línea base de vulnerabilidades y dependencias desactualizadas, identificando para cada hallazgo alto o crítico el paquete directo o transitivo y su uso real.
   - **Responsable:** Abel / frontend, con revisión de Miguel / seguridad.
   - **Dependencias:** 3.1.
   - **Evidencia:** sección de dependencias en el informe de validación, sin narrativas ni datos sensibles.
+  - **Resultado:** `npm audit` informa cinco hallazgos limitados al entorno de desarrollo y pruebas: tres moderados, uno alto y uno crítico. `vitest@2.1.9` es la única dependencia directa afectada y arrastra `@vitest/mocker@2.1.9`, `vite-node@2.1.9`, `vite@5.4.21` y `esbuild@0.21.5`. El `vite@6.4.3` directo utilizado por el build está deduplicado para la aplicación y no entra en los rangos afectados; su `esbuild@0.25.12` tampoco está afectado. El hallazgo crítico `GHSA-5xrq-8626-4rwp` requiere que el servidor UI de Vitest esté escuchando, una capacidad que el proyecto no configura ni utiliza. El hallazgo alto `GHSA-fx2h-pf6j-xcff` afecta a la copia transitiva de Vite dentro del runner de tests. La solución comunicada por npm requiere actualizar Vitest a una versión major, por lo que se difiere a 8.2 para aplicar y verificar el cambio sin `--force`.
   - **Verificación:** `cd app/interface && npm audit --json`; `cd app/interface && npm outdated`.
 
 - [ ] 8.2 Aplicar actualizaciones compatibles, regenerar el lockfile sin `--force` ni overrides injustificados y repetir el conjunto de pruebas tras cada grupo de cambios.

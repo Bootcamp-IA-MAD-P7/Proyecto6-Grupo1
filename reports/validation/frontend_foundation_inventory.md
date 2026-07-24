@@ -896,3 +896,93 @@ persistente, no ofrecieron acciones operativas y no mostraron cifras o estados
 atribuibles a un sistema real. Las capturas contienen únicamente una identidad
 de demostración incluida en la propia interfaz y no se incorporan al
 repositorio.
+
+## Línea base de dependencias — tarea 8.1
+
+La auditoría se ejecutó sin modificar `package.json`, el lockfile ni
+`node_modules`:
+
+```bash
+npm audit --json
+npm outdated --json
+npm ls vitest vite vite-node @vitest/mocker esbuild --all
+npm explain vitest
+npm explain vite-node
+npm explain @vitest/mocker
+npm explain esbuild
+```
+
+### Resumen
+
+| Severidad | Total |
+|---|---:|
+| Moderada | 3 |
+| Alta | 1 |
+| Crítica | 1 |
+| Total | 5 |
+
+Todos los hallazgos pertenecen al entorno de desarrollo y pruebas. No forman
+parte de las dependencias de ejecución declaradas ni del bundle final de la
+aplicación.
+
+### Cadena afectada
+
+```text
+vitest@2.1.9                           dependencia directa de desarrollo
+├── @vitest/mocker@2.1.9               transitiva
+│   └── vite@5.4.21                    transitiva
+├── vite-node@2.1.9                    transitiva
+│   └── vite@5.4.21                    transitiva
+│       └── esbuild@0.21.5             transitiva
+└── vite@5.4.21                        transitiva
+    └── esbuild@0.21.5                 transitiva
+```
+
+La cadena principal de build queda separada:
+
+```text
+vite@6.4.3                             dependencia directa de desarrollo
+└── esbuild@0.25.12                    transitiva
+```
+
+`vite@6.4.3` y `esbuild@0.25.12` no pertenecen a los rangos afectados
+comunicados por la auditoría.
+
+### Hallazgos altos y críticos
+
+| Paquete | Severidad | Relación | Aviso | Uso observado |
+|---|---|---|---|---|
+| `vitest@2.1.9` | Crítica | Directa de desarrollo | `GHSA-5xrq-8626-4rwp` | Runner local de los tests; el servidor UI vulnerable no está configurado ni se inicia con los scripts del proyecto |
+| `vite@5.4.21` | Alta | Transitiva de Vitest | `GHSA-fx2h-pf6j-xcff` | Transformación y servidor interno del runner de tests; no es el Vite utilizado por el build principal |
+
+El aviso crítico describe lectura y ejecución arbitrarias cuando el servidor UI
+de Vitest está escuchando. El proyecto ejecuta `vitest run`, no declara
+`@vitest/ui` y no expone ese servidor. Esto reduce la superficie actual, pero no
+justifica conservar una versión vulnerable.
+
+El aviso alto afecta a rutas alternativas de Windows en `server.fs.deny`. La
+copia vulnerable es `vite@5.4.21`, instalada dentro del árbol de Vitest. El
+servidor de build principal utiliza `vite@6.4.3`.
+
+### Hallazgos moderados
+
+| Paquete | Relación | Origen |
+|---|---|---|
+| `@vitest/mocker@2.1.9` | Transitiva de Vitest | Depende de la copia vulnerable de Vite |
+| `vite-node@2.1.9` | Transitiva de Vitest | Depende de la copia vulnerable de Vite |
+| `esbuild@0.21.5` | Transitiva de Vite dentro de Vitest | `GHSA-67mh-4wv8-2f99` |
+
+La auditoría también comunica dos avisos moderados adicionales sobre la copia de
+Vite: `GHSA-4w7w-66w2-5vf9` y `GHSA-v6wh-96g9-6wx3`.
+
+### Dependencias desactualizadas
+
+`npm outdated` informa varias versiones major disponibles. No se actualizarán
+en bloque porque una versión más reciente no implica automáticamente una
+migración necesaria o compatible. Para resolver la cadena vulnerable, npm
+propone `vitest@4.1.10`, que constituye un cambio major. La tarea 8.2 evaluará
+exclusivamente esa actualización y ejecutará typecheck, lint, formato, tests y
+build antes de considerar cualquier otro paquete.
+
+No se utilizó `npm audit fix`, `--force`, overrides ni modificación manual del
+lockfile.
