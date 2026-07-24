@@ -138,10 +138,11 @@
   - **Resultado:** `npm audit` informa cinco hallazgos limitados al entorno de desarrollo y pruebas: tres moderados, uno alto y uno crítico. `vitest@2.1.9` es la única dependencia directa afectada y arrastra `@vitest/mocker@2.1.9`, `vite-node@2.1.9`, `vite@5.4.21` y `esbuild@0.21.5`. El `vite@6.4.3` directo utilizado por el build está deduplicado para la aplicación y no entra en los rangos afectados; su `esbuild@0.25.12` tampoco está afectado. El hallazgo crítico `GHSA-5xrq-8626-4rwp` requiere que el servidor UI de Vitest esté escuchando, una capacidad que el proyecto no configura ni utiliza. El hallazgo alto `GHSA-fx2h-pf6j-xcff` afecta a la copia transitiva de Vite dentro del runner de tests. La solución comunicada por npm requiere actualizar Vitest a una versión major, por lo que se difiere a 8.2 para aplicar y verificar el cambio sin `--force`.
   - **Verificación:** `cd app/interface && npm audit --json`; `cd app/interface && npm outdated`.
 
-- [ ] 8.2 Aplicar actualizaciones compatibles, regenerar el lockfile sin `--force` ni overrides injustificados y repetir el conjunto de pruebas tras cada grupo de cambios.
+- [x] 8.2 Aplicar actualizaciones compatibles, regenerar el lockfile sin `--force` ni overrides injustificados y repetir el conjunto de pruebas tras cada grupo de cambios.
   - **Responsable:** Abel / frontend.
   - **Dependencias:** 8.1, 4.2, 6.1.
   - **Evidencia:** diff de `package.json` y lockfile, razones de actualización y resultados de regresión.
+  - **Resultado:** `vitest` se actualizó de `2.1.9` a `4.1.10`, versión compatible con Node.js `24.18.0` y con el `vite@6.4.3` ya utilizado por el proyecto. npm regeneró el lockfile sin `--force`, `npm audit fix`, overrides ni edición manual. El nuevo árbol elimina `vite-node@2.1.9`, la copia transitiva `vite@5.4.21` y `esbuild@0.21.5`; Vitest y `@vitest/mocker` reutilizan ahora `vite@6.4.3` con `esbuild@0.25.12`. Sobre una instalación limpia pasan typecheck, ESLint, Prettier, los veintinueve tests y el build PWA; npm informa cero vulnerabilidades.
   - **Verificación:** `cd app/interface && npm ci`; `cd app/interface && npm run typecheck`; `cd app/interface && npm run lint`; `cd app/interface && npm test -- --run`; `cd app/interface && npm run build`.
 
 - [ ] 8.3 Cerrar la auditoría sin vulnerabilidades altas o críticas, o registrar un bloqueo explícito si no existe una actualización compatible y segura.

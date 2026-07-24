@@ -986,3 +986,56 @@ build antes de considerar cualquier otro paquete.
 
 No se utilizó `npm audit fix`, `--force`, overrides ni modificación manual del
 lockfile.
+
+## Actualización compatible de dependencias — tarea 8.2
+
+La única actualización necesaria para retirar la cadena vulnerable identificada
+en 8.1 fue el runner de pruebas:
+
+| Dependencia directa | Antes | Después | Motivo |
+|---|---:|---:|---|
+| `vitest` | `2.1.9` | `4.1.10` | Retirar la cadena vulnerable de Vite 5 y conservar compatibilidad con Node.js 24 y Vite 6 |
+
+La actualización se aplicó mediante npm y regeneró `package-lock.json`. No se
+utilizaron `npm audit fix`, `--force`, overrides ni ediciones manuales del
+lockfile.
+
+### Compatibilidad comprobada
+
+- `vitest@4.1.10` admite Node.js `^20`, `^22` o `>=24`;
+- su peer de Vite admite las versiones `6`, `7` y `8`;
+- el proyecto utiliza Node.js `24.18.0` y conserva `vite@6.4.3`;
+- los scripts existentes continúan funcionando sin cambios;
+- `npm ci` reconstruye correctamente las dependencias desde el lockfile.
+
+### Árbol resultante
+
+```text
+vite@6.4.3
+└── esbuild@0.25.12
+
+vitest@4.1.10
+├── @vitest/mocker@4.1.10
+│   └── vite@6.4.3 deduplicado
+└── vite@6.4.3 deduplicado
+```
+
+Ya no aparecen en el árbol `vite-node@2.1.9`, `vite@5.4.21` ni
+`esbuild@0.21.5`.
+
+### Regresión sobre instalación limpia
+
+| Comprobación | Resultado |
+|---|---|
+| `npm ci` | Correcto; `575` paquetes instalados y `0` vulnerabilidades |
+| `npm run typecheck` | Correcto |
+| `npm run lint` | Correcto |
+| `npm run format:check` | Correcto |
+| `npm test -- --run` | `4` archivos y `29` tests aprobados |
+| `npm run build` | Correcto; PWA generada con `8` entradas de precaché |
+| `npm audit --audit-level=high` | Correcto; `0` vulnerabilidades |
+
+npm mantiene avisos de deprecación en paquetes transitivos de desarrollo, pero
+la auditoría no les atribuye vulnerabilidades. Su eventual actualización no se
+mezcla con esta corrección de seguridad y requerirá una evaluación independiente
+si llega a afectar al proyecto.
