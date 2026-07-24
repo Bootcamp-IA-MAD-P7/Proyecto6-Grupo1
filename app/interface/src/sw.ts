@@ -1,13 +1,30 @@
 /// <reference lib="webworker" />
 /// <reference types="vite-plugin-pwa/client" />
 
-declare const self: ServiceWorkerGlobalScope
+export {}
+
+interface PrecacheEntry {
+  url: string
+  revision?: string | null
+}
+
+declare const self: ServiceWorkerGlobalScope & {
+  __WB_MANIFEST: PrecacheEntry[]
+}
 
 const CACHE_NAME = 'complaint-routing-v1'
 const OFFLINE_URL = '/offline.html'
 
 // Archivos a cachear
-const PRECACHE_URLS = ['/', '/index.html', '/app-mark.svg', OFFLINE_URL]
+const PRECACHE_URLS = [
+  ...new Set([
+    ...self.__WB_MANIFEST.map((entry) => entry.url),
+    '/',
+    '/index.html',
+    '/app-mark.svg',
+    OFFLINE_URL,
+  ]),
+]
 
 // ============================================
 // INSTALACIÓN
@@ -98,7 +115,10 @@ self.addEventListener('fetch', (event) => {
 
           // Si es una página HTML, mostrar offline
           if (request.headers.get('accept')?.includes('text/html')) {
-            return cache.match(OFFLINE_URL)
+            return (
+              (await cache.match(OFFLINE_URL)) ??
+              new Response('Página no disponible offline', { status: 503 })
+            )
           }
 
           // Para otros recursos, devolver error

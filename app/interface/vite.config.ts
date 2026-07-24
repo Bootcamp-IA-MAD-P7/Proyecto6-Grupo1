@@ -34,21 +34,13 @@ export default defineConfig({
           },
         ],
       },
-      // 🔥 CAMBIO 1: Estrategia injectManifest
       strategies: 'injectManifest',
-
-      // 🔥 CAMBIO 2: Ruta al SW personalizado
       srcDir: 'src',
       filename: 'sw.ts',
-
-      // 🔥 CAMBIO 3: Workbox (se mantiene tu lógica)
-      workbox: {
+      injectManifest: {
         globPatterns: ['**/*.{js,css,html,svg}'],
-        navigateFallbackDenylist: [/^\/api\//],
-        cleanupOutdatedCaches: true,
+        injectionPoint: 'self.__WB_MANIFEST',
       },
-
-      // 🔥 CAMBIO 4: Activar PWA en desarrollo
       devOptions: {
         enabled: true,
         type: 'module',

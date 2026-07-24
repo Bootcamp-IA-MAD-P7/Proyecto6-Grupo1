@@ -549,3 +549,62 @@ La captura y el fallback de caché mantienen el mismo comportamiento.
 
 No se modificaron contratos, dependencias, configuración de ESLint ni
 funcionalidades de la interfaz.
+
+## Contrato frontend — tarea 4.1
+
+El contrato TypeScript se contrastó con `docs/api/openapi.json` y se añadió una
+frontera de validación en tiempo de ejecución:
+
+- `PredictionRequest` solo admite `narrative` y el identificador técnico opcional;
+- las once clases canónicas y los cinco motivos de revisión se comparan con OpenAPI;
+- las respuestas deben contener todos los campos obligatorios y ningún campo extra;
+- las clases, UUID, fecha, confianza, alternativas y reglas de revisión se validan;
+- una respuesta incompatible se transforma en un error seguro
+  `invalid_response`;
+- `PredictionTransport` queda separado de `PredictionClient`, por lo que la vista
+  no depende de una futura implementación HTTP;
+- el formulario envía la narrativa recortada y rechaza valores en blanco.
+
+| Comprobación | Resultado |
+|---|---|
+| Commit de implementación | `319fe07` |
+| Tests del cliente y formulario | `9` aprobados |
+| Tests Python del contrato | `7` aprobados |
+| Respuesta con clase desconocida | Rechazada |
+| Petición con narrativa en blanco | Rechazada antes de llamar al transporte |
+| `npm run typecheck` final | Código `0` |
+| Narrativas reales utilizadas | Ninguna |
+
+El primer typecheck ejecutado tras implementar el contrato mostró ocho errores
+exclusivamente en `src/sw.ts`. No se ocultaron ni se atribuyeron al contrato: se
+resolvieron mediante la separación de contextos de la tarea 6.1 antes de cerrar
+formalmente 4.1.
+
+## Contexto TypeScript y build PWA — tarea 6.1
+
+La línea base mezclaba los tipos DOM de React con los tipos WebWorker. Además,
+el build `injectManifest` no encontraba `self.__WB_MANIFEST`. La solución:
+
+- excluye `src/sw.ts` del contexto React;
+- añade `tsconfig.worker.json` con `WebWorker`;
+- referencia app, worker y configuración Node desde `tsconfig.json`;
+- declara el módulo virtual de registro PWA;
+- tipa los eventos sobre `ServiceWorkerGlobalScope`;
+- utiliza `self.__WB_MANIFEST` como punto de inyección;
+- garantiza que el fallback HTML siempre devuelve una `Response`.
+
+| Comprobación | Resultado |
+|---|---|
+| `npm run typecheck` | Código `0` |
+| `npm run build` | Código `0` |
+| Estrategia PWA | `injectManifest` |
+| Worker generado | `dist/sw.js` |
+| Entradas de precaché inyectadas | `8` |
+| Tamaño comunicado del precaché | `336.03 KiB` |
+| Tests frontend de regresión | `9` aprobados |
+| ESLint | Cero errores y cero avisos |
+| Prettier | Correcto |
+
+La política de caché, la exclusión operativa de `/api/` y el comportamiento
+offline completo todavía pertenecen a la tarea 6.2; este resultado no los da por
+verificados.

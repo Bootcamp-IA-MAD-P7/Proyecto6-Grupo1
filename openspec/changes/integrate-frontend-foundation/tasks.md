@@ -60,10 +60,11 @@
 
 ## 4. Contrato, flujo principal y mocks
 
-- [ ] 4.1 Alinear `PredictionRequest`, `PredictionResponse`, clases y motivos de revisión con `docs/api/openapi.json`, manteniendo `PredictionClient` desacoplado de la vista.
+- [x] 4.1 Alinear `PredictionRequest`, `PredictionResponse`, clases y motivos de revisión con `docs/api/openapi.json`, manteniendo `PredictionClient` desacoplado de la vista.
   - **Responsable:** Abel / frontend, con revisión de José / backend.
   - **Dependencias:** 3.3.
   - **Evidencia:** tipos y tests que demuestren que el formulario envía `PredictionRequest.narrative` y rechaza respuestas incompatibles.
+  - **Resultado:** el commit `319fe07` alinea clases y motivos con OpenAPI, valida en ejecución las peticiones y respuestas y mantiene el transporte desacoplado mediante `PredictionTransport` y `PredictionClient`. El formulario envía la narrativa recortada; una respuesta con clase desconocida y una petición en blanco se rechazan. Pasan nueve tests frontend, siete tests Python del contrato y el typecheck completo.
   - **Verificación:** `cd app/interface && npm run typecheck`; `python -m unittest tests.contract.test_inference_contract -v`.
 
 - [ ] 4.2 Consolidar formulario, validación, envío, carga, error, recomendación mock, revisión humana y nueva clasificación sin persistir ni devolver la narrativa.
@@ -94,10 +95,11 @@
 
 ## 6. Service worker y experiencia offline
 
-- [ ] 6.1 Separar los contextos TypeScript de React y service worker, tipar los eventos del worker y configurar un punto de inyección válido para `vite-plugin-pwa`.
+- [x] 6.1 Separar los contextos TypeScript de React y service worker, tipar los eventos del worker y configurar un punto de inyección válido para `vite-plugin-pwa`.
   - **Responsable:** Abel / frontend.
   - **Dependencias:** 3.3.
   - **Evidencia:** typecheck y build de producción correctos sin excluir el worker de las comprobaciones.
+  - **Resultado:** React, configuración Node y service worker disponen de contextos TypeScript separados y referenciados por el mismo `tsc -b`. El worker utiliza tipos `ServiceWorkerGlobalScope`, declara `self.__WB_MANIFEST` y el build `injectManifest` genera `dist/sw.js` con ocho entradas de precaché. Typecheck y build finalizan con código `0`.
   - **Verificación:** `cd app/interface && npm run typecheck`; `cd app/interface && npm run build`.
 
 - [ ] 6.2 Limitar la caché a recursos estáticos, excluir `/api/`, ofrecer fallback de navegación y evitar cualquier respuesta de predicción fabricada sin conexión.
