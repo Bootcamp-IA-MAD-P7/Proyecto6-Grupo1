@@ -37,13 +37,17 @@ describe('ClassificationPage', () => {
 
   it('shows a synthetic result', async () => {
     const user = userEvent.setup()
-    renderWithRouter(
-      <ClassificationPage predictionClient={createMockPredictionClient({ latencyMs: 0 })} />,
-    )
+    const client = createMockPredictionClient({ latencyMs: 0 })
+    const createPrediction = vi.spyOn(client, 'createPrediction')
 
-    await user.type(screen.getByLabelText('Complaint narrative'), 'Test complaint text')
+    renderWithRouter(<ClassificationPage predictionClient={client} />)
+
+    await user.type(screen.getByLabelText('Complaint narrative'), '  Test complaint text  ')
     await user.click(screen.getByRole('button', { name: 'Classify complaint' }))
 
+    expect(createPrediction).toHaveBeenCalledWith({
+      narrative: 'Test complaint text',
+    })
     expect(
       await screen.findByRole('heading', {
         name: 'Credit reporting or other personal consumer reports',
