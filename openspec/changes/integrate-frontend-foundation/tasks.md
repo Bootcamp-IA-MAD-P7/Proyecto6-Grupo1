@@ -44,10 +44,11 @@
   - **Resultado:** `npm ci` finalizó con código `0` sobre Node.js `24.18.0` y npm `11.16.0`; instaló `585` paquetes, mantuvo intacto el lockfile `96cc4da1ecda89b59106069bc482ff16e61b0fa5` y dejó `node_modules` ignorado. La línea base informa cinco vulnerabilidades, pendientes de 8.1–8.3.
   - **Verificación:** `cd app/interface && npm ci`.
 
-- [ ] 3.2 Aplicar Prettier únicamente a `app/interface/` y dejar la comprobación de formato sin diferencias.
+- [x] 3.2 Aplicar Prettier únicamente a `app/interface/` y dejar la comprobación de formato sin diferencias.
   - **Responsable:** Abel / frontend.
   - **Dependencias:** 3.1.
   - **Evidencia:** archivos formateados y salida correcta de Prettier.
+  - **Resultado:** el commit `67907bc` normaliza con Prettier veinticinco archivos de `app/interface/`, elimina los diecinueve hallazgos de espacios finales identificados en 2.3 y no modifica rutas externas ni dependencias. `format:check` y la comprobación de whitespace finalizaron correctamente.
   - **Verificación:** `cd app/interface && npm run format`; `cd app/interface && npm run format:check`; `git diff --check`.
 
 - [ ] 3.3 Corregir errores y avisos accionables de ESLint sin desactivar reglas de accesibilidad, React o TypeScript para ocultar fallos.

@@ -489,3 +489,37 @@ corrección de código. La identificación de las cadenas de dependencia y su
 tratamiento corresponden a las tareas 8.1–8.3.
 
 No se usaron narrativas reales, credenciales, secretos, datasets ni servicios externos de IA.
+
+## Normalización de formato — tarea 3.2
+
+El formato se aplicó exclusivamente dentro de `app/interface/` después de
+confirmar la instalación reproducible de la tarea 3.1:
+
+```bash
+cd app/interface
+npm run format
+npm run format:check
+cd ../..
+git diff --check
+```
+
+| Campo | Resultado |
+|---|---|
+| Fecha | `2026-07-24` |
+| Commit | `67907bc` |
+| Archivos modificados | `25`, todos bajo `app/interface/` |
+| Diferencia | `230` inserciones y `263` eliminaciones de formato |
+| Código de salida de `npm run format` | `0` |
+| Código de salida de `npm run format:check` | `0` |
+| Resultado de Prettier | Todos los archivos comprobados utilizan el estilo configurado |
+| Resultado de `git diff --check` | Sin errores |
+| Dependencias o lockfile modificados | Ninguno |
+| Cambio funcional intencionado | Ninguno |
+
+La normalización corrigió también los diecinueve espacios finales detectados
+durante la tarea 2.3 en `public/offline.html`, `src/sw.ts` y `vite.config.ts`.
+Los avisos locales de Git sobre conversión futura entre LF y CRLF no representan
+errores de contenido ni una comprobación fallida.
+
+No se ejecutaron lint, typecheck, tests, build ni correcciones funcionales como
+parte de esta tarea; pertenecen a tareas posteriores del cambio.
