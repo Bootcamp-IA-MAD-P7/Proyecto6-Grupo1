@@ -51,10 +51,11 @@
   - **Resultado:** el commit `67907bc` normaliza con Prettier veinticinco archivos de `app/interface/`, elimina los diecinueve hallazgos de espacios finales identificados en 2.3 y no modifica rutas externas ni dependencias. `format:check` y la comprobación de whitespace finalizaron correctamente.
   - **Verificación:** `cd app/interface && npm run format`; `cd app/interface && npm run format:check`; `git diff --check`.
 
-- [ ] 3.3 Corregir errores y avisos accionables de ESLint sin desactivar reglas de accesibilidad, React o TypeScript para ocultar fallos.
+- [x] 3.3 Corregir errores y avisos accionables de ESLint sin desactivar reglas de accesibilidad, React o TypeScript para ocultar fallos.
   - **Responsable:** Abel / frontend.
   - **Dependencias:** 3.2.
   - **Evidencia:** lint correcto y cualquier excepción imprescindible justificada junto a la regla concreta.
+  - **Resultado:** la línea base identificó un único error `@typescript-eslint/no-unused-vars` en `src/sw.ts`. Se eliminó el identificador no utilizado del bloque `catch` sin cambiar su comportamiento, desactivar reglas ni añadir excepciones. ESLint finalizó con cero errores y cero avisos.
   - **Verificación:** `cd app/interface && npm run lint`.
 
 ## 4. Contrato, flujo principal y mocks

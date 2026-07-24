@@ -523,3 +523,29 @@ errores de contenido ni una comprobación fallida.
 
 No se ejecutaron lint, typecheck, tests, build ni correcciones funcionales como
 parte de esta tarea; pertenecen a tareas posteriores del cambio.
+
+## Corrección de lint — tarea 3.3
+
+La primera ejecución de ESLint encontró un único problema:
+
+```text
+src/sw.ts
+93:18  error  'error' is defined but never used
+@typescript-eslint/no-unused-vars
+```
+
+Se sustituyó `catch (error)` por `catch` porque el identificador no se utilizaba.
+La captura y el fallback de caché mantienen el mismo comportamiento.
+
+| Comprobación | Resultado |
+|---|---|
+| Fecha | `2026-07-24` |
+| Archivos de código modificados | `app/interface/src/sw.ts` |
+| Reglas desactivadas | Ninguna |
+| Excepciones añadidas | Ninguna |
+| `npm run lint` final | Código `0`; cero errores y cero avisos |
+| `npm run format:check` | Código `0` |
+| `git diff --check` | Sin errores |
+
+No se modificaron contratos, dependencias, configuración de ESLint ni
+funcionalidades de la interfaz.

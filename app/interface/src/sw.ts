@@ -90,7 +90,7 @@ self.addEventListener('fetch', (event) => {
           }
 
           return networkResponse
-        } catch (error) {
+        } catch {
           // Si falla la red, devolver cache
           if (cachedResponse) {
             return cachedResponse
