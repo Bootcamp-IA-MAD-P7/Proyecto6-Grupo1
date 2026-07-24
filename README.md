@@ -8,7 +8,7 @@
   <a href="https://github.com/Bootcamp-IA-MAD-P7/Proyecto6-Grupo1/actions/workflows/repository-quality.yml"><img alt="Repository quality" src="https://github.com/Bootcamp-IA-MAD-P7/Proyecto6-Grupo1/actions/workflows/repository-quality.yml/badge.svg?branch=dev"></a>
   <img alt="OpenSpec 1.6.0" src="https://img.shields.io/badge/OpenSpec-1.6.0-173F4F">
   <img alt="Python 3.12" src="https://img.shields.io/badge/Python-3.12-52755B">
-  <img alt="Estado: EDA en curso" src="https://img.shields.io/badge/estado-EDA%20en%20curso-D5B56E">
+  <img alt="Estado: EDA con evidencia incorporada" src="https://img.shields.io/badge/estado-EDA%20con%20evidencia%20incorporada-D5B56E">
   <img alt="Entrega verificada: 0 de 25" src="https://img.shields.io/badge/criterios%20verificados-0%2F25-6B7478">
 </p>
 
@@ -25,16 +25,15 @@
 | Ventana analizada | 2.306.723 narrativas entre 2023-08-24 y 2026-07-23 |
 | Target | Once familias canónicas en `config/cfpb_target_contract.json` |
 | Desbalanceo preliminar | Clase mayoritaria: 72,45 % |
-| EDA | En curso, responsabilidad de Víctor |
+| EDA | Evidencia incorporada; decisiones de datos aún abiertas |
 | Modelo | No iniciado |
-| Aplicación | Prototipo React PWA validado en la rama de `PG-4`, pendiente de PR y merge; sin predicción real |
+| Aplicación | Prototipo React PWA fusionado mediante PR #25; sin predicción real |
 | Backend e inferencia | No iniciados |
 | Despliegue y MLOps | No iniciados |
 | Método de trabajo | OpenSpec + arnés implantados y comprobados |
 
-La rama de integración ya permite revisar el recorrido previsto con contenido
-sintético, dictado, instalación PWA y comportamiento offline seguro. La revisión
-humana está completada y todavía requiere Pull Request antes de llegar a `dev`.
+La implementación fusionada en `dev` permite revisar el recorrido previsto con
+contenido sintético, dictado, instalación PWA y comportamiento offline seguro.
 Esto no acredita `ESS-04`: no existe un modelo ni un servicio de inferencia al
 que conectarla. Véanse el [manual del frontend](app/interface/README.md) y su
 [informe de validación](reports/validation/frontend_foundation_integration.md).
@@ -168,8 +167,8 @@ flowchart LR
     class API,UC,DOM,INF,MODEL,DB,PIPE,MON planned
 ```
 
-La React PWA representa un prototipo validado en su rama de integración, todavía
-pendiente de PR y merge, con respuestas sintéticas. Los demás nodos siguen
+La React PWA representa un prototipo validado y fusionado en `dev`, con
+respuestas sintéticas. Los demás nodos siguen
 siendo arquitectura prevista; el diagrama no acredita backend, modelo,
 persistencia, inferencia ni monitorización reales.
 
@@ -284,7 +283,7 @@ Las subcarpetas aparecen con su primer archivo real. No se crean árboles vacío
 |---|---|---|
 | José | Backend | `PG-5` / `003/T-007`, bloqueada por datos y modelo |
 | Abel | Frontend y UX | `PG-4`, revisión de la React PWA integrada mediante OpenSpec |
-| Víctor | Datos y EDA | `PG-2` / `001/T-004`, evidencia agregada |
+| Víctor | Datos y EDA | `PG-2` / `001/T-004`, evidencia agregada incorporada mediante PR #24 |
 | Miguel | Arquitectura y método | Integración, evidencia y gobierno Jira–OpenSpec–arnés |
 
 El [backlog `PG`](https://miguel-redondo.atlassian.net/browse/PG-1) sigue el nivel
@@ -323,9 +322,9 @@ Antes de subir un paquete a NotebookLM se excluyen secretos, datos brutos, narra
 
 ## Próximos hitos
 
-1. Incorporar el EDA de Víctor y decidir idioma, duplicados, split y desbalanceo.
+1. Revisar la evidencia EDA de Víctor y decidir idioma, duplicados, split y desbalanceo.
 2. Construir un baseline reproducible y elegir la métrica principal.
-3. Revisar e integrar la React PWA validada sin presentarla como inferencia real.
+3. Evolucionar la React PWA fusionada sin presentarla como inferencia real.
 4. Definir backend e integrar el modelo cuando exista un Champion aprobado.
 5. Proteger primero el nivel esencial; investigar niveles superiores sin desestabilizarlo.
 

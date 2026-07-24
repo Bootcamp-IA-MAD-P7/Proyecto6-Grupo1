@@ -44,6 +44,11 @@
   responsive, dictado, privacidad, instalación y actualización.
 - Manual operativo del frontend y capturas sintéticas verificadas en móvil,
   tablet y escritorio.
+- EDA reproducible de Víctor incorporado mediante la PR `#24`, con conversión
+  segura a Parquet, notebook Jupytext, cuatro figuras agregadas e informe de
+  clases, temporalidad, duplicados, longitud e idioma.
+- Integración frontend de Abel fusionada mediante la PR `#25`; la PWA sigue
+  usando respuestas sintéticas y no acredita inferencia real.
 
 ### Changed
 
@@ -52,7 +57,8 @@
 - React PWA se confirma como dirección frontend inicial; la evolución nativa queda sujeta a requisitos futuros.
 - Las instrucciones de agentes y el workflow reflejan las decisiones actuales y un método OpenSpec independiente del proveedor de IA.
 - La estructura adopta creación incremental: conserva contratos en los README y elimina subcarpetas vacías para capacidades todavía no implementadas.
-- El estado activo comprende el EDA de Víctor, el uso operativo de OpenSpec y el inicio desde cero de la React PWA por Abel mediante `003/T-006`.
+- El estado activo comprende la revisión de la evidencia EDA de Víctor y las
+  decisiones de datos posteriores; la React PWA de Abel ya está fusionada.
 - OpenSpec gobierna los cambios nuevos; `specs/` conserva únicamente los expedientes anteriores y las tareas ya asignadas.
 - El piloto con Víctor deja de ser una condición de implantación y pasa a ser una oportunidad de feedback durante su trabajo real.
 - La propuesta frontend experimental de la PR `#14` se cierra sin mergear para que Abel defina e implemente el frontend desde una base limpia.
