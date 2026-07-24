@@ -145,10 +145,11 @@
   - **Resultado:** `vitest` se actualizó de `2.1.9` a `4.1.10`, versión compatible con Node.js `24.18.0` y con el `vite@6.4.3` ya utilizado por el proyecto. npm regeneró el lockfile sin `--force`, `npm audit fix`, overrides ni edición manual. El nuevo árbol elimina `vite-node@2.1.9`, la copia transitiva `vite@5.4.21` y `esbuild@0.21.5`; Vitest y `@vitest/mocker` reutilizan ahora `vite@6.4.3` con `esbuild@0.25.12`. Sobre una instalación limpia pasan typecheck, ESLint, Prettier, los veintinueve tests y el build PWA; npm informa cero vulnerabilidades.
   - **Verificación:** `cd app/interface && npm ci`; `cd app/interface && npm run typecheck`; `cd app/interface && npm run lint`; `cd app/interface && npm test -- --run`; `cd app/interface && npm run build`.
 
-- [ ] 8.3 Cerrar la auditoría sin vulnerabilidades altas o críticas, o registrar un bloqueo explícito si no existe una actualización compatible y segura.
+- [x] 8.3 Cerrar la auditoría sin vulnerabilidades altas o críticas, o registrar un bloqueo explícito si no existe una actualización compatible y segura.
   - **Responsable:** Miguel / seguridad y Abel / frontend.
   - **Dependencias:** 8.2.
   - **Evidencia:** salida final de auditoría y decisión sobre cada riesgo no resuelto.
+  - **Resultado:** la auditoría final del lockfile actualizado informa cero vulnerabilidades informativas, bajas, moderadas, altas o críticas entre `645` dependencias analizadas. No quedan riesgos de dependencias abiertos, excepciones, overrides ni bloqueos que aprobar para esta integración.
   - **Verificación:** `cd app/interface && npm audit --audit-level=high`.
 
 ## 9. Verificación funcional, UX y repositorio

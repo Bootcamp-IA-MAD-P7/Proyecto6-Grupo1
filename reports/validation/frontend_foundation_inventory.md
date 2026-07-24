@@ -1039,3 +1039,27 @@ npm mantiene avisos de deprecación en paquetes transitivos de desarrollo, pero
 la auditoría no les atribuye vulnerabilidades. Su eventual actualización no se
 mezcla con esta corrección de seguridad y requerirá una evaluación independiente
 si llega a afectar al proyecto.
+
+## Cierre de auditoría — tarea 8.3
+
+La auditoría final se ejecutó el `2026-07-24` sobre el lockfile actualizado y
+comprometido en `b181fba`:
+
+```bash
+npm audit --audit-level=high --json
+```
+
+| Severidad | Resultado |
+|---|---:|
+| Informativa | 0 |
+| Baja | 0 |
+| Moderada | 0 |
+| Alta | 0 |
+| Crítica | 0 |
+| Total | 0 |
+
+npm analizó `645` dependencias y finalizó con código `0`. Los cinco hallazgos
+registrados en la línea base 8.1 quedan resueltos por la actualización compatible
+de Vitest realizada en 8.2. No quedan vulnerabilidades conocidas, excepciones,
+riesgos de seguridad pendientes ni bloqueos de dependencias para esta
+integración.
