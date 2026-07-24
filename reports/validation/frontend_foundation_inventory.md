@@ -692,3 +692,39 @@ compatibles.
 Esta tarea verifica el comportamiento funcional. Los avisos completos sobre
 permiso, posible procesamiento por el proveedor y ausencia de persistencia se
 abordan de forma separada en 5.2.
+
+## Privacidad y condiciones del dictado — tarea 5.2
+
+Antes de activar el micrófono, la interfaz comunica que la función:
+
+- solicitará permiso mediante el navegador;
+- puede depender del navegador o de su proveedor para procesar audio;
+- no guarda audio ni transcripciones en esta aplicación;
+- deja el texto editable para revisión antes del envío;
+- mantiene el teclado como alternativa.
+
+La misma información queda versionada en `app/interface/README.md`. No se afirma
+compatibilidad universal ni se convierte el idioma técnico de reconocimiento en
+una política de producto.
+
+Se ejecutó un test con la cadena sintética `Synthetic spoken complaint` y se
+obtuvo:
+
+| Superficie revisada | Resultado |
+|---|---|
+| `localStorage` y `sessionStorage` | Ninguna escritura durante el dictado |
+| Cache Storage | Ninguna apertura o escritura durante el dictado |
+| URL | Sin cambios |
+| Consola | Sin texto ni eventos registrados por el flujo |
+| Campo de narrativa | Transcripción visible y editable |
+| Tests frontend | `16` aprobados |
+| Typecheck, ESLint y Prettier | Correctos |
+
+La búsqueda estática requerida conserva hallazgos fuera del flujo de dictado:
+
+- `auth-client.ts` usa `localStorage` exclusivamente para la sesión ficticia;
+- `main.tsx` y `sw.ts` contienen mensajes técnicos genéricos sin cuerpo de
+  petición, audio ni narrativa.
+
+Estos hallazgos no se ocultan ni se consideran aprobados: la autenticación mock
+se revisa en 7.1 y los límites del service worker en 6.2 y 9.3.

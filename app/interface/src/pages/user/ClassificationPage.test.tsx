@@ -78,9 +78,16 @@ const setSpeechRecognition = (implementation?: typeof MockSpeechRecognition) => 
   })
 }
 
+const originalCacheStorage = window.caches
+
 afterEach(() => {
+  vi.restoreAllMocks()
   MockSpeechRecognition.instances = []
   setSpeechRecognition(undefined)
+  Object.defineProperty(window, 'caches', {
+    configurable: true,
+    value: originalCacheStorage,
+  })
 })
 
 describe('ClassificationPage', () => {
@@ -249,6 +256,18 @@ describe('ClassificationPage', () => {
 
   it('adds a voice transcript to the editable narrative and stops explicitly', async () => {
     const user = userEvent.setup()
+    const storageWrite = vi.spyOn(Storage.prototype, 'setItem')
+    const cacheOpen = vi.fn()
+    const consoleLog = vi.spyOn(console, 'log').mockImplementation(() => undefined)
+    const consoleInfo = vi.spyOn(console, 'info').mockImplementation(() => undefined)
+    const consoleWarn = vi.spyOn(console, 'warn').mockImplementation(() => undefined)
+    const consoleError = vi.spyOn(console, 'error').mockImplementation(() => undefined)
+    const initialUrl = window.location.href
+
+    Object.defineProperty(window, 'caches', {
+      configurable: true,
+      value: { open: cacheOpen },
+    })
     setSpeechRecognition(MockSpeechRecognition)
 
     renderWithRouter(
@@ -262,6 +281,10 @@ describe('ClassificationPage', () => {
     expect(recognition?.start).toHaveBeenCalledOnce()
     expect(recognition?.lang).toBe(document.documentElement.lang || navigator.language || 'en-US')
     expect(screen.getByRole('status')).toHaveTextContent('Listening…')
+    expect(screen.getByText(/Your browser or speech provider may process the audio/)).toBeVisible()
+    expect(
+      screen.getByText(/This application does not store the audio or transcript/),
+    ).toBeVisible()
 
     act(() => recognition?.emitTranscript('  Synthetic spoken complaint  '))
 
@@ -274,6 +297,13 @@ describe('ClassificationPage', () => {
     await user.click(screen.getByRole('button', { name: 'Stop dictation' }))
     expect(recognition?.stop).toHaveBeenCalledOnce()
     expect(screen.getByRole('button', { name: 'Start dictation' })).toBeEnabled()
+    expect(storageWrite).not.toHaveBeenCalled()
+    expect(cacheOpen).not.toHaveBeenCalled()
+    expect(window.location.href).toBe(initialUrl)
+    expect(consoleLog).not.toHaveBeenCalled()
+    expect(consoleInfo).not.toHaveBeenCalled()
+    expect(consoleWarn).not.toHaveBeenCalled()
+    expect(consoleError).not.toHaveBeenCalled()
   })
 
   it('keeps keyboard input available when voice dictation is unsupported', () => {

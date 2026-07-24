@@ -90,10 +90,11 @@
   - **Resultado:** el hook detecta `SpeechRecognition` o `webkitSpeechRecognition` en tiempo de ejecución, comienza solo mediante una acción explícita, utiliza el idioma del documento o navegador y procesa el resultado indicado por `resultIndex`. La transcripción recortada se añade al mismo campo y continúa siendo editable; la parada manual, el fin del reconocimiento, el permiso denegado y los demás errores devuelven el control al teclado. Un navegador sin soporte mantiene el formulario operativo y muestra el fallback. Pasan dieciséis tests frontend, typecheck, ESLint y Prettier.
   - **Verificación:** `cd app/interface && npm test -- --run`; `cd app/interface && npm run typecheck`.
 
-- [ ] 5.2 Documentar y mostrar disponibilidad del navegador, permiso de micrófono, posible procesamiento por el proveedor y ausencia de persistencia de audio o transcripciones.
+- [x] 5.2 Documentar y mostrar disponibilidad del navegador, permiso de micrófono, posible procesamiento por el proveedor y ausencia de persistencia de audio o transcripciones.
   - **Responsable:** Abel / frontend, con revisión de Miguel / seguridad.
   - **Dependencias:** 5.1.
   - **Evidencia:** textos de interfaz, README del frontend y comprobación de Storage, Cache Storage, URL y consola con una narrativa sintética.
+  - **Resultado:** la interfaz informa antes de iniciar el dictado de que solicitará permiso, que el navegador o su proveedor puede procesar el audio, que la aplicación no guarda audio ni transcripciones y que el texto debe revisarse. El fallback explica la falta de soporte sin bloquear el teclado. El README local documenta compatibilidad, configuración de idioma y límites. Un test con contenido sintético confirma que el flujo no escribe en Web Storage, no abre Cache Storage, no cambia la URL y no registra el contenido en consola. La búsqueda estática solo encuentra la sesión ficticia de autenticación y mensajes técnicos genéricos de PWA, sin narrativas; sus revisiones pertenecen a 7.1 y 6.2.
   - **Verificación:** `rg -n "localStorage|sessionStorage|indexedDB|console\\." app/interface/src`; revisión manual de privacidad registrada en el informe de validación.
 
 ## 6. Service worker y experiencia offline

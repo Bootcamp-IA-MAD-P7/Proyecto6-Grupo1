@@ -153,21 +153,29 @@ export default function ClassificationPage({ predictionClient }: ClassificationP
             <span>No text is retained by this prototype.</span>
           </div>
           {isVoiceSupported ? (
-            <div className="flex items-center gap-2">
-              <Button
-                type="button"
-                variant={isRecording ? 'destructive' : 'outline'}
-                size="sm"
-                onClick={isRecording ? stopRecording : startRecording}
-                disabled={isSubmitting}
-              >
-                {isRecording ? 'Stop dictation' : 'Start dictation'}
-              </Button>
-              {isRecording && (
-                <span role="status" className="animate-pulse text-xs text-rust">
-                  Listening…
-                </span>
-              )}
+            <div className="space-y-2">
+              <div className="flex items-center gap-2">
+                <Button
+                  type="button"
+                  variant={isRecording ? 'destructive' : 'outline'}
+                  size="sm"
+                  onClick={isRecording ? stopRecording : startRecording}
+                  disabled={isSubmitting}
+                  aria-describedby="dictation-privacy"
+                >
+                  {isRecording ? 'Stop dictation' : 'Start dictation'}
+                </Button>
+                {isRecording && (
+                  <span role="status" className="animate-pulse text-xs text-rust">
+                    Listening…
+                  </span>
+                )}
+              </div>
+              <p id="dictation-privacy" className="max-w-2xl text-xs text-ink-soft">
+                Starting dictation asks for microphone permission. Your browser or speech provider
+                may process the audio. This application does not store the audio or transcript;
+                review the text before submitting it.
+              </p>
             </div>
           ) : (
             <p className="text-xs text-ink-soft">
