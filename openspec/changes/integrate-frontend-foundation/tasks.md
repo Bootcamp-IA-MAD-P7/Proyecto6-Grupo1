@@ -83,10 +83,11 @@
 
 ## 5. Dictado, permisos y privacidad
 
-- [ ] 5.1 Integrar el dictado Web Speech API mediante detección de capacidad, acción explícita, inicio, parada, transcripción editable y fallback por teclado.
+- [x] 5.1 Integrar el dictado Web Speech API mediante detección de capacidad, acción explícita, inicio, parada, transcripción editable y fallback por teclado.
   - **Responsable:** Abel / frontend.
   - **Dependencias:** 4.2.
   - **Evidencia:** tests de soporte, éxito, permiso denegado y error; transcripción insertada en el campo antes del envío.
+  - **Resultado:** el hook detecta `SpeechRecognition` o `webkitSpeechRecognition` en tiempo de ejecución, comienza solo mediante una acción explícita, utiliza el idioma del documento o navegador y procesa el resultado indicado por `resultIndex`. La transcripción recortada se añade al mismo campo y continúa siendo editable; la parada manual, el fin del reconocimiento, el permiso denegado y los demás errores devuelven el control al teclado. Un navegador sin soporte mantiene el formulario operativo y muestra el fallback. Pasan dieciséis tests frontend, typecheck, ESLint y Prettier.
   - **Verificación:** `cd app/interface && npm test -- --run`; `cd app/interface && npm run typecheck`.
 
 - [ ] 5.2 Documentar y mostrar disponibilidad del navegador, permiso de micrófono, posible procesamiento por el proveedor y ausencia de persistencia de audio o transcripciones.

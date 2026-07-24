@@ -152,7 +152,7 @@ export default function ClassificationPage({ predictionClient }: ClassificationP
             <span id="narrative-counter">{narrative.length} characters</span>
             <span>No text is retained by this prototype.</span>
           </div>
-          {isVoiceSupported && (
+          {isVoiceSupported ? (
             <div className="flex items-center gap-2">
               <Button
                 type="button"
@@ -161,12 +161,24 @@ export default function ClassificationPage({ predictionClient }: ClassificationP
                 onClick={isRecording ? stopRecording : startRecording}
                 disabled={isSubmitting}
               >
-                {isRecording ? '⏹ Stop recording' : '🎤 Dictate'}
+                {isRecording ? 'Stop dictation' : 'Start dictation'}
               </Button>
-              {isRecording && <span className="animate-pulse text-xs text-rust">Recording…</span>}
+              {isRecording && (
+                <span role="status" className="animate-pulse text-xs text-rust">
+                  Listening…
+                </span>
+              )}
             </div>
+          ) : (
+            <p className="text-xs text-ink-soft">
+              Voice dictation is not available in this browser. You can continue typing.
+            </p>
           )}
-          {voiceError && <p className="text-xs text-rust">{voiceError}</p>}
+          {voiceError && (
+            <p role="alert" className="text-xs text-rust">
+              {voiceError}
+            </p>
+          )}
         </div>
 
         {validationMessage && (

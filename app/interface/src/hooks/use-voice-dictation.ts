@@ -13,21 +13,55 @@ interface UseVoiceDictationReturn {
   error: string | null
 }
 
-interface SpeechRecognitionEvent extends Event {
-  results: SpeechRecognitionResultList
+interface SpeechRecognitionAlternativeLike {
+  transcript: string
+}
+
+interface SpeechRecognitionResultLike {
+  readonly [index: number]: SpeechRecognitionAlternativeLike | undefined
+}
+
+interface SpeechRecognitionResultListLike {
+  readonly [index: number]: SpeechRecognitionResultLike | undefined
+}
+
+interface SpeechRecognitionEventLike extends Event {
+  results: SpeechRecognitionResultListLike
   resultIndex: number
 }
 
-interface SpeechRecognitionErrorEvent extends Event {
+interface SpeechRecognitionErrorEventLike extends Event {
   error: string
   message: string
 }
 
-const SpeechRecognitionAPI =
-  typeof window !== 'undefined'
-    ? // eslint-disable-next-line @typescript-eslint/no-explicit-any
-      (window as any).SpeechRecognition || (window as any).webkitSpeechRecognition
-    : null
+interface SpeechRecognitionLike {
+  lang: string
+  continuous: boolean
+  interimResults: boolean
+  maxAlternatives: number
+  onresult: ((event: SpeechRecognitionEventLike) => void) | null
+  onerror: ((event: SpeechRecognitionErrorEventLike) => void) | null
+  onend: (() => void) | null
+  start: () => void
+  stop: () => void
+}
+
+type SpeechRecognitionConstructor = new () => SpeechRecognitionLike
+
+type SpeechRecognitionWindow = Window & {
+  SpeechRecognition?: SpeechRecognitionConstructor
+  webkitSpeechRecognition?: SpeechRecognitionConstructor
+}
+
+const getSpeechRecognitionAPI = (): SpeechRecognitionConstructor | null => {
+  if (typeof window === 'undefined') return null
+
+  const speechWindow = window as SpeechRecognitionWindow
+  return speechWindow.SpeechRecognition ?? speechWindow.webkitSpeechRecognition ?? null
+}
+
+const getRecognitionLanguage = () => document.documentElement.lang || navigator.language || 'en-US'
 
 export function useVoiceDictation({
   onTranscript,
@@ -35,35 +69,40 @@ export function useVoiceDictation({
 }: UseVoiceDictationOptions): UseVoiceDictationReturn {
   const [isRecording, setIsRecording] = useState(false)
   const [error, setError] = useState<string | null>(null)
-  const [isSupported, setIsSupported] = useState(false)
-  const recognitionRef = useRef<InstanceType<typeof SpeechRecognitionAPI> | null>(null)
+  const [isSupported, setIsSupported] = useState(() => getSpeechRecognitionAPI() !== null)
+  const recognitionRef = useRef<SpeechRecognitionLike | null>(null)
 
   useEffect(() => {
-    setIsSupported(SpeechRecognitionAPI != null)
+    setIsSupported(getSpeechRecognitionAPI() !== null)
   }, [])
 
   const stopRecording = useCallback(() => {
-    if (recognitionRef.current) {
-      recognitionRef.current.stop()
-      recognitionRef.current = null
-    }
+    const recognition = recognitionRef.current
+    recognitionRef.current = null
+    recognition?.stop()
     setIsRecording(false)
   }, [])
 
   const startRecording = useCallback(() => {
-    if (!enabled || !isSupported || !SpeechRecognitionAPI) return
+    const SpeechRecognitionAPI = getSpeechRecognitionAPI()
 
+    if (!enabled || !SpeechRecognitionAPI) {
+      setIsSupported(false)
+      return
+    }
+
+    setIsSupported(true)
     setError(null)
     stopRecording()
 
     const recognition = new SpeechRecognitionAPI()
-    recognition.lang = 'es-ES'
+    recognition.lang = getRecognitionLanguage()
     recognition.continuous = true
     recognition.interimResults = false
     recognition.maxAlternatives = 1
 
-    recognition.onresult = (event: SpeechRecognitionEvent) => {
-      const result = event.results[0]
+    recognition.onresult = (event: SpeechRecognitionEventLike) => {
+      const result = event.results[event.resultIndex]
       if (result && result[0]) {
         const transcript = result[0].transcript
         if (transcript.trim()) {
@@ -72,28 +111,35 @@ export function useVoiceDictation({
       }
     }
 
-    recognition.onerror = (event: SpeechRecognitionErrorEvent) => {
+    recognition.onerror = (event: SpeechRecognitionErrorEventLike) => {
       if (event.error !== 'aborted') {
-        console.error('Speech recognition error:', event.error, event.message)
-        setError('Voice transcription failed. Try typing instead.')
+        setError(
+          event.error === 'not-allowed' || event.error === 'service-not-allowed'
+            ? 'Microphone access was not granted. Continue by typing.'
+            : 'Voice transcription failed. Continue by typing.',
+        )
       }
       setIsRecording(false)
     }
 
     recognition.onend = () => {
-      setIsRecording(false)
-      recognitionRef.current = null
+      if (recognitionRef.current === recognition) {
+        recognitionRef.current = null
+        setIsRecording(false)
+      }
     }
+
+    recognitionRef.current = recognition
 
     try {
       recognition.start()
-      recognitionRef.current = recognition
       setIsRecording(true)
     } catch {
+      recognitionRef.current = null
       setError('Could not start voice recognition. Try typing instead.')
       setIsRecording(false)
     }
-  }, [enabled, isSupported, onTranscript, stopRecording])
+  }, [enabled, onTranscript, stopRecording])
 
   useEffect(() => {
     return () => {

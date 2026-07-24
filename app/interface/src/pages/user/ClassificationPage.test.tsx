@@ -1,7 +1,7 @@
-import { render, screen, waitFor } from '@testing-library/react'
+import { act, render, screen, waitFor } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
 import { MemoryRouter } from 'react-router-dom'
-import { describe, it, expect, vi } from 'vitest'
+import { afterEach, describe, it, expect, vi } from 'vitest'
 import ClassificationPage from './ClassificationPage'
 import type { PredictionResponse } from '@/contracts/prediction'
 import { createMockPredictionClient } from '@/services/mock-prediction-client'
@@ -23,6 +23,65 @@ const SYNTHETIC_RESPONSE: PredictionResponse = {
   created_at: '2026-07-24T10:00:00.000Z',
   warnings: ['Synthetic fixture. This is not a model prediction.'],
 }
+
+interface SpeechResultEvent extends Event {
+  results: {
+    readonly [index: number]: {
+      readonly [index: number]: { transcript: string }
+    }
+  }
+  resultIndex: number
+}
+
+interface SpeechErrorEvent extends Event {
+  error: string
+  message: string
+}
+
+class MockSpeechRecognition {
+  static instances: MockSpeechRecognition[] = []
+
+  lang = ''
+  continuous = false
+  interimResults = false
+  maxAlternatives = 0
+  onresult: ((event: SpeechResultEvent) => void) | null = null
+  onerror: ((event: SpeechErrorEvent) => void) | null = null
+  onend: (() => void) | null = null
+  start = vi.fn()
+  stop = vi.fn(() => this.onend?.())
+
+  constructor() {
+    MockSpeechRecognition.instances.push(this)
+  }
+
+  emitTranscript(transcript: string) {
+    this.onresult?.({
+      results: { 0: { 0: { transcript } } },
+      resultIndex: 0,
+    } as unknown as SpeechResultEvent)
+  }
+
+  emitError(error: string) {
+    this.onerror?.({ error, message: 'Synthetic recognition error' } as SpeechErrorEvent)
+  }
+}
+
+const setSpeechRecognition = (implementation?: typeof MockSpeechRecognition) => {
+  Object.defineProperty(window, 'SpeechRecognition', {
+    configurable: true,
+    value: implementation,
+  })
+  Object.defineProperty(window, 'webkitSpeechRecognition', {
+    configurable: true,
+    value: undefined,
+  })
+}
+
+afterEach(() => {
+  MockSpeechRecognition.instances = []
+  setSpeechRecognition(undefined)
+})
 
 describe('ClassificationPage', () => {
   it('renders the narrative form', () => {
@@ -186,5 +245,90 @@ describe('ClassificationPage', () => {
       await screen.findByText('Too many requests. Wait a moment before trying again.'),
     ).toBeVisible()
     expect(screen.queryByText(/internal limit detail/i)).not.toBeInTheDocument()
+  })
+
+  it('adds a voice transcript to the editable narrative and stops explicitly', async () => {
+    const user = userEvent.setup()
+    setSpeechRecognition(MockSpeechRecognition)
+
+    renderWithRouter(
+      <ClassificationPage predictionClient={createMockPredictionClient({ latencyMs: 0 })} />,
+    )
+
+    await user.click(screen.getByRole('button', { name: 'Start dictation' }))
+
+    const recognition = MockSpeechRecognition.instances[0]
+    expect(recognition).toBeDefined()
+    expect(recognition?.start).toHaveBeenCalledOnce()
+    expect(recognition?.lang).toBe(document.documentElement.lang || navigator.language || 'en-US')
+    expect(screen.getByRole('status')).toHaveTextContent('Listening…')
+
+    act(() => recognition?.emitTranscript('  Synthetic spoken complaint  '))
+
+    const narrative = screen.getByLabelText('Complaint narrative')
+    expect(narrative).toHaveValue('Synthetic spoken complaint')
+
+    await user.type(narrative, ' with an editable ending')
+    expect(narrative).toHaveValue('Synthetic spoken complaint with an editable ending')
+
+    await user.click(screen.getByRole('button', { name: 'Stop dictation' }))
+    expect(recognition?.stop).toHaveBeenCalledOnce()
+    expect(screen.getByRole('button', { name: 'Start dictation' })).toBeEnabled()
+  })
+
+  it('keeps keyboard input available when voice dictation is unsupported', () => {
+    setSpeechRecognition(undefined)
+
+    renderWithRouter(
+      <ClassificationPage predictionClient={createMockPredictionClient({ latencyMs: 0 })} />,
+    )
+
+    expect(
+      screen.getByText(
+        'Voice dictation is not available in this browser. You can continue typing.',
+      ),
+    ).toBeVisible()
+    expect(screen.getByLabelText('Complaint narrative')).toBeEnabled()
+    expect(screen.queryByRole('button', { name: 'Start dictation' })).not.toBeInTheDocument()
+  })
+
+  it('recovers safely when microphone permission is denied', async () => {
+    const user = userEvent.setup()
+    setSpeechRecognition(MockSpeechRecognition)
+
+    renderWithRouter(
+      <ClassificationPage predictionClient={createMockPredictionClient({ latencyMs: 0 })} />,
+    )
+
+    await user.click(screen.getByRole('button', { name: 'Start dictation' }))
+    const recognition = MockSpeechRecognition.instances[0]
+
+    act(() => recognition?.emitError('not-allowed'))
+
+    expect(screen.getByRole('alert')).toHaveTextContent(
+      'Microphone access was not granted. Continue by typing.',
+    )
+    expect(screen.getByLabelText('Complaint narrative')).toBeEnabled()
+    expect(screen.getByRole('button', { name: 'Start dictation' })).toBeEnabled()
+  })
+
+  it('recovers safely from a recognition error', async () => {
+    const user = userEvent.setup()
+    setSpeechRecognition(MockSpeechRecognition)
+
+    renderWithRouter(
+      <ClassificationPage predictionClient={createMockPredictionClient({ latencyMs: 0 })} />,
+    )
+
+    await user.click(screen.getByRole('button', { name: 'Start dictation' }))
+    const recognition = MockSpeechRecognition.instances[0]
+
+    act(() => recognition?.emitError('network'))
+
+    expect(screen.getByRole('alert')).toHaveTextContent(
+      'Voice transcription failed. Continue by typing.',
+    )
+    expect(screen.getByLabelText('Complaint narrative')).toBeEnabled()
+    expect(screen.getByRole('button', { name: 'Start dictation' })).toBeEnabled()
   })
 })

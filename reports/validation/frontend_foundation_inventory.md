@@ -663,3 +663,32 @@ solo devuelve las tres propiedades `accuracy` del registro administrativo
 sintético. Esas rutas no forman parte del flujo principal de clasificación y su
 aislamiento, retirada de cifras y etiquetado definitivo están asignados a la
 tarea 7.2. Este resultado no aprueba el panel administrativo ni sus métricas.
+
+## Dictado funcional y fallback — tarea 5.1
+
+Se conserva el enfoque Web Speech API aportado por Abel y se refuerza su
+integración sin añadir dependencias ni procesar audio dentro de la aplicación.
+El reconocimiento se obtiene en tiempo de ejecución, por lo que la interfaz
+puede distinguir de forma fiable entre navegadores compatibles y no
+compatibles.
+
+| Escenario | Resultado verificado |
+|---|---|
+| Inicio | Solo después de pulsar `Start dictation` |
+| Estado activo | `Listening…` anunciado mediante `role="status"` |
+| Transcripción | Se añade recortada al campo de narrativa |
+| Edición posterior | El campo continúa habilitado y editable |
+| Parada manual | Detiene la instancia y restablece la acción de inicio |
+| Idioma técnico | Documento, navegador o fallback `en-US` |
+| Navegador sin soporte | Teclado disponible y explicación visible |
+| Permiso denegado | Mensaje seguro y retorno al teclado |
+| Error de reconocimiento | Mensaje seguro y retorno al teclado |
+| Dependencias nuevas | Ninguna |
+| Tests frontend | `16` aprobados |
+| Typecheck | Código `0` |
+| ESLint | Código `0` |
+| Prettier | Código `0` |
+
+Esta tarea verifica el comportamiento funcional. Los avisos completos sobre
+permiso, posible procesamiento por el proveedor y ausencia de persistencia se
+abordan de forma separada en 5.2.
