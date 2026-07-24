@@ -184,10 +184,11 @@
 
 ## 10. Documentación, evidencia y Pull Request
 
-- [ ] 10.1 Actualizar `app/interface/README.md` con instalación, scripts, flujo mock, contrato, offline, dictado, compatibilidad, privacidad, capacidades propuestas y limitaciones.
+- [x] 10.1 Actualizar `app/interface/README.md` con instalación, scripts, flujo mock, contrato, offline, dictado, compatibilidad, privacidad, capacidades propuestas y limitaciones.
   - **Responsable:** Abel / frontend.
   - **Dependencias:** 9.4.
   - **Evidencia:** manual reproducible alineado con el comportamiento validado.
+  - **Resultado:** el README local diferencia el prototipo público, la recomendación mock y las capacidades propuestas; documenta instalación, desarrollo, build PWA, rutas, contrato, dictado, caché offline, privacidad, compatibilidad, scripts, estructura, comprobaciones y limitaciones. Los enlaces apuntan a contratos, OpenSpec y evidencia versionada, y el manual mantiene `ESS-04` como no verificado mientras no exista inferencia real. Una política local de atributos fija LF para los archivos web y permite reproducir Prettier en Windows sin depender de `core.autocrlf`.
   - **Verificación:** `python scripts/quality/check_repository.py`; revisión de enlaces y comandos del README.
 
 - [ ] 10.2 Completar `reports/validation/frontend_foundation_integration.md` y actualizar solo los documentos globales cuyo significado cambie: estado técnico de NotebookLM, changelog y referencias mínimas de README.
