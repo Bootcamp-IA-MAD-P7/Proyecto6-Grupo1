@@ -7,17 +7,16 @@
 | Cambio OpenSpec | `integrate-frontend-foundation` |
 | Jira | `PG-4` |
 | Rama | `feature/PG-4-integrate-frontend-foundation` |
-| Línea base automática | `62b0dbae55fbb6a8d19480e351e680c048483c53` |
-| Commit de partida para la revisión manual | `42d0bc153c0aeadd35e6c77d385447fac08ec26d` |
+| Línea base automática | `6ffb47803032834a16321d8c1f67a032c66de094` |
+| Commit de partida para la revisión manual | `cc323215ea5ee16ae792d345df7b38748bc85504` |
 | Fecha | `2026-07-24` |
 | Estado automático | Correcto |
-| Estado manual | Tareas 9.2 y 9.3 correctas |
+| Estado manual | Tareas 9.2, 9.3 y 9.4 correctas |
 
 Este informe reúne la evidencia automática de la tarea 9.1 y la revisión manual
 de accesibilidad y responsive de la tarea 9.2, además de la verificación de
 instalación, actualización, offline, dictado, permisos y privacidad de la tarea
-9.3. La revisión final de alcance y repositorio pertenece todavía a la tarea
-9.4.
+9.3 y la revisión final de alcance y repositorio de la tarea 9.4.
 
 La entrega validada es una interfaz React PWA con respuestas sintéticas. Todavía
 no existe backend, modelo entrenado ni inferencia real, por lo que esta evidencia
@@ -223,6 +222,44 @@ esperados.
 - `node_modules` y `dist` permanecen fuera de Git.
 - No se ejecutó backend, entrenamiento ni servicio de inferencia.
 
+## Revisión final de repositorio — tarea 9.4
+
+La rama se actualizó sobre `origin/dev` después de que el trabajo de datos y EDA
+añadiera dos commits a la base. El rebase terminó sin conflictos y mantuvo los
+cincuenta y ocho commits propios y la autoría de Abel y Miguel.
+
+| Comprobación | Resultado |
+|---|---|
+| Base vigente | `origin/dev` en `12092f68d8eb6d83da409b22d03c602eec362df6` |
+| Relación con la base | `0` commits pendientes de `dev`; `58` commits propios |
+| Quality gate | Correcto; `302` archivos versionados y `314` locales revisados |
+| Whitespace | Correcto; `git diff --check` sin salida |
+| Entradas sin fusionar | `0` |
+| Simulación de integración | Correcta; `git merge-tree --write-tree` finalizó con código `0` |
+| Diferencia frente a `dev` | `72` rutas añadidas y limitadas a PG-4 |
+| Rutas inesperadas | `0` |
+| Archivos de datos o secretos por ruta | `0` |
+| Archivos de texto inspeccionados | `61` |
+| Patrones de secretos | `0` |
+| Marcadores de conflicto | `0` |
+| Referencias al campo bruto del CFPB | `0` |
+| OpenSpec estricto | Correcto |
+
+Las rutas revisadas pertenecen exclusivamente a:
+
+- `app/interface/`;
+- `openspec/changes/integrate-frontend-foundation/`;
+- los informes `frontend_foundation_*`;
+- las capturas sintéticas de `reports/validation/screenshots/PG-4/`.
+
+No se añadieron CSV, Parquet, JSONL, bases de datos, variables de entorno,
+modelos, narrativas CFPB reales ni otros artefactos de datos. Los textos de
+prueba y demostración permanecen identificados como sintéticos, mock o
+propuesta.
+
 ## Verificaciones pendientes
 
-- Tarea 9.4: revisión final del alcance y quality gates del repositorio.
+- Tarea 10.1: completar el manual reproducible del frontend.
+- Tarea 10.2: cerrar evidencias y actualizar la documentación global afectada.
+- Tarea 10.3: revisión humana con Abel.
+- Tareas 10.4 y 10.5: preparar el borrador de PR y solicitar aprobación antes de publicar.

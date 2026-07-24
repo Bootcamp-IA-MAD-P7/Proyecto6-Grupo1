@@ -18,14 +18,14 @@
   - **Responsable:** Miguel / integración.
   - **Dependencias:** 1.2.
   - **Evidencia:** commit preparatorio limitado a `prediction.ts`, `prediction-client.ts` y `mock-prediction-client.ts`, con autoría original.
-  - **Resultado:** `e525a3e0e85c2246634fa84e72550aa8286acb09`; tres archivos, `104` líneas añadidas y autoría `Miguel Redondo Nunez <miguel.rnunez@gmail.com>` confirmada.
+  - **Resultado:** `3d57543df44f6235f0de0b72e9426aee0471da64`; tres archivos, `104` líneas añadidas y autoría `Miguel Redondo Nunez <miguel.rnunez@gmail.com>` confirmada.
   - **Verificación:** `git show --stat --format=fuller HEAD`; `git diff-tree --no-commit-id --name-only -r HEAD`; `git status --short --branch`.
 
 - [x] 2.2 Incorporar en orden únicamente los treinta commits frontend aprobados por el inventario, conservando `Abel Cañas <abelstor@gmail.com>` como autor de cada commit y sin incluir el merge commit ni documentación histórica.
   - **Responsable:** Miguel / integración, con revisión de Abel.
   - **Dependencias:** 2.1.
   - **Evidencia:** historial de `app/interface/` con autoría original y lista final de commits incorporados.
-  - **Resultado:** treinta commits incorporados entre `00510a7` y `a1f41a0`; todos conservan `Abel Cañas <abelstor@gmail.com>` como autor, no modifican rutas fuera de `app/interface/` y reproducen sin diferencias el snapshot `b7e95da`.
+  - **Resultado:** treinta commits incorporados entre `e009cd6` y `816b524`; todos conservan `Abel Cañas <abelstor@gmail.com>` como autor, no modifican rutas fuera de `app/interface/` y reproducen sin diferencias el snapshot `b7e95da`.
   - **Verificación:** `git log --format="%H%x09%an%x09%ae%x09%s" origin/dev..HEAD -- app/interface`; `git diff --name-status origin/dev...HEAD`.
 
 - [x] 2.3 Resolver los conflictos de incorporación contra los contratos vigentes de `dev`, comparar cada resolución con la rama fuente y excluir archivos ajenos a `PG-4`.
@@ -48,7 +48,7 @@
   - **Responsable:** Abel / frontend.
   - **Dependencias:** 3.1.
   - **Evidencia:** archivos formateados y salida correcta de Prettier.
-  - **Resultado:** el commit `67907bc` normaliza con Prettier veinticinco archivos de `app/interface/`, elimina los diecinueve hallazgos de espacios finales identificados en 2.3 y no modifica rutas externas ni dependencias. `format:check` y la comprobación de whitespace finalizaron correctamente.
+  - **Resultado:** el commit `2b576bb` normaliza con Prettier veinticinco archivos de `app/interface/`, elimina los diecinueve hallazgos de espacios finales identificados en 2.3 y no modifica rutas externas ni dependencias. `format:check` y la comprobación de whitespace finalizaron correctamente.
   - **Verificación:** `cd app/interface && npm run format`; `cd app/interface && npm run format:check`; `git diff --check`.
 
 - [x] 3.3 Corregir errores y avisos accionables de ESLint sin desactivar reglas de accesibilidad, React o TypeScript para ocultar fallos.
@@ -64,7 +64,7 @@
   - **Responsable:** Abel / frontend, con revisión de José / backend.
   - **Dependencias:** 3.3.
   - **Evidencia:** tipos y tests que demuestren que el formulario envía `PredictionRequest.narrative` y rechaza respuestas incompatibles.
-  - **Resultado:** el commit `319fe07` alinea clases y motivos con OpenAPI, valida en ejecución las peticiones y respuestas y mantiene el transporte desacoplado mediante `PredictionTransport` y `PredictionClient`. El formulario envía la narrativa recortada; una respuesta con clase desconocida y una petición en blanco se rechazan. Pasan nueve tests frontend, siete tests Python del contrato y el typecheck completo.
+  - **Resultado:** el commit `66ab0c9` alinea clases y motivos con OpenAPI, valida en ejecución las peticiones y respuestas y mantiene el transporte desacoplado mediante `PredictionTransport` y `PredictionClient`. El formulario envía la narrativa recortada; una respuesta con clase desconocida y una petición en blanco se rechazan. Pasan nueve tests frontend, siete tests Python del contrato y el typecheck completo.
   - **Verificación:** `cd app/interface && npm run typecheck`; `python -m unittest tests.contract.test_inference_contract -v`.
 
 - [x] 4.2 Consolidar formulario, validación, envío, carga, error, recomendación mock, revisión humana y nueva clasificación sin persistir ni devolver la narrativa.
@@ -158,7 +158,7 @@
   - **Responsable:** Abel / frontend.
   - **Dependencias:** 4.3, 5.2, 6.2, 7.2, 8.3.
   - **Evidencia:** comandos, fecha, entorno y resultados en `reports/validation/frontend_foundation_integration.md`.
-  - **Resultado:** sobre el commit `62b0dba` y una instalación reconstruida mediante `npm ci`, pasan typecheck, ESLint, Prettier, los veintinueve tests, el build React, el build del service worker y la auditoría con cero vulnerabilidades. El informe fija Node.js `24.18.0`, npm `11.16.0`, el hash del lockfile y diferencia expresamente esta evidencia automática de las revisiones manuales pendientes.
+  - **Resultado:** sobre el commit `6ffb478` y una instalación reconstruida mediante `npm ci`, pasan typecheck, ESLint, Prettier, los veintinueve tests, el build React, el build del service worker y la auditoría con cero vulnerabilidades. El informe fija Node.js `24.18.0`, npm `11.16.0`, el hash del lockfile y diferencia expresamente esta evidencia automática de las revisiones manuales pendientes.
   - **Verificación:** `cd app/interface && npm ci`; `cd app/interface && npm run typecheck`; `cd app/interface && npm run lint`; `cd app/interface && npm run format:check`; `cd app/interface && npm test -- --run`; `cd app/interface && npm run build`; `cd app/interface && npm audit --audit-level=high`.
 
 - [x] 9.2 Verificar con contenido sintético teclado, foco, anuncios de estado, contraste, movimiento reducido y responsive en móvil, tablet y escritorio.
@@ -175,10 +175,11 @@
   - **Resultado:** Chrome `150.0.7871.129` sobre Windows ofrece la instalación y abre la PWA en una ventana independiente. El permiso real de micrófono se concedió mediante una acción explícita y el dictado insertó texto sintético editable en la narrativa. El build incorpora iconos PNG de `192 × 192` y `512 × 512`, un recurso maskable separado y el SVG original. La caché utiliza ahora un nombre derivado del contenido de cada build, por lo que una actualización activa una caché nueva y elimina las anteriores; dos tests comprueban estabilidad y cambio de versión. La revisión offline de 6.2 confirma shell disponible, aviso visible, envío bloqueado y ausencia de resultados fabricados. Las pruebas controladas cubren navegador sin dictado, permiso denegado, error del proveedor y ausencia de narrativas en Storage, Cache Storage, URL o consola. Edge `150.0.4078.83` queda como navegador secundario pendiente de revisión manual y no se presenta como verificado.
   - **Verificación:** revisión manual de Application, Cache Storage, Network, Console y permisos sobre `npm run preview`.
 
-- [ ] 9.4 Ejecutar los quality gates del repositorio y confirmar que la diferencia frente a `dev` no contiene conflictos, whitespace, datos reales ni cambios ajenos a `PG-4`.
+- [x] 9.4 Ejecutar los quality gates del repositorio y confirmar que la diferencia frente a `dev` no contiene conflictos, whitespace, datos reales ni cambios ajenos a `PG-4`.
   - **Responsable:** Miguel / arquitectura.
   - **Dependencias:** 9.1, 9.2, 9.3.
   - **Evidencia:** salidas de calidad y revisión final de alcance incorporadas al informe.
+  - **Resultado:** la rama se rebasó limpiamente sobre `origin/dev` en `12092f6`, quedó con cero commits pendientes de la base y cincuenta y ocho commits propios, y conservó la autoría de Abel y Miguel. El quality gate revisó `302` archivos versionados y terminó correctamente; no existen whitespace defectuoso, entradas sin fusionar, marcadores de conflicto, secretos, artefactos de datos ni rutas ajenas a `PG-4`. Las `72` rutas de la diferencia se limitan a `app/interface/`, el cambio OpenSpec y sus informes o capturas sintéticas. OpenSpec valida el cambio en modo estricto.
   - **Verificación:** `python scripts/quality/check_repository.py`; `git diff --check`; `git diff --name-status origin/dev...HEAD`; `git status --short --branch`.
 
 ## 10. Documentación, evidencia y Pull Request

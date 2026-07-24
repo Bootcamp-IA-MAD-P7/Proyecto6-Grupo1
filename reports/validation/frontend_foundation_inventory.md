@@ -324,7 +324,7 @@ La referencia fuente coincide con el commit inventariado en la tarea `1.1`. Por 
 | Comprobación | Resultado |
 |---|---|
 | Rama | `feature/PG-4-integrate-frontend-foundation` |
-| HEAD confirmado | `90ca53f94da11d724fa2d18bb0560657f3b13c82` |
+| HEAD confirmado | `f0cfd0c60ab8fc21a95863da4d157042a39962dd` |
 | Merge base con `origin/dev` | `5558ae2204151767a53be0e45102bd04a3b6da83` |
 | `origin/dev` es ancestro de HEAD | Sí |
 | Divergencia frente a `origin/dev` | `0` detrás, `2` delante |
@@ -334,8 +334,8 @@ La referencia fuente coincide con el commit inventariado en la tarea `1.1`. Por 
 Los dos commits propios de la rama de integración son:
 
 ```text
-1577a504a82ec074174f27791777680995c39e70 docs: define frontend foundation integration
-90ca53f94da11d724fa2d18bb0560657f3b13c82 docs: inventory frontend foundation
+773cf4626ffde66e9c88111e98f5e2d846489108 docs: define frontend foundation integration
+f0cfd0c60ab8fc21a95863da4d157042a39962dd docs: inventory frontend foundation
 ```
 
 Los seis archivos de diferencia son exclusivamente:
@@ -378,7 +378,7 @@ python scripts/quality/check_repository.py
 ## Incorporación selectiva — tarea 2.2
 
 Los treinta commits aprobados se incorporaron individualmente y en el orden
-original después del commit documental `a47e1d2`. La operación:
+original después del commit documental `49cfe52`. La operación:
 
 - finalizó sin conflictos;
 - conservó `Abel Cañas <abelstor@gmail.com>` como autor de los treinta commits;
@@ -391,36 +391,36 @@ original después del commit documental `a47e1d2`. La operación:
 
 | Commit fuente | Commit integrado | Mensaje |
 |---|---|---|
-| `2b9bfd6` | `00510a7` | feat: create package.json with full stack dependencies |
-| `64fda0e` | `016c57f` | chore: install npm dependencies |
-| `d701e21` | `3c220a0` | feat: configure Vite with PWA plugin |
-| `3d7e191` | `653c606` | chore: configure TypeScript |
-| `e556a10` | `d535b24` | feat: add Tailwind CSS configuration |
-| `8345f00` | `58074c5` | feat: initialize shadcn/ui |
-| `f664323` | `bcb7cc8` | chore: configure ESLint and Prettier |
-| `97ae83e` | `5486d3b` | feat: create index.html and entry points |
-| `d55d0a0` | `d4425da` | feat: create project folder structure |
-| `c7be18d` | `c1a8dbd` | feat: implement AuthLayout |
-| `8cd069d` | `e12de40` | feat: implement UserLayout |
-| `5b41c0a` | `66bd297` | feat: implement AdminLayout |
-| `a82abe9` | `fbf2135` | feat: implement mock auth with localStorage |
-| `c703213` | `de2c934` | feat: create AuthProvider and useAuth hook |
-| `68398d0` | `355e23b` | feat: configure React Router with base routes |
-| `7bda4a5` | `11784e6` | fix: resolve ESLint errors in UI components and auth |
-| `3bf162e` | `0fee48c` | feat: integrate PredictionResult with Tailwind + shadcn |
-| `4000e8c` | `f321202` | feat: configure TanStack Query |
-| `37a0270` | `2947e03` | feat: create ClassificationPage with full form |
-| `45a31b3` | `433a518` | feat: add voice dictation with Whisper Tiny |
-| `c3eb915` | `a200c1e` | fix: resolve lint errors in voice dictation hook |
-| `8509889` | `f8f5859` | test: add main flow tests for ClassificationPage |
-| `1455179` | `b1012e3` | fix: simplify voice dictation to use pipeline API for type safety |
-| `6bb667f` | `c9e1b58` | chore: remove .gitkeep files and finalize directory structure |
-| `5a1db32` | `f50d6e4` | fix: resolve transformers.js HTML parsing error with Vite SPA fallback |
-| `e1a0e1b` | `39883cd` | fix: set Spanish language for Whisper transcription |
-| `e1552cc` | `0d0b24c` | fix: use low-level Whisper API with forced Spanish language |
-| `b6863d5` | `0057dbe` | fix: pass input_features correctly to Whisper model.generate() |
-| `23a1aee` | `10098b9` | fix: replace @xenova/transformers with Web Speech API for voice dictation |
-| `b7e95da` | `a1f41a0` | feat: Implement PWA features and offline support |
+| `2b9bfd6` | `e009cd6` | feat: create package.json with full stack dependencies |
+| `64fda0e` | `656587c` | chore: install npm dependencies |
+| `d701e21` | `3726336` | feat: configure Vite with PWA plugin |
+| `3d7e191` | `4f1efde` | chore: configure TypeScript |
+| `e556a10` | `d1b299a` | feat: add Tailwind CSS configuration |
+| `8345f00` | `17e1fe0` | feat: initialize shadcn/ui |
+| `f664323` | `d54ef83` | chore: configure ESLint and Prettier |
+| `97ae83e` | `cefba37` | feat: create index.html and entry points |
+| `d55d0a0` | `75b2238` | feat: create project folder structure |
+| `c7be18d` | `d6bc179` | feat: implement AuthLayout |
+| `8cd069d` | `0c664ff` | feat: implement UserLayout |
+| `5b41c0a` | `b865601` | feat: implement AdminLayout |
+| `a82abe9` | `e62512e` | feat: implement mock auth with localStorage |
+| `c703213` | `8af9895` | feat: create AuthProvider and useAuth hook |
+| `68398d0` | `ff4282d` | feat: configure React Router with base routes |
+| `7bda4a5` | `7fccf9c` | fix: resolve ESLint errors in UI components and auth |
+| `3bf162e` | `015954d` | feat: integrate PredictionResult with Tailwind + shadcn |
+| `4000e8c` | `6e6da1f` | feat: configure TanStack Query |
+| `37a0270` | `b8087a9` | feat: create ClassificationPage with full form |
+| `45a31b3` | `37b666d` | feat: add voice dictation with Whisper Tiny |
+| `c3eb915` | `8643af0` | fix: resolve lint errors in voice dictation hook |
+| `8509889` | `cf8c827` | test: add main flow tests for ClassificationPage |
+| `1455179` | `4d8a4b6` | fix: simplify voice dictation to use pipeline API for type safety |
+| `6bb667f` | `cac5f0c` | chore: remove .gitkeep files and finalize directory structure |
+| `5a1db32` | `aa1d05b` | fix: resolve transformers.js HTML parsing error with Vite SPA fallback |
+| `e1a0e1b` | `511a408` | fix: set Spanish language for Whisper transcription |
+| `e1552cc` | `7fcb0b6` | fix: use low-level Whisper API with forced Spanish language |
+| `b6863d5` | `b007a91` | fix: pass input_features correctly to Whisper model.generate() |
+| `23a1aee` | `6f09de7` | fix: replace @xenova/transformers with Web Speech API for voice dictation |
+| `b7e95da` | `816b524` | feat: Implement PWA features and offline support |
 
 ## Revisión de conflictos y alcance — tarea 2.3
 
@@ -506,7 +506,7 @@ git diff --check
 | Campo | Resultado |
 |---|---|
 | Fecha | `2026-07-24` |
-| Commit | `67907bc` |
+| Commit | `2b576bb` |
 | Archivos modificados | `25`, todos bajo `app/interface/` |
 | Diferencia | `230` inserciones y `263` eliminaciones de formato |
 | Código de salida de `npm run format` | `0` |
@@ -567,7 +567,7 @@ frontera de validación en tiempo de ejecución:
 
 | Comprobación | Resultado |
 |---|---|
-| Commit de implementación | `319fe07` |
+| Commit de implementación | `66ab0c9` |
 | Tests del cliente y formulario | `9` aprobados |
 | Tests Python del contrato | `7` aprobados |
 | Respuesta con clase desconocida | Rechazada |
@@ -1043,7 +1043,7 @@ si llega a afectar al proyecto.
 ## Cierre de auditoría — tarea 8.3
 
 La auditoría final se ejecutó el `2026-07-24` sobre el lockfile actualizado y
-comprometido en `b181fba`:
+comprometido en `ff3d7fb`:
 
 ```bash
 npm audit --audit-level=high --json
