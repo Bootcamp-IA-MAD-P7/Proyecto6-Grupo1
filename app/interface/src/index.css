@@ -3,13 +3,13 @@
 @variant dark (&:where(.dark, .dark *));
 
 @theme {
-  --color-forest: #1e3a5f;
-  --color-forest-light: #2563eb;
+  --color-forest: #4338ca;
+  --color-forest-light: #6366f1;
   --color-paper: #ffffff;
-  --color-sand: #f1f5f9;
+  --color-sand: #f8fafc;
   --color-gold: #f59e0b;
   --color-gold-ink: #92400e;
-  --color-rust: #dc2626;
+  --color-rust: #ef4444;
   --color-rust-pale: #fef2f2;
   --color-mint: #d1fae5;
   --color-ink: #0f172a;
