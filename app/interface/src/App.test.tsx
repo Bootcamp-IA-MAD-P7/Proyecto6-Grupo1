@@ -48,7 +48,7 @@ describe('application routes', () => {
 
     expect(screen.getByText('Mock authentication proposal only.')).toBeVisible()
     expect(screen.getByText(/provides no real identity, security/i)).toBeVisible()
-    expect(screen.getByRole('link', { name: 'Continue without mock login' })).toHaveAttribute(
+    expect(screen.getByRole('link', { name: 'Continue without login' })).toHaveAttribute(
       'href',
       '/classify',
     )

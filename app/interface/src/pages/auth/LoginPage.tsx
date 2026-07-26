@@ -7,6 +7,7 @@ import { Label } from '@/components/ui/label'
 import { Alert, AlertDescription } from '@/components/ui/alert'
 import { buttonVariants } from '@/lib/button-variants'
 import { cn } from '@/lib/utils'
+import { LogIn } from 'lucide-react'
 
 export default function LoginPage() {
   const { login } = useAuth()
@@ -68,13 +69,14 @@ export default function LoginPage() {
         </Alert>
       )}
       <Button type="submit" className="w-full" disabled={isLoading}>
-        {isLoading ? 'Starting mock session...' : 'Enter mock session'}
+        <LogIn className="h-4 w-4" />
+        {isLoading ? 'Signing in...' : 'Sign in'}
       </Button>
       <Link to="/classify" className={cn(buttonVariants({ variant: 'outline' }), 'w-full')}>
-        Continue without mock login
+        Continue without login
       </Link>
       <p className="text-center text-xs text-ink-soft">
-        Demo identities: ana@example.com (user) and carlos@example.com (admin).
+        Demo: ana@example.com (user) / carlos@example.com (admin)
       </p>
     </form>
   )

@@ -135,7 +135,7 @@ describe('ClassificationPage', () => {
     })
     expect(resultHeading).toBeInTheDocument()
     expect(resultHeading).toHaveFocus()
-    expect(screen.getByText('Mock response · demo only')).toBeVisible()
+    expect(screen.getByText('Mock response')).toBeVisible()
     expect(screen.getByText(/Interface demonstration only/)).toBeVisible()
     expect(screen.getByText('Human review required')).toBeVisible()
     expect(screen.getByText('Calibrated confidence is not available')).toBeVisible()
@@ -162,7 +162,7 @@ describe('ClassificationPage', () => {
     expect(screen.getByRole('status')).toHaveTextContent(
       'Creating a simulated result. Please wait.',
     )
-    expect(screen.getByRole('button', { name: 'Creating simulated result…' })).toBeDisabled()
+    expect(screen.getByRole('button', { name: 'Classifying...' })).toBeDisabled()
     expect(screen.getByLabelText('Complaint narrative')).toBeDisabled()
     expect(client.createPrediction).toHaveBeenCalledTimes(1)
 
@@ -181,7 +181,7 @@ describe('ClassificationPage', () => {
 
     await user.type(screen.getByLabelText('Complaint narrative'), narrative)
     await user.click(screen.getByRole('button', { name: 'Classify complaint' }))
-    await screen.findByText('Mock response · demo only')
+    await screen.findByText('Mock response')
 
     expect(screen.queryByText(narrative)).not.toBeInTheDocument()
 
@@ -299,7 +299,7 @@ describe('ClassificationPage', () => {
     expect(recognition).toBeDefined()
     expect(recognition?.start).toHaveBeenCalledOnce()
     expect(recognition?.lang).toBe(document.documentElement.lang || navigator.language || 'en-US')
-    expect(screen.getByRole('status')).toHaveTextContent('Listening…')
+    expect(screen.getByRole('status')).toHaveTextContent('Listening...')
     expect(screen.getByText(/Your browser or speech provider may process the audio/)).toBeVisible()
     expect(
       screen.getByText(/This application does not store the audio or transcript/),

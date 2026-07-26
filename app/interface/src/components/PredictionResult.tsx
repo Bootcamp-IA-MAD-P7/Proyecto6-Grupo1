@@ -4,6 +4,7 @@ import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
 import { Badge } from '@/components/ui/badge'
 import { Button } from '@/components/ui/button'
 import { Alert, AlertDescription } from '@/components/ui/alert'
+import { AlertTriangle, CheckCircle, Info, RotateCcw } from 'lucide-react'
 
 interface PredictionResultProps {
   result: PredictionResponse
@@ -28,6 +29,7 @@ export function PredictionResult({ result, onReset }: PredictionResultProps) {
   return (
     <div className="space-y-6">
       <Alert variant="warning">
+        <AlertTriangle className="h-4 w-4" />
         <AlertDescription>
           <strong>Interface demonstration only.</strong> This response is synthetic, has no
           calibrated score and cannot route a complaint.
@@ -37,12 +39,12 @@ export function PredictionResult({ result, onReset }: PredictionResultProps) {
       <div className="flex flex-col items-start gap-2 sm:flex-row sm:justify-between sm:gap-4">
         <div>
           <p className="mb-1 text-xs font-bold uppercase tracking-widest text-gold-ink">
-            Mock response · demo only
+            Mock response
           </p>
           <h1
             ref={titleRef}
             tabIndex={-1}
-            className="font-serif text-3xl font-semibold text-ink focus:outline-none"
+            className="text-3xl font-bold tracking-tight text-ink focus:outline-none"
           >
             {result.predicted_class}
           </h1>
@@ -52,11 +54,12 @@ export function PredictionResult({ result, onReset }: PredictionResultProps) {
 
       <div className="grid gap-4 sm:grid-cols-2">
         <Card>
-          <CardHeader>
+          <CardHeader className="flex flex-row items-center gap-2 space-y-0">
+            <Info className="h-4 w-4 text-ink-soft" />
             <CardTitle className="text-sm">Calibrated confidence</CardTitle>
           </CardHeader>
           <CardContent>
-            <p className="font-serif text-2xl">
+            <p className="text-2xl font-bold">
               {result.confidence === null
                 ? 'Not available'
                 : `${Math.round(result.confidence * 100)}%`}
@@ -68,13 +71,15 @@ export function PredictionResult({ result, onReset }: PredictionResultProps) {
         </Card>
 
         <Card>
-          <CardHeader>
+          <CardHeader className="flex flex-row items-center gap-2 space-y-0">
+            <AlertTriangle className="h-4 w-4 text-ink-soft" />
             <CardTitle className="text-sm">Review reason</CardTitle>
           </CardHeader>
           <CardContent>
-            <ul className="space-y-1">
+            <ul className="space-y-1.5">
               {result.review_reasons.map((reason) => (
-                <li key={reason} className="text-sm">
+                <li key={reason} className="flex items-center gap-2 text-sm">
+                  <CheckCircle className="h-3.5 w-3.5 shrink-0 text-ink-soft" />
                   {REVIEW_REASON_LABELS[reason]}
                 </li>
               ))}
@@ -84,7 +89,8 @@ export function PredictionResult({ result, onReset }: PredictionResultProps) {
       </div>
 
       <Card>
-        <CardHeader>
+        <CardHeader className="flex flex-row items-center gap-2 space-y-0">
+          <Info className="h-4 w-4 text-ink-soft" />
           <CardTitle className="text-sm">Other classes to consider</CardTitle>
         </CardHeader>
         <CardContent>
@@ -98,7 +104,7 @@ export function PredictionResult({ result, onReset }: PredictionResultProps) {
         </CardContent>
       </Card>
 
-      <div className="flex flex-wrap gap-4 font-mono text-xs text-ink-soft">
+      <div className="flex flex-wrap gap-4 rounded-lg bg-sand px-4 py-3 font-mono text-xs text-ink-soft">
         <span>Mock source: {result.model_version}</span>
         <span>Taxonomy: {result.taxonomy_version}</span>
         <span>Reference: {result.prediction_id.slice(0, 8)}</span>
@@ -106,6 +112,7 @@ export function PredictionResult({ result, onReset }: PredictionResultProps) {
 
       {result.warnings.map((warning) => (
         <Alert key={warning} variant="warning">
+          <AlertTriangle className="h-4 w-4" />
           <AlertDescription>{warning}</AlertDescription>
         </Alert>
       ))}
@@ -114,7 +121,10 @@ export function PredictionResult({ result, onReset }: PredictionResultProps) {
         This output supports review. It does not make a final financial or routing decision.
       </p>
 
-      <Button onClick={onReset}>Start a new classification</Button>
+      <Button onClick={onReset}>
+        <RotateCcw className="h-4 w-4" />
+        Start a new classification
+      </Button>
     </div>
   )
 }

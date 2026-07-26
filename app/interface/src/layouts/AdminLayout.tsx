@@ -5,11 +5,12 @@ import { Badge } from '@/components/ui/badge'
 import { ThemeToggle } from '@/components/ThemeToggle'
 import ProposalNotice from '@/components/ProposalNotice'
 import { cn } from '@/lib/utils'
+import { LayoutDashboard, Cpu, Box, LogOut } from 'lucide-react'
 
 const navItems = [
-  { to: '/admin', label: 'Concept overview', end: true },
-  { to: '/admin/training', label: 'Training concept' },
-  { to: '/admin/models', label: 'Model registry concept' },
+  { to: '/admin', label: 'Overview', end: true, icon: LayoutDashboard },
+  { to: '/admin/training', label: 'Training', icon: Cpu },
+  { to: '/admin/models', label: 'Models', icon: Box },
 ]
 
 export default function AdminLayout() {
@@ -41,13 +42,14 @@ export default function AdminLayout() {
               end={item.end}
               className={({ isActive }) =>
                 cn(
-                  'block shrink-0 rounded-md px-4 py-2 text-sm font-medium transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-gold focus-visible:ring-offset-2 focus-visible:ring-offset-forest',
+                  'flex items-center gap-2 shrink-0 rounded-lg px-4 py-2.5 text-sm font-medium transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-gold focus-visible:ring-offset-2 focus-visible:ring-offset-forest',
                   isActive
                     ? 'bg-white/20 text-white'
                     : 'text-white/70 hover:bg-white/10 hover:text-white',
                 )
               }
             >
+              <item.icon className="h-4 w-4" />
               {item.label}
             </NavLink>
           ))}
@@ -59,10 +61,11 @@ export default function AdminLayout() {
           <div className="flex flex-wrap items-center gap-2 md:gap-4">
             <ThemeToggle />
             <span className="text-sm text-ink-soft">
-              Mock role: {user?.name} ({user?.role})
+              {user?.name} ({user?.role})
             </span>
             <Button variant="ghost" size="sm" onClick={handleLogout}>
-              End mock session
+              <LogOut className="h-4 w-4" />
+              Sign out
             </Button>
           </div>
         </header>

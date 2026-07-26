@@ -5,10 +5,11 @@ import { Badge } from '@/components/ui/badge'
 import { ThemeToggle } from '@/components/ThemeToggle'
 import { buttonVariants } from '@/lib/button-variants'
 import { cn } from '@/lib/utils'
+import { Home, FileText, LogOut } from 'lucide-react'
 
 const navItems = [
-  { to: '/', label: 'Home' },
-  { to: '/classify', label: 'Classify' },
+  { to: '/', label: 'Home', icon: Home },
+  { to: '/classify', label: 'Classify', icon: FileText },
 ]
 
 export default function UserLayout() {
@@ -40,13 +41,14 @@ export default function UserLayout() {
               end={item.to === '/'}
               className={({ isActive }) =>
                 cn(
-                  'block shrink-0 rounded-md px-4 py-2 text-sm font-medium transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-gold focus-visible:ring-offset-2 focus-visible:ring-offset-forest',
+                  'flex items-center gap-2 shrink-0 rounded-lg px-4 py-2.5 text-sm font-medium transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-gold focus-visible:ring-offset-2 focus-visible:ring-offset-forest',
                   isActive
                     ? 'bg-white/20 text-white'
                     : 'text-white/70 hover:bg-white/10 hover:text-white',
                 )
               }
             >
+              <item.icon className="h-4 w-4" />
               {item.label}
             </NavLink>
           ))}
@@ -60,17 +62,18 @@ export default function UserLayout() {
             {user ? (
               <>
                 <span className="text-sm text-ink-soft">
-                  Mock session: {user.name} ({user.role})
+                  {user.name} ({user.role})
                 </span>
                 <Button variant="ghost" size="sm" onClick={handleLogout}>
-                  End mock session
+                  <LogOut className="h-4 w-4" />
+                  Sign out
                 </Button>
               </>
             ) : (
               <>
                 <span className="text-sm text-ink-soft">Public prototype</span>
                 <Link to="/login" className={cn(buttonVariants({ variant: 'ghost', size: 'sm' }))}>
-                  Mock login
+                  Sign in
                 </Link>
               </>
             )}
