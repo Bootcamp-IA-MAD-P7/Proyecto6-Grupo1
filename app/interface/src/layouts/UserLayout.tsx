@@ -2,6 +2,7 @@ import { Link, NavLink, Outlet, useNavigate } from 'react-router-dom'
 import { useAuth } from '@/hooks/use-auth'
 import { Button } from '@/components/ui/button'
 import { Badge } from '@/components/ui/badge'
+import { ThemeToggle } from '@/components/ThemeToggle'
 import { buttonVariants } from '@/lib/button-variants'
 import { cn } from '@/lib/utils'
 
@@ -23,7 +24,7 @@ export default function UserLayout() {
     <div className="flex min-h-screen flex-col bg-paper md:flex-row">
       <aside className="border-b border-line bg-forest text-white md:w-64 md:border-r md:border-b-0">
         <div className="px-4 pt-4 pb-3 md:p-6">
-          <p className="font-serif text-lg font-semibold">ClaimVox</p>
+          <p className="text-lg font-semibold tracking-tight">ClaimVox</p>
           <Badge variant="mock" className="mt-2">
             Public prototype
           </Badge>
@@ -52,8 +53,10 @@ export default function UserLayout() {
         </nav>
       </aside>
       <div className="flex min-w-0 flex-1 flex-col">
-        <header className="flex flex-wrap items-center justify-end gap-2 border-b border-line bg-paper px-4 py-3 md:px-6">
-          <div className="flex flex-wrap items-center justify-end gap-2 md:gap-4">
+        <header className="flex flex-wrap items-center justify-between gap-2 border-b border-line bg-paper px-4 py-3 md:px-6">
+          <span className="text-sm font-medium text-ink md:hidden">ClaimVox</span>
+          <div className="flex flex-wrap items-center gap-2 md:gap-4">
+            <ThemeToggle />
             {user ? (
               <>
                 <span className="text-sm text-ink-soft">
@@ -65,9 +68,9 @@ export default function UserLayout() {
               </>
             ) : (
               <>
-                <span className="text-sm text-ink-soft">Public prototype · no identity</span>
+                <span className="text-sm text-ink-soft">Public prototype</span>
                 <Link to="/login" className={cn(buttonVariants({ variant: 'ghost', size: 'sm' }))}>
-                  Review mock login
+                  Mock login
                 </Link>
               </>
             )}

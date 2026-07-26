@@ -2,6 +2,7 @@ import { NavLink, Outlet, useNavigate } from 'react-router-dom'
 import { useAuth } from '@/hooks/use-auth'
 import { Button } from '@/components/ui/button'
 import { Badge } from '@/components/ui/badge'
+import { ThemeToggle } from '@/components/ThemeToggle'
 import ProposalNotice from '@/components/ProposalNotice'
 import { cn } from '@/lib/utils'
 
@@ -24,7 +25,7 @@ export default function AdminLayout() {
     <div className="flex min-h-screen flex-col bg-paper md:flex-row">
       <aside className="border-b border-line bg-forest text-white md:w-64 md:border-r md:border-b-0">
         <div className="px-4 pt-4 pb-3 md:p-6">
-          <p className="font-serif text-lg font-semibold">ClaimVox</p>
+          <p className="text-lg font-semibold tracking-tight">ClaimVox</p>
           <Badge variant="review" className="mt-2">
             Proposal only
           </Badge>
@@ -53,10 +54,12 @@ export default function AdminLayout() {
         </nav>
       </aside>
       <div className="flex min-w-0 flex-1 flex-col">
-        <header className="flex flex-wrap items-center justify-end gap-2 border-b border-line bg-paper px-4 py-3 md:px-6">
-          <div className="flex flex-wrap items-center justify-end gap-2 md:gap-4">
+        <header className="flex flex-wrap items-center justify-between gap-2 border-b border-line bg-paper px-4 py-3 md:px-6">
+          <span className="text-sm font-medium text-ink md:hidden">ClaimVox Admin</span>
+          <div className="flex flex-wrap items-center gap-2 md:gap-4">
+            <ThemeToggle />
             <span className="text-sm text-ink-soft">
-              Mock role: {user?.name} ({user?.role}) · no authorization
+              Mock role: {user?.name} ({user?.role})
             </span>
             <Button variant="ghost" size="sm" onClick={handleLogout}>
               End mock session

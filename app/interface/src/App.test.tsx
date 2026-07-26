@@ -1,10 +1,15 @@
 import { render, screen } from '@testing-library/react'
 import { afterEach, describe, expect, it } from 'vitest'
+import { ThemeProvider } from '@/providers/ThemeProvider'
 import AppRouter from './App'
 
 const renderRoute = (path: string) => {
   window.history.pushState({}, '', path)
-  return render(<AppRouter />)
+  return render(
+    <ThemeProvider>
+      <AppRouter />
+    </ThemeProvider>,
+  )
 }
 
 const storeMockAdmin = () => {
@@ -34,7 +39,7 @@ describe('application routes', () => {
       await screen.findByRole('heading', { level: 1, name: 'Describe what happened' }),
     ).toBeVisible()
     expect(screen.queryByRole('heading', { name: 'ClaimVox' })).not.toBeInTheDocument()
-    expect(screen.getByText('Public prototype · no identity')).toBeVisible()
+    expect(screen.getAllByText('Public prototype').length).toBeGreaterThanOrEqual(1)
     expect(localStorage.getItem('claimvox-auth')).toBeNull()
   })
 
