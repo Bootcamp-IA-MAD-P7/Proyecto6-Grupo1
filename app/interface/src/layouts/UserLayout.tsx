@@ -23,7 +23,7 @@ export default function UserLayout() {
     <div className="flex min-h-screen flex-col bg-paper md:flex-row">
       <aside className="border-b border-line bg-forest text-white md:w-64 md:border-r md:border-b-0">
         <div className="px-4 pt-4 pb-3 md:p-6">
-          <p className="font-serif text-lg font-semibold">Complaint Routing</p>
+          <p className="font-serif text-lg font-semibold">ClaimVox</p>
           <Badge variant="mock" className="mt-2">
             Public prototype
           </Badge>

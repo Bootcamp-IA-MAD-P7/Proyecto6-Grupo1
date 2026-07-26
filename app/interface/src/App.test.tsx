@@ -9,7 +9,7 @@ const renderRoute = (path: string) => {
 
 const storeMockAdmin = () => {
   localStorage.setItem(
-    'complaint-routing-auth',
+    'claimvox-auth',
     JSON.stringify({
       id: 'synthetic-admin',
       name: 'Synthetic reviewer',
@@ -33,9 +33,9 @@ describe('application routes', () => {
     expect(
       await screen.findByRole('heading', { level: 1, name: 'Describe what happened' }),
     ).toBeVisible()
-    expect(screen.queryByRole('heading', { name: 'Complaint Routing' })).not.toBeInTheDocument()
+    expect(screen.queryByRole('heading', { name: 'ClaimVox' })).not.toBeInTheDocument()
     expect(screen.getByText('Public prototype · no identity')).toBeVisible()
-    expect(localStorage.getItem('complaint-routing-auth')).toBeNull()
+    expect(localStorage.getItem('claimvox-auth')).toBeNull()
   })
 
   it('keeps the login as an explicitly non-secure proposal', () => {

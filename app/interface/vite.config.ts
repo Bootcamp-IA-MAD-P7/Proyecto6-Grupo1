@@ -16,11 +16,11 @@ export default defineConfig({
     VitePWA({
       registerType: 'autoUpdate',
       manifest: {
-        name: 'Complaint Routing Workspace',
-        short_name: 'Complaint Routing',
+        name: 'ClaimVox',
+        short_name: 'ClaimVox',
         description: 'Decision-support interface for complaint classification.',
-        theme_color: '#102925',
-        background_color: '#f4f1e8',
+        theme_color: '#1e3a5f',
+        background_color: '#f8fafc',
         display: 'standalone',
         start_url: '/',
         scope: '/',
