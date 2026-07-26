@@ -40,12 +40,15 @@ body {
   margin: 0;
   min-width: 320px;
   min-height: 100vh;
+  background: var(--color-paper);
+  color: var(--color-ink);
+  font-family: var(--font-sans);
+  transition: background-color 0.2s ease, color 0.2s ease;
 }
 
-body,
-.dark body {
-  background: var(--color-paper);
-  transition: background-color 0.2s ease, color 0.2s ease;
+::selection {
+  background: var(--color-forest-light);
+  color: white;
 }
 
 @media (prefers-reduced-motion: reduce) {

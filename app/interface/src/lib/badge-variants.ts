@@ -9,8 +9,8 @@ export const badgeVariants = cva(
         secondary: 'border-transparent bg-sand text-ink',
         destructive: 'border-transparent bg-rust text-white',
         outline: 'text-ink',
-        mock: 'border-gold bg-gold/20 text-ink',
-        review: 'border-rust bg-rust-pale text-rust',
+        mock: 'border-gold/30 bg-gold/10 text-gold-ink dark:text-gold',
+        review: 'border-rust/30 bg-rust-pale text-rust',
       },
     },
     defaultVariants: {
