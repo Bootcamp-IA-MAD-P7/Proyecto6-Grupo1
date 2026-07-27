@@ -60,6 +60,8 @@
 - Evidencia protegida del baseline: macro F1 de test **0.6625**, accuracy **0.8230** y métricas por las once clases en JSON versionados. El artefacto local permanece fuera de Git.
 - Cierre verificable de `ESS-02`: el informe EDA enlaza el script reproducible, cuatro figuras agregadas, visualizaciones pertinentes para texto multiclase y las decisiones posteriores de preparación, sin exponer narrativas ni mezclar instantáneas.
 
+- Backend foundation (`PG-5`): servicio FastAPI en `app/api/` con endpoint de predicción (`POST /api/v1/predictions`) y health (`GET /api/v1/health`), conforme al contrato `docs/api/openapi.json`. Carga el baseline real (`models/cfpb_baseline.pkl`) cuando está disponible; opera en modo mock claramente identificado cuando no. Interfaz de predictor extensible para futuro RAG sin modificar rutas. 22 tests de contrato pasando. No incluye autenticación, CORS, rate limiting, persistencia ni Docker.
+
 ### Changed
 
 - El prototipo React PWA integrado adopta la identidad visible ClaimVox mediante la PR #28, con preferencias de tema claro, oscuro y sistema, además de mejoras visuales y de accesibilidad. Sigue siendo una demostración sin modelo, backend ni inferencia real.
