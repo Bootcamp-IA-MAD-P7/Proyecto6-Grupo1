@@ -58,6 +58,7 @@
 - Particiones locales reproducibles para 1.961.073 filas en inglés, con manifiesto agregado, evidencia de soporte de las once clases y pruebas sintéticas de idioma, huellas, grupos y orden temporal.
 - Baseline `PG-3` entrenado y optimizado con TF‑IDF (unigramas+bigramas, sublinear_tf, 8K features) + LogisticRegression (C=0.1, balanced). Val macro F1 **0.5973**, gap **0.0482** ✅, accuracy **0.8484**. Clases débiles documentadas. Hiperparámetros explorados en 4 configuraciones.
 - Evidencia protegida del baseline: macro F1 de test **0.6625**, accuracy **0.8230** y métricas por las once clases en JSON versionados. El artefacto local permanece fuera de Git.
+- Cierre verificable de `ESS-02`: el informe EDA enlaza el script reproducible, cuatro figuras agregadas, visualizaciones pertinentes para texto multiclase y las decisiones posteriores de preparación, sin exponer narrativas ni mezclar instantáneas.
 
 ### Changed
 
@@ -83,7 +84,7 @@
 ### Fixed
 
 - Responsables, estados de specs y tareas, recuentos de tests y documentación de aplicación, producto y scripts sincronizados con el estado real.
-- README y niveles de entrega describen el nivel esencial como `En curso` por el EDA activo.
+- README, gráfico y niveles de entrega reflejan `ESS-02` como verificado y mantienen el nivel esencial global en curso.
 - La primera iteración del arnés deja de presentarse como la solución definitiva; el expediente `004` queda sustituido por la capacidad OpenSpec versionada.
 - La normalización de rutas OpenSpec distingue correctamente rutas Windows y POSIX sin permitir fuentes externas al repositorio.
 - Las etiquetas del diagrama principal utilizan fondos de 120 unidades, margen interior amplio y centrado consistente después de su validación visual.

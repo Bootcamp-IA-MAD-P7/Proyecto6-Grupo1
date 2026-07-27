@@ -38,7 +38,7 @@ Las capas superiores pueden investigarse en paralelo, pero no deben retrasar ni 
 | ID | Criterio obligatorio | Estado | Área | Evidencia mínima para verificar |
 |---|---|---|---|---|
 | `ESS-01` | Modelo de clasificación funcional con tres o más clases | `En curso` | Datos / ML | Pipeline reproducible, artefacto versionado y predicciones válidas sobre las once clases contratadas |
-| `ESS-02` | EDA orientado a clasificación multiclase | `En curso` | Datos / EDA | Distribución y soporte por clase, histogramas por clase, análisis de correlación pertinente, tiempo, nulos, duplicados, longitud, idioma, desbalanceo y conclusiones reproducibles |
+| `ESS-02` | EDA orientado a clasificación multiclase | `Verificado` | Datos / EDA | `notebooks/01_eda.py`, `reports/validation/cfpb_eda.md`, cuatro figuras agregadas y continuidad trazada con la política de preparación; la correlación numérica no aplica a la entrada textual y al target categórico |
 | `ESS-03` | Overfitting inferior al 5 % | `Verificado` | Datos / ML | Macro F1 train/validation y gap `0.0482` documentados en `reports/validation/cfpb_baseline.md` |
 | `ESS-04` | Aplicación que productiviza el modelo | `No iniciado` | Frontend / backend | React PWA conectada a inferencia real, con entrada validada, predicción multiclase, errores y revisión humana |
 | `ESS-05` | Accuracy global | `Verificado` | Datos / ML | Accuracy en validation (`0.8484`) y test protegido (`0.8230`) con configuración y particiones registradas |
@@ -110,7 +110,7 @@ Cada criterio verificado debe registrar:
 
 | Nivel | Resultado |
 |---|---|
-| Esencial | `3 de 10 verificados`: `ESS-03`, `ESS-05` y `ESS-06`; `ESS-01` y `ESS-02` continúan en curso; `ESS-04`, `ESS-07`–`ESS-10` pendientes |
+| Esencial | `4 de 10 verificados`: `ESS-02`, `ESS-03`, `ESS-05` y `ESS-06`; `ESS-01` continúa en curso; `ESS-04`, `ESS-07`–`ESS-10` pendientes |
 | Medio | `No iniciado` |
 | Avanzado | `No iniciado` |
 | Experto | `No iniciado` |

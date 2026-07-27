@@ -9,7 +9,7 @@
   <img alt="OpenSpec 1.6.0" src="https://img.shields.io/badge/OpenSpec-1.6.0-173F4F">
   <img alt="Python 3.12" src="https://img.shields.io/badge/Python-3.12-52755B">
   <img alt="Estado: baseline evaluado" src="https://img.shields.io/badge/estado-baseline%20evaluado-52755B">
-  <img alt="Entrega verificada: 3 de 25" src="https://img.shields.io/badge/criterios%20verificados-3%2F25-52755B">
+  <img alt="Entrega verificada: 4 de 25" src="https://img.shields.io/badge/criterios%20verificados-4%2F25-52755B">
 </p>
 
 > Una herramienta de apoyo para proponer la categoría y el circuito inicial de una reclamación financiera escrita. La propuesta siempre debe poder ser revisada por una persona.
@@ -26,7 +26,7 @@
 | Particiones locales | 1.396.019 train · 300.870 validation · 302.076 test protegido |
 | Target | Once familias canónicas en `config/cfpb_target_contract.json` |
 | Desbalanceo preliminar | Clase mayoritaria: 72,45 % |
-| EDA y política de datos | Evidencia incorporada y política inicial de idioma, grupos, split y desbalanceo aplicada |
+| EDA y política de datos | EDA multiclase verificado; política inicial de idioma, grupos, split y desbalanceo aplicada |
 | Modelo | Baseline LogisticRegression entrenado, gap 0.0482 ✅ |
 | Aplicación | Prototipo React PWA ClaimVox integrado mediante PR #25 y evolución visual PR #28; sin predicción real |
 | Backend e inferencia | No iniciados |
@@ -189,12 +189,12 @@ Detalle: [blueprint arquitectónico](docs/architecture/system_blueprint.md).
 
 ![Estado de los veinticinco criterios del briefing](docs/assets/charts/delivery-status-2026-07-23.svg)
 
-### Nivel esencial — 3 de 10 verificados
+### Nivel esencial — 4 de 10 verificados
 
 | ID | Criterio | Estado | Evidencia necesaria |
 |---|---|---|---|
 | ESS‑01 | Modelo multiclase funcional | `En curso` | Pipeline, artefacto y predicciones válidas |
-| ESS‑02 | EDA orientado a clasificación | **En curso** | Clases, distribuciones, tiempo, nulos, duplicados, idioma y conclusiones |
+| ESS‑02 | EDA orientado a clasificación | `Verificado` | Script, informe, cuatro figuras agregadas, visualizaciones pertinentes y continuidad con la política de datos |
 | ESS‑03 | Overfitting inferior al 5 % | `Verificado` | Macro F1 train/validation y gap `0.0482` en el informe del baseline |
 | ESS‑04 | Aplicación que productiviza el modelo | No iniciado | React PWA conectada a inferencia real |
 | ESS‑05 | Accuracy global | `Verificado` | Validation `0.8484` y test protegido `0.8230` |

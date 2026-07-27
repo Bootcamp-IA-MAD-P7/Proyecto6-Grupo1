@@ -97,6 +97,43 @@ Majority 73.5% (Credit reporting), ratio 331.4×, 3 classes <1%. Weighted loss, 
 
 ---
 
+## 9. Suitable visualizations for this text classification problem
+
+The permitted model input is free text (`complaint_what_happened`) and the
+target is a categorical class (`product_canonical`). A conventional numeric
+correlation matrix is therefore not a meaningful diagnostic: there are no
+numeric input features whose linear association would describe the text
+classifier's input signal. Creating one from character counts or encoded class
+names would be artificial and could be misleading.
+
+The relevant classification-oriented visualizations are versioned alongside
+this report: class distribution and support
+(`reports/figures/class_distribution.png`), temporal coverage
+(`reports/figures/temporal_trend.png`), duplicate-group agreement
+(`reports/figures/duplicates_analysis.png`), and narrative-length distribution
+by class (`reports/figures/length_distribution.png`). Together with the
+aggregate tables above, they address class imbalance, time, duplicate leakage
+risk and text-length variability without exposing complaint narratives.
+
+## 10. Continuity with the approved preparation policy
+
+Sections 1–8 describe the EDA snapshot consumed by `notebooks/01_eda.py`; the
+counts in this report are not training-corpus counts. The later, separately
+versioned policy in `config/cfpb_training_policy.json` turns the EDA findings
+into initial preparation rules: English baseline filtering, exclusion and
+reporting of conflicting duplicate targets, group isolation by
+`narrative_hash`, temporal 70/15/15 splitting, and balanced class weights
+without resampling.
+
+`reports/validation/cfpb_training_preparation.md` and
+`reports/validation/cfpb_training_preparation_manifest.json` record the later
+local preparation with its own source fingerprint, counts and date ranges.
+They must not replace or be compared as if they were figures from this EDA
+snapshot. This continuity closes the data-preparation decisions while keeping
+the EDA evidence historically reproducible and aggregate-only.
+
+---
+
 ## Evidence
 
 - **Notebook:** `notebooks/01_eda.py`

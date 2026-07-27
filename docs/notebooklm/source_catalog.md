@@ -41,7 +41,7 @@ Este catálogo indica qué documentos pueden alimentar una presentación y con q
 | `reports/figures/` | Gráficos finales | Por experimento | ML/Docs | Activa técnica |
 | `notebooks/01_eda.py` | EDA reproducible del CFPB | Por cambio de datos | Víctor / Datos | Activa técnica |
 | `scripts/data/convert_cfpb_to_parquet.py` | Conversión reproducible y filtrado seguro | Por cambio de datos | Víctor / Datos | Activa técnica |
-| `reports/validation/cfpb_eda.md` | Evidencia agregada del EDA | Por hito de datos | Víctor / Datos | Activa |
+| `reports/validation/cfpb_eda.md` | Evidencia agregada verificable del EDA, visualizaciones pertinentes y continuidad con la política posterior | Por hito de datos o cambio de política | Víctor / Datos | Activa |
 | `reports/validation/cfpb_training_dataset.md` | Evidencia agregada del constructor local y diferencia de instantáneas | Por construcción del corpus | Datos / ML | Activa técnica |
 | `reports/validation/cfpb_training_dataset_manifest.json` | Recuentos agregados y huellas de fuente/contrato del constructor | Por construcción del corpus | Datos / ML | Activa técnica |
 | `config/cfpb_training_policy.json` | Política aprobada de idioma, grupos, split, soporte y evaluación del baseline | Por cambio de preparación | Datos / ML | Activa técnica |
