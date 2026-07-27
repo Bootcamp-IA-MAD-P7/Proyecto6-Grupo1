@@ -27,7 +27,7 @@
 | Target | Once familias canónicas en `config/cfpb_target_contract.json` |
 | Desbalanceo preliminar | Clase mayoritaria: 72,45 % |
 | EDA y política de datos | EDA multiclase verificado; política inicial de idioma, grupos, split y desbalanceo aplicada |
-| Modelo | Baseline LogisticRegression entrenado, gap 0.0482 ✅ |
+| Modelos | Baseline LogisticRegression (gap 0.0482 ✅); RF, XGBoost y LightGBM comparados sobre una muestra de 50K. No hay modelo seleccionado para producción. |
 | Aplicación | Prototipo React PWA ClaimVox integrado mediante PR #25 y evolución visual PR #28; sin predicción real |
 | Backend e inferencia | No iniciados |
 | Despliegue y MLOps | No iniciados |
@@ -187,7 +187,7 @@ Detalle: [blueprint arquitectónico](docs/architecture/system_blueprint.md).
 
 ## Estado frente al briefing
 
-![Estado de los veinticinco criterios del briefing](docs/assets/charts/delivery-status-2026-07-23.svg)
+![Estado de los veinticinco criterios del briefing](docs/assets/charts/delivery-status-2026-07-27.svg)
 
 ### Nivel esencial — 4 de 10 verificados
 
@@ -199,18 +199,18 @@ Detalle: [blueprint arquitectónico](docs/architecture/system_blueprint.md).
 | ESS‑04 | Aplicación que productiviza el modelo | No iniciado | React PWA conectada a inferencia real |
 | ESS‑05 | Accuracy global | `Verificado` | Validation `0.8484` y test protegido `0.8230` |
 | ESS‑06 | Precision, recall y F1 por clase | `Verificado` | Once clases, agregados macro/weighted y JSON versionados |
-| ESS‑07 | Matriz de confusión | No iniciado | Tabla, figura y lectura reproducibles |
-| ESS‑08 | Feature importance | No iniciado | Método compatible y limitaciones |
+| ESS‑07 | Matriz de confusión | `En curso` | Figuras generadas para RF y XGB (sample 50K); pendiente sobre split completo |
+| ESS‑08 | Feature importance | `En curso` | Figuras generadas para RF y XGB (sample 50K); pendiente sobre split completo |
 | ESS‑09 | Análisis de errores | No iniciado | Patrones por clase y acciones |
 | ESS‑10 | Informe técnico y guía | No iniciado | Métricas, decisiones, límites y ejecución |
 
-### Nivel medio — 0 de 5 verificados
+### Nivel medio — 1 de 5 verificados
 
 | ID | Criterio | Estado | Evidencia necesaria |
 |---|---|---|---|
-| MED‑01 | Ensemble comparado con baseline | No iniciado | Mismo split y métricas |
+| MED‑01 | Ensemble comparado con baseline | `Verificado` | RF, XGBoost y LightGBM comparados con el baseline en la misma muestra; XGBoost obtiene el mejor macro F1 de validación (`0.6332`), sin selección de modelo definitiva |
 | MED‑02 | Validación cruzada estratificada | No iniciado | Folds, semillas y variabilidad |
-| MED‑03 | Optimización de hiperparámetros | No iniciado | Búsqueda reproducible sin usar test |
+| MED‑03 | Optimización de hiperparámetros | `En curso` | Optuna implementado en `src/ml/tuning.py`; pendiente ejecución con split completo |
 | MED‑04 | Feedback y métricas operativas | No iniciado | Versión de modelo y privacidad |
 | MED‑05 | Recolección para reentrenamiento | No iniciado | Pipeline, trazabilidad y validación |
 
@@ -285,7 +285,7 @@ Las subcarpetas aparecen con su primer archivo real. No se crean árboles vacío
 |---|---|---|
 | José | Backend | `PG-5` / `003/T-007`, puede preparar el servicio; la integración requiere entregar un artefacto de modelo trazable |
 | Abel | Frontend y UX | `PG-4`, revisión de la React PWA integrada mediante OpenSpec |
-| Víctor | Datos y EDA | `PG-2` completada; `PG-3` baseline optimizado, gap 0.0482 ✅ |
+| Víctor | Datos y EDA | `PG-2` completada; `PG-3` baseline evaluado; `MED-01` / `PG-8` comparativa ensemble en revisión mediante PR #36 |
 | Miguel | Arquitectura y método | Integración, evidencia y gobierno Jira–OpenSpec–arnés |
 
 El [backlog `PG`](https://miguel-redondo.atlassian.net/browse/PG-1) sigue el nivel

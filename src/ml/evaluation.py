@@ -13,6 +13,7 @@ from sklearn.metrics import (
     f1_score,
     precision_score,
     recall_score,
+    roc_auc_score,
 )
 
 
@@ -28,6 +29,7 @@ class EvaluationReport:
     weighted_f1: float = 0.0
     precision_macro: float = 0.0
     recall_macro: float = 0.0
+    roc_auc: float | None = None
     gap_macro_f1: float | None = None
     gap_within_threshold: bool | None = None
     weak_classes: list[dict] = field(default_factory=list)
@@ -44,6 +46,8 @@ class EvaluationReport:
             "precision_macro": round(self.precision_macro, 4),
             "recall_macro": round(self.recall_macro, 4),
         }
+        if self.roc_auc is not None:
+            base["roc_auc"] = round(self.roc_auc, 4)
         if self.gap_macro_f1 is not None:
             base["gap_macro_f1"] = round(self.gap_macro_f1, 4)
             base["gap_within_threshold"] = self.gap_within_threshold
@@ -58,6 +62,7 @@ def evaluate(
     *,
     y_train_true: list[str] | None = None,
     y_train_pred: list[str] | None = None,
+    y_pred_proba: list[list[float]] | None = None,
 ) -> EvaluationReport:
     """Compute all metrics and return an EvaluationReport."""
     report = EvaluationReport()
@@ -67,6 +72,11 @@ def evaluate(
     report.weighted_f1 = f1_score(y_true, y_pred, average="weighted")
     report.precision_macro = precision_score(y_true, y_pred, average="macro")
     report.recall_macro = recall_score(y_true, y_pred, average="macro")
+    if y_pred_proba is not None:
+        try:
+            report.roc_auc = roc_auc_score(y_true, y_pred_proba, multi_class="ovr", average="macro", labels=classes)
+        except Exception:
+            report.roc_auc = None
 
     sk_report = classification_report(
         y_true, y_pred, labels=classes, output_dict=True, zero_division=0

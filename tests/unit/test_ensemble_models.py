@@ -8,7 +8,7 @@ from pathlib import Path
 import polars as pl
 
 from src.ml.evaluation import evaluate
-from src.ml.models import train_rf, train_xgb
+from src.ml.models import train_lgbm, train_rf, train_xgb
 from src.ml.vectorizer import VectorizerConfig
 
 ROOT = Path(__file__).resolve().parents[2]
@@ -92,6 +92,36 @@ class EnsembleModelTests(unittest.TestCase):
 
         def run():
             m = train_xgb(X, labels)
+            return m.predict(X).tolist()
+
+        p1 = run()
+        p2 = run()
+        self.assertEqual(p1, p2)
+
+    def test_lgbm_output_shape(self):
+        X, labels, _df = _load_fixture()
+        model = train_lgbm(X, labels)
+        preds = model.predict(X)
+        self.assertEqual(len(preds), len(_df))
+
+    def test_lgbm_all_classes_in_model(self):
+        X, labels, _ = _load_fixture()
+        model = train_lgbm(X, labels)
+        for cls in CLASSES:
+            self.assertIn(cls, model.classes_)
+
+    def test_lgbm_predictions_are_from_contract(self):
+        X, labels, _ = _load_fixture()
+        model = train_lgbm(X, labels)
+        preds = model.predict(X)
+        for p in preds:
+            self.assertIn(p, CLASSES)
+
+    def test_lgbm_reproducibility_same_seed(self):
+        X, labels, _ = _load_fixture()
+
+        def run():
+            m = train_lgbm(X, labels)
             return m.predict(X).tolist()
 
         p1 = run()

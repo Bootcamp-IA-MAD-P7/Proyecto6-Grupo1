@@ -1,4 +1,4 @@
-"""Wrapper functions for Random Forest and XGBoost classifiers."""
+"""Wrapper functions for Random Forest, XGBoost, and LightGBM classifiers."""
 
 from __future__ import annotations
 
@@ -17,8 +17,29 @@ DEFAULT_RF_CONFIG = {
     "random_state": 42,
 }
 
-DEFAULT_XGB_CONFIG = {
+DEFAULT_LGBM_CONFIG = {
+    "objective": "multiclass",
+    "boosting_type": "gbdt",
+    "num_leaves": 31,
+    "learning_rate": 0.1,
     "n_estimators": 1000,
+    "feature_fraction": 0.8,
+    "bagging_fraction": 0.8,
+    "bagging_freq": 5,
+    "reg_lambda": 1.0,
+    "reg_alpha": 0.0,
+    "min_data_in_leaf": 20,
+    "metric": "multi_logloss",
+    "device": "gpu",
+    "gpu_platform_id": 0,
+    "gpu_device_id": 0,
+    "num_threads": 12,
+    "random_state": 42,
+    "verbosity": 1,
+}
+
+DEFAULT_XGB_CONFIG = {
+    "n_estimators": 300,
     "max_depth": 6,
     "learning_rate": 0.1,
     "subsample": 0.8,
@@ -31,7 +52,6 @@ DEFAULT_XGB_CONFIG = {
     "verbosity": 1,
     "n_jobs": -1,
     "tree_method": "hist",
-    "device": "cuda",
 }
 
 
@@ -89,7 +109,9 @@ def train_xgb(
     """Train an XGBoost classifier with optional early stopping."""
     import xgboost as xgb
 
-    merged = {**DEFAULT_XGB_CONFIG, **(config or {}), "early_stopping_rounds": 20}
+    merged = {**DEFAULT_XGB_CONFIG, **(config or {})}
+    if eval_set:
+        merged["early_stopping_rounds"] = 20
     model = LabelEncodedModel(xgb.XGBClassifier, merged)
     y_enc = model._encoder.fit_transform(y)
     fit_kwargs = {}
@@ -98,6 +120,29 @@ def train_xgb(
         y_eval_enc = model._encoder.transform(y_eval)
         fit_kwargs["eval_set"] = [(X_eval, y_eval_enc)]
         fit_kwargs["verbose"] = False
+    model._learner.fit(X, y_enc, **fit_kwargs)
+    return model
+
+
+def train_lgbm(
+    X,
+    y: list[str],
+    config: dict | None = None,
+    eval_set: tuple | None = None,
+) -> LabelEncodedModel:
+    """Train a LightGBM classifier with GPU acceleration."""
+    import lightgbm as lgb
+
+    merged = {**DEFAULT_LGBM_CONFIG, **(config or {})}
+    model = LabelEncodedModel(lgb.LGBMClassifier, merged)
+    y_enc = model._encoder.fit_transform(y)
+    fit_kwargs = {}
+    if eval_set:
+        X_eval, y_eval = eval_set
+        y_eval_enc = model._encoder.transform(y_eval)
+        fit_kwargs["eval_X"] = X_eval
+        fit_kwargs["eval_y"] = y_eval_enc
+        fit_kwargs["callbacks"] = [lgb.early_stopping(20)]
     model._learner.fit(X, y_enc, **fit_kwargs)
     return model
 

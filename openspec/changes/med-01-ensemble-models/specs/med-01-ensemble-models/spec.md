@@ -61,3 +61,21 @@ El pipeline SHALL generar un informe `reports/validation/med_01_comparison.md` c
 #### Scenario: Sin narrativas
 - **WHEN** se genera el informe
 - **THEN** no contiene narrativas CFPB, solo cifras agregadas y configuraciones
+
+## Extensiones verificadas durante la implementación
+
+### LightGBM añadido como tercer modelo ensemble
+Durante la implementación se añadió LightGBM (GPU) como extensión sobre el alcance original de RF + XGBoost. Resultados con sample 50K:
+
+| Modelo | Macro F1 | Weighted F1 | Accuracy | ROC AUC | Gap |
+|---|---|---|---|---|---|
+| LogisticRegression (baseline) | 0.5973 | 0.8678 | 0.8484 | — | 0.0482 ✅ |
+| Random Forest | 0.4704 | 0.8270 | 0.8082 | 0.9309 | 0.1073 ❌ |
+| XGBoost | **0.6332** | **0.8963** | **0.9026** | **0.9663** | 0.2868 ❌ |
+| LightGBM | 0.6175 | 0.8956 | 0.9017 | 0.9650 | 0.3067 ❌ |
+
+**XGBoost obtiene el mejor macro F1 de validación de la comparación** (0.6332), superando al baseline LR (0.5973) sobre la muestra de 50K. No queda seleccionado como modelo definitivo: su gap supera el 5 % y requiere evaluación posterior bajo MED-03.
+**LightGBM** (GPU) queda como referencia con defaults y sin tuning.
+Todos los ensemble presentan overfitting >5%, transferido a MED-03 para optimización.
+
+La optimización de hiperparámetros con Optuna se pospuso: LightGBM tuning con 500K filas abandonado tras 12/25 trials en 3+ horas (mejor trial 0.6538, marginal vs defaults 0.6404).

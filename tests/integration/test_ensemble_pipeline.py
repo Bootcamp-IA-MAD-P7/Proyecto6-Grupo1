@@ -9,7 +9,7 @@ from pathlib import Path
 import polars as pl
 
 from src.ml.evaluation import evaluate
-from src.ml.models import train_rf, train_xgb
+from src.ml.models import train_lgbm, train_rf, train_xgb
 from src.ml.vectorizer import VectorizerConfig
 
 ROOT = Path(__file__).resolve().parents[2]
@@ -71,6 +71,26 @@ class EnsemblePipelineTests(unittest.TestCase):
     def test_xgb_gap_is_reasonable(self):
         X_train, y_train, X_val, y_val, _ = self._prepare()
         model = train_xgb(X_train, y_train)
+        train_pred = model.predict(X_train)
+        val_pred = model.predict(X_val)
+        ev = evaluate(
+            y_val, val_pred, CLASSES,
+            y_train_true=y_train, y_train_pred=train_pred,
+        )
+        if ev.gap_macro_f1 is not None:
+            self.assertGreaterEqual(ev.gap_macro_f1, 0)
+
+    def test_lgbm_pipeline_predicts_on_val(self):
+        X_train, y_train, X_val, y_val, _ = self._prepare()
+        model = train_lgbm(X_train, y_train)
+        preds = model.predict(X_val)
+        self.assertEqual(len(preds), len(y_val))
+        for p in preds:
+            self.assertIn(p, CLASSES)
+
+    def test_lgbm_gap_is_reasonable(self):
+        X_train, y_train, X_val, y_val, _ = self._prepare()
+        model = train_lgbm(X_train, y_train)
         train_pred = model.predict(X_train)
         val_pred = model.predict(X_val)
         ev = evaluate(

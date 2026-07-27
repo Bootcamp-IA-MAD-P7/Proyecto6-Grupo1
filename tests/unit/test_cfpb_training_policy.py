@@ -8,8 +8,10 @@ import tempfile
 import unittest
 from pathlib import Path
 
-from scripts.data.cfpb_training_policy import TrainingPolicyError, validate_reference_inputs
-
+from scripts.data.cfpb_training_policy import (
+    TrainingPolicyError,
+    validate_reference_inputs,
+)
 
 ROOT = Path(__file__).resolve().parents[2]
 

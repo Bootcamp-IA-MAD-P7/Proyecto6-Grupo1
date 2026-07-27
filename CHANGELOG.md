@@ -4,6 +4,25 @@
 
 ### Added
 
+- MED-01: Módulo reutilizable `src/ml/` con vectorizador, evaluación, modelos (RF, XGBoost), tuning con Optuna y visualización.
+- MED-01: `scripts/ml/train_ensemble.py` para entrenar, evaluar y comparar Random Forest y XGBoost, con figuras (confusión, importancia, comparativa) y reporte Markdown+JSON.
+- MED-01: `scripts/ml/train_baseline.py` refactorizado para consumir `src/ml/vectorizer` y `src/ml/evaluation`.
+- MED-01: Tests unitarios (9) e integración (5) para modelos ensemble.
+- MED-01: Primeros resultados RF (val macro F1 0.4704) y XGBoost (val macro F1 0.6331) sobre muestra de 50K filas.
+- MED-01: LightGBM (GPU) añadido como extensión; XGBoost obtiene el mejor macro F1 de validación (`0.6332`) sobre muestra de 50K, sin selección definitiva por su gap superior al 5 %.
+
+### Changed
+
+- `pyproject.toml` incluye `xgboost>=2.1.0`, `optuna>=4.0.0`, `joblib>=1.5.0`.
+- README actualizado: MED-01/MED-03 pasan a `En curso`; ESS-07/ESS-08 pasan a `En curso`.
+- `delivery_levels.md` sincronizado con el estado actual de los criterios.
+- Gráfico de estado actualizado a 2026-07-27 (5 verificados, 4 en curso, 16 no iniciados), sujeto a la fusión de la PR #36.
+- README, delivery_levels.md y chart actualizados: MED-01 pasa a `Verificado` (5/25 criterios); XGBoost obtiene el mejor macro F1 de validación (`0.6332`) sin selección definitiva.
+
+### Fixed
+
+- `repository-quality.yml` usa `pip install -e .` para mantener dependencias sincronizadas con `pyproject.toml`.
+- `scripts/ml/train_ensemble.py` escribe reporte con `encoding="utf-8"` para compatibilidad Windows.
 - Estructura inicial del repositorio preparada para una evolución incremental hasta nivel experto.
 - Flujo SPEC-first, plantillas de Pull Request e Issues y estrategia de tags/releases.
 - Daily por fecha con un apartado para cada integrante activo del equipo.

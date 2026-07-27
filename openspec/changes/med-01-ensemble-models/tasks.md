@@ -16,7 +16,7 @@
 ## 3. Refactor del baseline
 
 - [x] 3.1 [ML] Refactorizar `scripts/ml/train_baseline.py` para usar `src/ml/vectorizer.py` y `src/ml/evaluation.py`. Verificación: los 6 tests existentes de baseline siguen pasando.
-- [x] 3.2 [ML] Cambiar `pickle.dump` por `joblib.dump` en `train_baseline.py` y extensión `.pkl` → `.joblib`. Verificación: `git check-ignore models/cfpb_baseline.joblib` devuelve el path.
+- [x] 3.2 [ML] Usar `joblib.dump` en `train_baseline.py` conservando el nombre de artefacto `cfpb_baseline.pkl` acordado con el backend. Verificación: `git check-ignore models/cfpb_baseline.pkl` devuelve el path.
 
 ## 4. Pipeline ensemble
 
@@ -35,6 +35,6 @@
 
 ## 7. Documentación y cierre
 
-- [ ] 7.1 [ML] Actualizar README (MED-01 → `En curso`), CHANGELOG, delivery_levels.md y fuentes NotebookLM. Verificación: `python scripts/quality/check_repository.py` sin errores.
-- [ ] 7.2 [ML] Ejecutar comprobaciones: `ruff check scripts/ src/ tests/`, `python -m unittest discover -s tests/unit -p "test_*.py" -v`, `python scripts/harness.py doctor`, `npm exec -- openspec validate --all --strict`. Verificación: todos pasan.
-- [ ] 7.3 [ML] Archivar cambio y preparar PR. Verificación: cambio archivado y PR abierto.
+- [x] 7.1 [ML] Actualizar README (MED-01 → `Verificado`), CHANGELOG, delivery_levels.md, SVG chart y NotebookLM. Verificación: `python scripts/quality/check_repository.py` sin errores.
+- [x] 7.2 [ML] Ejecutar comprobaciones: `ruff check scripts/ src/ tests/`, `python -m unittest discover -s tests/unit -p "test_*.py" -v`, `python scripts/harness.py doctor`, `npm exec -- openspec validate --all --strict`. Verificación: todos pasan.
+- [x] 7.3 [ML] Preparar la Pull Request con las limitaciones explícitas y las comprobaciones ejecutadas. Evidencia: PR #36 abierta; el archivo OpenSpec queda pendiente de la fusión y de una revisión humana posterior.

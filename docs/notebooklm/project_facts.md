@@ -31,6 +31,7 @@
 - Métricas por clase, macro y weighted están registradas en los JSON versionados del baseline. Las clases con soporte bajo siguen siendo un riesgo documentado.
 - El test se ejecutó una vez como evaluación protegida. Su macro F1 (`0.6625`) se registra como resultado descriptivo; no se usa para seleccionar configuraciones ni prueba por sí solo una conclusión de generalización.
 - Champion: pendiente de comparación y decisión versionada. El artefacto local `models/cfpb_baseline.pkl` está ignorado por Git, por lo que `ESS-01` no se considera todavía verificado.
+- Comparativa ensemble: Random Forest, XGBoost y LightGBM se han comparado con el baseline sobre una muestra de 50K. XGBoost alcanza macro F1 de validation `0.6332`, pero su gap train/validation (`0.2868`) supera el umbral aceptado; no existe Champion seleccionado.
 
 ## Producto y operación
 

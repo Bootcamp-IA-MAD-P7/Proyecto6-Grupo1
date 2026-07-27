@@ -108,7 +108,7 @@ def train_pipeline(args: argparse.Namespace) -> None:
     print(f"Training done in {time.time() - t0:.1f}s")
 
     model_dir.mkdir(parents=True, exist_ok=True)
-    model_path = model_dir / "cfpb_baseline.joblib"
+    model_path = model_dir / "cfpb_baseline.pkl"
     joblib.dump({"vectorizer": vc, "model": model, "config": config}, model_path)
     print(f"Model saved to {model_path}")
 
@@ -163,7 +163,7 @@ def evaluate_test(args: argparse.Namespace) -> None:
     model_dir = Path(args.model_dir)
     report_path = Path(args.report)
     input_path = Path(args.input)
-    model_path = model_dir / "cfpb_baseline.joblib"
+    model_path = model_dir / "cfpb_baseline.pkl"
 
     print(f"Loading model from {model_path}...")
     artifact = joblib.load(model_path)

@@ -1,204 +1,325 @@
 {
   "Random Forest": {
-    "config": null,
-    "train_size": 200000,
-    "val_size": 40000,
+    "config": {},
+    "train_size": 50000,
+    "val_size": 10000,
     "metrics": {
       "model": "Random Forest",
-      "macro_f1": 0.4660838933312567,
-      "weighted_f1": 0.8227384910223755,
-      "accuracy": 0.79915,
-      "precision_macro": 0.48394153157931663,
-      "recall_macro": 0.6046970333989815,
-      "gap": 0.0859,
+      "macro_f1": 0.4703645909473124,
+      "weighted_f1": 0.8269566485403733,
+      "accuracy": 0.8082,
+      "precision_macro": 0.469005914017988,
+      "recall_macro": 0.59654804034518,
+      "roc_auc": 0.9308942552289835,
+      "gap": 0.1073,
       "weak_classes": [
         {
           "class": "Debt or credit management",
-          "f1": 0.0276,
-          "support": 84.0
+          "f1": 0.0613,
+          "support": 21.0
         },
         {
           "class": "Money transfer, virtual currency, or money service",
-          "f1": 0.1524,
-          "support": 701.0
+          "f1": 0.2358,
+          "support": 183.0
         },
         {
           "class": "Payday loan, title loan, personal loan, or advance loan",
-          "f1": 0.3457,
-          "support": 296.0
+          "f1": 0.325,
+          "support": 69.0
         },
         {
           "class": "Prepaid card",
-          "f1": 0.2423,
-          "support": 140.0
+          "f1": 0.2621,
+          "support": 43.0
         },
         {
           "class": "Student loan",
-          "f1": 0.4702,
-          "support": 283.0
+          "f1": 0.487,
+          "support": 70.0
         }
       ]
     },
     "per_class_metrics": {
       "Checking or savings account": {
-        "precision": 0.4795,
-        "recall": 0.7649,
-        "f1-score": 0.5895,
-        "support": 1531.0
+        "precision": 0.402,
+        "recall": 0.7694,
+        "f1-score": 0.5281,
+        "support": 360.0
       },
       "Credit card": {
-        "precision": 0.5467,
-        "recall": 0.5413,
-        "f1-score": 0.544,
-        "support": 1417.0
+        "precision": 0.5208,
+        "recall": 0.5237,
+        "f1-score": 0.5222,
+        "support": 359.0
       },
       "Credit reporting or other personal consumer reports": {
-        "precision": 0.9659,
-        "recall": 0.8512,
-        "f1-score": 0.9049,
-        "support": 31617.0
+        "precision": 0.9679,
+        "recall": 0.8597,
+        "f1-score": 0.9106,
+        "support": 7955.0
       },
       "Debt collection": {
-        "precision": 0.4964,
-        "recall": 0.6026,
-        "f1-score": 0.5443,
-        "support": 2969.0
+        "precision": 0.4711,
+        "recall": 0.6386,
+        "f1-score": 0.5422,
+        "support": 689.0
       },
       "Debt or credit management": {
-        "precision": 0.0147,
+        "precision": 0.0352,
         "recall": 0.2381,
-        "f1-score": 0.0276,
-        "support": 84.0
+        "f1-score": 0.0613,
+        "support": 21.0
       },
       "Money transfer, virtual currency, or money service": {
-        "precision": 0.9667,
-        "recall": 0.0827,
-        "f1-score": 0.1524,
-        "support": 701.0
+        "precision": 0.8621,
+        "recall": 0.1366,
+        "f1-score": 0.2358,
+        "support": 183.0
       },
       "Mortgage": {
-        "precision": 0.6357,
-        "recall": 0.876,
-        "f1-score": 0.7368,
-        "support": 492.0
+        "precision": 0.6012,
+        "recall": 0.8487,
+        "f1-score": 0.7038,
+        "support": 119.0
       },
       "Payday loan, title loan, personal loan, or advance loan": {
-        "precision": 0.291,
-        "recall": 0.4257,
-        "f1-score": 0.3457,
-        "support": 296.0
+        "precision": 0.2857,
+        "recall": 0.3768,
+        "f1-score": 0.325,
+        "support": 69.0
       },
       "Prepaid card": {
-        "precision": 0.1478,
-        "recall": 0.6714,
-        "f1-score": 0.2423,
-        "support": 140.0
+        "precision": 0.1656,
+        "recall": 0.6279,
+        "f1-score": 0.2621,
+        "support": 43.0
       },
       "Student loan": {
-        "precision": 0.3291,
-        "recall": 0.8233,
-        "f1-score": 0.4702,
-        "support": 283.0
+        "precision": 0.35,
+        "recall": 0.8,
+        "f1-score": 0.487,
+        "support": 70.0
       },
       "Vehicle loan or lease": {
-        "precision": 0.4499,
-        "recall": 0.7745,
-        "f1-score": 0.5692,
-        "support": 470.0
+        "precision": 0.4975,
+        "recall": 0.7424,
+        "f1-score": 0.5957,
+        "support": 132.0
       }
     }
   },
   "XGBoost": {
-    "config": null,
-    "train_size": 200000,
-    "val_size": 40000,
+    "config": {},
+    "train_size": 50000,
+    "val_size": 10000,
     "metrics": {
       "model": "XGBoost",
-      "macro_f1": 0.6436565550708567,
-      "weighted_f1": 0.8985274744615411,
-      "accuracy": 0.90465,
-      "precision_macro": 0.7614245672940106,
-      "recall_macro": 0.5936683605544165,
-      "gap": 0.1883,
+      "macro_f1": 0.6331538520622784,
+      "weighted_f1": 0.8962773984655147,
+      "accuracy": 0.9026,
+      "precision_macro": 0.7562995946394439,
+      "recall_macro": 0.5781080943238606,
+      "roc_auc": 0.9663382123799509,
+      "gap": 0.2868,
       "weak_classes": [
         {
           "class": "Debt or credit management",
-          "f1": 0.1895,
-          "support": 84.0
+          "f1": 0.1667,
+          "support": 21.0
         },
         {
-          "class": "Prepaid card",
-          "f1": 0.4636,
-          "support": 140.0
+          "class": "Payday loan, title loan, personal loan, or advance loan",
+          "f1": 0.4348,
+          "support": 69.0
         }
       ]
     },
     "per_class_metrics": {
       "Checking or savings account": {
-        "precision": 0.7491,
-        "recall": 0.776,
-        "f1-score": 0.7623,
-        "support": 1531.0
+        "precision": 0.7136,
+        "recall": 0.775,
+        "f1-score": 0.743,
+        "support": 360.0
       },
       "Credit card": {
-        "precision": 0.7731,
-        "recall": 0.6662,
-        "f1-score": 0.7157,
-        "support": 1417.0
+        "precision": 0.7253,
+        "recall": 0.6546,
+        "f1-score": 0.6881,
+        "support": 359.0
       },
       "Credit reporting or other personal consumer reports": {
-        "precision": 0.9366,
-        "recall": 0.9785,
-        "f1-score": 0.9571,
-        "support": 31617.0
+        "precision": 0.939,
+        "recall": 0.9784,
+        "f1-score": 0.9583,
+        "support": 7955.0
       },
       "Debt collection": {
-        "precision": 0.7474,
-        "recall": 0.551,
-        "f1-score": 0.6344,
-        "support": 2969.0
+        "precision": 0.6962,
+        "recall": 0.5254,
+        "f1-score": 0.5988,
+        "support": 689.0
       },
       "Debt or credit management": {
-        "precision": 0.8182,
-        "recall": 0.1071,
-        "f1-score": 0.1895,
-        "support": 84.0
+        "precision": 0.6667,
+        "recall": 0.0952,
+        "f1-score": 0.1667,
+        "support": 21.0
       },
       "Money transfer, virtual currency, or money service": {
-        "precision": 0.7213,
-        "recall": 0.6462,
-        "f1-score": 0.6817,
-        "support": 701.0
+        "precision": 0.7383,
+        "recall": 0.6011,
+        "f1-score": 0.6627,
+        "support": 183.0
       },
       "Mortgage": {
-        "precision": 0.86,
-        "recall": 0.7988,
-        "f1-score": 0.8282,
-        "support": 492.0
+        "precision": 0.8796,
+        "recall": 0.7983,
+        "f1-score": 0.837,
+        "support": 119.0
       },
       "Payday loan, title loan, personal loan, or advance loan": {
-        "precision": 0.6406,
-        "recall": 0.4155,
-        "f1-score": 0.5041,
-        "support": 296.0
+        "precision": 0.5435,
+        "recall": 0.3623,
+        "f1-score": 0.4348,
+        "support": 69.0
       },
       "Prepaid card": {
-        "precision": 0.6375,
-        "recall": 0.3643,
-        "f1-score": 0.4636,
-        "support": 140.0
+        "precision": 0.8421,
+        "recall": 0.3721,
+        "f1-score": 0.5161,
+        "support": 43.0
       },
       "Student loan": {
-        "precision": 0.7362,
-        "recall": 0.6608,
-        "f1-score": 0.6965,
-        "support": 283.0
+        "precision": 0.7857,
+        "recall": 0.6286,
+        "f1-score": 0.6984,
+        "support": 70.0
       },
       "Vehicle loan or lease": {
-        "precision": 0.7557,
-        "recall": 0.566,
-        "f1-score": 0.6472,
-        "support": 470.0
+        "precision": 0.7895,
+        "recall": 0.5682,
+        "f1-score": 0.6608,
+        "support": 132.0
+      }
+    }
+  },
+  "LightGBM": {
+    "config": {
+      "objective": "multiclass",
+      "boosting_type": "gbdt",
+      "num_leaves": 31,
+      "learning_rate": 0.1,
+      "n_estimators": 1000,
+      "feature_fraction": 0.8,
+      "bagging_fraction": 0.8,
+      "bagging_freq": 5,
+      "reg_lambda": 1.0,
+      "reg_alpha": 0.0,
+      "min_data_in_leaf": 20,
+      "metric": "multi_logloss",
+      "device": "gpu",
+      "gpu_platform_id": 0,
+      "gpu_device_id": 0,
+      "num_threads": 12,
+      "random_state": 42,
+      "verbosity": 1
+    },
+    "train_size": 50000,
+    "val_size": 10000,
+    "metrics": {
+      "model": "LightGBM",
+      "macro_f1": 0.6175056040381834,
+      "weighted_f1": 0.895605364966241,
+      "accuracy": 0.9017,
+      "precision_macro": 0.770880149739229,
+      "recall_macro": 0.5668769414341274,
+      "roc_auc": 0.9649833256513444,
+      "gap": 0.3067,
+      "weak_classes": [
+        {
+          "class": "Debt or credit management",
+          "f1": 0.0909,
+          "support": 21.0
+        },
+        {
+          "class": "Payday loan, title loan, personal loan, or advance loan",
+          "f1": 0.4576,
+          "support": 69.0
+        },
+        {
+          "class": "Prepaid card",
+          "f1": 0.4444,
+          "support": 43.0
+        }
+      ]
+    },
+    "per_class_metrics": {
+      "Checking or savings account": {
+        "precision": 0.6944,
+        "recall": 0.7639,
+        "f1-score": 0.7275,
+        "support": 360.0
+      },
+      "Credit card": {
+        "precision": 0.7304,
+        "recall": 0.649,
+        "f1-score": 0.6873,
+        "support": 359.0
+      },
+      "Credit reporting or other personal consumer reports": {
+        "precision": 0.94,
+        "recall": 0.9776,
+        "f1-score": 0.9585,
+        "support": 7955.0
+      },
+      "Debt collection": {
+        "precision": 0.6889,
+        "recall": 0.5399,
+        "f1-score": 0.6054,
+        "support": 689.0
+      },
+      "Debt or credit management": {
+        "precision": 1.0,
+        "recall": 0.0476,
+        "f1-score": 0.0909,
+        "support": 21.0
+      },
+      "Money transfer, virtual currency, or money service": {
+        "precision": 0.7534,
+        "recall": 0.6011,
+        "f1-score": 0.6687,
+        "support": 183.0
+      },
+      "Mortgage": {
+        "precision": 0.8922,
+        "recall": 0.7647,
+        "f1-score": 0.8235,
+        "support": 119.0
+      },
+      "Payday loan, title loan, personal loan, or advance loan": {
+        "precision": 0.551,
+        "recall": 0.3913,
+        "f1-score": 0.4576,
+        "support": 69.0
+      },
+      "Prepaid card": {
+        "precision": 0.7,
+        "recall": 0.3256,
+        "f1-score": 0.4444,
+        "support": 43.0
+      },
+      "Student loan": {
+        "precision": 0.7818,
+        "recall": 0.6143,
+        "f1-score": 0.688,
+        "support": 70.0
+      },
+      "Vehicle loan or lease": {
+        "precision": 0.7475,
+        "recall": 0.5606,
+        "f1-score": 0.6407,
+        "support": 132.0
       }
     }
   },
