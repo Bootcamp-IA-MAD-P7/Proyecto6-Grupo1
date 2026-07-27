@@ -2,18 +2,18 @@
 
 ## Estado confirmado del proyecto
 
-- Fase: descubrimiento y EDA con OpenSpec + Harness Engineering operativos.
+- Fase: preparación de datos cerrada y baseline pendiente, con OpenSpec + Harness Engineering operativos.
 - Problema: clasificación y apoyo al enrutamiento de reclamaciones financieras escritas.
 - Dataset: Consumer Complaint Database del CFPB, viable con condiciones.
 - Entrada candidata permitida: `complaint_what_happened`.
 - Target derivado: `product_canonical`, con once clases en `config/cfpb_target_contract.json`.
-- Frontend previsto: React PWA; una evolución nativa solo se evaluará si aparece evidencia que la justifique.
+- Frontend integrado: prototipo React PWA ClaimVox; una evolución nativa solo se evaluará si aparece evidencia que la justifique.
 - Responsabilidades: Miguel coordina arquitectura; José, backend; Abel, frontend/UX; Víctor, datos y EDA. Josué está fuera del equipo.
 - Jira: proyecto `PG`; `PG-1` agrupa el nivel esencial.
-- Trabajo heredado activo: `PG-2` / `001/T-004` para Víctor, `PG-4` / `003/T-006` para Abel y `PG-5` / `003/T-007` para José cuando se resuelvan `PG-2` y `PG-3`.
-- No existe todavía modelo entrenado, inferencia real, aplicación integrada, base de datos, despliegue ni capacidad MLOps.
+- Trabajo actual: `PG-3` para Víctor mediante un cambio OpenSpec nuevo; `PG-4` está integrado como prototipo ClaimVox y `PG-5` queda pendiente para José cuando exista un baseline evaluado. Las tareas numeradas `001/T-004` a `T-006` y `003/T-006` permanecen como expedientes cerrados de compatibilidad.
+- No existe todavía modelo entrenado, inferencia real, aplicación integrada con un servicio, base de datos, despliegue ni capacidad MLOps.
 
-Siguen abiertas la métrica principal, los modelos, la política de idioma, el tratamiento final de duplicados, la partición, el desbalanceo, el backend, la persistencia y el proveedor cloud. No deben cerrarse sin evidencia y una decisión versionada.
+La métrica inicial del baseline, la política de idioma, duplicados, partición y desbalanceo ya están versionadas para la preparación actual. Siguen abiertas la selección basada en resultados, los modelos posteriores, la cobertura multilingüe, el backend, la persistencia y el proveedor cloud. No deben cerrarse sin evidencia y una decisión versionada.
 
 ## Fuente de verdad para cambios
 

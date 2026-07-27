@@ -38,7 +38,7 @@ El impacto esperado es reducir esfuerzo de clasificación y hacer más consisten
 ## Mensaje de cierre
 
 El equipo ha elegido esta dirección por unanimidad y ya puede demostrar el
-recorrido mediante una interfaz con respuestas sintéticas. El siguiente paso
-sigue siendo completar la evidencia de datos y construir el modelo; no se
-afirmará que existe predicción real hasta disponer de resultados reproducibles
-y una integración verificada.
+recorrido mediante ClaimVox, una interfaz con respuestas sintéticas. El
+siguiente paso es construir y evaluar el baseline; no se afirmará que existe
+predicción real hasta disponer de resultados reproducibles y una integración
+verificada.

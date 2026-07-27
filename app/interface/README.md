@@ -16,11 +16,16 @@ y al [expediente OpenSpec archivado](../../openspec/changes/archive/2026-07-24-i
 | Dictado                           | Implementado mediante Web Speech API con fallback por teclado |
 | PWA instalable                    | Verificada manualmente en Chrome sobre Windows                |
 | Shell offline                     | Implementado; no clasifica sin conexión                       |
+| Identidad y tema                  | ClaimVox; preferencias claro, oscuro y sistema persistentes   |
 | Autenticación y administración    | Propuestas mock; no aportan seguridad ni operaciones reales   |
 | Backend, modelo e inferencia real | No implementados                                              |
 
 Esta interfaz avanza el requisito `ESS-04`, pero no permite marcarlo como
 verificado hasta que exista una predicción real extremo a extremo.
+
+La identidad ClaimVox y las preferencias de tema se integraron mediante la PR
+#28. Son cambios de experiencia visual: no modifican el contrato de predicción
+ni acreditan modelo, servicio, autenticación o administración operativos.
 
 ## Arranque en cinco minutos
 

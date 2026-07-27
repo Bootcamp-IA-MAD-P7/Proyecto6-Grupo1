@@ -66,8 +66,8 @@ git switch -c tipo/PG-N-descripcion-corta
 Ejemplos:
 
 ```bash
-git switch -c data/PG-2-analyze-language
-git switch -c feature/PG-4-complaint-form
+git switch -c data/PG-3-train-cfpb-baseline
+git switch -c feature/PG-5-add-inference-service
 git switch -c docs/PG-7-update-client-narrative
 ```
 
@@ -157,20 +157,23 @@ El comando consulta al OpenSpec real, valida el cambio y crea un único Markdown
 
 ## 6. Trabajo anterior a OpenSpec
 
-Víctor y Abel pueden terminar las tareas ya asignadas sin rehacerlas:
+Este modo se conserva solo para una tarea heredada que siga abierta. Las tareas
+de datos `001/T-004` a `T-006` y la implementación inicial `003/T-006` ya
+están cerradas e integradas; el trabajo nuevo comienza mediante un cambio
+OpenSpec.
 
 ```bash
 python scripts/harness.py start \
   --role data-analyst \
   --spec 001 \
-  --task T-004
+  --task T-NNN
 ```
 
 ```bash
 python scripts/harness.py start \
   --role frontend-developer \
   --spec 003 \
-  --task T-006
+  --task T-NNN
 ```
 
 Esta opción es transitoria. Si durante el trabajo aparece una decisión nueva que cambia el contrato, se crea antes un cambio OpenSpec.

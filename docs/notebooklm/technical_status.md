@@ -2,11 +2,11 @@
 
 ## Estado general
 
-- Fase: descubrimiento y EDA con OpenSpec + Harness Engineering operativos.
+- Fase: preparación de datos cerrada y baseline pendiente, con OpenSpec + Harness Engineering operativos.
 - Idea de negocio: clasificación y enrutamiento de reclamaciones financieras, elegida por unanimidad con condiciones.
 - Dataset: Consumer Complaint Database del CFPB viable con condiciones; target y reglas de EDA versionados.
-- Producto demostrable: prototipo React PWA validado y fusionado mediante la PR
-  #25 con respuestas sintéticas; todavía no existe una
+- Producto demostrable: prototipo React PWA ClaimVox integrado mediante las PR
+  #25 y #28, con respuestas sintéticas y preferencias de tema; todavía no existe una
   predicción real ni un servicio operativo.
 - Despliegue: no iniciado.
 - Seguimiento: Jira `PG` operativo para responsables, estados y bloqueos; `PG-1`
@@ -38,6 +38,9 @@
   OpenSpec `integrate-frontend-foundation` está archivado, la capacidad
   `complaint-routing-interface` está vigente y la PR #25 está fusionada en
   `dev`.
+- La PR #28 actualiza la identidad visible a ClaimVox y añade preferencias de
+  tema claro, oscuro y sistema, junto a ajustes visuales y de accesibilidad.
+  No altera el contrato de predicción ni añade capacidades operativas.
 - La batería frontend aprueba typecheck, lint, formato, 31 tests, build PWA y
   auditoría npm con cero vulnerabilidades.
 - Chrome 150 en Windows verificó instalación, actualización, dictado con permiso
