@@ -1,0 +1,40 @@
+## 1. Dependencias
+
+- [x] 1.1 [ML] Añadir `xgboost>=2.1.0` y `optuna>=4.0.0` a `pyproject.toml`. Verificación: `pip install -e .` y `python -c "import xgboost; import optuna; print(xgboost.__version__, optuna.__version__)"`.
+
+## 2. Módulos reutilizables src/ml/
+
+- [x] 2.1 [ML] Crear `src/ml/__init__.py` con el árbol de exportaciones. Verificación: `python -c "from src.ml import VectorizerConfig, evaluate, train_rf, train_xgb, tune_hyperparams, plot_confusion_matrix"`.
+- [x] 2.2 [ML] Crear `src/ml/vectorizer.py` con clase `VectorizerConfig` que encapsula TfidfVectorizer configurable por diccionario. Verificación: importar, instanciar con config, fit_transform y transform sobre fixture sintético.
+- [x] 2.3 [ML] Crear `src/ml/evaluation.py` con función `evaluate` que devuelve métricas (macro F1, weighted F1, accuracy, precision, recall, per-class, gap, weak classes) y genera reporte JSON. Verificación: ejecutar sobre predicciones sintéticas y comprobar la salida.
+- [x] 2.4 [ML] Crear `src/ml/models.py` con funciones `train_rf` y `train_xgb` que aceptan X, y, config y devuelven modelo entrenado. Verificación: entrenar sobre fixture sintético y predecir.
+- [x] 2.5 [ML] Crear `src/ml/tuning.py` con función `tune_hyperparams` que usa Optuna para buscar hiperparámetros de RF y XGBoost sobre validation. Verificación: ejecutar con pocos trials (n_trials=5) sobre fixture sintético.
+- [x] 2.6 [ML] Crear `src/ml/visualization.py` con funciones `plot_confusion_matrix`, `plot_feature_importance` y `plot_model_comparison`. Verificación: generar PNG sobre fixture sintético.
+- [x] 2.7 [ML] Añadir a `tuning.py` los parámetros de regularización `reg_lambda`, `reg_alpha`, `min_child_weight` al espacio de búsqueda de XGBoost. Verificación: el espacio de búsqueda incluye los 3 parámetros nuevos.
+- [x] 2.8 [ML] Añadir `early_stopping_rounds=20` y `eval_set` a `train_xgb` en `models.py`. Verificación: `train_xgb` acepta `eval_set` opcional.
+
+## 3. Refactor del baseline
+
+- [x] 3.1 [ML] Refactorizar `scripts/ml/train_baseline.py` para usar `src/ml/vectorizer.py` y `src/ml/evaluation.py`. Verificación: los 6 tests existentes de baseline siguen pasando.
+- [x] 3.2 [ML] Cambiar `pickle.dump` por `joblib.dump` en `train_baseline.py` y extensión `.pkl` → `.joblib`. Verificación: `git check-ignore models/cfpb_baseline.joblib` devuelve el path.
+
+## 4. Pipeline ensemble
+
+- [x] 4.1 [ML] Crear `scripts/ml/train_ensemble.py` que: carga datos, vectoriza con `VectorizerConfig`, entrena RF (defaults) + XGBoost (Optuna con regularización + early_stopping), evalúa, genera figuras y guarda modelos en `.joblib`. Verificación: ejecutar sobre particiones locales y comprobar artefactos.
+
+## 5. Ejecución y reportes
+
+- [x] 5.1 [ML] Ejecutar `train_ensemble.py` sobre particiones reales y verificar que los modelos se guardan en `models/`. Verificación: `ls models/cfpb_rf.joblib models/cfpb_xgb.joblib` y `git check-ignore` los confirma.
+- [x] 5.2 [ML] Verificar que `reports/validation/med_01_comparison.md` contiene tabla comparativa de los 3 modelos. Verificación: el archivo existe y tiene filas para LR, RF y XGBoost.
+- [x] 5.3 [ML] Verificar que `reports/validation/figures/` contiene al menos 3 PNG (matriz confusión, feature importance, barras). Verificación: `ls reports/validation/figures/*.png`.
+
+## 6. Tests
+
+- [x] 6.1 [ML] Crear `tests/unit/test_ensemble_models.py` con tests: forma de salida, once clases, reproducibilidad, serialización. Verificación: `python -m unittest tests.unit.test_ensemble_models -v` con 0 fallos.
+- [x] 6.2 [ML] Crear `tests/integration/test_ensemble_pipeline.py` con tests: pipeline completo sobre fixture sintético, comparación con baseline. Verificación: `python -m unittest tests.integration.test_ensemble_pipeline -v` con 0 fallos.
+
+## 7. Documentación y cierre
+
+- [ ] 7.1 [ML] Actualizar README (MED-01 → `En curso`), CHANGELOG, delivery_levels.md y fuentes NotebookLM. Verificación: `python scripts/quality/check_repository.py` sin errores.
+- [ ] 7.2 [ML] Ejecutar comprobaciones: `ruff check scripts/ src/ tests/`, `python -m unittest discover -s tests/unit -p "test_*.py" -v`, `python scripts/harness.py doctor`, `npm exec -- openspec validate --all --strict`. Verificación: todos pasan.
+- [ ] 7.3 [ML] Archivar cambio y preparar PR. Verificación: cambio archivado y PR abierto.
