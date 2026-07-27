@@ -1,0 +1,141 @@
+{
+  "language": {
+    "by_class": {
+      "Checking or savings account": {
+        "english_rows": 96957,
+        "input_rows": 97167
+      },
+      "Credit card": {
+        "english_rows": 92389,
+        "input_rows": 92691
+      },
+      "Credit reporting or other personal consumer reports": {
+        "english_rows": 1427517,
+        "input_rows": 1463148
+      },
+      "Debt collection": {
+        "english_rows": 164952,
+        "input_rows": 165895
+      },
+      "Debt or credit management": {
+        "english_rows": 4973,
+        "input_rows": 5006
+      },
+      "Money transfer, virtual currency, or money service": {
+        "english_rows": 65347,
+        "input_rows": 65447
+      },
+      "Mortgage": {
+        "english_rows": 33973,
+        "input_rows": 34072
+      },
+      "Payday loan, title loan, personal loan, or advance loan": {
+        "english_rows": 16401,
+        "input_rows": 16429
+      },
+      "Prepaid card": {
+        "english_rows": 9542,
+        "input_rows": 9573
+      },
+      "Student loan": {
+        "english_rows": 24718,
+        "input_rows": 24761
+      },
+      "Vehicle loan or lease": {
+        "english_rows": 24304,
+        "input_rows": 24381
+      }
+    },
+    "english_rows": 1961073,
+    "excluded_non_english_or_unclassified": 37497,
+    "input_rows": 1998570
+  },
+  "output": {
+    "contains_narratives": true,
+    "tracked_by_git": false
+  },
+  "policy": {
+    "contract_sha256": "58b7ada8e6decdf0378aae4c042a381884ddda39143cbf0d6a0062c1f10fb9bd",
+    "language": {
+      "baseline": "en",
+      "detector": "langdetect_1.0.9_seed_0_max_500",
+      "exclude_unclassified": true
+    },
+    "path": "config/cfpb_training_policy.json",
+    "source_sha256": "f1cb8b412f6af5039ae630b3d0a1e4b5eab93be900a247ae60ea33cea073b351",
+    "split": {
+      "group_date": "max_date_received",
+      "min_class_support_per_split": 100,
+      "strategy": "temporal_group_isolated",
+      "target_proportions": {
+        "test": 0.15,
+        "train": 0.7,
+        "validation": 0.15
+      },
+      "test_protected": true
+    }
+  },
+  "schema_version": "1.0",
+  "split": {
+    "class_support": {
+      "test": {
+        "Checking or savings account": 14700,
+        "Credit card": 14121,
+        "Credit reporting or other personal consumer reports": 211808,
+        "Debt collection": 28537,
+        "Debt or credit management": 795,
+        "Money transfer, virtual currency, or money service": 8185,
+        "Mortgage": 5023,
+        "Payday loan, title loan, personal loan, or advance loan": 2884,
+        "Prepaid card": 1103,
+        "Student loan": 2852,
+        "Vehicle loan or lease": 4153
+      },
+      "train": {
+        "Checking or savings account": 69671,
+        "Credit card": 65833,
+        "Credit reporting or other personal consumer reports": 994390,
+        "Debt collection": 111786,
+        "Debt or credit management": 3496,
+        "Money transfer, virtual currency, or money service": 47992,
+        "Mortgage": 24798,
+        "Payday loan, title loan, personal loan, or advance loan": 11049,
+        "Prepaid card": 7386,
+        "Student loan": 19730,
+        "Vehicle loan or lease": 16620
+      },
+      "validation": {
+        "Checking or savings account": 12586,
+        "Credit card": 12435,
+        "Credit reporting or other personal consumer reports": 221319,
+        "Debt collection": 24629,
+        "Debt or credit management": 682,
+        "Money transfer, virtual currency, or money service": 9170,
+        "Mortgage": 4152,
+        "Payday loan, title loan, personal loan, or advance loan": 2468,
+        "Prepaid card": 1053,
+        "Student loan": 2136,
+        "Vehicle loan or lease": 3531
+      }
+    },
+    "date_bounds": {
+      "test": {
+        "max": "2026-06-02",
+        "min": "2025-11-21"
+      },
+      "train": {
+        "max": "2025-08-07",
+        "min": "2023-08-24"
+      },
+      "validation": {
+        "max": "2025-11-21",
+        "min": "2025-08-07"
+      }
+    },
+    "rows_by_split": {
+      "test": 294161,
+      "train": 1372751,
+      "validation": 294161
+    }
+  }
+}

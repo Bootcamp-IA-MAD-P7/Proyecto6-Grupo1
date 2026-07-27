@@ -49,6 +49,13 @@
   clases, temporalidad, duplicados, longitud e idioma.
 - Integración frontend de Abel fusionada mediante la PR `#25`; la PWA sigue
   usando respuestas sintéticas y no acredita inferencia real.
+- Constructor local contractual para `T-005` / `PG-2`, con rutas explícitas,
+  soporte seguro de ZIP, filtros, aliases, exclusiones, huella de narrativa,
+  exclusión de conflictos y manifiesto agregado sin textos CFPB.
+- Seis pruebas sintéticas del constructor y evidencia agregada de una ejecución
+  local de 1.998.570 filas, conservando las decisiones de `T-006` abiertas.
+- Política versionada de preparación para `PG-2` / `T-006`: huellas de fuente y contrato, inglés para el baseline inicial, grupos de duplicados aislados, split temporal 70/15/15, mínimo de 100 filas por clase en validation y test, macro F1 y pesos balanceados.
+- Particiones locales reproducibles para 1.961.073 filas en inglés, con manifiesto agregado, evidencia de soporte de las once clases y pruebas sintéticas de idioma, huellas, grupos y orden temporal.
 
 ### Changed
 
@@ -59,6 +66,7 @@
 - La estructura adopta creación incremental: conserva contratos en los README y elimina subcarpetas vacías para capacidades todavía no implementadas.
 - El estado activo comprende la revisión de la evidencia EDA de Víctor y las
   decisiones de datos posteriores; la React PWA de Abel ya está fusionada.
+- `PG-2` deja de estar bloqueada por decisiones de datos y habilita el baseline reproducible de `PG-3`; no existe todavía un modelo entrenado ni métricas de evaluación.
 - OpenSpec gobierna los cambios nuevos; `specs/` conserva únicamente los expedientes anteriores y las tareas ya asignadas.
 - El piloto con Víctor deja de ser una condición de implantación y pasa a ser una oportunidad de feedback durante su trabajo real.
 - La propuesta frontend experimental de la PR `#14` se cierra sin mergear para que Abel defina e implemente el frontend desde una base limpia.

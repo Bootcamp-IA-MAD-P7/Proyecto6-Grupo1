@@ -34,7 +34,7 @@
 
 ## T-004 Incorporar evidencia del EDA
 
-- Estado: `[~]`
+- Estado: `[x]`
 - Responsable: `Víctor / Datos y EDA`
 - Dependencias: `T-003`
 - Requisitos cubiertos: `R-006, R-007, R-009`
@@ -46,26 +46,38 @@
   - `reports/figures/class_distribution.png`, `temporal_trend.png`, `duplicates_analysis.png`, `length_distribution.png` — figuras agregadas.
   - `reports/validation/cfpb_eda.md` — informe EDA con respuestas a Q-001 a Q-004.
   - `data/interim/cfpb.parquet` — Parquet de 2.27M filas (gitignored).
+  - La política y preparación de `T-006` cierran las decisiones de idioma, duplicados, split y desbalanceo para la instantánea de entrenamiento actual, sin mezclar sus cifras con el snapshot EDA anterior.
 
 ## T-005 Implementar el constructor reproducible
 
-- Estado: `[ ]`
+- Estado: `[x]`
 - Responsable: `Datos / ML`
 - Dependencias: `T-004`
 - Requisitos cubiertos: `R-001 a R-008`
 - Trabajo: aplicar filtros, mapping, exclusiones, huellas y salida agregada usando el contrato.
 - Verificación: tests unitarios y de integración sobre una muestra local.
-- Evidencia obtenida: pendiente.
+- Evidencia obtenida:
+  - Cambio OpenSpec `build-cfpb-training-dataset` con propuesta, requisitos, diseño y tareas trazados a `PG-2`.
+  - `scripts/data/convert_cfpb_to_parquet.py` con rutas explícitas, filtro contractual, aliases, exclusión ambigua, huella de narrativa, exclusión de conflictos y manifiesto agregado.
+  - `tests/unit/test_cfpb_training_dataset.py` con seis pruebas exclusivamente sintéticas; también pasan los ocho tests del contrato.
+  - `reports/validation/cfpb_training_dataset.md` y `reports/validation/cfpb_training_dataset_manifest.json` con recuentos agregados de la fuente actual, sin narrativas ni identificadores.
+  - Corpus local `data/processed/cfpb_training.parquet` y etapa `data/interim/cfpb_training_candidates.parquet`, ambos ignorados por Git.
+  - Límite: T-005 no decide idioma, tratamiento intra-grupo, partición, desbalanceo ni autoriza entrenamiento; esas puertas siguen en T-006.
 
 ## T-006 Cerrar idioma, privacidad y partición
 
-- Estado: `[ ]`
+- Estado: `[x]`
 - Responsable: `Equipo`
 - Dependencias: `T-004, T-005`
 - Requisitos cubiertos: `R-004, R-005, R-009`
-- Trabajo: resolver Q-001 a Q-004 y actualizar decisiones antes de entrenar.
-- Verificación: revisión del equipo, tests y documentación sincronizada.
-- Evidencia obtenida: pendiente.
+- Trabajo: resolver Q-001 a Q-004 y aplicar la política aprobada antes de entrenar.
+- Verificación: revisión del equipo, tests sintéticos, evidencia local agregada y documentación sincronizada.
+- Evidencia obtenida:
+  - Cambio OpenSpec `decide-cfpb-training-policy`, vinculado a `PG-2`, con los requisitos y el diseño aprobados.
+  - `config/cfpb_training_policy.json` fija la referencia de fuente y contrato, baseline inicial inglés, grupos completos, split temporal 70/15/15, macro F1 y pesos balanceados.
+  - `scripts/data/cfpb_training_policy.py` y `tests/unit/test_cfpb_training_policy.py` verifican de forma sintética que una fuente o contrato diferente detiene la preparación sin exponer contenido.
+  - `reports/validation/cfpb_training_preparation.md` y `reports/validation/cfpb_training_preparation_manifest.json` confirman 1.961.073 filas en inglés, split temporal por grupo sin leakage y soporte mínimo de 100 filas por clase en validation y test.
+  - Límite: este cierre habilita el baseline de `PG-3`; no entrena ni evalúa un modelo y no verifica los criterios de entrega de modelado.
 
 ## T-007 Adoptar el flujo reproducible de notebooks
 
@@ -80,9 +92,9 @@
 
 ## Checklist de cierre
 
-- [ ] Todos los criterios de aceptación están cubiertos.
-- [ ] Las pruebas acordadas pasan.
-- [ ] El informe EDA cumple el contrato de entrega.
-- [ ] Idioma, privacidad, duplicados y partición están decididos.
-- [ ] La documentación coincide con el comportamiento real.
-- [ ] No se han incorporado narrativas al repositorio.
+- [x] Todos los criterios de aceptación están cubiertos.
+- [x] Las pruebas acordadas pasan.
+- [x] El informe EDA cumple el contrato de entrega.
+- [x] Idioma, privacidad, duplicados y partición están decididos para el baseline inicial.
+- [x] La documentación coincide con el comportamiento real.
+- [x] No se han incorporado narrativas al repositorio.

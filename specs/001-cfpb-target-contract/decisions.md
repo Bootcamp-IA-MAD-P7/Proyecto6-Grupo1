@@ -87,3 +87,31 @@ gestiona como tarea heredada dentro de la spec numerada `001`.
 
 - Propuesta registrada y revisada desde el arnés (`004-agentic-harness`).
 - Prueba de concepto validada contra `001/T-004` y `001/T-007`.
+
+## ADR-004 Fijar la política inicial antes del baseline
+
+- Fecha: `2026-07-27`
+- Estado: `accepted`
+- Relacionada con: `T-005, T-006, PG-2`
+
+### Contexto
+
+El constructor local de T-005 ya produce un corpus contractual reproducible, pero una fuente CFPB puede cambiar entre descargas y todavía faltaba una regla verificable para idioma, duplicados, partición y desbalanceo. Entrenar sin esa regla permitiría comparar resultados sobre poblaciones diferentes o introducir leakage entre duplicados.
+
+### Decisión
+
+Se aprueba `config/cfpb_training_policy.json` como política inicial de preparación. Fija la huella de la fuente local y del contrato actual; usa únicamente inglés para el primer baseline; excluye grupos con target contradictorio y mantiene juntos los grupos no conflictivos; requiere un split temporal por fecha máxima de grupo con objetivo 70/15/15; establece macro F1 como métrica primaria y `class_weight="balanced"` sin re-muestreo. El test queda reservado para una evaluación final.
+
+### Consecuencias
+
+- Cualquier fuente o contrato distinto falla antes de preparar particiones y exige una decisión nueva.
+- El siguiente trabajo debe implementar un detector de idioma determinista, el split local y sus manifiestos agregados.
+- Esta decisión no entrena, selecciona ni evalúa modelos; no verifica criterios de entrega ni cierra PG-2.
+- Los textos CFPB siguen exclusivamente en artefactos locales ignorados por Git; las evidencias compartidas solo contienen huellas y recuentos.
+
+### Evidencia
+
+- `openspec/changes/decide-cfpb-training-policy/`.
+- `config/cfpb_training_policy.json`.
+- `scripts/data/cfpb_training_policy.py`.
+- `tests/unit/test_cfpb_training_policy.py`.

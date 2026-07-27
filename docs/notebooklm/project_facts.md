@@ -20,12 +20,15 @@
 - Contrato del EDA: única entrada candidata `complaint_what_happened`; resultados agregados y ninguna narrativa real en Git, informes o NotebookLM.
 - EDA incorporado mediante la PR #24: notebook reproducible, conversor CSV→Parquet, cuatro figuras agregadas e informe `reports/validation/cfpb_eda.md`.
 - Hallazgos del EDA: 2.272.802 filas canónicas en el informe, mayoría del 73,5 %, 171.426 grupos de narrativas duplicadas, 1.744 grupos conflictivos y 98,6 % de inglés en una muestra de 5.000.
+- Constructor local de entrenamiento candidato: el 27 de julio se generaron 1.998.570 filas tras aplicar el contrato y excluir 273.831 filas de 1.744 grupos conflictivos. La fuente de esa ejecución tiene SHA-256 `f1cb8b412f6af5039ae630b3d0a1e4b5eab93be900a247ae60ea33cea073b351`; es una instantánea distinta de la usada por el informe EDA, por lo que los recuentos no se mezclan. Véase `reports/validation/cfpb_training_dataset.md`.
+- Preparación aprobada del baseline: 1.961.073 filas clasificadas como inglés con `langdetect 1.0.9`, semilla `0` y máximo de 500 caracteres; 37.497 filas quedan fuera por idioma no inglés o no clasificable. Las particiones locales contienen 1.372.751 filas de train, 294.161 de validation y 294.161 de test protegido. Todas las clases superan 100 filas en validation y test. Véase `reports/validation/cfpb_training_preparation.md`.
 
 ## Modelo
 
 - Baseline: pendiente.
 - Champion: pendiente.
-- Métrica principal: pendiente.
+- Métrica principal del baseline: macro F1; accuracy, métricas por clase y F1 weighted serán complementarias.
+- Política inicial de desbalanceo: `class_weight="balanced"`, sin re-muestreo; todavía no se ha entrenado ni evaluado un modelo.
 - Resultados finales: pendiente.
 
 ## Producto y operación
