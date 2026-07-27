@@ -33,7 +33,7 @@
   <rect class="done" x="70" y="435" width="18" height="18" rx="3"/>
   <text class="copy" x="98" y="449">Verificado 0</text>
   <rect class="doing" x="245" y="435" width="18" height="18" rx="3"/>
-  <text class="copy" x="273" y="449">En curso 1</text>
+  <text class="copy" x="273" y="449">En curso 5</text>
   <rect class="not" x="410" y="435" width="18" height="18" rx="3"/>
-  <text class="copy" x="438" y="449">No iniciado 24</text>
+  <text class="copy" x="438" y="449">No iniciado 20</text>
 </svg>

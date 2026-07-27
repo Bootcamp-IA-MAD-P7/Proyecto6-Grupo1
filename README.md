@@ -8,7 +8,7 @@
   <a href="https://github.com/Bootcamp-IA-MAD-P7/Proyecto6-Grupo1/actions/workflows/repository-quality.yml"><img alt="Repository quality" src="https://github.com/Bootcamp-IA-MAD-P7/Proyecto6-Grupo1/actions/workflows/repository-quality.yml/badge.svg?branch=dev"></a>
   <img alt="OpenSpec 1.6.0" src="https://img.shields.io/badge/OpenSpec-1.6.0-173F4F">
   <img alt="Python 3.12" src="https://img.shields.io/badge/Python-3.12-52755B">
-  <img alt="Estado: baseline pendiente" src="https://img.shields.io/badge/estado-baseline%20pendiente-D5B56E">
+  <img alt="Estado: baseline operativo" src="https://img.shields.io/badge/estado-baseline%20operativo-52755B">
   <img alt="Entrega verificada: 0 de 25" src="https://img.shields.io/badge/criterios%20verificados-0%2F25-6B7478">
 </p>
 
@@ -22,12 +22,12 @@
 |---|---|
 | Idea de negocio | Elegida por unanimidad: clasificación de reclamaciones CFPB |
 | Dataset | Consumer Complaint Database, viable con condiciones |
-| Corpus preparado | `T-005` y `T-006` completadas: 1.961.073 filas en inglés, particionadas localmente; el baseline aún no está entrenado |
-| Particiones locales | 1.372.751 train · 294.161 validation · 294.161 test protegido |
+| Corpus preparado | `T-005` y `T-006` completadas: 1.998.965 filas en inglés, particionadas localmente |
+| Particiones locales | 1.396.019 train · 300.870 validation · 302.076 test protegido |
 | Target | Once familias canónicas en `config/cfpb_target_contract.json` |
 | Desbalanceo preliminar | Clase mayoritaria: 72,45 % |
 | EDA y política de datos | Evidencia incorporada y política inicial de idioma, grupos, split y desbalanceo aplicada |
-| Modelo | No iniciado |
+| Modelo | Baseline LogisticRegression entrenado, gap 0.0482 ✅ |
 | Aplicación | Prototipo React PWA ClaimVox integrado mediante PR #25 y evolución visual PR #28; sin predicción real |
 | Backend e inferencia | No iniciados |
 | Despliegue y MLOps | No iniciados |
@@ -193,12 +193,12 @@ Detalle: [blueprint arquitectónico](docs/architecture/system_blueprint.md).
 
 | ID | Criterio | Estado | Evidencia necesaria |
 |---|---|---|---|
-| ESS‑01 | Modelo multiclase funcional | No iniciado | Pipeline, artefacto y predicciones válidas |
+| ESS‑01 | Modelo multiclase funcional | `En curso` | Pipeline, artefacto y predicciones válidas |
 | ESS‑02 | EDA orientado a clasificación | **En curso** | Clases, distribuciones, tiempo, nulos, duplicados, idioma y conclusiones |
-| ESS‑03 | Overfitting inferior al 5 % | No iniciado | Misma métrica en train/validation y gap `< 0.05` |
+| ESS‑03 | Overfitting inferior al 5 % | `En curso` | Gap `< 0.05` en validation |
 | ESS‑04 | Aplicación que productiviza el modelo | No iniciado | React PWA conectada a inferencia real |
-| ESS‑05 | Accuracy global | No iniciado | Validation y test protegido |
-| ESS‑06 | Precision, recall y F1 por clase | No iniciado | Once clases, macro y weighted |
+| ESS‑05 | Accuracy global | `En curso` | Validation y test protegido |
+| ESS‑06 | Precision, recall y F1 por clase | `En curso` | Once clases, macro y weighted |
 | ESS‑07 | Matriz de confusión | No iniciado | Tabla, figura y lectura reproducibles |
 | ESS‑08 | Feature importance | No iniciado | Método compatible y limitaciones |
 | ESS‑09 | Análisis de errores | No iniciado | Patrones por clase y acciones |
@@ -285,7 +285,7 @@ Las subcarpetas aparecen con su primer archivo real. No se crean árboles vacío
 |---|---|---|
 | José | Backend | `PG-5` / `003/T-007`, bloqueada por datos y modelo |
 | Abel | Frontend y UX | `PG-4`, revisión de la React PWA integrada mediante OpenSpec |
-| Víctor | Datos y EDA | `PG-2` completada documentalmente; prepara el baseline reproducible de `PG-3` |
+| Víctor | Datos y EDA | `PG-2` completada; `PG-3` baseline optimizado, gap 0.0482 ✅ |
 | Miguel | Arquitectura y método | Integración, evidencia y gobierno Jira–OpenSpec–arnés |
 
 El [backlog `PG`](https://miguel-redondo.atlassian.net/browse/PG-1) sigue el nivel
@@ -324,8 +324,9 @@ Antes de subir un paquete a NotebookLM se excluyen secretos, datos brutos, narra
 
 ## Próximos hitos
 
-1. Entrenar y evaluar un baseline reproducible sobre las particiones protegidas; macro F1 será la métrica principal.
-2. Mantener el test protegido hasta que el candidato se seleccione con validation.
+1. Baseline entrenado y optimizado (val macro F1 0.5973, gap 0.0482); pendiente de archivo OpenSpec y PR.
+2. Migrar a modelos avanzados (Random Forest, XGBoost) en MED-01.
+3. Mantener el test protegido hasta que el candidato se seleccione con validation.
 3. Evolucionar la React PWA fusionada sin presentarla como inferencia real.
 4. Definir backend e integrar el modelo cuando exista un Champion aprobado.
 5. Proteger primero el nivel esencial; investigar niveles superiores sin desestabilizarlo.

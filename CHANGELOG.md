@@ -56,6 +56,7 @@
   local de 1.998.570 filas, conservando las decisiones de `T-006` abiertas.
 - Política versionada de preparación para `PG-2` / `T-006`: huellas de fuente y contrato, inglés para el baseline inicial, grupos de duplicados aislados, split temporal 70/15/15, mínimo de 100 filas por clase en validation y test, macro F1 y pesos balanceados.
 - Particiones locales reproducibles para 1.961.073 filas en inglés, con manifiesto agregado, evidencia de soporte de las once clases y pruebas sintéticas de idioma, huellas, grupos y orden temporal.
+- Baseline `PG-3` entrenado y optimizado con TF‑IDF (unigramas+bigramas, sublinear_tf, 8K features) + LogisticRegression (C=0.1, balanced). Val macro F1 **0.5973**, gap **0.0482** ✅, accuracy **0.8484**. Clases débiles documentadas. Hiperparámetros explorados en 4 configuraciones.
 
 ### Changed
 
