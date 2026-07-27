@@ -8,6 +8,7 @@ import tempfile
 import unittest
 from pathlib import Path
 from typing import Any
+from unittest.mock import patch
 
 from scripts.harness import (
     ROOT,
@@ -83,12 +84,12 @@ class HarnessTests(unittest.TestCase):
         self.assertTrue(any("OpenSpec 1.6.0" in line for line in lines))
         self.assertTrue(any("strict validation" in line for line in lines))
 
-    def test_cli_runs_from_repository_root(self) -> None:
+    def test_cli_runs_review_from_repository_root(self) -> None:
         result = subprocess.run(
             [
                 sys.executable,
                 "scripts/harness.py",
-                "start",
+                "review",
                 "--role",
                 "data-analyst",
                 "--spec",
@@ -103,19 +104,20 @@ class HarnessTests(unittest.TestCase):
         )
 
         self.assertIn(
-            "exports/ai-handoffs/harness-start-data-analyst-001-cfpb-target-contract-T-004.md",
+            "exports/ai-handoffs/harness-review-data-analyst-001-cfpb-target-contract-T-004.md",
             result.stdout,
         )
 
     def test_builds_start_pack_for_real_data_task(self) -> None:
         with tempfile.TemporaryDirectory() as directory:
-            output = build_harness_pack(
-                "start",
-                "data-analyst",
-                "001",
-                "T-004",
-                output_directory=Path(directory),
-            )
+            with patch("scripts.harness.task_state", return_value="[~]"):
+                output = build_harness_pack(
+                    "start",
+                    "data-analyst",
+                    "001",
+                    "T-004",
+                    output_directory=Path(directory),
+                )
             content = output.read_text(encoding="utf-8")
 
         self.assertEqual(
@@ -213,14 +215,15 @@ class HarnessTests(unittest.TestCase):
 
     def test_prepare_pr_requires_completed_task(self) -> None:
         with tempfile.TemporaryDirectory() as directory:
-            with self.assertRaisesRegex(HarnessError, "must be completed"):
-                build_harness_pack(
-                    "prepare-pr",
-                    "data-analyst",
-                    "001",
-                    "T-004",
-                    output_directory=Path(directory),
-                )
+            with patch("scripts.harness.task_state", return_value="[~]"):
+                with self.assertRaisesRegex(HarnessError, "must be completed"):
+                    build_harness_pack(
+                        "prepare-pr",
+                        "data-analyst",
+                        "001",
+                        "T-004",
+                        output_directory=Path(directory),
+                    )
 
     def test_builds_prepare_pr_pack_for_completed_task(self) -> None:
         with tempfile.TemporaryDirectory() as directory:
