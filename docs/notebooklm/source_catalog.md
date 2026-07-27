@@ -24,9 +24,10 @@ Este catálogo indica qué documentos pueden alimentar una presentación y con q
 | `openspec/config.yaml` | Contexto y reglas obligatorias de los cambios | Cuando cambie el gobierno | Miguel / equipo | Activa técnica |
 | `docs/design/information_architecture.md` | Usuario, tareas, estados y accesibilidad del flujo | Cuando cambie la experiencia | Producto / UX | Activa |
 | `docs/api/openapi.json` | Contrato entre React PWA y futura inferencia | Cuando cambie la API | Aplicación / plataforma | Activa contract-only |
-| `app/interface/README.md` | Uso reproducible y límites del prototipo React PWA | Por cambio de frontend | Abel / frontend | Activa técnica |
+| `app/interface/README.md` | Uso reproducible y límites del prototipo React PWA ClaimVox | Por cambio de frontend | Abel / frontend | Activa técnica |
 | `docs/security/threat_model.md` | Amenazas y controles del producto | Cuando cambien datos o arquitectura | Seguridad / equipo | Activa |
 | `reports/validation/frontend_foundation_integration.md` | Evidencia automática y manual de la React PWA prototipo | Por hito frontend | Abel / Miguel | Activa técnica |
+| `reports/validation/claimvox_state_reconciliation_inventory.md` | Trazabilidad documental de PR #28, estado Jira y límites del prototipo ClaimVox | Por reconciliación de estado | Arquitectura / documentación | Activa técnica |
 | `reports/validation/repository_harness_audit_2026-07-23.md` | Evidencia puntual de coherencia documental y estructural | Cierre del arnés | Miguel / arquitectura | Activa técnica |
 | `reports/validation/openspec-harness-validation-2026-07-23.md` | Evidencia de implantación real de OpenSpec y el arnés | Cierre de la adopción | Miguel / arquitectura | Activa técnica |
 | `reports/validation/repository-final-review-2026-07-23.md` | Evidencia final de presentación, estructura, estados y quality gates | Cierre documental | Miguel / arquitectura | Activa técnica |

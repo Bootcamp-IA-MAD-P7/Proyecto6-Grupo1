@@ -19,16 +19,16 @@ pero no necesita conectarse a Atlassian.
 
 | Jira | Responsable funcional | Resultado | Fuente de requisitos | Estado inicial |
 |---|---|---|---|---|
-| `PG-2` | Víctor | EDA y decisiones de datos | `specs/001-cfpb-target-contract/`, `T-004` | En curso |
-| `PG-3` | Por acordar | Baseline multiclase | Cambio OpenSpec por crear | Bloqueada por `PG-2` |
-| `PG-4` | Abel | React PWA desde cero | `specs/003-complaint-routing-experience/`, `T-006` | En curso |
-| `PG-5` | José | Backend de inferencia | `specs/003-complaint-routing-experience/`, `T-007` | Bloqueada por `PG-2` y `PG-3` |
+| `PG-2` | Víctor | EDA y decisiones de datos | `specs/001-cfpb-target-contract/`, `T-004` a `T-006` | Listo; preparación cerrada |
+| `PG-3` | Víctor | Baseline multiclase | Cambio OpenSpec por crear | Pendiente de inicio; `PG-2` ya no lo bloquea |
+| `PG-4` | Abel | React PWA ClaimVox | `specs/003-complaint-routing-experience/`, `T-006` | Integrado mediante PR #25 y evolución visual PR #28 |
+| `PG-5` | José | Backend de inferencia | `specs/003-complaint-routing-experience/`, `T-007` | Bloqueada por `PG-3` |
 | `PG-6` | Equipo | Integración de extremo a extremo | Cambio OpenSpec por crear | Bloqueada por `PG-3`, `PG-4` y `PG-5` |
 | `PG-7` | Equipo | Métricas e informe técnico | Cambio OpenSpec por crear | Bloqueada por `PG-3` y `PG-6` |
 
-Jira confirma las cuentas y asignaciones de Víctor en `PG-2` y Abel en `PG-4`.
-La cuenta de José y los responsables de `PG-3`, `PG-6` y `PG-7` siguen sin
-confirmarse; no deben asignarse por suposición.
+Jira confirma el cierre de `PG-2`, la responsabilidad de Víctor sobre `PG-3`
+y la integración de `PG-4` de Abel. La cuenta de José y los responsables de
+`PG-6` y `PG-7` siguen sin confirmarse; no deben asignarse por suposición.
 
 ## Qué se escribe en cada lugar
 

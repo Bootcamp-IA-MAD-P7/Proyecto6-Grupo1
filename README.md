@@ -8,7 +8,7 @@
   <a href="https://github.com/Bootcamp-IA-MAD-P7/Proyecto6-Grupo1/actions/workflows/repository-quality.yml"><img alt="Repository quality" src="https://github.com/Bootcamp-IA-MAD-P7/Proyecto6-Grupo1/actions/workflows/repository-quality.yml/badge.svg?branch=dev"></a>
   <img alt="OpenSpec 1.6.0" src="https://img.shields.io/badge/OpenSpec-1.6.0-173F4F">
   <img alt="Python 3.12" src="https://img.shields.io/badge/Python-3.12-52755B">
-  <img alt="Estado: EDA con evidencia incorporada" src="https://img.shields.io/badge/estado-EDA%20con%20evidencia%20incorporada-D5B56E">
+  <img alt="Estado: baseline pendiente" src="https://img.shields.io/badge/estado-baseline%20pendiente-D5B56E">
   <img alt="Entrega verificada: 0 de 25" src="https://img.shields.io/badge/criterios%20verificados-0%2F25-6B7478">
 </p>
 
@@ -28,13 +28,14 @@
 | Desbalanceo preliminar | Clase mayoritaria: 72,45 % |
 | EDA y política de datos | Evidencia incorporada y política inicial de idioma, grupos, split y desbalanceo aplicada |
 | Modelo | No iniciado |
-| Aplicación | Prototipo React PWA fusionado mediante PR #25; sin predicción real |
+| Aplicación | Prototipo React PWA ClaimVox integrado mediante PR #25 y evolución visual PR #28; sin predicción real |
 | Backend e inferencia | No iniciados |
 | Despliegue y MLOps | No iniciados |
 | Método de trabajo | OpenSpec + arnés implantados y comprobados |
 
-La implementación fusionada en `dev` permite revisar el recorrido previsto con
-contenido sintético, dictado, instalación PWA y comportamiento offline seguro.
+ClaimVox, la implementación fusionada en `dev`, permite revisar el recorrido
+previsto con contenido sintético, dictado, instalación PWA, preferencia de tema
+claro/oscuro/sistema y comportamiento offline seguro.
 Esto no acredita `ESS-04`: no existe un modelo ni un servicio de inferencia al
 que conectarla. Véanse el [manual del frontend](app/interface/README.md) y su
 [informe de validación](reports/validation/frontend_foundation_integration.md).

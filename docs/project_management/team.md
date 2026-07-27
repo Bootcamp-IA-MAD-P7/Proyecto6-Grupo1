@@ -15,10 +15,10 @@ Los roles principales reflejan el acuerdo actual. Los respaldos y la cobertura e
 
 | Área | Persona | Referencia | Estado |
 |---|---|---|---|
-| Datos y EDA | Víctor | `PG-2` · `001/T-004` | En curso y asignada en Jira |
+| Datos y EDA | Víctor | `PG-3` · baseline multiclase reproducible | Pendiente de iniciar mediante un cambio OpenSpec; `PG-2` está en `Listo` |
 | Arquitectura y arnés | Miguel | `integrate-jira-workflow` · excepción `bootstrap` | Activa |
-| Frontend y UX | Abel | `PG-4` · `003/T-006` | En curso y asignada en Jira; desarrollo desde cero |
-| Backend | José | `PG-5` · `003/T-007` | Bloqueada por `PG-2` y `PG-3` |
+| Frontend y UX | Abel | `PG-4` · `003/T-006` | Prototipo ClaimVox integrado; PR #25 y evolución visual PR #28 fusionadas |
+| Backend | José | `PG-5` · `003/T-007` | Bloqueada por el baseline evaluado de `PG-3` |
 
 La tabla describe el estado de `dev`. Una rama o Pull Request abierta no se considera capacidad integrada ni cambia por sí sola estas asignaciones.
 

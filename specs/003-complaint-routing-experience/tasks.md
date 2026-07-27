@@ -45,19 +45,19 @@
 
 ## T-006 Implementar la React PWA con mock
 
-- Estado: `[ ]`
+- Estado: `[x]`
 - Responsable: `Frontend / UX`
 - Dependencias: `T-001 a T-004`
 - Requisitos cubiertos: `AC-001 a AC-004, AC-006`
 - Trabajo: crear shell PWA, formulario, cliente mock, resultado y estados accesibles.
-- Evidencia obtenida: pendiente.
+- Evidencia obtenida: cambio OpenSpec archivado `integrate-frontend-foundation`, PR #25 fusionada, informe `reports/validation/frontend_foundation_integration.md` y evolución visual ClaimVox de la PR #28. La interfaz sigue siendo un mock sin backend ni predicción real.
 
 ## T-007 Integrar el servicio real
 
 - Estado: `[!]`
 - Responsable: `Aplicación / ML`
 - Dependencias: `T-006`, `001/T-004 a T-006`
-- Bloqueante: EDA, modelo aprobado, idioma, límites y política de revisión.
+- Bloqueante: baseline evaluado de `PG-3`, contrato de servicio aprobado y política de revisión operativa.
 - Evidencia obtenida: pendiente.
 
 ## Checklist de cierre
@@ -65,6 +65,6 @@
 - [x] Contrato y estados iniciales están definidos.
 - [x] Las clases y límites de privacidad están verificados.
 - [ ] El flujo ha sido validado con negocio.
-- [ ] La PWA consume el contrato mediante mock.
+- [x] La PWA consume el contrato mediante mock.
 - [ ] La integración real cumple las decisiones de datos y modelo.
-- [ ] Existen evidencias de accesibilidad y responsive.
+- [x] Existen evidencias de accesibilidad y responsive.

@@ -4,7 +4,7 @@
 
 ## Identidad del producto
 
-- Nombre: pendiente.
+- Nombre de la interfaz demostrativa: ClaimVox. El nombre no acredita un producto desplegado ni una marca comercial registrada.
 - Problema de negocio: apoyar la clasificación y el enrutamiento de reclamaciones financieras escritas.
 - Usuario principal: personal de operaciones o atención al cliente; el flujo concreto debe validarse en la siguiente spec.
 - Resultado esperado: predecir una familia de producto y proponer una cola configurable, con confianza, alternativas y revisión humana.
@@ -33,12 +33,13 @@
 
 ## Producto y operación
 
-- Aplicación: prototipo React PWA incorporado, validado y fusionado mediante la
-  PR #25, con revisión humana completada. Permite
-  revisar con texto sintético el formulario, dictado, respuesta mock, revisión
-  humana, instalación y shell offline. No existe backend, modelo ni inferencia
-  real, por lo que `ESS-04` continúa sin verificar. La necesidad de una
-  evolución nativa se evaluará después de cubrir el alcance web instalable.
+- Aplicación: ClaimVox es un prototipo React PWA incorporado mediante la PR #25
+  y evolucionado visualmente mediante la PR #28. Permite revisar con texto
+  sintético el formulario, dictado, respuesta mock, revisión humana,
+  instalación, shell offline y preferencias de tema. No existe backend, modelo
+  ni inferencia real, por lo que `ESS-04` continúa sin verificar. La necesidad
+  de una evolución nativa se evaluará después de cubrir el alcance web
+  instalable.
 - Despliegue: pendiente.
 - Persistencia: pendiente.
 - Estado MLOps: pendiente.

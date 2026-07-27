@@ -59,6 +59,8 @@
 
 ### Changed
 
+- El prototipo React PWA integrado adopta la identidad visible ClaimVox mediante la PR #28, con preferencias de tema claro, oscuro y sistema, además de mejoras visuales y de accesibilidad. Sigue siendo una demostración sin modelo, backend ni inferencia real.
+- El contexto de equipo y del arnés deja de presentar `PG-2` como trabajo activo: la preparación de datos está en `Listo`, `PG-3` queda disponible para el baseline y `PG-5` depende de su evaluación. Esta reconciliación documental no crea tag ni release.
 - Las dailies se consolidan en un único documento canónico por fecha dentro de gestión de proyecto; NotebookLM consume esa fuente sin duplicarla.
 - El equipo activo pasa a estar formado por José, Abel, Víctor y Miguel tras la baja comunicada de Josué.
 - React PWA se confirma como dirección frontend inicial; la evolución nativa queda sujeta a requisitos futuros.
