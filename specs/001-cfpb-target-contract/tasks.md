@@ -47,6 +47,7 @@
   - `reports/validation/cfpb_eda.md` — informe EDA con respuestas a Q-001 a Q-004.
   - `data/interim/cfpb.parquet` — Parquet de 2.27M filas (gitignored).
   - La política y preparación de `T-006` cierran las decisiones de idioma, duplicados, split y desbalanceo para la instantánea de entrenamiento actual, sin mezclar sus cifras con el snapshot EDA anterior.
+  - El cambio OpenSpec `close-eda-delivery-evidence` documenta las visualizaciones pertinentes para texto multiclase y la continuidad con la política posterior; esta trazabilidad permite verificar `ESS-02` sin reinterpretar el alcance histórico de `T-004`.
 
 ## T-005 Implementar el constructor reproducible
 
