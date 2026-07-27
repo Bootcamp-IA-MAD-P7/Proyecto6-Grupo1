@@ -1,0 +1,135 @@
+{
+  "config": {
+    "vectorizer": "TfidfVectorizer",
+    "max_features": 10000,
+    "min_df": 1,
+    "max_df": 1.0,
+    "ngram_range": [
+      1,
+      1
+    ],
+    "sublinear_tf": false,
+    "stop_words": "english",
+    "model": "LogisticRegression",
+    "solver": "lbfgs",
+    "C": 1.0,
+    "class_weight": "balanced",
+    "max_iter": 1000,
+    "random_state": 42
+  },
+  "train": {
+    "size": 1396019,
+    "macro_f1": 0.6655
+  },
+  "validation": {
+    "size": 300870,
+    "accuracy": 0.8338,
+    "macro_f1": 0.5875,
+    "weighted_f1": 0.8557,
+    "precision_macro": 0.5223,
+    "recall_macro": 0.7411
+  },
+  "test_protected": {
+    "size": 302076
+  },
+  "gap_macro_f1": 0.078,
+  "gap_within_threshold": false,
+  "weak_classes": [
+    {
+      "class": "Debt or credit management",
+      "f1": 0.0726,
+      "support": 620.0
+    },
+    {
+      "class": "Payday loan, title loan, personal loan, or advance loan",
+      "f1": 0.4354,
+      "support": 2176.0
+    },
+    {
+      "class": "Prepaid card",
+      "f1": 0.4526,
+      "support": 1022.0
+    }
+  ],
+  "per_class_metrics": {
+    "Checking or savings account": {
+      "precision": 0.7649,
+      "recall": 0.7461,
+      "f1-score": 0.7554,
+      "support": 11253.0
+    },
+    "Credit card": {
+      "precision": 0.5668,
+      "recall": 0.74,
+      "f1-score": 0.6419,
+      "support": 10645.0
+    },
+    "Credit reporting or other personal consumer reports": {
+      "precision": 0.9811,
+      "recall": 0.8589,
+      "f1-score": 0.9159,
+      "support": 238049.0
+    },
+    "Debt collection": {
+      "precision": 0.4765,
+      "recall": 0.707,
+      "f1-score": 0.5693,
+      "support": 22654.0
+    },
+    "Debt or credit management": {
+      "precision": 0.0402,
+      "recall": 0.379,
+      "f1-score": 0.0726,
+      "support": 620.0
+    },
+    "Money transfer, virtual currency, or money service": {
+      "precision": 0.7129,
+      "recall": 0.6875,
+      "f1-score": 0.7,
+      "support": 5392.0
+    },
+    "Mortgage": {
+      "precision": 0.7361,
+      "recall": 0.9053,
+      "f1-score": 0.812,
+      "support": 3695.0
+    },
+    "Payday loan, title loan, personal loan, or advance loan": {
+      "precision": 0.3096,
+      "recall": 0.733,
+      "f1-score": 0.4354,
+      "support": 2176.0
+    },
+    "Prepaid card": {
+      "precision": 0.3354,
+      "recall": 0.6957,
+      "f1-score": 0.4526,
+      "support": 1022.0
+    },
+    "Student loan": {
+      "precision": 0.4257,
+      "recall": 0.8791,
+      "f1-score": 0.5736,
+      "support": 2151.0
+    },
+    "Vehicle loan or lease": {
+      "precision": 0.3956,
+      "recall": 0.8204,
+      "f1-score": 0.5338,
+      "support": 3213.0
+    }
+  },
+  "class_distribution": {
+    "Checking or savings account": 63214,
+    "Credit card": 59616,
+    "Credit reporting or other personal consumer reports": 1050528,
+    "Debt collection": 99304,
+    "Debt or credit management": 3108,
+    "Money transfer, virtual currency, or money service": 48564,
+    "Mortgage": 22470,
+    "Payday loan, title loan, personal loan, or advance loan": 9646,
+    "Prepaid card": 6744,
+    "Student loan": 18289,
+    "Vehicle loan or lease": 14536
+  }
+}
