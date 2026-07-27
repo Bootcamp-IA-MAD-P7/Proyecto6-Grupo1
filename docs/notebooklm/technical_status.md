@@ -26,7 +26,8 @@
 - Probe verificado: 2.306.723 narrativas, catorce etiquetas observadas, licencia CC0 informada por la API y clase mayoritaria del 72,45 %.
 - G-02, G-03, G-04 y G-06 superadas para EDA; G-05 continúa condicionada por la revisión de privacidad.
 - Spec `001-cfpb-target-contract` activa con once clases canónicas, dos aliases, una exclusión ambigua y ocho tests unitarios de contrato de target.
-- El EDA de Víctor está incorporado mediante la PR #24 con evidencia agregada sobre clases, tiempo, ausencias, duplicados, longitud e idioma. Las decisiones finales de idioma, deduplicación, partición, desbalanceo y privacidad siguen abiertas.
+- El EDA de Víctor está incorporado mediante la PR #24 con evidencia agregada sobre clases, tiempo, ausencias, duplicados, longitud e idioma. `T-006` aplica para el baseline inicial una política de inglés, grupos completos, split temporal y pesos balanceados; no autoriza conclusiones de modelo.
+- El constructor contractual de `T-005` se ha ejecutado sobre una instantánea local actual del CFPB. La preparación posterior de `T-006` obtuvo 1.961.073 filas en inglés y particiones locales de 1.372.751/294.161/294.161 para train/validation/test, sin leakage de grupos y con 100 filas mínimas por clase en validation y test. El informe EDA previo usa otra instantánea; ambos resultados siguen trazados por huella y no se mezclan.
 - React PWA confirmada como dirección frontend inicial; el prototipo de `PG-4`
   ya permite recorrer la captura, respuesta sintética y revisión humana, pero
   backend, inferencia real y evolución nativa siguen pendientes.
@@ -52,9 +53,7 @@
 - El arnés consulta validación, estado, instrucciones y tareas de OpenSpec; conserva el modo numerado solo para el EDA y frontend ya asignados.
 - El quality gate incorpora instalación reproducible, auditoría npm, diagnóstico y validación estricta de OpenSpec.
 - Responsabilidades principales confirmadas: Miguel en arquitectura y arnés, José en backend, Abel en frontend/UX y Víctor en datos y EDA.
-- El trabajo activo comprende la revisión de la evidencia del EDA en `001/T-004`
-  y las decisiones de datos posteriores; la React PWA de `PG-4` ya está
-  fusionada y su expediente `integrate-frontend-foundation` archivado.
+- `PG-2` / `001/T-004` a `T-006` tienen evidencia documental y de preparación completada. El siguiente trabajo de datos es `PG-3`: entrenar y evaluar un baseline sin utilizar el test protegido para seleccionar.
 - Workflow `repository-quality` ejecutado correctamente y asociado automáticamente a las Pull Requests `#14` y `#15`.
 - La PR `#17` se integró en `dev` y verificó en Linux las suites Python, convenciones, whitespace, auditoría npm, diagnóstico y validación estricta de OpenSpec; la ejecución `30000072621` finalizó correctamente.
 - El piloto con Víctor ya no bloquea la implantación; su tarea real servirá para recoger feedback del uso heredado y adaptar decisiones nuevas mediante OpenSpec.
@@ -72,7 +71,7 @@
 
 ## Capacidades previstas, no implementadas
 
-- Pipeline de datos y entrenamiento.
+- Pipeline de entrenamiento y modelado; las particiones locales iniciales ya existen, pero no hay modelo ni resultados.
 - Conexión de la React PWA con backend e inferencia multiclase reales.
 - Persistencia y feedback.
 - Docker y despliegue.
@@ -81,13 +80,13 @@
 
 ## Riesgos actuales
 
-- Tratar la viabilidad condicionada como si idioma, privacidad y partición ya estuvieran cerrados.
+- Tratar la preparación de datos como si fuera un modelo entrenado, una métrica de rendimiento o una inferencia real.
 - Confundir estructura preparada con funcionalidad implementada.
 - Confundir la respuesta sintética del prototipo, el login mock o las pantallas
   administrativas propuestas con capacidades operativas.
 - Integrar entregas heredadas de frontend o EDA sin adaptar mediante OpenSpec cualquier decisión que cambie contratos o alcance.
 - Los roles de respaldo y la cobertura estable de producto, MLOps y QA siguen sin asignar.
-- La normalización de target está versionada; idioma, deduplicación final, partición, desbalanceo y privacidad siguen pendientes de la evidencia del EDA.
+- La política inicial está versionada; siguen pendientes la evaluación de cobertura multilingüe, la política de retención operativa y toda decisión posterior basada en resultados de modelo.
 - El fuerte crecimiento de reclamaciones de informes de crédito puede producir desbalanceo extremo y cambios de procedencia que limiten la representatividad.
 - La muestra temporal detecta drift de etiquetas y duplicación: el extremo de 2023 concentra la etiqueta histórica y muchos más duplicados que el extremo de 2026.
 - La publicación reciente de narrativas presenta retraso y la API tiene comportamiento dependiente del cliente y paginación no trivial.

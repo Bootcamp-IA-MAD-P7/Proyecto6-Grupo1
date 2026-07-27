@@ -22,10 +22,11 @@
 |---|---|
 | Idea de negocio | Elegida por unanimidad: clasificación de reclamaciones CFPB |
 | Dataset | Consumer Complaint Database, viable con condiciones |
-| Ventana analizada | 2.306.723 narrativas entre 2023-08-24 y 2026-07-23 |
+| Corpus preparado | `T-005` y `T-006` completadas: 1.961.073 filas en inglés, particionadas localmente; el baseline aún no está entrenado |
+| Particiones locales | 1.372.751 train · 294.161 validation · 294.161 test protegido |
 | Target | Once familias canónicas en `config/cfpb_target_contract.json` |
 | Desbalanceo preliminar | Clase mayoritaria: 72,45 % |
-| EDA | Evidencia incorporada; decisiones de datos aún abiertas |
+| EDA y política de datos | Evidencia incorporada y política inicial de idioma, grupos, split y desbalanceo aplicada |
 | Modelo | No iniciado |
 | Aplicación | Prototipo React PWA fusionado mediante PR #25; sin predicción real |
 | Backend e inferencia | No iniciados |
@@ -64,9 +65,9 @@ No resolverá reclamaciones ni tomará decisiones financieras, legales o de eleg
 | Exclusiones | Etiquetas ambiguas definidas por contrato |
 | Leakage | Prohibidos los campos que revelan la clase |
 | Privacidad | Ninguna narrativa real en Git, prompts, informes o presentaciones |
-| Decisiones abiertas | Idioma, deduplicación final, split, desbalanceo y métrica principal |
+| Política inicial aprobada | Inglés, grupos completos, split temporal 70/15/15, mínimo 100 por clase en validation/test, macro F1 y pesos balanceados |
 
-Evidencias: [informe de viabilidad](reports/validation/cfpb_viability.md), [contrato de target](config/cfpb_target_contract.json) y [expediente del EDA](specs/001-cfpb-target-contract/spec.md).
+Evidencias: [informe de viabilidad](reports/validation/cfpb_viability.md), [contrato de target](config/cfpb_target_contract.json), [expediente del EDA](specs/001-cfpb-target-contract/spec.md), [constructor local](reports/validation/cfpb_training_dataset.md) y [preparación del baseline](reports/validation/cfpb_training_preparation.md). El informe EDA previo usa otra instantánea; sus cifras no se mezclan con la fuente de referencia aprobada para entrenamiento.
 
 ## Harness Engineering implantado
 
@@ -283,7 +284,7 @@ Las subcarpetas aparecen con su primer archivo real. No se crean árboles vacío
 |---|---|---|
 | José | Backend | `PG-5` / `003/T-007`, bloqueada por datos y modelo |
 | Abel | Frontend y UX | `PG-4`, revisión de la React PWA integrada mediante OpenSpec |
-| Víctor | Datos y EDA | `PG-2` / `001/T-004`, evidencia agregada incorporada mediante PR #24 |
+| Víctor | Datos y EDA | `PG-2` completada documentalmente; prepara el baseline reproducible de `PG-3` |
 | Miguel | Arquitectura y método | Integración, evidencia y gobierno Jira–OpenSpec–arnés |
 
 El [backlog `PG`](https://miguel-redondo.atlassian.net/browse/PG-1) sigue el nivel
@@ -322,8 +323,8 @@ Antes de subir un paquete a NotebookLM se excluyen secretos, datos brutos, narra
 
 ## Próximos hitos
 
-1. Revisar la evidencia EDA de Víctor y decidir idioma, duplicados, split y desbalanceo.
-2. Construir un baseline reproducible y elegir la métrica principal.
+1. Entrenar y evaluar un baseline reproducible sobre las particiones protegidas; macro F1 será la métrica principal.
+2. Mantener el test protegido hasta que el candidato se seleccione con validation.
 3. Evolucionar la React PWA fusionada sin presentarla como inferencia real.
 4. Definir backend e integrar el modelo cuando exista un Champion aprobado.
 5. Proteger primero el nivel esencial; investigar niveles superiores sin desestabilizarlo.

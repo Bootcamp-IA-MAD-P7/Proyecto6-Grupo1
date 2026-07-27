@@ -1,0 +1,42 @@
+{
+  "schema_version": "1.0",
+  "status": "approved_for_preparation",
+  "reference": {
+    "source_sha256": "f1cb8b412f6af5039ae630b3d0a1e4b5eab93be900a247ae60ea33cea073b351",
+    "contract_path": "config/cfpb_target_contract.json",
+    "contract_sha256": "58b7ada8e6decdf0378aae4c042a381884ddda39143cbf0d6a0062c1f10fb9bd"
+  },
+  "language": {
+    "baseline": "en",
+    "detector": "langdetect_1.0.9_seed_0_max_500",
+    "exclude_unclassified": true
+  },
+  "duplicates": {
+    "group_key": "narrative_hash",
+    "conflicting_target_policy": "exclude_and_report",
+    "non_conflicting_group_policy": "keep_together"
+  },
+  "split": {
+    "strategy": "temporal_group_isolated",
+    "group_date": "max_date_received",
+    "target_proportions": {
+      "train": 0.7,
+      "validation": 0.15,
+      "test": 0.15
+    },
+    "min_class_support_per_split": 100,
+    "test_protected": true
+  },
+  "baseline": {
+    "primary_metric": "macro_f1",
+    "class_weight": "balanced",
+    "resampling": "none",
+    "max_train_validation_macro_f1_gap": 0.05
+  },
+  "privacy": {
+    "version_narratives": false,
+    "publish_narratives": false,
+    "log_narratives": false,
+    "evidence": "aggregate_only"
+  }
+}

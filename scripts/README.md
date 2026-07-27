@@ -52,3 +52,17 @@ python scripts/data/cfpb_viability.py sample-api \
 ```
 
 La configuración está en `config/cfpb_viability.json`. Los datos originales permanecen fuera de Git.
+
+## Preparación local para baseline
+
+- `data/convert_cfpb_to_parquet.py`: construye el corpus contractual local y genera evidencia agregada.
+- `data/cfpb_training_policy.py`: comprueba que la fuente y el contrato coinciden con la política aprobada antes de preparar datos.
+- `data/cfpb_training_preparation.py`: filtra el baseline inicial en inglés y crea particiones temporales por grupo para train, validation y test.
+
+La preparación se ejecuta solo cuando se quiere reconstruir el corpus local; puede tardar varios minutos y genera Parquet ignorado por Git:
+
+```bash
+python -m scripts.data.cfpb_training_preparation --workers 12
+```
+
+El resultado compartible es únicamente `reports/validation/cfpb_training_preparation.md` y su manifiesto agregado. No se ejecuta para entrenar ni evalúa un modelo.

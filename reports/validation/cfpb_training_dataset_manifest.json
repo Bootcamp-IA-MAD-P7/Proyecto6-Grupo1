@@ -1,0 +1,56 @@
+{
+  "classes": {
+    "Checking or savings account": 97167,
+    "Credit card": 92691,
+    "Credit reporting or other personal consumer reports": 1463148,
+    "Debt collection": 165895,
+    "Debt or credit management": 5006,
+    "Money transfer, virtual currency, or money service": 65447,
+    "Mortgage": 34072,
+    "Payday loan, title loan, personal loan, or advance loan": 16429,
+    "Prepaid card": 9573,
+    "Student loan": 24761,
+    "Vehicle loan or lease": 24381
+  },
+  "contract": {
+    "path": "config/cfpb_target_contract.json",
+    "sha256": "58b7ada8e6decdf0378aae4c042a381884ddda39143cbf0d6a0062c1f10fb9bd"
+  },
+  "groups": {
+    "conflicting_target": 1744,
+    "duplicate_non_conflicting": 169680,
+    "rows_in_duplicate_non_conflicting_groups": 942383
+  },
+  "open_gates_before_training": [
+    "language_policy",
+    "broader_privacy_review",
+    "within_group_duplicate_policy",
+    "final_split_policy",
+    "imbalance_strategy"
+  ],
+  "output": {
+    "columns": [
+      "date_received",
+      "complaint_what_happened",
+      "product_canonical",
+      "narrative_hash"
+    ],
+    "contains_narratives": true,
+    "path": "data/processed/cfpb_training.parquet",
+    "tracked_by_git": false
+  },
+  "rows": {
+    "canonical_before_conflicts": 2272401,
+    "eligible_required_fields": 2272512,
+    "excluded_ambiguous_labels": 111,
+    "excluded_conflicting_target_rows": 273831,
+    "in_window": 10768599,
+    "source": 17270511,
+    "training_corpus": 1998570
+  },
+  "schema_version": "1.0",
+  "source": {
+    "filename": "complaints.csv.zip",
+    "sha256": "f1cb8b412f6af5039ae630b3d0a1e4b5eab93be900a247ae60ea33cea073b351"
+  }
+}
