@@ -1,4 +1,5 @@
 import { QueryProvider } from '@/providers/QueryProvider'
+import { ThemeProvider } from '@/providers/ThemeProvider'
 import { StrictMode } from 'react'
 import { createRoot } from 'react-dom/client'
 import App from './App'
@@ -8,7 +9,7 @@ import { registerSW } from 'virtual:pwa-register'
 
 const updateSW = registerSW({
   onNeedRefresh() {
-    if (confirm('Nueva versión disponible. ¿Actualizar?')) {
+    if (confirm('Nueva version disponible. Actualizar?')) {
       updateSW()
     }
   },
@@ -22,8 +23,10 @@ if (!root) {
 
 createRoot(root).render(
   <StrictMode>
-    <QueryProvider>
-      <App />
-    </QueryProvider>
+    <ThemeProvider>
+      <QueryProvider>
+        <App />
+      </QueryProvider>
+    </ThemeProvider>
   </StrictMode>,
 )

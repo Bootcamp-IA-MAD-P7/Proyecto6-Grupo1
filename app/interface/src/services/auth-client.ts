@@ -12,7 +12,7 @@ const MOCK_USERS: AuthUser[] = [
   { id: '2', name: 'Carlos López', email: 'carlos@example.com', role: 'admin' },
 ]
 
-const STORAGE_KEY = 'complaint-routing-auth'
+const STORAGE_KEY = 'claimvox-auth'
 
 export function getStoredUser(): AuthUser | null {
   try {

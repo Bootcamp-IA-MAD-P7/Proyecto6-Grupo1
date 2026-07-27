@@ -1,4 +1,4 @@
-# Complaint Routing Interface
+# ClaimVox Interface
 
 React PWA para introducir una reclamación escrita y revisar una recomendación de
 clasificación. Esta entrega corresponde a Jira `PG-4`, a la capacidad vigente

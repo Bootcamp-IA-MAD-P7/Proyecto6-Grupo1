@@ -1,15 +1,20 @@
 import { render, screen } from '@testing-library/react'
 import { afterEach, describe, expect, it } from 'vitest'
+import { ThemeProvider } from '@/providers/ThemeProvider'
 import AppRouter from './App'
 
 const renderRoute = (path: string) => {
   window.history.pushState({}, '', path)
-  return render(<AppRouter />)
+  return render(
+    <ThemeProvider>
+      <AppRouter />
+    </ThemeProvider>,
+  )
 }
 
 const storeMockAdmin = () => {
   localStorage.setItem(
-    'complaint-routing-auth',
+    'claimvox-auth',
     JSON.stringify({
       id: 'synthetic-admin',
       name: 'Synthetic reviewer',
@@ -33,9 +38,9 @@ describe('application routes', () => {
     expect(
       await screen.findByRole('heading', { level: 1, name: 'Describe what happened' }),
     ).toBeVisible()
-    expect(screen.queryByRole('heading', { name: 'Complaint Routing' })).not.toBeInTheDocument()
-    expect(screen.getByText('Public prototype · no identity')).toBeVisible()
-    expect(localStorage.getItem('complaint-routing-auth')).toBeNull()
+    expect(screen.queryByRole('heading', { name: 'ClaimVox' })).not.toBeInTheDocument()
+    expect(screen.getAllByText('Public prototype').length).toBeGreaterThanOrEqual(1)
+    expect(localStorage.getItem('claimvox-auth')).toBeNull()
   })
 
   it('keeps the login as an explicitly non-secure proposal', () => {
@@ -43,7 +48,7 @@ describe('application routes', () => {
 
     expect(screen.getByText('Mock authentication proposal only.')).toBeVisible()
     expect(screen.getByText(/provides no real identity, security/i)).toBeVisible()
-    expect(screen.getByRole('link', { name: 'Continue without mock login' })).toHaveAttribute(
+    expect(screen.getByRole('link', { name: 'Continue without login' })).toHaveAttribute(
       'href',
       '/classify',
     )

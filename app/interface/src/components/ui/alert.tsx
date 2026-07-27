@@ -9,8 +9,8 @@ const alertVariants = cva(
       variant: {
         default: 'bg-paper text-ink',
         destructive: 'border-rust/50 text-rust [&>svg]:text-rust',
-        warning: 'border-gold bg-gold/10 text-ink [&>svg]:text-gold',
-        success: 'border-mint bg-mint/20 text-ink [&>svg]:text-forest',
+        warning: 'border-gold/50 bg-gold/5 text-ink [&>svg]:text-gold',
+        success: 'border-mint bg-mint/10 text-ink [&>svg]:text-forest',
       },
     },
     defaultVariants: {

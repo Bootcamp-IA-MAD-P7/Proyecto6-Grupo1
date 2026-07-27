@@ -14,7 +14,7 @@ declare const self: ServiceWorkerGlobalScope & {
   __WB_MANIFEST: PrecacheDescriptor[]
 }
 
-const CACHE_PREFIX = 'complaint-routing-'
+const CACHE_PREFIX = 'claimvox-'
 const PRECACHE_MANIFEST = self.__WB_MANIFEST
 const CACHE_NAME = buildVersionedCacheName(CACHE_PREFIX, PRECACHE_MANIFEST)
 const OFFLINE_URL = '/offline.html'

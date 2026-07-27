@@ -2,12 +2,14 @@ import { Link, NavLink, Outlet, useNavigate } from 'react-router-dom'
 import { useAuth } from '@/hooks/use-auth'
 import { Button } from '@/components/ui/button'
 import { Badge } from '@/components/ui/badge'
+import { ThemeToggle } from '@/components/ThemeToggle'
 import { buttonVariants } from '@/lib/button-variants'
 import { cn } from '@/lib/utils'
+import { Home, FileText, LogOut } from 'lucide-react'
 
 const navItems = [
-  { to: '/', label: 'Home' },
-  { to: '/classify', label: 'Classify' },
+  { to: '/', label: 'Home', icon: Home },
+  { to: '/classify', label: 'Classify', icon: FileText },
 ]
 
 export default function UserLayout() {
@@ -23,7 +25,7 @@ export default function UserLayout() {
     <div className="flex min-h-screen flex-col bg-paper md:flex-row">
       <aside className="border-b border-line bg-forest text-white md:w-64 md:border-r md:border-b-0">
         <div className="px-4 pt-4 pb-3 md:p-6">
-          <p className="font-serif text-lg font-semibold">Complaint Routing</p>
+          <p className="text-lg font-semibold tracking-tight">ClaimVox</p>
           <Badge variant="mock" className="mt-2">
             Public prototype
           </Badge>
@@ -39,35 +41,39 @@ export default function UserLayout() {
               end={item.to === '/'}
               className={({ isActive }) =>
                 cn(
-                  'block shrink-0 rounded-md px-4 py-2 text-sm font-medium transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-gold focus-visible:ring-offset-2 focus-visible:ring-offset-forest',
+                  'flex items-center gap-2 shrink-0 rounded-lg px-4 py-2.5 text-sm font-medium transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-gold focus-visible:ring-offset-2 focus-visible:ring-offset-forest',
                   isActive
                     ? 'bg-white/20 text-white'
                     : 'text-white/70 hover:bg-white/10 hover:text-white',
                 )
               }
             >
+              <item.icon className="h-4 w-4" />
               {item.label}
             </NavLink>
           ))}
         </nav>
       </aside>
       <div className="flex min-w-0 flex-1 flex-col">
-        <header className="flex flex-wrap items-center justify-end gap-2 border-b border-line bg-paper px-4 py-3 md:px-6">
-          <div className="flex flex-wrap items-center justify-end gap-2 md:gap-4">
+        <header className="flex flex-wrap items-center justify-between gap-2 border-b border-line bg-paper px-4 py-3 md:px-6">
+          <span className="text-sm font-medium text-ink md:hidden">ClaimVox</span>
+          <div className="flex flex-wrap items-center gap-2 md:gap-4">
+            <ThemeToggle />
             {user ? (
               <>
                 <span className="text-sm text-ink-soft">
-                  Mock session: {user.name} ({user.role})
+                  {user.name} ({user.role})
                 </span>
                 <Button variant="ghost" size="sm" onClick={handleLogout}>
-                  End mock session
+                  <LogOut className="h-4 w-4" />
+                  Sign out
                 </Button>
               </>
             ) : (
               <>
-                <span className="text-sm text-ink-soft">Public prototype · no identity</span>
+                <span className="text-sm text-ink-soft">Public prototype</span>
                 <Link to="/login" className={cn(buttonVariants({ variant: 'ghost', size: 'sm' }))}>
-                  Review mock login
+                  Sign in
                 </Link>
               </>
             )}

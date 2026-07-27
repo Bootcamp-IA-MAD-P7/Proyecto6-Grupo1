@@ -8,6 +8,7 @@ import { PredictionClientError, type PredictionClient } from '@/services/predict
 import { Button } from '@/components/ui/button'
 import { Alert, AlertDescription } from '@/components/ui/alert'
 import { Badge } from '@/components/ui/badge'
+import { WifiOff, Mic, MicOff, Send, Sparkles, AlertTriangle } from 'lucide-react'
 
 const SYNTHETIC_EXAMPLE =
   'A payment appears twice on a monthly statement and the card holder cannot resolve the duplicate charge.'
@@ -101,6 +102,7 @@ export default function ClassificationPage({
     <div className="space-y-6">
       {!isOnline && (
         <Alert variant="warning">
+          <WifiOff className="h-4 w-4" />
           <AlertDescription>
             <strong>You are offline.</strong> A prediction requires a service connection.
           </AlertDescription>
@@ -111,9 +113,9 @@ export default function ClassificationPage({
         <div className="flex flex-col items-start gap-2 sm:flex-row sm:justify-between sm:gap-4">
           <div>
             <p className="mb-1 text-xs font-bold uppercase tracking-widest text-gold-ink">
-              01 · Narrative
+              Narrative
             </p>
-            <h1 className="font-serif text-3xl font-semibold text-ink">Describe what happened</h1>
+            <h1 className="text-3xl font-bold tracking-tight text-ink">Describe what happened</h1>
           </div>
           <Button
             type="button"
@@ -125,7 +127,8 @@ export default function ClassificationPage({
               narrativeRef.current?.focus()
             }}
           >
-            Use a synthetic example
+            <Sparkles className="h-4 w-4" />
+            Use example
           </Button>
         </div>
 
@@ -147,10 +150,10 @@ export default function ClassificationPage({
             }}
             aria-describedby={`narrative-help narrative-counter${validationMessage ? ' narrative-error' : ''}`}
             aria-invalid={Boolean(validationMessage)}
-            placeholder="Enter the complaint narrative…"
+            placeholder="Enter the complaint narrative..."
             rows={9}
             disabled={isSubmitting}
-            className="w-full min-h-56 resize-y rounded-lg border border-line bg-white p-4 text-ink transition-colors placeholder:text-ink-soft focus:border-forest focus:outline-none focus:ring-2 focus:ring-forest/20 disabled:cursor-wait disabled:opacity-66"
+            className="w-full min-h-56 resize-y rounded-lg border border-line bg-paper p-4 text-ink transition-colors placeholder:text-ink-soft focus:border-forest focus:outline-none focus:ring-2 focus:ring-forest/20 disabled:cursor-wait disabled:opacity-66"
           />
           <div className="flex flex-col gap-1 text-xs text-ink-soft sm:flex-row sm:justify-between">
             <span id="narrative-counter">{narrative.length} characters</span>
@@ -167,11 +170,22 @@ export default function ClassificationPage({
                   disabled={isSubmitting}
                   aria-describedby="dictation-privacy"
                 >
-                  {isRecording ? 'Stop dictation' : 'Start dictation'}
+                  {isRecording ? (
+                    <>
+                      <MicOff className="h-4 w-4" />
+                      Stop dictation
+                    </>
+                  ) : (
+                    <>
+                      <Mic className="h-4 w-4" />
+                      Start dictation
+                    </>
+                  )}
                 </Button>
                 {isRecording && (
-                  <span role="status" className="animate-pulse text-xs text-rust">
-                    Listening…
+                  <span role="status" className="flex items-center gap-1 text-xs text-rust">
+                    <span className="h-1.5 w-1.5 animate-pulse rounded-full bg-rust" />
+                    Listening...
                   </span>
                 )}
               </div>
@@ -202,6 +216,7 @@ export default function ClassificationPage({
         {requestError && (
           <div ref={errorRef} role="alert" tabIndex={-1}>
             <Alert variant="destructive">
+              <AlertTriangle className="h-4 w-4" />
               <AlertDescription>{requestError}</AlertDescription>
             </Alert>
           </div>
@@ -209,7 +224,8 @@ export default function ClassificationPage({
 
         <div className="flex flex-col items-start gap-3 sm:flex-row sm:items-center sm:gap-4">
           <Button type="submit" disabled={isSubmitting || !isOnline}>
-            {isSubmitting ? 'Creating simulated result…' : 'Classify complaint'}
+            <Send className="h-4 w-4" />
+            {isSubmitting ? 'Classifying...' : 'Classify complaint'}
           </Button>
           <p className="max-w-sm text-xs text-ink-soft">
             The tool suggests a family. It does not route the complaint or make a final decision.
