@@ -25,19 +25,19 @@
 
 ## Modelo
 
-- Baseline: pendiente.
-- Champion: pendiente.
-- Métrica principal del baseline: macro F1; accuracy, métricas por clase y F1 weighted serán complementarias.
-- Política inicial de desbalanceo: `class_weight="balanced"`, sin re-muestreo; todavía no se ha entrenado ni evaluado un modelo.
-- Resultados finales: pendiente.
+- Baseline: LogisticRegression con TF-IDF de unigramas y bigramas, incorporado mediante la PR #31. Usa `class_weight="balanced"`, `C=0.1`, 8.000 características y semilla 42.
+- Métrica principal: macro F1. En validation alcanza `0.5973`; el macro F1 train/validation tiene un gap de `0.0482`, inferior al umbral de 0.05. La accuracy es `0.8484` en validation y `0.8230` en el test protegido.
+- Métricas por clase, macro y weighted están registradas en los JSON versionados del baseline. Las clases con soporte bajo siguen siendo un riesgo documentado.
+- El test se ejecutó una vez como evaluación protegida. Su macro F1 (`0.6625`) se registra como resultado descriptivo; no se usa para seleccionar configuraciones ni prueba por sí solo una conclusión de generalización.
+- Champion: pendiente de comparación y decisión versionada. El artefacto local `models/cfpb_baseline.pkl` está ignorado por Git, por lo que `ESS-01` no se considera todavía verificado.
 
 ## Producto y operación
 
 - Aplicación: ClaimVox es un prototipo React PWA incorporado mediante la PR #25
   y evolucionado visualmente mediante la PR #28. Permite revisar con texto
   sintético el formulario, dictado, respuesta mock, revisión humana,
-  instalación, shell offline y preferencias de tema. No existe backend, modelo
-  ni inferencia real, por lo que `ESS-04` continúa sin verificar. La necesidad
+  instalación, shell offline y preferencias de tema. No existe backend ni
+  inferencia real, por lo que `ESS-04` continúa sin verificar. La necesidad
   de una evolución nativa se evaluará después de cubrir el alcance web
   instalable.
 - Despliegue: pendiente.

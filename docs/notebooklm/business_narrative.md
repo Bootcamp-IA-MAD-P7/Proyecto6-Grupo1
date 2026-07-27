@@ -1,7 +1,8 @@
 # Narrativa de negocio
 
 > Narrativa basada en evidencia vigente. Existe un prototipo de interfaz para
-> revisar el recorrido, pero no un producto operativo ni resultados de modelo.
+> revisar el recorrido y un baseline evaluado fuera de la aplicación, pero no
+> un producto operativo ni predicción integrada.
 
 ## Situación actual
 
@@ -38,7 +39,7 @@ El impacto esperado es reducir esfuerzo de clasificación y hacer más consisten
 ## Mensaje de cierre
 
 El equipo ha elegido esta dirección por unanimidad y ya puede demostrar el
-recorrido mediante ClaimVox, una interfaz con respuestas sintéticas. El
-siguiente paso es construir y evaluar el baseline; no se afirmará que existe
-predicción real hasta disponer de resultados reproducibles y una integración
-verificada.
+recorrido mediante ClaimVox, una interfaz con respuestas sintéticas. También
+dispone de una primera evaluación reproducible de un baseline fuera de la
+aplicación. No se afirmará que existe predicción real hasta disponer de una
+integración verificada entre interfaz, servicio y artefacto de modelo.

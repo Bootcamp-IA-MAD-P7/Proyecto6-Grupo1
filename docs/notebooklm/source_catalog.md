@@ -47,6 +47,8 @@ Este catálogo indica qué documentos pueden alimentar una presentación y con q
 | `config/cfpb_training_policy.json` | Política aprobada de idioma, grupos, split, soporte y evaluación del baseline | Por cambio de preparación | Datos / ML | Activa técnica |
 | `reports/validation/cfpb_training_preparation.md` | Evidencia agregada de filtrado de idioma y particiones locales | Por preparación del baseline | Datos / ML | Activa técnica |
 | `reports/validation/cfpb_training_preparation_manifest.json` | Huellas, recuentos por clase y límites temporales de la preparación | Por preparación del baseline | Datos / ML | Activa técnica |
+| `reports/validation/cfpb_baseline.md` | Configuración y métricas agregadas del baseline, incluyendo validation y test protegido | Tras cambio de baseline | Datos / ML | Activa técnica |
+| `reports/validation/cfpb_baseline_metrics.json` | Métricas agregadas y por clase del baseline, sin narrativas | Tras cambio de baseline | Datos / ML | Activa técnica |
 | `reports/validation/screenshots/PG-4/` | Evidencia visual sintética del prototipo | Por cambio de UI | UX/QA | Activa técnica |
 | `docs/assets/screenshots/` | Evidencia visual general del producto | Por cambio de UI | UX/QA | Pendiente |
 

@@ -57,11 +57,12 @@
 - Política versionada de preparación para `PG-2` / `T-006`: huellas de fuente y contrato, inglés para el baseline inicial, grupos de duplicados aislados, split temporal 70/15/15, mínimo de 100 filas por clase en validation y test, macro F1 y pesos balanceados.
 - Particiones locales reproducibles para 1.961.073 filas en inglés, con manifiesto agregado, evidencia de soporte de las once clases y pruebas sintéticas de idioma, huellas, grupos y orden temporal.
 - Baseline `PG-3` entrenado y optimizado con TF‑IDF (unigramas+bigramas, sublinear_tf, 8K features) + LogisticRegression (C=0.1, balanced). Val macro F1 **0.5973**, gap **0.0482** ✅, accuracy **0.8484**. Clases débiles documentadas. Hiperparámetros explorados en 4 configuraciones.
+- Evidencia protegida del baseline: macro F1 de test **0.6625**, accuracy **0.8230** y métricas por las once clases en JSON versionados. El artefacto local permanece fuera de Git.
 
 ### Changed
 
 - El prototipo React PWA integrado adopta la identidad visible ClaimVox mediante la PR #28, con preferencias de tema claro, oscuro y sistema, además de mejoras visuales y de accesibilidad. Sigue siendo una demostración sin modelo, backend ni inferencia real.
-- El contexto de equipo y del arnés deja de presentar `PG-2` como trabajo activo: la preparación de datos está en `Listo`, `PG-3` queda disponible para el baseline y `PG-5` depende de su evaluación. Esta reconciliación documental no crea tag ni release.
+- `PG-2` queda en `Listo` y la PR #31 incorpora el baseline de `PG-3`. La evidencia del baseline habilita el trabajo de contrato/backend, pero no acredita inferencia integrada ni un producto operativo.
 - Las dailies se consolidan en un único documento canónico por fecha dentro de gestión de proyecto; NotebookLM consume esa fuente sin duplicarla.
 - El equipo activo pasa a estar formado por José, Abel, Víctor y Miguel tras la baja comunicada de Josué.
 - React PWA se confirma como dirección frontend inicial; la evolución nativa queda sujeta a requisitos futuros.
@@ -69,7 +70,7 @@
 - La estructura adopta creación incremental: conserva contratos en los README y elimina subcarpetas vacías para capacidades todavía no implementadas.
 - El estado activo comprende la revisión de la evidencia EDA de Víctor y las
   decisiones de datos posteriores; la React PWA de Abel ya está fusionada.
-- `PG-2` deja de estar bloqueada por decisiones de datos y habilita el baseline reproducible de `PG-3`; no existe todavía un modelo entrenado ni métricas de evaluación.
+- `PG-2` deja de estar bloqueada por decisiones de datos y habilita el baseline reproducible de `PG-3`; en ese momento aún no existía un modelo entrenado ni métricas de evaluación.
 - OpenSpec gobierna los cambios nuevos; `specs/` conserva únicamente los expedientes anteriores y las tareas ya asignadas.
 - El piloto con Víctor deja de ser una condición de implantación y pasa a ser una oportunidad de feedback durante su trabajo real.
 - La propuesta frontend experimental de la PR `#14` se cierra sin mergear para que Abel defina e implemente el frontend desde una base limpia.

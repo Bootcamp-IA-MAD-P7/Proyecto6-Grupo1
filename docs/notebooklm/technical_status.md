@@ -2,7 +2,7 @@
 
 ## Estado general
 
-- Fase: preparación de datos cerrada y baseline pendiente, con OpenSpec + Harness Engineering operativos.
+- Fase: preparación de datos cerrada y baseline reproducible evaluado, con OpenSpec + Harness Engineering operativos.
 - Idea de negocio: clasificación y enrutamiento de reclamaciones financieras, elegida por unanimidad con condiciones.
 - Dataset: Consumer Complaint Database del CFPB viable con condiciones; target y reglas de EDA versionados.
 - Producto demostrable: prototipo React PWA ClaimVox integrado mediante las PR
@@ -21,7 +21,7 @@
 - Reglas de evaluación `1.0` aprobadas por mayoría absoluta del equipo activo, con puertas críticas, matriz y gobierno de la selección.
 - Dos candidatas evaluadas con la matriz `1.0`: reclamaciones CFPB y clasificación visual de residuos con RealWaste.
 - `CAND-001` elegida por José, Abel, Víctor y Miguel con cuatro votos favorables, cero contrarios y cero abstenciones.
-- El spike está completado y la spec `001` autoriza el EDA bajo contrato; todavía no autoriza entrenamiento o implementación funcional.
+- El spike está completado y la spec `001` autoriza el EDA bajo contrato. Las decisiones posteriores de preparación habilitaron y la PR #31 incorporó el baseline reproducible; no autorizan por sí solas inferencia integrada.
 - Arnés CFPB reproducible implementado con configuración versionada, probe API, muestra temporal en memoria, informes agregados y siete tests unitarios.
 - Probe verificado: 2.306.723 narrativas, catorce etiquetas observadas, licencia CC0 informada por la API y clase mayoritaria del 72,45 %.
 - G-02, G-03, G-04 y G-06 superadas para EDA; G-05 continúa condicionada por la revisión de privacidad.
@@ -56,7 +56,7 @@
 - El arnés consulta validación, estado, instrucciones y tareas de OpenSpec; conserva el modo numerado solo para el EDA y frontend ya asignados.
 - El quality gate incorpora instalación reproducible, auditoría npm, diagnóstico y validación estricta de OpenSpec.
 - Responsabilidades principales confirmadas: Miguel en arquitectura y arnés, José en backend, Abel en frontend/UX y Víctor en datos y EDA.
-- `PG-2` / `001/T-004` a `T-006` tienen evidencia documental y de preparación completada. El siguiente trabajo de datos es `PG-3`: entrenar y evaluar un baseline sin utilizar el test protegido para seleccionar.
+- `PG-2` / `001/T-004` a `T-006` tienen evidencia documental y de preparación completada. La PR #31 completa la primera evaluación del baseline de `PG-3`: macro F1 validation `0.5973`, gap train/validation `0.0482`, accuracy validation `0.8484` y una evaluación de test protegido. `ESS-03`, `ESS-05` y `ESS-06` tienen evidencia mínima; el resto del nivel esencial sigue pendiente.
 - Workflow `repository-quality` ejecutado correctamente y asociado automáticamente a las Pull Requests `#14` y `#15`.
 - La PR `#17` se integró en `dev` y verificó en Linux las suites Python, convenciones, whitespace, auditoría npm, diagnóstico y validación estricta de OpenSpec; la ejecución `30000072621` finalizó correctamente.
 - El piloto con Víctor ya no bloquea la implantación; su tarea real servirá para recoger feedback del uso heredado y adaptar decisiones nuevas mediante OpenSpec.
@@ -74,7 +74,7 @@
 
 ## Capacidades previstas, no implementadas
 
-- Pipeline de entrenamiento y modelado; las particiones locales iniciales ya existen, pero no hay modelo ni resultados.
+- Integración de un artefacto de modelo trazable y de inferencia real. Existe un baseline evaluado localmente, pero no un Champion aprobado ni un servicio que lo cargue.
 - Conexión de la React PWA con backend e inferencia multiclase reales.
 - Persistencia y feedback.
 - Docker y despliegue.
@@ -83,7 +83,7 @@
 
 ## Riesgos actuales
 
-- Tratar la preparación de datos como si fuera un modelo entrenado, una métrica de rendimiento o una inferencia real.
+- Tratar el baseline evaluado como un Champion, una inferencia integrada o una capacidad de producto operativa.
 - Confundir estructura preparada con funcionalidad implementada.
 - Confundir la respuesta sintética del prototipo, el login mock o las pantallas
   administrativas propuestas con capacidades operativas.
