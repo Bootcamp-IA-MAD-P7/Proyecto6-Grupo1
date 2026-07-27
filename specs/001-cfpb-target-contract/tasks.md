@@ -98,3 +98,11 @@
 - [x] Idioma, privacidad, duplicados y partición están decididos para el baseline inicial.
 - [x] La documentación coincide con el comportamiento real.
 - [x] No se han incorporado narrativas al repositorio.
+
+## Continuidad posterior
+
+La política cerrada en `T-006` habilitó el cambio OpenSpec archivado
+`train-cfpb-baseline` / Jira `PG-3`, integrado mediante la PR #31. Ese cambio
+entrenó y evaluó un baseline reproducible; sus métricas y límites están en
+`reports/validation/cfpb_baseline.md`. No cambia retrospectivamente el alcance
+de `T-004` a `T-006` ni acredita inferencia integrada.

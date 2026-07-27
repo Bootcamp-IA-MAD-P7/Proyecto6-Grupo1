@@ -39,10 +39,10 @@ Las capas superiores pueden investigarse en paralelo, pero no deben retrasar ni 
 |---|---|---|---|---|
 | `ESS-01` | Modelo de clasificación funcional con tres o más clases | `En curso` | Datos / ML | Pipeline reproducible, artefacto versionado y predicciones válidas sobre las once clases contratadas |
 | `ESS-02` | EDA orientado a clasificación multiclase | `En curso` | Datos / EDA | Distribución y soporte por clase, histogramas por clase, análisis de correlación pertinente, tiempo, nulos, duplicados, longitud, idioma, desbalanceo y conclusiones reproducibles |
-| `ESS-03` | Overfitting inferior al 5 % | `En curso` | Datos / ML | Misma métrica calculada en train y validation, fórmula del gap registrada y diferencia absoluta inferior a `0.05` |
+| `ESS-03` | Overfitting inferior al 5 % | `Verificado` | Datos / ML | Macro F1 train/validation y gap `0.0482` documentados en `reports/validation/cfpb_baseline.md` |
 | `ESS-04` | Aplicación que productiviza el modelo | `No iniciado` | Frontend / backend | React PWA conectada a inferencia real, con entrada validada, predicción multiclase, errores y revisión humana |
-| `ESS-05` | Accuracy global | `En curso` | Datos / ML | Valor sobre validation y test protegido, con versión de datos y modelo |
-| `ESS-06` | Precision, recall y F1 por clase | `En curso` | Datos / ML | Tabla completa para todas las clases, además de agregados macro y weighted |
+| `ESS-05` | Accuracy global | `Verificado` | Datos / ML | Accuracy en validation (`0.8484`) y test protegido (`0.8230`) con configuración y particiones registradas |
+| `ESS-06` | Precision, recall y F1 por clase | `Verificado` | Datos / ML | Métricas por las once clases y agregados macro/weighted en los JSON de `reports/validation/cfpb_baseline_*` |
 | `ESS-07` | Matriz de confusión | `No iniciado` | Datos / ML | Figura y tabla reproducibles, normalización explicada y lectura de confusiones relevantes |
 | `ESS-08` | Feature importance | `No iniciado` | Datos / ML | Método compatible con el modelo, por ejemplo coeficientes, permutation importance o SHAP, con limitaciones |
 | `ESS-09` | Análisis de errores | `No iniciado` | Datos / ML / producto | Patrones de falsos positivos y negativos por clase, casos límite sanitizados y acciones propuestas |
@@ -110,7 +110,7 @@ Cada criterio verificado debe registrar:
 
 | Nivel | Resultado |
 |---|---|
-| Esencial | `En curso`: `ESS-01`, `ESS-02`, `ESS-03`, `ESS-05`, `ESS-06` con baseline entrenado; `ESS-04`, `ESS-07`–`ESS-10` pendientes |
+| Esencial | `3 de 10 verificados`: `ESS-03`, `ESS-05` y `ESS-06`; `ESS-01` y `ESS-02` continúan en curso; `ESS-04`, `ESS-07`–`ESS-10` pendientes |
 | Medio | `No iniciado` |
 | Avanzado | `No iniciado` |
 | Experto | `No iniciado` |

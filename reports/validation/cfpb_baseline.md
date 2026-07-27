@@ -20,8 +20,10 @@
 | Accuracy | 0.8484 | 0.8230 |
 | Gap train/val | 0.0482 ✅ | — |
 
-El macro F1 en test es superior al de validation, lo que confirma que no hay
-overfitting y que la partición de validation representa una distribución más
+El control de sobreajuste se apoya en el gap entre train y validation (0.0482),
+que cumple el umbral acordado. Que el macro F1 de test sea superior al de
+validation es una observación de esta evaluación protegida; no demuestra por
+sí sola ni ausencia de sobreajuste ni que validation sea sistemáticamente más
 exigente.
 
 ## Clases débiles (F1 < 0.5)
@@ -61,5 +63,6 @@ Semilla: 42. Serialización: joblib.
   regularización y bigramas ayudaron pero no resuelven el desbalanceo
   estructural.
 - El test se evaluó una única vez como evaluación final protegida (one-shot).
-- El macro F1 en test (0.6625) es un 10,9 % superior al de validation, lo que
-  sugiere que el modelo generaliza bien a distribuciones ligeramente distintas.
+- El macro F1 en test (0.6625) es un 10,9 % superior al de validation. La
+  diferencia se conserva como evidencia descriptiva de esta partición temporal;
+  no se generaliza a otras distribuciones sin evaluación adicional.

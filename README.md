@@ -8,8 +8,8 @@
   <a href="https://github.com/Bootcamp-IA-MAD-P7/Proyecto6-Grupo1/actions/workflows/repository-quality.yml"><img alt="Repository quality" src="https://github.com/Bootcamp-IA-MAD-P7/Proyecto6-Grupo1/actions/workflows/repository-quality.yml/badge.svg?branch=dev"></a>
   <img alt="OpenSpec 1.6.0" src="https://img.shields.io/badge/OpenSpec-1.6.0-173F4F">
   <img alt="Python 3.12" src="https://img.shields.io/badge/Python-3.12-52755B">
-  <img alt="Estado: baseline operativo" src="https://img.shields.io/badge/estado-baseline%20operativo-52755B">
-  <img alt="Entrega verificada: 0 de 25" src="https://img.shields.io/badge/criterios%20verificados-0%2F25-6B7478">
+  <img alt="Estado: baseline evaluado" src="https://img.shields.io/badge/estado-baseline%20evaluado-52755B">
+  <img alt="Entrega verificada: 3 de 25" src="https://img.shields.io/badge/criterios%20verificados-3%2F25-52755B">
 </p>
 
 > Una herramienta de apoyo para proponer la categoría y el circuito inicial de una reclamación financiera escrita. La propuesta siempre debe poder ser revisada por una persona.
@@ -189,16 +189,16 @@ Detalle: [blueprint arquitectónico](docs/architecture/system_blueprint.md).
 
 ![Estado de los veinticinco criterios del briefing](docs/assets/charts/delivery-status-2026-07-23.svg)
 
-### Nivel esencial — 0 de 10 verificados
+### Nivel esencial — 3 de 10 verificados
 
 | ID | Criterio | Estado | Evidencia necesaria |
 |---|---|---|---|
 | ESS‑01 | Modelo multiclase funcional | `En curso` | Pipeline, artefacto y predicciones válidas |
 | ESS‑02 | EDA orientado a clasificación | **En curso** | Clases, distribuciones, tiempo, nulos, duplicados, idioma y conclusiones |
-| ESS‑03 | Overfitting inferior al 5 % | `En curso` | Gap `< 0.05` en validation |
+| ESS‑03 | Overfitting inferior al 5 % | `Verificado` | Macro F1 train/validation y gap `0.0482` en el informe del baseline |
 | ESS‑04 | Aplicación que productiviza el modelo | No iniciado | React PWA conectada a inferencia real |
-| ESS‑05 | Accuracy global | `En curso` | Validation y test protegido |
-| ESS‑06 | Precision, recall y F1 por clase | `En curso` | Once clases, macro y weighted |
+| ESS‑05 | Accuracy global | `Verificado` | Validation `0.8484` y test protegido `0.8230` |
+| ESS‑06 | Precision, recall y F1 por clase | `Verificado` | Once clases, agregados macro/weighted y JSON versionados |
 | ESS‑07 | Matriz de confusión | No iniciado | Tabla, figura y lectura reproducibles |
 | ESS‑08 | Feature importance | No iniciado | Método compatible y limitaciones |
 | ESS‑09 | Análisis de errores | No iniciado | Patrones por clase y acciones |
@@ -283,7 +283,7 @@ Las subcarpetas aparecen con su primer archivo real. No se crean árboles vacío
 
 | Persona | Área | Trabajo actual |
 |---|---|---|
-| José | Backend | `PG-5` / `003/T-007`, bloqueada por datos y modelo |
+| José | Backend | `PG-5` / `003/T-007`, puede preparar el servicio; la integración requiere entregar un artefacto de modelo trazable |
 | Abel | Frontend y UX | `PG-4`, revisión de la React PWA integrada mediante OpenSpec |
 | Víctor | Datos y EDA | `PG-2` completada; `PG-3` baseline optimizado, gap 0.0482 ✅ |
 | Miguel | Arquitectura y método | Integración, evidencia y gobierno Jira–OpenSpec–arnés |
@@ -324,11 +324,10 @@ Antes de subir un paquete a NotebookLM se excluyen secretos, datos brutos, narra
 
 ## Próximos hitos
 
-1. Baseline entrenado y optimizado (val macro F1 0.5973, gap 0.0482); pendiente de archivo OpenSpec y PR.
-2. Migrar a modelos avanzados (Random Forest, XGBoost) en MED-01.
-3. Mantener el test protegido hasta que el candidato se seleccione con validation.
-3. Evolucionar la React PWA fusionada sin presentarla como inferencia real.
-4. Definir backend e integrar el modelo cuando exista un Champion aprobado.
+1. Mantener el test protegido y cerrar la procedencia/versionado del artefacto antes de integrar inferencia.
+2. Implementar el servicio backend y su contrato para conectar ClaimVox a una inferencia real, sin presentar el prototipo actual como tal.
+3. Completar matriz de confusión, importancia de variables, análisis de errores e informe técnico del nivel esencial.
+4. Comparar candidatos posteriores con el baseline sin utilizar el test protegido para seleccionarlos.
 5. Proteger primero el nivel esencial; investigar niveles superiores sin desestabilizarlo.
 
 ## Referencias
