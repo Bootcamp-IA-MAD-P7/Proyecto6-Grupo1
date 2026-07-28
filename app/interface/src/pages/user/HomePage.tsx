@@ -11,7 +11,9 @@ export default function HomePage() {
   return (
     <div className="space-y-8">
       <div>
-        <h1 className="text-3xl font-bold tracking-tight text-ink sm:text-4xl">Prototype overview</h1>
+        <h1 className="text-3xl font-bold tracking-tight text-ink sm:text-4xl">
+          Prototype overview
+        </h1>
         <p className="mt-2 text-ink-soft">
           {user
             ? `Mock session active for ${user.name}.`

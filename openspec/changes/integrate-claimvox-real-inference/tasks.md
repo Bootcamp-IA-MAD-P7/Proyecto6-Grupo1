@@ -41,9 +41,12 @@
 
 ## 3. Verification and evidence
 
-- [ ] 3.1 [QA] Run frontend typecheck, lint, format, unit tests, build, focused
+- [x] 3.1 [QA] Run frontend typecheck, lint, format, unit tests, build, focused
   backend tests, contract tests, repository quality, whitespace check, and
-  strict OpenSpec validation. Record actual commands and results only.
+  strict OpenSpec validation. Record actual commands and results only. Evidence:
+  frontend typecheck, lint, Prettier check, 47 Vitest tests and PWA build passed;
+  26 focused backend contract/CORS tests, repository quality, whitespace check,
+  and strict validation passed on 2026-07-28.
 - [ ] 3.2 [QA] Execute a local end-to-end smoke test with a synthetic narrative
   and an ignored local baseline artifact. Record only aggregate statuses,
   selected mode, review requirement, and privacy assertions in a versioned
