@@ -37,6 +37,7 @@ def register_exception_handlers(app: FastAPI) -> None:
 
         error_codes = {
             400: "BAD_REQUEST",
+            422: "VALIDATION_ERROR",
             404: "NOT_FOUND",
             429: "RATE_LIMITED",
             503: "SERVICE_UNAVAILABLE",

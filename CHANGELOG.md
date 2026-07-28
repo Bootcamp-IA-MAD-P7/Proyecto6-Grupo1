@@ -4,6 +4,13 @@
 
 ### Added
 
+- Preparación de MVP local ClaimVox: máximo de 5.000 caracteres, 20
+  predicciones/minuto por cliente temporal en memoria, cabeceras de respuesta
+  seguras y eventos técnicos sin identidad ni contenido. No añade cuentas,
+  persistencia de narrativas, analítica de usuarios ni despliegue.
+- Inventario verificable de preparación del MVP y guion de presentación para
+  cliente/evaluador, con evidencia y límites explícitos.
+
 - `PG-7`: evaluación esencial reconstruible del baseline sobre las particiones locales actuales, sin cargar test protegido: macro F1 validation `0.6390`, accuracy `0.8684` y gap train-validation `0.0078`. Añade matriz de confusión, importancia TF-IDF, análisis agregado de errores, manifiesto local e informe/guía de entrega.
 - `PG-6`: integración local explícita entre ClaimVox y `POST /api/v1/predictions`, con transporte TypeScript validado, CORS local de mínimo privilegio, estados de recuperación seguros y smoke end-to-end con entrada sintética. El mock sigue siendo el valor por defecto.
 
@@ -25,6 +32,10 @@
 - README, delivery_levels.md y chart actualizados: MED-01 pasa a `Verificado` (5/25 criterios); XGBoost obtiene el mejor macro F1 de validación (`0.6332`) sin selección definitiva.
 
 ### Fixed
+
+- El gráfico de entrega fechado el 27 de julio vuelve a reflejar el estado
+  canónico: 11 criterios verificados, 2 en curso y 12 no iniciados; el nivel
+  esencial permanece completo con 10 de 10.
 
 - `repository-quality.yml` usa `pip install -e .` para mantener dependencias sincronizadas con `pyproject.toml`.
 - `scripts/ml/train_ensemble.py` escribe reporte con `encoding="utf-8"` para compatibilidad Windows.

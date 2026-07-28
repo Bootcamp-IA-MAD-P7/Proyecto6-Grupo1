@@ -1,6 +1,6 @@
 <svg xmlns="http://www.w3.org/2000/svg" width="1200" height="470" viewBox="0 0 1200 470" role="img" aria-labelledby="title desc">
   <title id="title">Estado de los veinticinco criterios del briefing</title>
-  <desc id="desc">Seis criterios verificados, cinco en curso y catorce no iniciados, distribuidos entre los niveles esencial, medio, avanzado y experto.</desc>
+  <desc id="desc">Once criterios verificados, dos en curso y doce no iniciados, distribuidos entre los niveles esencial, medio, avanzado y experto.</desc>
   <defs>
     <style>
       .bg{fill:#f7f5ef}.title{font:700 28px system-ui,sans-serif;fill:#173f4f}.copy{font:400 15px system-ui,sans-serif;fill:#4b585e}
@@ -14,21 +14,18 @@
 
   <text class="label" x="70" y="168">Esencial</text>
   <rect class="done" x="240" y="143" width="822" height="38" rx="6"/>
-  <rect class="doing" x="651" y="143" width="247" height="38" rx="6"/>
-  <rect class="not" x="898" y="143" width="164" height="38" rx="6"/>
   <text class="count" x="1080" y="169">10 / 10</text>
-  <text class="copy" x="240" y="204">5 verificados · 3 en curso · 2 no iniciados</text>
+  <text class="copy" x="240" y="204">10 verificados</text>
 
   <text class="label" x="70" y="254">Medio</text>
   <rect class="done" x="240" y="229" width="164" height="38" rx="6"/>
-  <rect class="doing" x="404" y="229" width="164" height="38" rx="6"/>
-  <rect class="not" x="568" y="229" width="494" height="38" rx="6"/>
+  <rect class="doing" x="406" y="229" width="164" height="38" rx="6"/>
+  <rect class="not" x="572" y="229" width="490" height="38" rx="6"/>
   <text class="count" x="1080" y="255">1 / 5</text>
   <text class="copy" x="240" y="290">1 verificado · 1 en curso · 3 no iniciados</text>
 
   <text class="label" x="70" y="326">Avanzado</text>
-  <rect class="doing" x="240" y="301" width="137" height="38" rx="6"/>
-  <rect class="not" x="377" y="301" width="685" height="38" rx="6"/>
+  <rect class="not" x="240" y="301" width="822" height="38" rx="6"/>
   <text class="count" x="1080" y="327">0 / 6</text>
 
   <text class="label" x="70" y="398">Experto</text>

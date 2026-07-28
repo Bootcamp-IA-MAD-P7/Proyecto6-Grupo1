@@ -52,6 +52,17 @@ class BackendCorsContractTests(unittest.TestCase):
         with self.assertRaises(ValidationError):
             Settings(cors_allowed_origins="https://claimvox.example")
 
+    def test_api_responses_include_local_security_headers(self) -> None:
+        app = create_app(Settings())
+
+        with TestClient(app) as client:
+            response = client.get("/api/v1/health")
+
+        self.assertEqual(response.headers["cache-control"], "no-store")
+        self.assertEqual(response.headers["referrer-policy"], "no-referrer")
+        self.assertEqual(response.headers["x-content-type-options"], "nosniff")
+        self.assertEqual(response.headers["x-frame-options"], "DENY")
+
 
 if __name__ == "__main__":
     unittest.main()

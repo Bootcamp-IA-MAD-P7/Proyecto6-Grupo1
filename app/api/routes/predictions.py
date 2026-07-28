@@ -2,8 +2,11 @@
 
 from __future__ import annotations
 
-from fastapi import APIRouter, Request
+from time import perf_counter
 
+from fastapi import APIRouter, HTTPException, Request
+
+from app.api.observability import emit_prediction_completed
 from app.api.schemas.request import PredictionRequest
 from app.api.schemas.response import PredictionResponse
 
@@ -21,7 +24,29 @@ async def create_prediction(
     the loaded predictor (baseline model or mock fallback).
     """
     service = request.app.state.prediction_service
-    return service.predict(
+    settings = request.app.state.settings
+
+    if len(body.narrative) > settings.max_narrative_characters:
+        raise HTTPException(
+            status_code=422,
+            detail="The narrative exceeds the active local length limit.",
+        )
+
+    temporary_client_key = request.client.host if request.client else "local-unknown"
+    if not request.app.state.rate_limiter.allow(temporary_client_key):
+        raise HTTPException(
+            status_code=429,
+            detail="Prediction request frequency limit reached. Please retry later.",
+        )
+
+    started_at = perf_counter()
+    response = service.predict(
         narrative=body.narrative,
         client_request_id=body.client_request_id,
     )
+    emit_prediction_completed(
+        elapsed_seconds=perf_counter() - started_at,
+        predictor=service.predictor,
+        response=response,
+    )
+    return response

@@ -14,7 +14,9 @@ using the trained baseline model, conforming to `docs/api/openapi.json`.
 | Predictor interface for extensibility | Implemented |
 | Authentication / authorization | NOT implemented (pending decision) |
 | CORS | Local opt-in only; explicit origins, no credentials or wildcard |
-| Rate limiting | NOT implemented (pending decision) |
+| Request controls | 5,000-character maximum and 20 predictions/minute per temporary local client, configurable by environment |
+| Response headers | `Cache-Control: no-store`, `Referrer-Policy: no-referrer`, `X-Content-Type-Options: nosniff`, `X-Frame-Options: DENY` |
+| Technical events | Local structured events without narrative, identity, IP, alternatives or individual confidence |
 | Database / persistence | NOT implemented |
 | Docker | NOT implemented |
 | RAG integration | Not implemented |
@@ -22,8 +24,9 @@ using the trained baseline model, conforming to `docs/api/openapi.json`.
 The service and a reproducible local baseline artifact were smoke-tested on
 2026-07-28. The evidence is aggregate only and is recorded in
 [`reports/validation/backend_foundation_real_smoke.md`](../../reports/validation/backend_foundation_real_smoke.md).
-This does **not** mean that ClaimVox consumes the service, or that the service
-is deployed, authenticated, or production-ready.
+ClaimVox can consume the service **only locally and under explicit
+configuration**. This does not mean that the service is deployed,
+authenticated, or production-ready.
 
 ## Installation
 
@@ -76,6 +79,8 @@ the actual environment remains local and ignored by Git.
 | `APP_TAXONOMY_VERSION` | `1.0` | Taxonomy version in prediction responses |
 | `APP_DEBUG` | `false` | Debug mode (do not use in production) |
 | `APP_CORS_ALLOWED_ORIGINS` | empty | Comma-separated local ClaimVox origins; cross-origin access stays disabled when absent |
+| `APP_MAX_NARRATIVE_CHARACTERS` | `5000` | Local maximum narrative length; may reduce but not exceed the published contract maximum |
+| `APP_PREDICTION_RATE_LIMIT_PER_MINUTE` | `20` | Best-effort requests per temporary local client and minute; resets with the process |
 
 ## Running tests
 
@@ -117,6 +122,7 @@ The predictor interface allows swapping implementations without changing routes:
 ## Security
 
 - Narratives are NEVER logged, persisted, or echoed in responses
+- Prediction events contain only timestamp, rounded duration, status, predictor mode, model version and human-review flag
 - Error responses use `ErrorResponse` schema (no stack traces, no paths)
 - Model loaded from local filesystem only (no remote download)
 - Configuration via environment variables (no secrets in code)
@@ -126,7 +132,7 @@ The predictor interface allows swapping implementations without changing routes:
 - No authentication or authorization
 - Local CORS is opt-in through `APP_CORS_ALLOWED_ORIGINS`; it accepts only
   explicitly configured local origins, never wildcards or credentials
-- No rate limiting
+- Local in-memory rate limiting is not a distributed or production-grade abuse control
 - No persistence or feedback collection
 - Model artifact is gitignored and must exist locally to serve real predictions
 - No formal model versioning/registry (artifact identified by config params)

@@ -13,6 +13,7 @@ OUTPUT_DIRECTORY = ROOT / "exports/notebooklm"
 
 STABLE_SOURCES = (
     "docs/notebooklm/business_narrative.md",
+    "docs/presentations/claimvox_mvp_story.md",
     "docs/notebooklm/project_facts.md",
     "README.md",
     ".specify/intent.md",

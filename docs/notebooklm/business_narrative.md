@@ -36,6 +36,15 @@ El baseline local ya evaluado propone una única familia de producto entre once 
 
 El impacto esperado es reducir esfuerzo de clasificación y hacer más consistente el enrutamiento inicial. Todavía no se ha medido. Los datos públicos del CFPB no representan todo el mercado, pueden contener información personal residual y presentan riesgo de desbalanceo y cambio temporal.
 
+## Por qué es una base fiable
+
+La demostración no parte de una pantalla aislada: reúne un contrato de once
+clases, datos preparados de forma reproducible, evaluación versionada, un
+servicio local y una interfaz que conserva la revisión humana. La arquitectura
+separa experiencia, servicio y predictor para poder incorporar feedback,
+persistencia o una nueva versión de modelo mediante decisiones y pruebas
+explícitas, no mediante promesas implícitas.
+
 ## Mensaje de cierre
 
 El equipo ha elegido esta dirección por unanimidad y ya puede demostrar

@@ -78,6 +78,14 @@
 - La capacidad OpenSpec `jira-work-tracking` está vigente después del archivo
   revisado de `integrate-jira-workflow`.
 
+## Controles locales recientes
+
+- El cambio `mvp-readiness-and-presentation` añade límites proporcionados para
+  la API local: máximo de narrativa, frecuencia efímera en memoria, cabeceras
+  de respuesta y un evento técnico sin identidad ni contenido. La evidencia
+  está en `reports/validation/mvp_readiness_inventory.md`. No crea cuentas,
+  almacenamiento, analítica de usuarios ni observabilidad productiva.
+
 ## Capacidades previstas, no implementadas
 
 - Selección y gobierno de un Champion. Existe un baseline reproducible y un

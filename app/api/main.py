@@ -15,6 +15,7 @@ from app.api.predictors.baseline import BaselinePredictor
 from app.api.predictors.mock import MockPredictor
 from app.api.routes.health import router as health_router
 from app.api.routes.predictions import router as predictions_router
+from app.api.security import LocalRateLimiter
 from app.api.services.prediction_service import PredictionService
 
 logger = logging.getLogger(__name__)
@@ -64,6 +65,17 @@ def create_app(settings: Settings | None = None) -> FastAPI:
         lifespan=lifespan,
     )
     app.state.bootstrap_settings = settings
+    app.state.rate_limiter = LocalRateLimiter(settings.prediction_rate_limit_per_minute)
+
+    @app.middleware("http")
+    async def add_local_api_security_headers(request, call_next):
+        """Apply non-deployment-specific response protections to API replies."""
+        response = await call_next(request)
+        response.headers["Cache-Control"] = "no-store"
+        response.headers["Referrer-Policy"] = "no-referrer"
+        response.headers["X-Content-Type-Options"] = "nosniff"
+        response.headers["X-Frame-Options"] = "DENY"
+        return response
 
     if settings.local_cors_origins:
         app.add_middleware(

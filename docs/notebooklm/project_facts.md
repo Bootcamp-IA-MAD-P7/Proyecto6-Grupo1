@@ -51,6 +51,11 @@
   persistencia ni despliegue. Véanse
   `reports/validation/backend_foundation_real_smoke.md` y
   `reports/validation/claimvox_local_inference_smoke.md`.
+- Controles locales del MVP: máximo contractual de 5.000 caracteres, 20
+  predicciones por minuto por cliente temporal en memoria, CORS explícito sin
+  credenciales ni comodines, cabeceras de no caché y eventos técnicos sin
+  identidad ni contenido. No acreditan seguridad de despliegue ni analítica de
+  usuarios. Véase `reports/validation/mvp_readiness_inventory.md`.
 - Despliegue: pendiente.
 - Persistencia: pendiente.
 - Estado MLOps: pendiente.

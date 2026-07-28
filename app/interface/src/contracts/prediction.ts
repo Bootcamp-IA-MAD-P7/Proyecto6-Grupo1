@@ -29,6 +29,8 @@ export interface PredictionRequest {
   client_request_id?: string
 }
 
+export const MAX_NARRATIVE_CHARACTERS = 5000
+
 export interface PredictionAlternative {
   class_label: CanonicalClass
   confidence: number | null
@@ -100,7 +102,11 @@ export function assertPredictionRequest(value: unknown): asserts value is Predic
     throw new PredictionContractError('Prediction request contains unsupported fields.')
   }
 
-  if (typeof value.narrative !== 'string' || !/\S/.test(value.narrative)) {
+  if (
+    typeof value.narrative !== 'string' ||
+    !/\S/.test(value.narrative) ||
+    value.narrative.length > MAX_NARRATIVE_CHARACTERS
+  ) {
     throw new PredictionContractError('Prediction request requires a non-blank narrative.')
   }
 

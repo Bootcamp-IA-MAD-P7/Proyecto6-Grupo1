@@ -1,7 +1,7 @@
-# Clasificación y enrutamiento asistido de reclamaciones
+# ClaimVox · clasificación y enrutamiento asistido de reclamaciones
 
 <p align="center">
-  <strong>Proyecto 6 · Grupo 1 · Clasificación multiclase</strong>
+  <strong>Proyecto 6 · Grupo 1 · MVP local de clasificación multiclase</strong>
 </p>
 
 <p align="center">
@@ -12,11 +12,11 @@
   <img alt="Entrega verificada: 11 de 25" src="https://img.shields.io/badge/criterios%20verificados-11%2F25-52755B">
 </p>
 
-> Una herramienta de apoyo para proponer la categoría y el circuito inicial de una reclamación financiera escrita. La propuesta siempre debe poder ser revisada por una persona.
+> Una herramienta local de apoyo para proponer una categoría inicial de una reclamación financiera escrita. La propuesta siempre debe ser revisada por una persona; no enruta automáticamente ni toma decisiones financieras.
 
 ![Visión del sistema de apoyo al enrutamiento](docs/assets/diagrams/readme-project-overview.svg)
 
-## Estado de un vistazo
+## El MVP en un vistazo
 
 | Dimensión | Estado verificable |
 |---|---|
@@ -27,10 +27,11 @@
 | Target | Once familias canónicas en `config/cfpb_target_contract.json` |
 | Desbalanceo preliminar | Clase mayoritaria: 72,45 % |
 | EDA y política de datos | EDA multiclase verificado; política inicial de idioma, grupos, split y desbalanceo aplicada |
-| Modelos | Baseline LogisticRegression (gap 0.0482 ✅); RF, XGBoost y LightGBM comparados sobre una muestra de 50K. No hay modelo seleccionado para producción. |
+| Modelo evaluado | Baseline LogisticRegression local sobre once clases; evaluación esencial actual con macro F1 validation `0.6390` y gap `0.0078`. |
+| Comparativa posterior | RF, XGBoost y LightGBM comparados sobre una muestra de 50K. No hay Champion ni modelo seleccionado para producción. |
 | Aplicación | ClaimVox React PWA: mock seguro por defecto y predicción local real mediante configuración explícita |
 | Backend e inferencia | Servicio FastAPI y flujo PWA→API verificados localmente con un artefacto reproducible; sin despliegue |
-| Despliegue y MLOps | No iniciados |
+| Despliegue, cuentas y MLOps | No implementados |
 | Método de trabajo | OpenSpec + arnés implantados y comprobados |
 
 ClaimVox permite revisar el recorrido con contenido sintético, dictado,
@@ -42,6 +43,17 @@ integración local, pero no acredita un despliegue,
 autenticación, persistencia ni operación productiva. Véanse el [manual del
 frontend](app/interface/README.md), el [manual del backend](app/api/README.md) y
 el [smoke end-to-end](reports/validation/claimvox_local_inference_smoke.md).
+
+### Qué se puede demostrar ahora
+
+1. Se reconstruye un artefacto local reproducible desde las particiones aprobadas, sin añadir datos ni binarios a Git.
+2. FastAPI carga ese artefacto y devuelve una predicción multiclase contractual.
+3. ClaimVox consume el servicio solo cuando se configura una URL local explícita; en otro caso se identifica como mock.
+4. La respuesta mantiene la revisión humana, no conserva el texto y aplica controles locales de tamaño, frecuencia, CORS y errores seguros.
+
+### Qué no debe afirmarse
+
+No hay despliegue público, autenticación real, base de datos, feedback persistente, analítica de usuarios, monitorización de producción, Docker, cloud ni MLOps. El artefacto vive localmente y la aplicación no lee el CSV del CFPB.
 
 ## El problema
 
@@ -153,29 +165,29 @@ python scripts/harness.py start --role frontend-developer --spec 003 --task T-00
 Manuales: [OpenSpec + arnés para el equipo](docs/project_management/harness_quickstart.md)
 y [Jira, OpenSpec y GitHub](docs/project_management/jira_workflow.md).
 
-## Arquitectura prevista
+## Arquitectura construida y evolución prevista
 
 ```mermaid
 flowchart LR
-    UI[React PWA] --> API[API de aplicación]
-    API --> UC[Casos de uso]
-    UC --> DOM[Dominio]
-    UC --> INF[Puerto de inferencia]
-    INF --> MODEL[Modelo versionado]
-    UC --> DB[(Feedback)]
+    UI[ClaimVox React PWA] --> API[FastAPI local]
+    API --> UC[PredictionService]
+    UC --> INF[PredictorInterface]
+    INF --> MODEL[Baseline local]
+    INF --> MOCK[Fallback mock]
     PIPE[Pipeline de datos y ML] --> MODEL
-    MODEL --> MON[Evaluación y monitorización]
+    UC -. futuro .-> DB[(Feedback gobernado)]
+    MODEL -. futuro .-> MON[Registro y monitorización]
 
     classDef prototype fill:#e7f2ed,stroke:#52755b,color:#17322e
     classDef planned fill:#fff7e7,stroke:#8b6f3d,stroke-dasharray:6 4,color:#423719
-    class UI prototype
-    class API,UC,DOM,INF,MODEL,DB,PIPE,MON planned
+    class UI,API,UC,INF,MODEL,MOCK,PIPE prototype
+    class DB,MON planned
 ```
 
-La React PWA representa un prototipo validado y fusionado en `dev`, con
-respuestas sintéticas. Los demás nodos siguen
-siendo arquitectura prevista; el diagrama no acredita backend, modelo,
-persistencia, inferencia ni monitorización reales.
+La PWA, la API local, el servicio, el adaptador de predictor y el baseline son
+capacidades construidas y verificadas para ejecución local. Feedback, registro,
+monitorización, autenticación, persistencia y despliegue siguen siendo
+arquitectura prevista; el diagrama no acredita esas capacidades futuras.
 
 Principios:
 
@@ -190,7 +202,7 @@ Detalle: [blueprint arquitectónico](docs/architecture/system_blueprint.md).
 
 ## Estado frente al briefing
 
-![Estado de los veinticinco criterios del briefing](docs/assets/charts/delivery-status-2026-07-27.svg)
+![Estado de los veinticinco criterios del briefing](docs/assets/charts/delivery-status-2026-07-23.svg)
 
 ### Nivel esencial — 10 de 10 verificados
 
@@ -255,6 +267,26 @@ whitespace del cambio
 ```
 
 Además, `dev` exige PR, historial lineal, conversaciones resueltas y bloqueo de borrado y force-push. Las aprobaciones humanas están temporalmente en cero hasta que el equipo acuerde exigir reviewers.
+
+## Por qué este MVP es profesional
+
+La solidez de ClaimVox no viene de presentar un prototipo como producción. Viene
+de poder demostrar, con límites explícitos, una cadena completa de valor:
+
+| Dimensión | Evidencia de madurez |
+|---|---|
+| Producto responsable | Recomendación revisable, sin decisión automática ni promesas de enrutamiento. |
+| Datos y modelo | Contrato de once clases, EDA, política de split, baseline reproducible y test protegido. |
+| Evaluación | Accuracy, precision, recall, F1, gap train/validation, matriz, importancia y análisis agregado de errores. |
+| Aplicación | PWA accesible y responsive, dictado opcional, estados de mock/offline/error y conexión local explícita. |
+| Seguridad | Sin narrativas en evidencia, CORS de mínimo privilegio, límite de entrada, frecuencia local, errores seguros y eventos sin identidad. |
+| Escalabilidad | Contratos y puertos permiten cambiar predictor, añadir feedback o desplegar adaptadores sin reescribir la experiencia actual. |
+| Gobierno | OpenSpec, arnés, Jira, tests, PR y CI conectan cada cambio con una evidencia revisable. |
+
+La narrativa para clientes debe comenzar por el problema y la revisión humana.
+Las métricas, arquitectura y metodología sirven para demostrar la calidad de la
+solución, no para ocultar sus límites. Véanse las fuentes de
+[NotebookLM](#documentación-para-cliente-y-notebooklm).
 
 ## Estructura
 
