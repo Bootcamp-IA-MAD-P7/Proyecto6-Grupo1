@@ -20,9 +20,10 @@ y al [expediente OpenSpec archivado](../../openspec/changes/archive/2026-07-24-i
 | Autenticación y administración    | Propuestas mock; no aportan seguridad ni operaciones reales   |
 | Backend, modelo e inferencia local | Integración local verificada; no hay despliegue ni modelo aprobado para producción |
 
-La integración local de frontend, servicio y artefacto reproducible verifica
-`ESS-04`. No equivale a autenticación, despliegue, persistencia, observabilidad
-operativa ni a un modelo aprobado para producción.
+La integración local de frontend, servicio y artefacto reproducible aporta la
+evidencia para verificar `ESS-04` tras revisión y merge. No equivale a
+autenticación, despliegue, persistencia, observabilidad operativa ni a un modelo
+aprobado para producción.
 
 ## Servicio local opcional
 

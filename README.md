@@ -37,7 +37,8 @@ ClaimVox permite revisar el recorrido con contenido sintético, dictado,
 instalación PWA, preferencia de tema claro/oscuro/sistema y comportamiento
 offline seguro. Con una URL local explícita, consume la respuesta del servicio
 FastAPI y mantiene la revisión humana obligatoria; sin configuración conserva el
-mock como modo seguro. Esta evidencia local verifica `ESS-04`, no un despliegue,
+mock como modo seguro. Esta evidencia local deja `ESS-04` listo para revisión y
+su verificación tras el merge, no acredita un despliegue,
 autenticación, persistencia ni operación productiva. Véanse el [manual del
 frontend](app/interface/README.md), el [manual del backend](app/api/README.md) y
 el [smoke end-to-end](reports/validation/claimvox_local_inference_smoke.md).
@@ -191,14 +192,14 @@ Detalle: [blueprint arquitectónico](docs/architecture/system_blueprint.md).
 
 ![Estado de los veinticinco criterios del briefing](docs/assets/charts/delivery-status-2026-07-27.svg)
 
-### Nivel esencial — 5 de 10 verificados
+### Nivel esencial — 4 de 10 verificados
 
 | ID | Criterio | Estado | Evidencia necesaria |
 |---|---|---|---|
 | ESS‑01 | Modelo multiclase funcional | `En curso` | Pipeline, artefacto y predicciones válidas |
 | ESS‑02 | EDA orientado a clasificación | `Verificado` | Script, informe, cuatro figuras agregadas, visualizaciones pertinentes y continuidad con la política de datos |
 | ESS‑03 | Overfitting inferior al 5 % | `Verificado` | Macro F1 train/validation y gap `0.0482` en el informe del baseline |
-| ESS‑04 | Aplicación que productiviza el modelo | `Verificado` | ClaimVox usa inferencia local real bajo configuración explícita, con errores seguros y revisión humana; no acredita despliegue |
+| ESS‑04 | Aplicación que productiviza el modelo | `En curso` | Evidencia local completa en revisión: ClaimVox usa inferencia real configurada, con errores seguros y revisión humana; falta fusionar la evidencia |
 | ESS‑05 | Accuracy global | `Verificado` | Validation `0.8484` y test protegido `0.8230` |
 | ESS‑06 | Precision, recall y F1 por clase | `Verificado` | Once clases, agregados macro/weighted y JSON versionados |
 | ESS‑07 | Matriz de confusión | `En curso` | Figuras generadas para RF y XGB (sample 50K); pendiente sobre split completo |
