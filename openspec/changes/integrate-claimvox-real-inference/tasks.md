@@ -47,11 +47,13 @@
   frontend typecheck, lint, Prettier check, 47 Vitest tests and PWA build passed;
   26 focused backend contract/CORS tests, repository quality, whitespace check,
   and strict validation passed on 2026-07-28.
-- [ ] 3.2 [QA] Execute a local end-to-end smoke test with a synthetic narrative
+- [x] 3.2 [QA] Execute a local end-to-end smoke test with a synthetic narrative
   and an ignored local baseline artifact. Record only aggregate statuses,
   selected mode, review requirement, and privacy assertions in a versioned
   report; do not store request text, artifact, logs, or screenshots containing
-  it.
+  it. Evidence: `reports/validation/claimvox_local_inference_smoke.md` records
+  successful live local service, CORS, configured frontend-module checks, and
+  human visual confirmation of the advisory result and review state.
 - [ ] 3.3 [Documentation] Update only documents whose meaning changes: frontend
   and API guides, README, delivery levels, daily, changelog, NotebookLM sources,
   and evidence. Preserve the distinction between local integration and deployed
