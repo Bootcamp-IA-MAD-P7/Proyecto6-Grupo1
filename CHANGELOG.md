@@ -16,7 +16,7 @@
 - `pyproject.toml` incluye `xgboost>=2.1.0`, `optuna>=4.0.0`, `joblib>=1.5.0`.
 - README actualizado: MED-01/MED-03 pasan a `En curso`; ESS-07/ESS-08 pasan a `En curso`.
 - `delivery_levels.md` sincronizado con el estado actual de los criterios.
-- Gráfico de estado actualizado a 2026-07-27 (5 verificados, 4 en curso, 16 no iniciados), sujeto a la fusión de la PR #36.
+- Gráfico de estado actualizado a 2026-07-27 (5 verificados, 4 en curso, 16 no iniciados); la PR #36 se fusionó posteriormente.
 - README, delivery_levels.md y chart actualizados: MED-01 pasa a `Verificado` (5/25 criterios); XGBoost obtiene el mejor macro F1 de validación (`0.6332`) sin selección definitiva.
 
 ### Fixed
