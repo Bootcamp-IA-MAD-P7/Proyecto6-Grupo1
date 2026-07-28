@@ -32,9 +32,12 @@
   Evidence: `ClassificationPage.test.tsx` asserts generic live progress, safe
   error categories, focus transfer to the alert, and no narrative or internals
   in service-unavailable and incompatible-response recovery states.
-- [ ] 2.3 [Frontend / Backend] Ensure the local API origin can be configured for
+- [x] 2.3 [Frontend / Backend] Ensure the local API origin can be configured for
   the Vite dev and preview workflows without becoming a public deployment
   policy. Verification: documented local commands and preflight behaviour.
+  Evidence: `app/api/.env.example`, `app/interface/.env.example`, both component
+  guides, and `tests/contract/test_backend_cors.py` define and verify the local
+  opt-in path for ports `5173` and `4173`.
 
 ## 3. Verification and evidence
 
