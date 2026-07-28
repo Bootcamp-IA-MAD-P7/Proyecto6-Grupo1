@@ -285,7 +285,7 @@ Las subcarpetas aparecen con su primer archivo real. No se crean árboles vacío
 |---|---|---|
 | José | Backend | `PG-5` / `003/T-007`, puede preparar el servicio; la integración requiere entregar un artefacto de modelo trazable |
 | Abel | Frontend y UX | `PG-4`, revisión de la React PWA integrada mediante OpenSpec |
-| Víctor | Datos y EDA | `PG-2` completada; `PG-3` baseline evaluado; `MED-01` / `PG-8` comparativa ensemble en revisión mediante PR #36 |
+| Víctor | Datos y EDA | `PG-2` completada; `PG-3` baseline evaluado; `MED-01` / `PG-8` comparativa ensemble verificada mediante PR #36; `MED-03` pendiente |
 | Miguel | Arquitectura y método | Integración, evidencia y gobierno Jira–OpenSpec–arnés |
 
 El [backlog `PG`](https://miguel-redondo.atlassian.net/browse/PG-1) sigue el nivel
