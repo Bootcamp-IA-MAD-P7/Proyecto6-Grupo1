@@ -1,9 +1,11 @@
 ## 1. Configuration and safe service boundary
 
-- [ ] 1.1 [Backend] Add an explicit `APP_CORS_ALLOWED_ORIGINS` configuration and
+- [x] 1.1 [Backend] Add an explicit `APP_CORS_ALLOWED_ORIGINS` configuration and
   narrow CORS middleware; default to no cross-origin access, no wildcard, and no
   credentials. Verification: focused backend CORS tests cover allowed and
-  unconfigured origins.
+  unconfigured origins. Evidence: `tests/contract/test_backend_cors.py` verifies
+  default denial, an explicitly allowed local origin, no credentials header, and
+  rejection of wildcard or non-local configuration.
 - [ ] 1.2 [Frontend] Add an explicit `VITE_PREDICTION_API_BASE_URL` configuration
   boundary and a typed HTTP transport for the existing prediction contract.
   Verification: unit tests cover URL construction, JSON request shape, timeout,
