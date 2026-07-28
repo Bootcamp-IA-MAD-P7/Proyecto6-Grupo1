@@ -12,11 +12,10 @@ from pathlib import Path
 import polars as pl
 
 from scripts.data.convert_cfpb_to_parquet import (
-    DatasetBuildError,
     OUTPUT_COLUMNS,
+    DatasetBuildError,
     build_training_dataset,
 )
-
 
 ROOT = Path(__file__).resolve().parents[2]
 CONTRACT_PATH = ROOT / "config" / "cfpb_target_contract.json"

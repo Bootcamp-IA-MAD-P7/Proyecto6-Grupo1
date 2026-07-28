@@ -194,7 +194,7 @@ def check_readme_delivery_ids(errors: list[str]) -> None:
 def check_delivery_state_consistency(errors: list[str]) -> None:
     readme_path = ROOT / "README.md"
     levels_path = ROOT / "docs/project_management/delivery_levels.md"
-    chart_path = ROOT / "docs/assets/charts/delivery-status-2026-07-23.svg"
+    chart_path = ROOT / "docs/assets/charts/delivery-status-2026-07-27.svg"
     if not readme_path.is_file() or not levels_path.is_file():
         return
 

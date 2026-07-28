@@ -8,7 +8,6 @@ import tempfile
 import unittest
 from pathlib import Path
 
-
 ROOT = Path(__file__).resolve().parents[2]
 MODULE_PATH = ROOT / "scripts/data/cfpb_viability.py"
 SPEC = importlib.util.spec_from_file_location("cfpb_viability", MODULE_PATH)

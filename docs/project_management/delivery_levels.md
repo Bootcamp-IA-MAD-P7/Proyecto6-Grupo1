@@ -43,8 +43,8 @@ Las capas superiores pueden investigarse en paralelo, pero no deben retrasar ni 
 | `ESS-04` | Aplicación que productiviza el modelo | `No iniciado` | Frontend / backend | React PWA conectada a inferencia real, con entrada validada, predicción multiclase, errores y revisión humana |
 | `ESS-05` | Accuracy global | `Verificado` | Datos / ML | Accuracy en validation (`0.8484`) y test protegido (`0.8230`) con configuración y particiones registradas |
 | `ESS-06` | Precision, recall y F1 por clase | `Verificado` | Datos / ML | Métricas por las once clases y agregados macro/weighted en los JSON de `reports/validation/cfpb_baseline_*` |
-| `ESS-07` | Matriz de confusión | `No iniciado` | Datos / ML | Figura y tabla reproducibles, normalización explicada y lectura de confusiones relevantes |
-| `ESS-08` | Feature importance | `No iniciado` | Datos / ML | Método compatible con el modelo, por ejemplo coeficientes, permutation importance o SHAP, con limitaciones |
+| `ESS-07` | Matriz de confusión | `En curso` | Datos / ML | Figuras generadas para RF y XGB (sample 50K); pendiente sobre split completo |
+| `ESS-08` | Feature importance | `En curso` | Datos / ML | Figuras generadas para RF y XGB (sample 50K); pendiente sobre split completo |
 | `ESS-09` | Análisis de errores | `No iniciado` | Datos / ML / producto | Patrones de falsos positivos y negativos por clase, casos límite sanitizados y acciones propuestas |
 | `ESS-10` | Informe técnico y guía de ejecución | `No iniciado` | Equipo | Informe coherente con métricas, decisiones, limitaciones y pasos reproducibles |
 
@@ -56,9 +56,9 @@ El nivel esencial solo se declara alcanzado cuando `ESS-01` a `ESS-10` están en
 
 | ID | Criterio obligatorio | Estado | Área | Evidencia mínima para verificar |
 |---|---|---|---|---|
-| `MED-01` | Modelo ensemble comparado con el baseline | `No iniciado` | Datos / ML | Random Forest, XGBoost, LightGBM o alternativa justificada, evaluada con el mismo split y métricas |
+| `MED-01` | Modelo ensemble comparado con el baseline | `Verificado` | Datos / ML | RF, XGBoost y LightGBM comparados con LR baseline: XGBoost líder (macro F1 0.6332), LightGBM (0.6175), RF (0.4704) sobre sample 50K; gaps >5% transferidos a MED-03 |
 | `MED-02` | Validación cruzada estratificada | `No iniciado` | Datos / ML | `StratifiedKFold` o alternativa justificada, semillas, resultados por fold y variabilidad |
-| `MED-03` | Optimización de hiperparámetros | `No iniciado` | Datos / ML | Grid, Randomized Search u Optuna reproducible, sin utilizar el test final para seleccionar |
+| `MED-03` | Optimización de hiperparámetros | `En curso` | Datos / ML | Optuna implementado en `src/ml/tuning.py`; pendiente ejecución con split completo |
 | `MED-04` | Recogida y monitorización de feedback | `No iniciado` | Producto / aplicación | Feedback ligado a versión de modelo, métricas operativas y reglas de privacidad |
 | `MED-05` | Recolección de nuevos datos para reentrenamiento | `No iniciado` | Datos / MLOps | Pipeline versionado, validación, trazabilidad, deduplicación y política de incorporación |
 
@@ -109,9 +109,9 @@ Cada criterio verificado debe registrar:
 ## Estado global actual
 
 | Nivel | Resultado |
-|---|---|
-| Esencial | `4 de 10 verificados`: `ESS-02`, `ESS-03`, `ESS-05` y `ESS-06`; `ESS-01` continúa en curso; `ESS-04`, `ESS-07`–`ESS-10` pendientes |
-| Medio | `No iniciado` |
+|---|---|---|
+| Esencial | `4 de 10 verificados`: `ESS-02`, `ESS-03`, `ESS-05` y `ESS-06`; `ESS-01`, `ESS-07` y `ESS-08` en curso; `ESS-04`, `ESS-09` y `ESS-10` pendientes |
+| Medio | `1 de 5 verificado` (`MED-01`); `1 en curso` (`MED-03`); resto pendiente |
 | Avanzado | `No iniciado` |
 | Experto | `No iniciado` |
 

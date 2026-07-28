@@ -9,15 +9,10 @@ from pathlib import Path
 
 import joblib
 import polars as pl
-from sklearn.feature_extraction.text import TfidfVectorizer
 from sklearn.linear_model import LogisticRegression
-from sklearn.metrics import (
-    accuracy_score,
-    classification_report,
-    f1_score,
-    precision_score,
-    recall_score,
-)
+
+from src.ml.evaluation import evaluate, save_report_json
+from src.ml.vectorizer import VectorizerConfig
 
 ROOT = Path(__file__).resolve().parents[2]
 DEFAULT_INPUT = ROOT / "data" / "processed" / "cfpb_training.parquet"
@@ -57,62 +52,17 @@ def temporal_split(df: pl.DataFrame, val_frac: float = 0.15, test_frac: float = 
     return train, val, test
 
 
-def evaluate_and_report(
-    y_true: list,
-    y_pred: list,
-    class_distribution: dict | None = None,
-) -> tuple[dict, list]:
-    macro_f1 = f1_score(y_true, y_pred, average="macro")
-    weighted_f1 = f1_score(y_true, y_pred, average="weighted")
-    accuracy = accuracy_score(y_true, y_pred)
-    precision_macro = precision_score(y_true, y_pred, average="macro")
-    recall_macro = recall_score(y_true, y_pred, average="macro")
-
-    report = classification_report(
-        y_true, y_pred, labels=CLASSES, output_dict=True, zero_division=0
-    )
-
-    weak_classes = []
-    for cls in CLASSES:
-        cls_report = report.get(cls, {})
-        f1_val = cls_report.get("f1-score", 0)
-        support = cls_report.get("support", 0)
-        print(f"  {cls:<55} F1: {f1_val:.4f}  support: {support}")
-        if f1_val < 0.5:
-            weak_classes.append({"class": cls, "f1": round(f1_val, 4), "support": support})
-
-    metrics = {
-        "size": len(y_true),
-        "accuracy": round(accuracy, 4),
-        "macro_f1": round(macro_f1, 4),
-        "weighted_f1": round(weighted_f1, 4),
-        "precision_macro": round(precision_macro, 4),
-        "recall_macro": round(recall_macro, 4),
-    }
-    per_class = {
-        cls: {
-            k: round(v, 4) if isinstance(v, float) else v
-            for k, v in report.get(cls, {}).items()
-        }
-        for cls in CLASSES
-    }
-    return metrics, per_class, weak_classes
-
-
 def train_pipeline(args: argparse.Namespace) -> None:
     input_path = Path(args.input)
     model_dir = Path(args.model_dir)
     report_path = Path(args.report)
-    ngram = tuple(int(x) for x in args.ngram_range.split(","))
 
     config = {
-        "vectorizer": "TfidfVectorizer",
         "max_features": args.max_features,
         "min_df": args.min_df,
         "max_df": args.max_df,
-        "ngram_range": ngram,
+        "ngram_range": tuple(int(x) for x in args.ngram_range.split(",")),
         "sublinear_tf": args.sublinear_tf,
-        "stop_words": "english",
         "model": "LogisticRegression",
         "solver": "lbfgs",
         "C": args.C,
@@ -140,16 +90,9 @@ def train_pipeline(args: argparse.Namespace) -> None:
 
     print("Vectorizing with TF-IDF...")
     t0 = time.time()
-    vectorizer = TfidfVectorizer(
-        max_features=config["max_features"],
-        stop_words=config["stop_words"],
-        min_df=config["min_df"],
-        max_df=config["max_df"],
-        ngram_range=config["ngram_range"],
-        sublinear_tf=config["sublinear_tf"],
-    )
-    X_train = vectorizer.fit_transform(train_texts)
-    X_val = vectorizer.transform(val_texts)
+    vc = VectorizerConfig(config)
+    X_train = vc.fit_transform(train_texts)
+    X_val = vc.transform(val_texts)
     print(f"Vectorization done in {time.time() - t0:.1f}s. Shape: {X_train.shape}")
 
     print("Training LogisticRegression...")
@@ -166,29 +109,31 @@ def train_pipeline(args: argparse.Namespace) -> None:
 
     model_dir.mkdir(parents=True, exist_ok=True)
     model_path = model_dir / "cfpb_baseline.pkl"
-    joblib.dump({"vectorizer": vectorizer, "model": model, "config": config}, model_path)
+    joblib.dump({"vectorizer": vc, "model": model, "config": config}, model_path)
     print(f"Model saved to {model_path}")
 
     print("\n--- Validation Metrics ---")
     val_pred = model.predict(X_val)
     train_pred = model.predict(X_train)
 
-    train_macro_f1 = f1_score(train_labels, train_pred, average="macro")
-    val_metrics, val_per_class, val_weak = evaluate_and_report(val_labels, val_pred)
+    ev = evaluate(
+        val_labels, val_pred, CLASSES,
+        y_train_true=train_labels, y_train_pred=train_pred,
+    )
+    for cls in CLASSES:
+        cr = ev.per_class_metrics.get(cls, {})
+        print(f"  {cls:<55} F1: {cr.get('f1-score', 0):.4f}  support: {cr.get('support', 0)}")
 
-    gap = abs(train_macro_f1 - val_metrics["macro_f1"])
-    print(f"Train macro F1: {train_macro_f1:.4f}")
-    print(f"Gap: {gap:.4f}  {'PASS' if gap < 0.05 else 'FAIL'}")
+    print(f"Train macro F1: {ev.train_macro_f1:.4f}")
+    print(f"Gap: {ev.gap_macro_f1:.4f}  {'PASS' if ev.gap_within_threshold else 'FAIL'}")
 
-    report_data = {
-        "config": config,
-        "train": {"size": len(train), "macro_f1": round(train_macro_f1, 4)},
-        "validation": val_metrics,
+    report_data: dict = {
+        "config": vc.get_config() | {"model": "LogisticRegression", "solver": "lbfgs", "C": config["C"], "class_weight": "balanced", "max_iter": 1000, "random_state": RANDOM_STATE},
+        "train": {"size": len(train), "macro_f1": ev.train_macro_f1},
+        "validation": ev.to_dict(),
         "test_protected": {"size": len(test)},
-        "gap_macro_f1": round(gap, 4),
-        "gap_within_threshold": gap < 0.05,
-        "weak_classes": val_weak,
-        "per_class_metrics": val_per_class,
+        "weak_classes": ev.weak_classes,
+        "per_class_metrics": ev.per_class_metrics,
         "class_distribution": {
             row["product_canonical"]: row["len"]
             for row in (
@@ -202,21 +147,15 @@ def train_pipeline(args: argparse.Namespace) -> None:
 
     if args.evaluate_test:
         print("\n--- Test (protected) Metrics [ONE-SHOT] ---")
-        X_test = vectorizer.transform(test_texts)
+        X_test = vc.transform(test_texts)
         test_pred = model.predict(X_test)
-        test_metrics, test_per_class, test_weak = evaluate_and_report(
-            test_labels, test_pred
-        )
-        report_data["test"] = test_metrics
-        report_data["test_per_class_metrics"] = test_per_class
-        report_data["test_weak_classes"] = test_weak
+        tev = evaluate(test_labels, test_pred, CLASSES)
+        report_data["test"] = tev.to_dict()
+        report_data["test_per_class_metrics"] = tev.per_class_metrics
+        report_data["test_weak_classes"] = tev.weak_classes
+        print(f"Test macro F1: {tev.macro_f1:.4f}  accuracy: {tev.accuracy:.4f}")
 
-        print(f"\nTest  macro F1: {test_metrics['macro_f1']:.4f}")
-        print(f"Test  accuracy: {test_metrics['accuracy']:.4f}")
-
-    report_path.parent.mkdir(parents=True, exist_ok=True)
-    with open(report_path, "w", encoding="utf-8") as f:
-        json.dump(report_data, f, indent=2, ensure_ascii=False)
+    save_report_json(report_data, report_path)
     print(f"\nReport saved to {report_path}")
 
 
@@ -228,7 +167,7 @@ def evaluate_test(args: argparse.Namespace) -> None:
 
     print(f"Loading model from {model_path}...")
     artifact = joblib.load(model_path)
-    vectorizer = artifact["vectorizer"]
+    vc = artifact["vectorizer"]
     model = artifact["model"]
 
     print(f"Loading data from {input_path}...")
@@ -238,34 +177,21 @@ def evaluate_test(args: argparse.Namespace) -> None:
     test_labels = test["product_canonical"].to_list()
     print(f"Test size: {len(test):,}")
 
-    print("Vectorizing test...")
-    X_test = vectorizer.transform(test_texts)
-
-    print("\n--- Test (protected) Metrics [ONE-SHOT] ---")
+    X_test = vc.transform(test_texts)
     test_pred = model.predict(X_test)
-    test_metrics, test_per_class, test_weak = evaluate_and_report(
-        test_labels, test_pred
-    )
-
-    print(f"\nTest  macro F1: {test_metrics['macro_f1']:.4f}")
-    print(f"Test  accuracy: {test_metrics['accuracy']:.4f}")
+    tev = evaluate(test_labels, test_pred, CLASSES)
+    print(f"Test macro F1: {tev.macro_f1:.4f}  accuracy: {tev.accuracy:.4f}")
 
     if report_path.exists():
         with open(report_path) as f:
             report_data = json.load(f)
     else:
-        print(f"Report not found at {report_path}, creating new one")
         report_data = {}
 
-    report_data["test"] = test_metrics
-    report_data["test_per_class_metrics"] = test_per_class
-    report_data["test_weak_classes"] = test_weak
-    report_data["evaluated_on_test"] = True
-
-    report_path.parent.mkdir(parents=True, exist_ok=True)
-    with open(report_path, "w", encoding="utf-8") as f:
-        json.dump(report_data, f, indent=2, ensure_ascii=False)
-    print(f"Report updated at {report_path}")
+    report_data["test"] = tev.to_dict()
+    report_data["test_per_class_metrics"] = tev.per_class_metrics
+    report_data["test_weak_classes"] = tev.weak_classes
+    save_report_json(report_data, report_path)
 
 
 def main() -> None:
