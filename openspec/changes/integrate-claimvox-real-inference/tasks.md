@@ -72,6 +72,9 @@
   `10` ahead), has no existing Pull Request, and contains the OpenSpec change,
   focused tests and `claimvox_local_inference_smoke.md`. Jira remains in its
   current operational state until the human-reviewed Pull Request is merged.
-- [ ] 4.2 [Coordination] Prepare the Pull Request toward `dev` with explicit
+- [x] 4.2 [Coordination] Prepare the Pull Request toward `dev` with explicit
   limits, security review, verification output, and rollback note; do not merge
-  or archive without human approval.
+  or archive without human approval. Evidence:
+  `exports/pr-bodies/integrate-claimvox-real-inference.md` is prepared from the
+  repository template. The harness can then generate the final PR context; human
+  approval remains required for push, PR creation, merge and archive.
