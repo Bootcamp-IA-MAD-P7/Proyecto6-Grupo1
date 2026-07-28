@@ -37,16 +37,16 @@ Las capas superiores pueden investigarse en paralelo, pero no deben retrasar ni 
 
 | ID | Criterio obligatorio | Estado | Área | Evidencia mínima para verificar |
 |---|---|---|---|---|
-| `ESS-01` | Modelo de clasificación funcional con tres o más clases | `En curso` | Datos / ML | Pipeline reproducible, artefacto versionado y predicciones válidas sobre las once clases contratadas |
+| `ESS-01` | Modelo de clasificación funcional con tres o más clases | `Verificado` | Datos / ML | Baseline local reproducible, artefacto ignorado con manifiesto y predicciones válidas sobre las once clases; `reports/validation/cfpb_essential_evaluation.md` |
 | `ESS-02` | EDA orientado a clasificación multiclase | `Verificado` | Datos / EDA | `notebooks/01_eda.py`, `reports/validation/cfpb_eda.md`, cuatro figuras agregadas y continuidad trazada con la política de preparación; la correlación numérica no aplica a la entrada textual y al target categórico |
 | `ESS-03` | Overfitting inferior al 5 % | `Verificado` | Datos / ML | Macro F1 train/validation y gap `0.0482` documentados en `reports/validation/cfpb_baseline.md` |
 | `ESS-04` | Aplicación que productiviza el modelo | `Verificado` | Frontend / backend | ClaimVox envía solo la narrativa al servicio local configurado, valida la respuesta contractual, maneja errores de forma segura y mantiene revisión humana. Evidencia: `reports/validation/claimvox_local_inference_smoke.md` y PR `#40` fusionada |
 | `ESS-05` | Accuracy global | `Verificado` | Datos / ML | Accuracy en validation (`0.8484`) y test protegido (`0.8230`) con configuración y particiones registradas |
 | `ESS-06` | Precision, recall y F1 por clase | `Verificado` | Datos / ML | Métricas por las once clases y agregados macro/weighted en los JSON de `reports/validation/cfpb_baseline_*` |
-| `ESS-07` | Matriz de confusión | `En curso` | Datos / ML | Figuras generadas para RF y XGB (sample 50K); pendiente sobre split completo |
-| `ESS-08` | Feature importance | `En curso` | Datos / ML | Figuras generadas para RF y XGB (sample 50K); pendiente sobre split completo |
-| `ESS-09` | Análisis de errores | `No iniciado` | Datos / ML / producto | Patrones de falsos positivos y negativos por clase, casos límite sanitizados y acciones propuestas |
-| `ESS-10` | Informe técnico y guía de ejecución | `No iniciado` | Equipo | Informe coherente con métricas, decisiones, limitaciones y pasos reproducibles |
+| `ESS-07` | Matriz de confusión | `Verificado` | Datos / ML | Matriz normalizada sobre validation completo en `reports/validation/figures/cfpb_baseline_validation_confusion_matrix.png` |
+| `ESS-08` | Feature importance | `Verificado` | Datos / ML | Coeficientes TF-IDF agregados y limitaciones en `reports/validation/cfpb_essential_evaluation.md` |
+| `ESS-09` | Análisis de errores | `Verificado` | Datos / ML / producto | Clases débiles, confusiones agregadas y acciones de revisión humana en `reports/validation/cfpb_essential_evaluation.md` |
+| `ESS-10` | Informe técnico y guía de ejecución | `Verificado` | Equipo | Informe de evaluación y `docs/project_management/essential_delivery_guide.md` |
 
 ### Puerta esencial
 
@@ -110,7 +110,7 @@ Cada criterio verificado debe registrar:
 
 | Nivel | Resultado |
 |---|---|---|
-| Esencial | `5 de 10 verificados`: `ESS-02`, `ESS-03`, `ESS-04`, `ESS-05` y `ESS-06`; `ESS-01`, `ESS-07` y `ESS-08` en curso; `ESS-09` y `ESS-10` pendientes |
+| Esencial | `10 de 10 verificados`: evidencia enlazada para `ESS-01` a `ESS-10`; la ejecución sigue siendo local y no acredita despliegue |
 | Medio | `1 de 5 verificado` (`MED-01`); `1 en curso` (`MED-03`); resto pendiente |
 | Avanzado | `No iniciado` |
 | Experto | `No iniciado` |
