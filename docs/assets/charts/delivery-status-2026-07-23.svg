@@ -1,6 +1,6 @@
 <svg xmlns="http://www.w3.org/2000/svg" width="1200" height="470" viewBox="0 0 1200 470" role="img" aria-labelledby="title desc">
   <title id="title">Estado de los veinticinco criterios del briefing</title>
-  <desc id="desc">Cuatro criterios verificados, uno en curso y veinte no iniciados, distribuidos entre los niveles esencial, medio, avanzado y experto.</desc>
+  <desc id="desc">Once criterios verificados, dos en curso y doce no iniciados, distribuidos entre los niveles esencial, medio, avanzado y experto.</desc>
   <defs>
     <style>
       .bg{fill:#f7f5ef}.title{font:700 28px system-ui,sans-serif;fill:#173f4f}.copy{font:400 15px system-ui,sans-serif;fill:#4b585e}
@@ -10,18 +10,18 @@
   </defs>
   <rect class="bg" width="1200" height="470" rx="24"/>
   <text class="title" x="70" y="68">Briefing convertido en 25 puertas verificables</text>
-  <text class="copy" x="70" y="98">El color nunca sustituye al estado escrito · Fuente: delivery_levels.md · 27 jul 2026</text>
+  <text class="copy" x="70" y="98">El color nunca sustituye al estado escrito · Fuente: delivery_levels.md · 28 jul 2026</text>
 
   <text class="label" x="70" y="168">Esencial</text>
-  <rect class="done" x="240" y="143" width="329" height="38" rx="6"/>
-  <rect class="doing" x="571" y="143" width="82" height="38" rx="6"/>
-  <rect class="not" x="655" y="143" width="407" height="38" rx="6"/>
-  <text class="count" x="1080" y="169">4 / 10</text>
-  <text class="copy" x="240" y="204">4 verificados · 1 en curso · 5 no iniciados</text>
+  <rect class="done" x="240" y="143" width="822" height="38" rx="6"/>
+  <text class="count" x="1080" y="169">10 / 10</text>
+  <text class="copy" x="240" y="204">10 verificados</text>
 
   <text class="label" x="70" y="254">Medio</text>
-  <rect class="not" x="240" y="229" width="822" height="38" rx="6"/>
-  <text class="count" x="1080" y="255">0 / 5</text>
+  <rect class="done" x="240" y="229" width="164" height="38" rx="6"/>
+  <rect class="doing" x="406" y="229" width="164" height="38" rx="6"/>
+  <rect class="not" x="572" y="229" width="490" height="38" rx="6"/>
+  <text class="count" x="1080" y="255">1 / 5</text>
 
   <text class="label" x="70" y="326">Avanzado</text>
   <rect class="not" x="240" y="301" width="822" height="38" rx="6"/>
@@ -32,9 +32,9 @@
   <text class="count" x="1080" y="399">0 / 4</text>
 
   <rect class="done" x="70" y="435" width="18" height="18" rx="3"/>
-  <text class="copy" x="98" y="449">Verificado 4</text>
+  <text class="copy" x="98" y="449">Verificado 11</text>
   <rect class="doing" x="245" y="435" width="18" height="18" rx="3"/>
-  <text class="copy" x="273" y="449">En curso 1</text>
+  <text class="copy" x="273" y="449">En curso 2</text>
   <rect class="not" x="410" y="435" width="18" height="18" rx="3"/>
-  <text class="copy" x="438" y="449">No iniciado 20</text>
+  <text class="copy" x="438" y="449">No iniciado 12</text>
 </svg>

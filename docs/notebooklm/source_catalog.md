@@ -37,7 +37,7 @@ Este catálogo indica qué documentos pueden alimentar una presentación y con q
 | `docs/notebooklm/business_narrative.md` | Historia para audiencia no técnica | Cuando se defina el negocio | Equipo | Activa con límites explícitos |
 | `docs/notebooklm/technical_status.md` | Estado técnico consolidado | Diaria o por PR | Miguel / equipo | Activa |
 | `docs/assets/diagrams/readme-project-overview.svg` | Flujo de valor y límites del producto | Cuando cambie el flujo | Arquitectura / producto | Activa visual |
-| `docs/assets/charts/delivery-status-2026-07-27.svg` | Estado de las 25 puertas del briefing | Cuando cambie un criterio | Miguel / QA | Activa visual |
+| `docs/assets/charts/delivery-status-2026-07-23.svg` | Estado de las 25 puertas del briefing | Cuando cambie un criterio | Miguel / QA | Activa visual |
 | `reports/metrics/` | Evidencia cuantitativa | Por experimento | ML/QA | Pendiente |
 | `reports/figures/` | Gráficos finales | Por experimento | ML/Docs | Activa técnica |
 | `notebooks/01_eda.py` | EDA reproducible del CFPB | Por cambio de datos | Víctor / Datos | Activa técnica |
@@ -50,6 +50,8 @@ Este catálogo indica qué documentos pueden alimentar una presentación y con q
 | `reports/validation/cfpb_training_preparation_manifest.json` | Huellas, recuentos por clase y límites temporales de la preparación | Por preparación del baseline | Datos / ML | Activa técnica |
 | `reports/validation/cfpb_baseline.md` | Configuración y métricas agregadas del baseline, incluyendo validation y test protegido | Tras cambio de baseline | Datos / ML | Activa técnica |
 | `reports/validation/cfpb_baseline_metrics.json` | Métricas agregadas y por clase del baseline, sin narrativas | Tras cambio de baseline | Datos / ML | Activa técnica |
+| `reports/validation/cfpb_essential_evaluation.md` | Evaluación final agregada sobre validation: matriz de confusión, importancia, errores, límites y artefacto local | Tras evaluación esencial | Datos / ML | Activa técnica |
+| `docs/project_management/essential_delivery_guide.md` | Guía reproducible del recorrido local entre artefacto, FastAPI y ClaimVox | Tras cambio del flujo esencial | Equipo | Activa técnica |
 | `reports/validation/backend_foundation_real_smoke.md` | Evidencia agregada de entrenamiento local reproducible y smoke del servicio FastAPI; no acredita despliegue ni integración PWA | Por cambio de backend o artefacto | Backend / ML | Activa técnica |
 | `reports/validation/claimvox_local_inference_smoke.md` | Evidencia agregada de la integración local PWA→API con entrada sintética, contrato, CORS y revisión humana; no acredita despliegue | Por cambio de integración | Frontend / backend | Activa técnica |
 | `reports/validation/med_01_comparison.md` | Comparación agregada del baseline con RF, XGBoost y LightGBM; no selecciona un modelo definitivo | Tras comparación ensemble | Víctor / Datos | Activa técnica |
