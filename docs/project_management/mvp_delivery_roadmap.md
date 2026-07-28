@@ -14,7 +14,7 @@ pasar a `Listo`.
 ## Propuesta de estructura Jira
 
 El Epic **PG-9 — Evolución gobernada de ClaimVox después del MVP esencial** ya
-está creado en Jira. `PG-10` está en `En curso`; las demás historias empiezan
+está creado en Jira. `PG-10` está en `Listo`; las demás historias empiezan
 en `Por hacer`. Su estado operativo no sustituye la evidencia del repositorio.
 
 | Orden | Historia propuesta | Criterios del briefing | Dependencia de inicio | Evidencia mínima de cierre | Responsable inicial |
@@ -38,7 +38,6 @@ seguridad y despliegue.
 
 ## Siguiente acción humana
 
-La estructura Jira está creada y sus ocho dependencias se han enlazado. El
-siguiente paso es cerrar `PG-10` mediante la PR de este cambio y crear el tag
-anotado desde `dev`; después podrá iniciarse `PG-11` con un cambio OpenSpec
-nuevo.
+La estructura Jira está creada y sus ocho dependencias se han enlazado. `PG-10`
+está cerrado con la PR `#44` y el tag anotado `v0.1.0-essential-mvp`; el siguiente
+trabajo de producto es `PG-11`, mediante un cambio OpenSpec nuevo.
