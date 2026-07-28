@@ -12,9 +12,11 @@
   safe status mapping, and malformed response rejection. Evidence:
   `prediction-api-config.test.ts` covers explicit local configuration and
   `http-prediction-transport.test.ts` covers the contract transport boundary.
-- [ ] 1.3 [Frontend] Preserve mock as the default when the API URL is absent and
+- [x] 1.3 [Frontend] Preserve mock as the default when the API URL is absent and
   keep the browser away from CSV files, model artifacts, and local storage.
   Verification: component/client tests distinguish mock and configured modes.
+  Evidence: `configured-prediction-client.test.ts` confirms absent configuration
+  keeps the contract-valid mock client and does not issue a network request.
 
 ## 2. ClaimVox user flow
 
