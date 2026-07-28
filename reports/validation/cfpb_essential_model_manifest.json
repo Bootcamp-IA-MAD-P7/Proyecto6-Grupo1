@@ -1,0 +1,22 @@
+{
+  "artifact_path": "models\\cfpb_essential_baseline.pkl",
+  "artifact_sha256": "0644a317a62f4a4dfba60e00caf64c8349460c963a14b7d9deed0f7b35b86dc7",
+  "model": "LogisticRegression",
+  "random_state": 42,
+  "classes": [
+    "Checking or savings account",
+    "Credit card",
+    "Credit reporting or other personal consumer reports",
+    "Debt collection",
+    "Debt or credit management",
+    "Money transfer, virtual currency, or money service",
+    "Mortgage",
+    "Payday loan, title loan, personal loan, or advance loan",
+    "Prepaid card",
+    "Student loan",
+    "Vehicle loan or lease"
+  ],
+  "validation_path": "data\\processed\\cfpb_baseline_en\\validation.parquet",
+  "validation_size": 294161,
+  "test_partition_used": false
+}

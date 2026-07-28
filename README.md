@@ -192,20 +192,20 @@ Detalle: [blueprint arquitectónico](docs/architecture/system_blueprint.md).
 
 ![Estado de los veinticinco criterios del briefing](docs/assets/charts/delivery-status-2026-07-27.svg)
 
-### Nivel esencial — 5 de 10 verificados
+### Nivel esencial — 10 de 10 verificados
 
 | ID | Criterio | Estado | Evidencia necesaria |
 |---|---|---|---|
-| ESS‑01 | Modelo multiclase funcional | `En curso` | Pipeline, artefacto y predicciones válidas |
+| ESS‑01 | Modelo multiclase funcional | `Verificado` | Baseline local reconstruible, manifiesto y predicciones válidas sobre once clases |
 | ESS‑02 | EDA orientado a clasificación | `Verificado` | Script, informe, cuatro figuras agregadas, visualizaciones pertinentes y continuidad con la política de datos |
 | ESS‑03 | Overfitting inferior al 5 % | `Verificado` | Macro F1 train/validation y gap `0.0482` en el informe del baseline |
 | ESS‑04 | Aplicación que productiviza el modelo | `Verificado` | ClaimVox usa inferencia local real bajo configuración explícita, con errores seguros y revisión humana; no acredita despliegue |
 | ESS‑05 | Accuracy global | `Verificado` | Validation `0.8484` y test protegido `0.8230` |
 | ESS‑06 | Precision, recall y F1 por clase | `Verificado` | Once clases, agregados macro/weighted y JSON versionados |
-| ESS‑07 | Matriz de confusión | `En curso` | Figuras generadas para RF y XGB (sample 50K); pendiente sobre split completo |
-| ESS‑08 | Feature importance | `En curso` | Figuras generadas para RF y XGB (sample 50K); pendiente sobre split completo |
-| ESS‑09 | Análisis de errores | No iniciado | Patrones por clase y acciones |
-| ESS‑10 | Informe técnico y guía | No iniciado | Métricas, decisiones, límites y ejecución |
+| ESS‑07 | Matriz de confusión | `Verificado` | Matriz normalizada sobre validation completo |
+| ESS‑08 | Feature importance | `Verificado` | Coeficientes TF-IDF agregados y limitaciones documentadas |
+| ESS‑09 | Análisis de errores | `Verificado` | Clases débiles, confusiones agregadas y acciones de revisión humana |
+| ESS‑10 | Informe técnico y guía | `Verificado` | Informe de evaluación y guía reproducible de ejecución local |
 
 ### Nivel medio — 1 de 5 verificados
 

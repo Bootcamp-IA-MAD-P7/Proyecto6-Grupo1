@@ -4,6 +4,7 @@
 
 ### Added
 
+- `PG-7`: evaluación esencial reconstruible del baseline sobre las particiones locales actuales, sin cargar test protegido: macro F1 validation `0.6390`, accuracy `0.8684` y gap train-validation `0.0078`. Añade matriz de confusión, importancia TF-IDF, análisis agregado de errores, manifiesto local e informe/guía de entrega.
 - `PG-6`: integración local explícita entre ClaimVox y `POST /api/v1/predictions`, con transporte TypeScript validado, CORS local de mínimo privilegio, estados de recuperación seguros y smoke end-to-end con entrada sintética. El mock sigue siendo el valor por defecto.
 
 - MED-01: Módulo reutilizable `src/ml/` con vectorizador, evaluación, modelos (RF, XGBoost), tuning con Optuna y visualización.

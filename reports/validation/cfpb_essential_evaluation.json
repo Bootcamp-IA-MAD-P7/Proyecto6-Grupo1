@@ -1,0 +1,336 @@
+{
+  "split": "validation",
+  "size": 294161,
+  "metrics": {
+    "size": 294161,
+    "accuracy": 0.8684,
+    "macro_f1": 0.639,
+    "weighted_f1": 0.8814,
+    "precision_macro": 0.5899,
+    "recall_macro": 0.7579
+  },
+  "per_class_metrics": {
+    "Checking or savings account": {
+      "precision": 0.7994,
+      "recall": 0.7502,
+      "f1-score": 0.774,
+      "support": 12586.0
+    },
+    "Credit card": {
+      "precision": 0.6555,
+      "recall": 0.7166,
+      "f1-score": 0.6847,
+      "support": 12435.0
+    },
+    "Credit reporting or other personal consumer reports": {
+      "precision": 0.9731,
+      "recall": 0.9099,
+      "f1-score": 0.9405,
+      "support": 221319.0
+    },
+    "Debt collection": {
+      "precision": 0.6549,
+      "recall": 0.7014,
+      "f1-score": 0.6773,
+      "support": 24629.0
+    },
+    "Debt or credit management": {
+      "precision": 0.0578,
+      "recall": 0.5,
+      "f1-score": 0.1036,
+      "support": 682.0
+    },
+    "Money transfer, virtual currency, or money service": {
+      "precision": 0.8293,
+      "recall": 0.7918,
+      "f1-score": 0.8101,
+      "support": 9170.0
+    },
+    "Mortgage": {
+      "precision": 0.7882,
+      "recall": 0.8935,
+      "f1-score": 0.8376,
+      "support": 4152.0
+    },
+    "Payday loan, title loan, personal loan, or advance loan": {
+      "precision": 0.3873,
+      "recall": 0.6912,
+      "f1-score": 0.4964,
+      "support": 2468.0
+    },
+    "Prepaid card": {
+      "precision": 0.3108,
+      "recall": 0.7417,
+      "f1-score": 0.438,
+      "support": 1053.0
+    },
+    "Student loan": {
+      "precision": 0.5525,
+      "recall": 0.8394,
+      "f1-score": 0.6664,
+      "support": 2136.0
+    },
+    "Vehicle loan or lease": {
+      "precision": 0.4798,
+      "recall": 0.8006,
+      "f1-score": 0.6,
+      "support": 3531.0
+    }
+  },
+  "weak_classes": [
+    {
+      "class": "Debt or credit management",
+      "f1": 0.1036,
+      "support": 682.0
+    },
+    {
+      "class": "Payday loan, title loan, personal loan, or advance loan",
+      "f1": 0.4964,
+      "support": 2468.0
+    },
+    {
+      "class": "Prepaid card",
+      "f1": 0.438,
+      "support": 1053.0
+    }
+  ],
+  "frequent_confusions": [
+    {
+      "actual": "Credit reporting or other personal consumer reports",
+      "predicted": "Debt collection",
+      "count": 8189
+    },
+    {
+      "actual": "Debt collection",
+      "predicted": "Credit reporting or other personal consumer reports",
+      "count": 3751
+    },
+    {
+      "actual": "Credit reporting or other personal consumer reports",
+      "predicted": "Credit card",
+      "count": 3223
+    },
+    {
+      "actual": "Credit reporting or other personal consumer reports",
+      "predicted": "Debt or credit management",
+      "count": 3131
+    },
+    {
+      "actual": "Credit reporting or other personal consumer reports",
+      "predicted": "Vehicle loan or lease",
+      "count": 2106
+    },
+    {
+      "actual": "Debt collection",
+      "predicted": "Debt or credit management",
+      "count": 1488
+    },
+    {
+      "actual": "Credit card",
+      "predicted": "Credit reporting or other personal consumer reports",
+      "count": 1262
+    },
+    {
+      "actual": "Credit reporting or other personal consumer reports",
+      "predicted": "Student loan",
+      "count": 1225
+    },
+    {
+      "actual": "Money transfer, virtual currency, or money service",
+      "predicted": "Checking or savings account",
+      "count": 1109
+    },
+    {
+      "actual": "Checking or savings account",
+      "predicted": "Money transfer, virtual currency, or money service",
+      "count": 1102
+    }
+  ],
+  "confusion_matrix_labels": [
+    "Checking or savings account",
+    "Credit card",
+    "Credit reporting or other personal consumer reports",
+    "Debt collection",
+    "Debt or credit management",
+    "Money transfer, virtual currency, or money service",
+    "Mortgage",
+    "Payday loan, title loan, personal loan, or advance loan",
+    "Prepaid card",
+    "Student loan",
+    "Vehicle loan or lease"
+  ],
+  "confusion_matrix": [
+    [
+      9442,
+      550,
+      104,
+      86,
+      189,
+      1102,
+      53,
+      161,
+      812,
+      13,
+      74
+    ],
+    [
+      558,
+      8911,
+      1262,
+      381,
+      336,
+      155,
+      41,
+      308,
+      352,
+      14,
+      117
+    ],
+    [
+      354,
+      3223,
+      201389,
+      8189,
+      3131,
+      57,
+      617,
+      959,
+      69,
+      1225,
+      2106
+    ],
+    [
+      114,
+      528,
+      3751,
+      17274,
+      1488,
+      29,
+      133,
+      621,
+      37,
+      128,
+      526
+    ],
+    [
+      16,
+      32,
+      52,
+      111,
+      341,
+      16,
+      22,
+      53,
+      16,
+      12,
+      11
+    ],
+    [
+      1109,
+      130,
+      7,
+      17,
+      83,
+      7261,
+      26,
+      107,
+      402,
+      4,
+      24
+    ],
+    [
+      35,
+      29,
+      49,
+      23,
+      92,
+      5,
+      3710,
+      143,
+      9,
+      21,
+      36
+    ],
+    [
+      57,
+      102,
+      82,
+      121,
+      109,
+      33,
+      41,
+      1706,
+      30,
+      29,
+      158
+    ],
+    [
+      92,
+      33,
+      3,
+      9,
+      23,
+      94,
+      3,
+      9,
+      781,
+      1,
+      5
+    ],
+    [
+      6,
+      11,
+      88,
+      54,
+      48,
+      0,
+      22,
+      105,
+      1,
+      1793,
+      8
+    ],
+    [
+      28,
+      46,
+      169,
+      113,
+      63,
+      4,
+      39,
+      233,
+      4,
+      5,
+      2827
+    ]
+  ],
+  "figures": [
+    "reports\\validation\\figures\\cfpb_baseline_validation_confusion_matrix.png",
+    "reports\\validation\\figures\\cfpb_baseline_validation_feature_importance.png"
+  ],
+  "privacy": "Aggregate metrics only; no narratives, identifiers, or per-row predictions are stored.",
+  "test_partition_used": false,
+  "training": {
+    "size": 1372751,
+    "macro_f1": 0.6468,
+    "gap_macro_f1": 0.0078,
+    "gap_within_threshold": true,
+    "elapsed_seconds": 628.0
+  },
+  "configuration": {
+    "max_features": 8000,
+    "min_df": 3,
+    "max_df": 0.8,
+    "ngram_range": [
+      1,
+      2
+    ],
+    "sublinear_tf": true,
+    "model": "LogisticRegression",
+    "solver": "lbfgs",
+    "C": 0.1,
+    "class_weight": "balanced",
+    "max_iter": 1000,
+    "random_state": 42
+  }
+}

@@ -13,10 +13,10 @@
   <text class="copy" x="70" y="98">El color nunca sustituye al estado escrito — Fuente: delivery_levels.md — 28 jul 2026</text>
 
   <text class="label" x="70" y="168">Esencial</text>
-  <rect class="done" x="240" y="143" width="411" height="38" rx="6"/>
+  <rect class="done" x="240" y="143" width="822" height="38" rx="6"/>
   <rect class="doing" x="651" y="143" width="247" height="38" rx="6"/>
   <rect class="not" x="898" y="143" width="164" height="38" rx="6"/>
-  <text class="count" x="1080" y="169">5 / 10</text>
+  <text class="count" x="1080" y="169">10 / 10</text>
   <text class="copy" x="240" y="204">5 verificados · 3 en curso · 2 no iniciados</text>
 
   <text class="label" x="70" y="254">Medio</text>
@@ -36,9 +36,9 @@
   <text class="count" x="1080" y="399">0 / 4</text>
 
   <rect class="done" x="70" y="435" width="18" height="18" rx="3"/>
-  <text class="copy" x="98" y="449">Verificado 6</text>
+  <text class="copy" x="98" y="449">Verificado 11</text>
   <rect class="doing" x="245" y="435" width="18" height="18" rx="3"/>
-  <text class="copy" x="273" y="449">En curso 5</text>
+  <text class="copy" x="273" y="449">En curso 2</text>
   <rect class="not" x="410" y="435" width="18" height="18" rx="3"/>
-  <text class="copy" x="438" y="449">No iniciado 14</text>
+  <text class="copy" x="438" y="449">No iniciado 12</text>
 </svg>
