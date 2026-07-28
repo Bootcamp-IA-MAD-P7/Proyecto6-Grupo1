@@ -54,5 +54,7 @@ que permite decidir el siguiente paso con evidencia.
 - `README.md`: recorrido, arquitectura y límites.
 - `reports/validation/cfpb_essential_evaluation.md`: métricas y diagnósticos.
 - `reports/validation/claimvox_local_inference_smoke.md`: integración local.
-- `docs/assets/charts/delivery-status-2026-07-23.svg`: estado del briefing.
+- `docs/assets/charts/delivery-status-2026-07-28.svg`: resumen visual del estado
+  del briefing; `docs/project_management/delivery_levels.md` es la fuente
+  canónica.
 - `docs/security/threat_model.md`: límites y riesgos.

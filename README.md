@@ -268,7 +268,11 @@ Detalle: [blueprint arquitectónico](docs/architecture/system_blueprint.md).
 
 ## Estado frente al briefing
 
-![Estado de los veinticinco criterios del briefing](docs/assets/charts/delivery-status-2026-07-23.svg)
+![Estado de los veinticinco criterios del briefing](docs/assets/charts/delivery-status-2026-07-28.svg)
+
+Estado canónico: [niveles y evidencias](docs/project_management/delivery_levels.md).
+Las dailies, informes puntuales, expedientes numerados y cambios OpenSpec
+archivados conservan el contexto de su fecha; no sustituyen este estado vigente.
 
 ### Nivel esencial — 10 de 10 verificados
 

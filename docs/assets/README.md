@@ -14,6 +14,6 @@ No se utilizarán recursos visuales genéricos de IA.
 | Recurso | Propósito | Fuente | Fecha |
 |---|---|---|---|
 | `diagrams/readme-project-overview.svg` | Explicar el flujo de valor y distinguir lo previsto | Contratos y narrativa del repositorio | 2026-07-23 |
-| `charts/delivery-status-2026-07-27.svg` | Resumir el estado de los 25 criterios | `docs/project_management/delivery_levels.md` | 2026-07-28 |
+| `charts/delivery-status-2026-07-28.svg` | Resumir el estado de los 25 criterios | `docs/project_management/delivery_levels.md` | 2026-07-28 |
 
 La paleta utilizada es documental y funcional; no constituye todavía la identidad visual de la aplicación. Ambos SVG incluyen título y descripción accesibles y no utilizan iconografía genérica de IA.

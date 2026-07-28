@@ -37,7 +37,7 @@ Este catálogo indica qué documentos pueden alimentar una presentación y con q
 | `docs/notebooklm/business_narrative.md` | Historia para audiencia no técnica | Cuando se defina el negocio | Equipo | Activa con límites explícitos |
 | `docs/notebooklm/technical_status.md` | Estado técnico consolidado | Diaria o por PR | Miguel / equipo | Activa |
 | `docs/assets/diagrams/readme-project-overview.svg` | Flujo de valor y límites del producto | Cuando cambie el flujo | Arquitectura / producto | Activa visual |
-| `docs/assets/charts/delivery-status-2026-07-23.svg` | Estado de las 25 puertas del briefing | Cuando cambie un criterio | Miguel / QA | Activa visual |
+| `docs/assets/charts/delivery-status-2026-07-28.svg` | Resumen visual de las 25 puertas; su estado canónico está en `delivery_levels.md` | Cuando cambie un criterio | Miguel / QA | Activa visual |
 | `reports/metrics/` | Evidencia cuantitativa | Por experimento | ML/QA | Pendiente |
 | `reports/figures/` | Gráficos finales | Por experimento | ML/Docs | Activa técnica |
 | `notebooks/01_eda.py` | EDA reproducible del CFPB | Por cambio de datos | Víctor / Datos | Activa técnica |
@@ -65,6 +65,11 @@ Este catálogo indica qué documentos pueden alimentar una presentación y con q
 ## Regla editorial
 
 Una fuente marcada como pendiente o propuesta no puede utilizarse para afirmar que una capacidad ya existe.
+
+Para el estado vigente de entrega prevalece
+`docs/project_management/delivery_levels.md`. Las dailies, informes puntuales,
+expedientes numerados y cambios OpenSpec archivados se conservan como evidencia
+histórica de su fecha y no deben reinterpretarse como estado actual.
 
 ## Selección según audiencia
 

@@ -25,8 +25,10 @@
   <text class="copy" x="240" y="290">1 verificado · 1 en curso · 3 no iniciados</text>
 
   <text class="label" x="70" y="326">Avanzado</text>
-  <rect class="not" x="240" y="301" width="822" height="38" rx="6"/>
+  <rect class="doing" x="240" y="301" width="137" height="38" rx="6"/>
+  <rect class="not" x="379" y="301" width="683" height="38" rx="6"/>
   <text class="count" x="1080" y="327">0 / 6</text>
+  <text class="copy" x="240" y="362">1 en curso Â· 5 no iniciados</text>
 
   <text class="label" x="70" y="398">Experto</text>
   <rect class="not" x="240" y="373" width="822" height="38" rx="6"/>
