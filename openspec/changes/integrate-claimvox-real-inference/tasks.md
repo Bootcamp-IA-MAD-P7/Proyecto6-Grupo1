@@ -54,10 +54,13 @@
   it. Evidence: `reports/validation/claimvox_local_inference_smoke.md` records
   successful live local service, CORS, configured frontend-module checks, and
   human visual confirmation of the advisory result and review state.
-- [ ] 3.3 [Documentation] Update only documents whose meaning changes: frontend
+- [x] 3.3 [Documentation] Update only documents whose meaning changes: frontend
   and API guides, README, delivery levels, daily, changelog, NotebookLM sources,
   and evidence. Preserve the distinction between local integration and deployed
-  product.
+  product. Evidence: `README.md`, both component guides,
+  `docs/project_management/delivery_levels.md`, daily, changelog and NotebookLM
+  sources identify `ESS-04` as locally verified and explicitly exclude
+  deployment, authentication, persistence and automatic routing.
 
 ## 4. Review and closure
 

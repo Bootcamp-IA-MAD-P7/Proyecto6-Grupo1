@@ -124,13 +124,16 @@ The predictor interface allows swapping implementations without changing routes:
 ## Limitations
 
 - No authentication or authorization
-- No CORS headers (must be configured before frontend integration)
+- Local CORS is opt-in through `APP_CORS_ALLOWED_ORIGINS`; it accepts only
+  explicitly configured local origins, never wildcards or credentials
 - No rate limiting
 - No persistence or feedback collection
 - Model artifact is gitignored and must exist locally to serve real predictions
 - No formal model versioning/registry (artifact identified by config params)
-- No ClaimVox-to-API integration yet; the PWA continues to show an explicit mock
-  response until `PG-6` supplies the end-to-end integration evidence.
+- ClaimVox can use this service locally when both origins are explicitly
+  configured. The end-to-end evidence is
+  [`claimvox_local_inference_smoke.md`](../../reports/validation/claimvox_local_inference_smoke.md);
+  this is not a deployed public API.
 
 ## Related documents
 

@@ -1,6 +1,6 @@
 <svg xmlns="http://www.w3.org/2000/svg" width="1200" height="470" viewBox="0 0 1200 470" role="img" aria-labelledby="title desc">
   <title id="title">Estado de los veinticinco criterios del briefing</title>
-  <desc id="desc">Cinco criterios verificados, seis en curso y catorce no iniciados, distribuidos entre los niveles esencial, medio, avanzado y experto.</desc>
+  <desc id="desc">Seis criterios verificados, cinco en curso y catorce no iniciados, distribuidos entre los niveles esencial, medio, avanzado y experto.</desc>
   <defs>
     <style>
       .bg{fill:#f7f5ef}.title{font:700 28px system-ui,sans-serif;fill:#173f4f}.copy{font:400 15px system-ui,sans-serif;fill:#4b585e}
@@ -13,11 +13,11 @@
   <text class="copy" x="70" y="98">El color nunca sustituye al estado escrito — Fuente: delivery_levels.md — 28 jul 2026</text>
 
   <text class="label" x="70" y="168">Esencial</text>
-  <rect class="done" x="240" y="143" width="327" height="38" rx="6"/>
-  <rect class="doing" x="567" y="143" width="329" height="38" rx="6"/>
-  <rect class="not" x="896" y="143" width="166" height="38" rx="6"/>
-  <text class="count" x="1080" y="169">4 / 10</text>
-  <text class="copy" x="240" y="204">4 verificados · 4 en curso · 2 no iniciados</text>
+  <rect class="done" x="240" y="143" width="411" height="38" rx="6"/>
+  <rect class="doing" x="651" y="143" width="247" height="38" rx="6"/>
+  <rect class="not" x="898" y="143" width="164" height="38" rx="6"/>
+  <text class="count" x="1080" y="169">5 / 10</text>
+  <text class="copy" x="240" y="204">5 verificados · 3 en curso · 2 no iniciados</text>
 
   <text class="label" x="70" y="254">Medio</text>
   <rect class="done" x="240" y="229" width="164" height="38" rx="6"/>
@@ -36,9 +36,9 @@
   <text class="count" x="1080" y="399">0 / 4</text>
 
   <rect class="done" x="70" y="435" width="18" height="18" rx="3"/>
-  <text class="copy" x="98" y="449">Verificado 5</text>
+  <text class="copy" x="98" y="449">Verificado 6</text>
   <rect class="doing" x="245" y="435" width="18" height="18" rx="3"/>
-  <text class="copy" x="273" y="449">En curso 6</text>
+  <text class="copy" x="273" y="449">En curso 5</text>
   <rect class="not" x="410" y="435" width="18" height="18" rx="3"/>
   <text class="copy" x="438" y="449">No iniciado 14</text>
 </svg>
