@@ -6,10 +6,12 @@
   unconfigured origins. Evidence: `tests/contract/test_backend_cors.py` verifies
   default denial, an explicitly allowed local origin, no credentials header, and
   rejection of wildcard or non-local configuration.
-- [ ] 1.2 [Frontend] Add an explicit `VITE_PREDICTION_API_BASE_URL` configuration
+- [x] 1.2 [Frontend] Add an explicit `VITE_PREDICTION_API_BASE_URL` configuration
   boundary and a typed HTTP transport for the existing prediction contract.
   Verification: unit tests cover URL construction, JSON request shape, timeout,
-  safe status mapping, and malformed response rejection.
+  safe status mapping, and malformed response rejection. Evidence:
+  `prediction-api-config.test.ts` covers explicit local configuration and
+  `http-prediction-transport.test.ts` covers the contract transport boundary.
 - [ ] 1.3 [Frontend] Preserve mock as the default when the API URL is absent and
   keep the browser away from CSV files, model artifacts, and local storage.
   Verification: component/client tests distinguish mock and configured modes.
