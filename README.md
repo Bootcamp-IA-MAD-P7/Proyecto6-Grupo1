@@ -16,6 +16,50 @@
 
 ![Visión del sistema de apoyo al enrutamiento](docs/assets/diagrams/readme-project-overview.svg)
 
+## Prueba ClaimVox en 5 minutos
+
+### 1. Abre la demostración segura
+
+```bash
+git clone https://github.com/Bootcamp-IA-MAD-P7/Proyecto6-Grupo1.git
+cd Proyecto6-Grupo1/app/interface
+npm ci
+npm run dev
+```
+
+Abre la dirección indicada, pulsa **Use a synthetic example** y después
+**Classify complaint**. Sin una API configurada, la interfaz identifica el
+resultado claramente como *mock*. Es el modo seguro para revisar la experiencia
+sin datos locales, artefactos ni narrativas reales.
+
+### 2. Qué se está demostrando
+
+El recorrido muestra texto sintético → recomendación multiclase → revisión
+humana. ClaimVox no enruta automáticamente, no toma decisiones financieras y
+no lee el CSV de CFPB desde el navegador.
+
+### 3. Inferencia local real —opcional
+
+La inferencia real necesita particiones locales aprobadas, que no se versionan
+en Git. La [guía de entrega esencial](docs/project_management/essential_delivery_guide.md)
+explica cómo reconstruir el artefacto, iniciar FastAPI y configurar
+`VITE_PREDICTION_API_BASE_URL`. El flujo PWA → API ya está comprobado en el
+[smoke local](reports/validation/claimvox_local_inference_smoke.md).
+
+## Evaluación ejecutiva
+
+| Pregunta | Respuesta verificable |
+|---|---|
+| Problema | Primera orientación para revisar reclamaciones financieras escritas. |
+| Entrada | Solo `complaint_what_happened`; no se usan campos que revelan la clase. |
+| Salida | Una de once clases canónicas, alternativas y revisión humana obligatoria. |
+| Estado esencial | `10 de 10` criterios verificados para ejecución local. |
+| Corte verificable | Tag anotado [`v0.1.0-essential-mvp`](https://github.com/Bootcamp-IA-MAD-P7/Proyecto6-Grupo1/tree/v0.1.0-essential-mvp). |
+| Fuera de alcance | Despliegue, cuentas reales, base de datos, feedback persistente, Docker, cloud y MLOps. |
+
+> El tag representa un corte local, revisable y no desplegado. El detalle de
+> los criterios y sus fuentes está en los [niveles de entrega](docs/project_management/delivery_levels.md).
+
 ## El MVP en un vistazo
 
 | Dimensión | Estado verificable |
@@ -54,6 +98,20 @@ el [smoke end-to-end](reports/validation/claimvox_local_inference_smoke.md).
 ### Qué no debe afirmarse
 
 No hay despliegue público, autenticación real, base de datos, feedback persistente, analítica de usuarios, monitorización de producción, Docker, cloud ni MLOps. El artefacto vive localmente y la aplicación no lee el CSV del CFPB.
+
+### Evidencia esencial destacada
+
+| Evidencia | Resultado | Fuente canónica |
+|---|---:|---|
+| Modelo funcional | Once clases y artefacto local reproducible | [evaluación esencial](reports/validation/cfpb_essential_evaluation.md) |
+| Overfitting | Gap macro F1 train/validation `0.0078` (`< 0.05`) | [evaluación esencial](reports/validation/cfpb_essential_evaluation.md) |
+| Accuracy | Validation `0.8684`; test protegido histórico `0.8230` | [niveles de entrega](docs/project_management/delivery_levels.md) |
+| Métricas multiclase | Precision, recall y F1 por clase, macro y weighted | [métricas baseline](reports/validation/cfpb_baseline_metrics.json) |
+| Diagnóstico | Matriz, importancia TF-IDF y análisis de errores | [evaluación esencial](reports/validation/cfpb_essential_evaluation.md) |
+| Aplicación | PWA → API local, contrato y revisión humana | [smoke de integración](reports/validation/claimvox_local_inference_smoke.md) |
+
+Las métricas de test se conservan como evaluación histórica protegida: no se
+reutilizan para seleccionar, ajustar ni diagnosticar el modelo actual.
 
 ## El problema
 
@@ -188,6 +246,14 @@ La PWA, la API local, el servicio, el adaptador de predictor y el baseline son
 capacidades construidas y verificadas para ejecución local. Feedback, registro,
 monitorización, autenticación, persistencia y despliegue siguen siendo
 arquitectura prevista; el diagrama no acredita esas capacidades futuras.
+
+| Construido ahora | Evolución gobernada después del MVP |
+|---|---|
+| PWA ClaimVox, FastAPI local, predictor intercambiable, baseline reproducible, contrato de once clases y revisión humana | Feedback con privacidad aprobada, base de datos, Docker, cloud, monitorización y promoción de modelos |
+
+La separación de capas evita rehacer la aplicación: el frontend solo conoce el
+contrato, la API delega en un predictor y el entrenamiento permanece fuera de
+la inferencia. Véase el [blueprint arquitectónico](docs/architecture/system_blueprint.md).
 
 Principios:
 
@@ -342,7 +408,7 @@ Fuentes principales:
 Generación local:
 
 ```bash
-python scripts/documentation/build_notebooklm_pack.py --date 2026-07-24
+python scripts/documentation/build_notebooklm_pack.py --date 2026-07-28
 ```
 
 Antes de subir un paquete a NotebookLM se excluyen secretos, datos brutos, narrativas reales y fuentes internas que desordenen el relato de cliente.
@@ -359,11 +425,11 @@ Antes de subir un paquete a NotebookLM se excluyen secretos, datos brutos, narra
 
 ## Próximos hitos
 
-1. Mantener el test protegido y cerrar la procedencia/versionado formal del artefacto antes de seleccionar un Champion.
-2. Completar matriz de confusión, importancia de variables, análisis de errores e informe técnico del nivel esencial.
-3. Comparar candidatos posteriores con el baseline sin utilizar el test protegido para seleccionarlos.
-4. Definir autenticación, despliegue y operación solo mediante cambios específicos posteriores.
-5. Proteger primero el nivel esencial; investigar niveles superiores sin desestabilizarlo.
+1. Ejecutar [PG-11](https://miguel-redondo.atlassian.net/browse/PG-11): validación cruzada estratificada y optimización sin utilizar el test protegido para seleccionar.
+2. Ejecutar [PG-12](https://miguel-redondo.atlassian.net/browse/PG-12): quality gates de integridad, modelo y métricas en CI.
+3. Diseñar [PG-13](https://miguel-redondo.atlassian.net/browse/PG-13) y [PG-14](https://miguel-redondo.atlassian.net/browse/PG-14): feedback y persistencia solo con finalidad, retención y privacidad aprobadas.
+4. Abordar [PG-15](https://miguel-redondo.atlassian.net/browse/PG-15): Docker y despliegue reproducible después de estabilizar controles y persistencia.
+5. Consultar la [hoja de ruta posterior](docs/project_management/mvp_delivery_roadmap.md) para dependencias, responsables y evidencia mínima.
 
 ## Referencias
 
