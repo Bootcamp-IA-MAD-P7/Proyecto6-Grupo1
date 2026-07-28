@@ -68,3 +68,10 @@ El reporte SHALL identificar las clases con F1 por debajo de un umbral configura
 #### Scenario: Identificación de clases débiles
 - **WHEN** el reporte se genera
 - **THEN** lista las clases cuyo F1 < 0.5 junto con su soporte (número de muestras en validation)
+
+### Requirement: Evidencia final de diagnóstico del baseline
+El baseline elegible SHALL poder generar desde train y validation completo una matriz de confusión, importancia por coeficientes y análisis agregado de errores, manteniendo el test protegido fuera del diagnóstico.
+
+#### Scenario: Ejecución final sin test
+- **WHEN** se ejecuta el comando de evaluación final con la configuración congelada
+- **THEN** genera artefacto local, manifiesto, figuras y reportes agregados sin cargar la partición test

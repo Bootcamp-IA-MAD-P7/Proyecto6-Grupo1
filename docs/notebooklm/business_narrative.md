@@ -22,7 +22,7 @@ Ofrecer una primera categoría de producto, alternativas y un nivel de confianza
 
 ## Cómo ayuda la predicción multiclase
 
-Cada narrativa se asignaría a una única familia de producto entre tres o más categorías significativas. Una regla separada y configurable traduciría esa categoría a una cola operativa.
+El baseline local ya evaluado propone una única familia de producto entre once categorías canónicas y muestra alternativas para facilitar la revisión. Una regla separada y configurable traduciría esa categoría a una cola operativa; esa regla no toma decisiones autónomas.
 
 ## Flujo de uso
 

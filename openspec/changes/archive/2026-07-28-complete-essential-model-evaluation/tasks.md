@@ -22,4 +22,4 @@
 
 - [x] 4.1 [QA] Ejecutar tests unitarios relevantes, comprobaciones del repositorio, validación OpenSpec estricta y comprobaciones de privacidad. Verificación: 19 tests unitarios/contrato, quality gate, diff y validación estricta superados el 28 de julio de 2026.
 - [x] 4.2 [Coordinación] Revisar humanamente figuras, informe y límites; actualizar PG-7 solo tras enlazar evidencias reales. Evidencia: revisión humana confirmada el 28 de julio de 2026; PG-7 queda preparada para cierre con la futura PR.
-- [ ] 4.3 [Coordinación] Preparar la Pull Request hacia `dev` con resultados, riesgos, reversión y criterios ESS realmente cerrados; no fusionar ni archivar sin revisión humana.
+- [x] 4.3 [Coordinación] Preparar la Pull Request hacia `dev` con resultados, riesgos, reversión y criterios ESS realmente cerrados; no fusionar ni archivar sin revisión humana. Evidencia: PR #42 fusionada tras revisión humana y quality gate correcto; Jira `PG-7` actualizado a `Listo`.

@@ -9,7 +9,7 @@
   <img alt="OpenSpec 1.6.0" src="https://img.shields.io/badge/OpenSpec-1.6.0-173F4F">
   <img alt="Python 3.12" src="https://img.shields.io/badge/Python-3.12-52755B">
   <img alt="Estado: baseline evaluado" src="https://img.shields.io/badge/estado-baseline%20evaluado-52755B">
-  <img alt="Entrega verificada: 6 de 25" src="https://img.shields.io/badge/criterios%20verificados-6%2F25-52755B">
+  <img alt="Entrega verificada: 11 de 25" src="https://img.shields.io/badge/criterios%20verificados-11%2F25-52755B">
 </p>
 
 > Una herramienta de apoyo para proponer la categoría y el circuito inicial de una reclamación financiera escrita. La propuesta siempre debe poder ser revisada por una persona.
