@@ -75,7 +75,7 @@ Durante la implementación se añadió LightGBM (GPU) como extensión sobre el a
 | LightGBM | 0.6175 | 0.8956 | 0.9017 | 0.9650 | 0.3067 ❌ |
 
 **XGBoost obtiene el mejor macro F1 de validación de la comparación** (0.6332), superando al baseline LR (0.5973) sobre la muestra de 50K. No queda seleccionado como modelo definitivo: su gap supera el 5 % y requiere evaluación posterior bajo MED-03.
-**LightGBM** (GPU) queda como referencia con defaults y sin tuning.
+**LightGBM** queda como referencia con defaults y sin tuning. Esta ejecución histórica usó GPU; desde la corrección de portabilidad, CPU es el valor predeterminado y GPU solo se activa de forma explícita en un entorno compatible.
 Todos los ensemble presentan overfitting >5%, transferido a MED-03 para optimización.
 
 La optimización de hiperparámetros con Optuna se pospuso: LightGBM tuning con 500K filas abandonado tras 12/25 trials en 3+ horas (mejor trial 0.6538, marginal vs defaults 0.6404).

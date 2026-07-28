@@ -8,7 +8,7 @@ from pathlib import Path
 import polars as pl
 
 from src.ml.evaluation import evaluate
-from src.ml.models import train_lgbm, train_rf, train_xgb
+from src.ml.models import DEFAULT_LGBM_CONFIG, train_lgbm, train_rf, train_xgb
 from src.ml.vectorizer import VectorizerConfig
 
 ROOT = Path(__file__).resolve().parents[2]
@@ -38,6 +38,9 @@ def _load_fixture():
 
 
 class EnsembleModelTests(unittest.TestCase):
+    def test_lgbm_defaults_to_cpu_for_portability(self):
+        self.assertEqual(DEFAULT_LGBM_CONFIG["device"], "cpu")
+
     def test_rf_output_shape(self):
         X, labels, _df = _load_fixture()
         model = train_rf(X, labels)

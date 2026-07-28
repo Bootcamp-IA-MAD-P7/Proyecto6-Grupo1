@@ -38,3 +38,4 @@
 - [x] 7.1 [ML] Actualizar README (MED-01 → `Verificado`), CHANGELOG, delivery_levels.md, SVG chart y NotebookLM. Verificación: `python scripts/quality/check_repository.py` sin errores.
 - [x] 7.2 [ML] Ejecutar comprobaciones: `ruff check scripts/ src/ tests/`, `python -m unittest discover -s tests/unit -p "test_*.py" -v`, `python scripts/harness.py doctor`, `npm exec -- openspec validate --all --strict`. Verificación: todos pasan.
 - [x] 7.3 [ML] Preparar la Pull Request con las limitaciones explícitas y las comprobaciones ejecutadas. Evidencia: PR #36 abierta; el archivo OpenSpec queda pendiente de la fusión y de una revisión humana posterior.
+- [x] 7.4 [ML] Corregir la portabilidad de LightGBM: CPU por defecto, GPU opcional, y ejecutar las pruebas que reproducen el fallo de CI. Evidencia: `python -m unittest tests.unit.test_ensemble_models tests.integration.test_ensemble_pipeline -v` superado el 28 de julio de 2026 (20 pruebas, 0 fallos) sin OpenCL.

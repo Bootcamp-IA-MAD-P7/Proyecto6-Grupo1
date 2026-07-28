@@ -30,9 +30,9 @@ DEFAULT_LGBM_CONFIG = {
     "reg_alpha": 0.0,
     "min_data_in_leaf": 20,
     "metric": "multi_logloss",
-    "device": "gpu",
-    "gpu_platform_id": 0,
-    "gpu_device_id": 0,
+    # CPU is the portable default for local work and CI. GPU can be requested
+    # explicitly by callers that have a compatible OpenCL device.
+    "device": "cpu",
     "num_threads": 12,
     "random_state": 42,
     "verbosity": 1,
@@ -130,7 +130,7 @@ def train_lgbm(
     config: dict | None = None,
     eval_set: tuple | None = None,
 ) -> LabelEncodedModel:
-    """Train a LightGBM classifier with GPU acceleration."""
+    """Train a LightGBM classifier; CPU is the portable default."""
     import lightgbm as lgb
 
     merged = {**DEFAULT_LGBM_CONFIG, **(config or {})}

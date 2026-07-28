@@ -98,8 +98,8 @@ def main() -> None:
                         help="Use only N rows per split (for dev runs)")
     parser.add_argument("--lgbm-only", action="store_true",
                         help="Skip RF and XGBoost, only train LightGBM")
-    parser.add_argument("--lgbm-gpu", action="store_true", default=True,
-                        help="Use GPU for LightGBM (default: True)")
+    parser.add_argument("--lgbm-gpu", action="store_true",
+                        help="Use GPU for LightGBM when an OpenCL device is available")
     parser.add_argument("--no-lgbm-gpu", action="store_false", dest="lgbm_gpu",
                         help="Disable GPU for LightGBM")
     args = parser.parse_args()
@@ -218,10 +218,16 @@ def main() -> None:
         results["XGBoost"] = xgb_ev
         print(f"XGB accuracy={xgb_ev.accuracy:.4f}  precision={xgb_ev.precision_macro:.4f}  recall={xgb_ev.recall_macro:.4f}  F1={xgb_ev.macro_f1:.4f}  AUC={xgb_ev.roc_auc:.4f}  gap={xgb_ev.gap_macro_f1:.4f}")
 
-    # --- LightGBM (GPU, tuning on sample + retrain full) ---
+    # --- LightGBM (CPU by default; GPU is opt-in) ---
     lgbm_config = DEFAULT_LGBM_CONFIG.copy()
-    if not args.lgbm_gpu:
-        lgbm_config["device"] = "cpu"
+    lgbm_runtime_config = {}
+    if args.lgbm_gpu:
+        lgbm_runtime_config = {
+            "device": "gpu",
+            "gpu_platform_id": 0,
+            "gpu_device_id": 0,
+        }
+        lgbm_config.update(lgbm_runtime_config)
 
     print("\n========================================")
     print("LightGBM")
@@ -245,9 +251,18 @@ def main() -> None:
         print(f"Done in {time.time() - t0:.1f}s. Shape: {X_s_train.shape}")
 
         lgbm_trials = n_trials
-        print(f"Tuning LightGBM with {lgbm_trials} Optuna trials (GPU enabled)...")
+        device_name = "GPU" if args.lgbm_gpu else "CPU"
+        print(f"Tuning LightGBM with {lgbm_trials} Optuna trials ({device_name})...")
         t0 = time.time()
-        lgbm_tune = tune_hyperparams("lgbm", X_s_train, s_labels, X_s_val, sv_labels, n_trials=lgbm_trials)
+        lgbm_tune = tune_hyperparams(
+            "lgbm",
+            X_s_train,
+            s_labels,
+            X_s_val,
+            sv_labels,
+            n_trials=lgbm_trials,
+            runtime_config=lgbm_runtime_config,
+        )
         print(f"Tuning done in {time.time() - t0:.1f}s")
         print(f"Best params: {lgbm_tune['best_params']}")
         print(f"Best val macro F1: {lgbm_tune['best_value']:.4f}")

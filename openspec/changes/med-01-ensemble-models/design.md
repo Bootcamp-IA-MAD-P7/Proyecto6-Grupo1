@@ -50,6 +50,9 @@ Para evitar tiempos de ejecución largos (Optuna sobre 1.4M filas puede tardar h
 ### Configuración desde diccionario
 Cada clase acepta un dict de configuración (`config: dict`) en lugar de decenas de parámetros posicionales. Esto facilita serialización, logging y reproducción.
 
+### Portabilidad de LightGBM
+LightGBM usa CPU por defecto para que las pruebas y ejecuciones reproducibles funcionen en equipos locales y en CI sin OpenCL. La GPU es una aceleración opcional que solo se activa con `--lgbm-gpu` en un entorno compatible. Los resultados históricos obtenidos con GPU se conservan como evidencia de aquella ejecución; no se reinterpretan como resultados de CPU.
+
 ### Artefactos en formato joblib
 Se usa `joblib.dump` en lugar de `pickle.dump` para persistir modelos y pipelines. Joblib es más eficiente con arrays grandes de numpy/scipy y es el formato recomendado por sklearn.
 

@@ -57,7 +57,7 @@ def _objective_xgb(trial, X_train, y_train, X_val, y_val):
     return f1_score(y_val_enc, preds_enc, average="macro")
 
 
-def _objective_lgbm(trial, X_train, y_train, X_val, y_val):
+def _objective_lgbm(trial, X_train, y_train, X_val, y_val, runtime_config=None):
     import lightgbm as lgb
     from sklearn.preprocessing import LabelEncoder
 
@@ -78,13 +78,12 @@ def _objective_lgbm(trial, X_train, y_train, X_val, y_val):
         "n_estimators": trial.suggest_int("n_estimators", 100, 500, step=50),
         "objective": "multiclass",
         "metric": "multi_logloss",
-        "device": "gpu",
-        "gpu_platform_id": 0,
-        "gpu_device_id": 0,
+        "device": "cpu",
         "num_threads": 12,
         "random_state": 42,
         "verbosity": -1,
     }
+    params.update(runtime_config or {})
     model = lgb.LGBMClassifier(**params)
     model.fit(
         X_train, y_train_enc,
@@ -104,14 +103,21 @@ def tune_hyperparams(
     y_val: list[str],
     n_trials: int = 30,
     direction: str = "maximize",
+    runtime_config: dict | None = None,
 ) -> dict:
-    """Run Optuna tuning for rf, xgb, or lgbm and return best params."""
+    """Run Optuna tuning; runtime_config is used only by LightGBM."""
     _objectives = {"rf": _objective_rf, "xgb": _objective_xgb, "lgbm": _objective_lgbm}
     objective = _objectives.get(model_type, _objective_xgb)
     sampler = optuna.samplers.TPESampler(seed=42)
     study = optuna.create_study(direction=direction, sampler=sampler)
+    if model_type == "lgbm":
+        run_trial = lambda trial: objective(
+            trial, X_train, y_train, X_val, y_val, runtime_config
+        )
+    else:
+        run_trial = lambda trial: objective(trial, X_train, y_train, X_val, y_val)
     study.optimize(
-        lambda trial: objective(trial, X_train, y_train, X_val, y_val),
+        run_trial,
         n_trials=n_trials,
     )
     return {
