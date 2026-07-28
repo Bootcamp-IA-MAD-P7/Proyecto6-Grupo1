@@ -40,11 +40,12 @@ no lee el CSV de CFPB desde el navegador.
 
 ### 3. Inferencia local real —opcional
 
-La inferencia real necesita particiones locales aprobadas, que no se versionan
-en Git. La [guía de entrega esencial](docs/project_management/essential_delivery_guide.md)
-explica cómo reconstruir el artefacto, iniciar FastAPI y configurar
-`VITE_PREDICTION_API_BASE_URL`. El flujo PWA → API ya está comprobado en el
-[smoke local](reports/validation/claimvox_local_inference_smoke.md).
+La inferencia local requiere un artefacto reproducible disponible en el equipo;
+no se versionan particiones, datos ni binarios en Git. La [guía local de
+ClaimVox](docs/project_management/essential_delivery_guide.md) separa el mock
+seguro del recorrido con FastAPI, usa Git Bash y explica cómo comprobar
+`/api/v1/health`. El flujo PWA → API ya está comprobado en el [smoke
+local](reports/validation/claimvox_local_inference_smoke.md).
 
 ## Evaluación ejecutiva
 

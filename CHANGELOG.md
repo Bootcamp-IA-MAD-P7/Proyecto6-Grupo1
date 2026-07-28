@@ -4,6 +4,10 @@
 
 ### Added
 
+- Guía canónica para ejecutar ClaimVox localmente con Git Bash: diferencia mock
+  seguro e inferencia local real, comprueba `GET /api/v1/health`, declara CORS
+  local y explica una recuperación proporcional ante caché PWA anterior. No
+  añade despliegue, datos, autenticación, persistencia ni cambios de aplicación.
 - README reorganizado para evaluación: recorrido seguro de ClaimVox en cinco
   minutos, resumen ejecutivo, evidencias esenciales enlazadas, arquitectura
   actual frente a evolución prevista y hoja de ruta verificable. No modifica

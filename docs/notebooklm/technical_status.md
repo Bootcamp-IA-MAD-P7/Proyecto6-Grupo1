@@ -80,6 +80,11 @@
 
 ## Controles locales recientes
 
+- La guía canónica de ClaimVox separa la demostración mock de la inferencia
+  local real y fija los comandos Git Bash, ruta de health y límites de caché
+  PWA para revisión local. No cambia el modelo, el servicio ni el estado de
+  entrega; la evidencia está en
+  `reports/validation/claimvox_local_runbook_review.md`.
 - El cambio `mvp-readiness-and-presentation` añade límites proporcionados para
   la API local: máximo de narrativa, frecuencia efímera en memoria, cabeceras
   de respuesta y un evento técnico sin identidad ni contenido. La evidencia
