@@ -24,6 +24,13 @@ const SYNTHETIC_RESPONSE: PredictionResponse = {
   warnings: ['Synthetic fixture. This is not a model prediction.'],
 }
 
+const SYNTHETIC_REAL_RESPONSE: PredictionResponse = {
+  ...SYNTHETIC_RESPONSE,
+  confidence: 0.76,
+  model_version: 'baseline-lr-C0.1-f8000',
+  review_reasons: ['low_confidence'],
+}
+
 interface SpeechResultEvent extends Event {
   results: {
     readonly [index: number]: {
@@ -142,6 +149,28 @@ describe('ClassificationPage', () => {
     expect(screen.getByText('Not available')).toBeVisible()
     expect(screen.queryByText(/\d+%/)).not.toBeInTheDocument()
     expect(screen.queryByText('Model confidence')).not.toBeInTheDocument()
+  })
+
+  it('renders a configured service response as advisory human-review support', async () => {
+    const user = userEvent.setup()
+    const client: PredictionClient = {
+      createPrediction: vi.fn().mockResolvedValue(SYNTHETIC_REAL_RESPONSE),
+    }
+
+    renderWithRouter(<ClassificationPage predictionClient={client} />)
+
+    await user.type(screen.getByLabelText('Complaint narrative'), 'Synthetic real-service case')
+    await user.click(screen.getByRole('button', { name: 'Classify complaint' }))
+
+    expect(client.createPrediction).toHaveBeenCalledWith({
+      narrative: 'Synthetic real-service case',
+    })
+    expect(await screen.findByText('Prediction response')).toBeVisible()
+    expect(screen.getByText('Human review remains required.')).toBeVisible()
+    expect(screen.getByText('Human review required')).toBeVisible()
+    expect(screen.getByText('76%')).toBeVisible()
+    expect(screen.queryByText('Interface demonstration only.')).not.toBeInTheDocument()
+    expect(screen.getByText('Model: baseline-lr-C0.1-f8000')).toBeVisible()
   })
 
   it('announces progress and prevents duplicate submissions', async () => {

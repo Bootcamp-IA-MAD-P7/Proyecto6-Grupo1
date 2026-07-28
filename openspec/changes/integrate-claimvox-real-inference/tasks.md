@@ -20,10 +20,12 @@
 
 ## 2. ClaimVox user flow
 
-- [ ] 2.1 [Frontend] Inject the selected prediction client into the
+- [x] 2.1 [Frontend] Inject the selected prediction client into the
   classification flow and render real responses through the existing contract
   and human-review result component. Verification: tests confirm narrative-only
-  requests, canonical output, review state, and no automatic routing.
+  requests, canonical output, review state, and no automatic routing. Evidence:
+  `ClassificationPage.test.tsx` verifies a configured-service response is
+  rendered as advisory human-review support and not as a simulated result.
 - [ ] 2.2 [Frontend] Add accessible loading and recovery states for unavailable,
   rejected, timed-out, and incompatible service responses. Verification:
   keyboard and screen-reader-friendly error assertions plus responsive checks.

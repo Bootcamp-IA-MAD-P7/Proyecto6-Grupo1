@@ -3,7 +3,7 @@ import { PredictionResult } from '@/components/PredictionResult'
 import { useOnlineStatus, type ConnectivityCheck } from '@/hooks/use-online-status'
 import { useVoiceDictation } from '@/hooks/use-voice-dictation'
 import type { PredictionResponse } from '@/contracts/prediction'
-import { createMockPredictionClient } from '@/services/mock-prediction-client'
+import { createConfiguredPredictionClient } from '@/services/configured-prediction-client'
 import { PredictionClientError, type PredictionClient } from '@/services/prediction-client'
 import { Button } from '@/components/ui/button'
 import { Alert, AlertDescription } from '@/components/ui/alert'
@@ -34,7 +34,10 @@ export default function ClassificationPage({
   predictionClient,
   connectivityCheck,
 }: ClassificationPageProps) {
-  const client = useMemo(() => predictionClient ?? createMockPredictionClient(), [predictionClient])
+  const client = useMemo(
+    () => predictionClient ?? createConfiguredPredictionClient().client,
+    [predictionClient],
+  )
   const { isOnline, verifyOnline } = useOnlineStatus(connectivityCheck)
   const narrativeRef = useRef<HTMLTextAreaElement>(null)
   const errorRef = useRef<HTMLDivElement>(null)

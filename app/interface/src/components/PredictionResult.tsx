@@ -21,6 +21,7 @@ const REVIEW_REASON_LABELS: Record<ReviewReason, string> = {
 
 export function PredictionResult({ result, onReset }: PredictionResultProps) {
   const titleRef = useRef<HTMLHeadingElement>(null)
+  const isMockResult = result.model_version === 'mock-not-a-model'
 
   useEffect(() => {
     titleRef.current?.focus()
@@ -28,18 +29,28 @@ export function PredictionResult({ result, onReset }: PredictionResultProps) {
 
   return (
     <div className="space-y-6">
-      <Alert variant="warning">
-        <AlertTriangle className="h-4 w-4" />
-        <AlertDescription>
-          <strong>Interface demonstration only.</strong> This response is synthetic, has no
-          calibrated score and cannot route a complaint.
-        </AlertDescription>
-      </Alert>
+      {isMockResult ? (
+        <Alert variant="warning">
+          <AlertTriangle className="h-4 w-4" />
+          <AlertDescription>
+            <strong>Interface demonstration only.</strong> This response is synthetic, has no
+            calibrated score and cannot route a complaint.
+          </AlertDescription>
+        </Alert>
+      ) : (
+        <Alert variant="warning">
+          <AlertTriangle className="h-4 w-4" />
+          <AlertDescription>
+            <strong>Human review remains required.</strong> This response supports review and cannot
+            route a complaint or make a final decision.
+          </AlertDescription>
+        </Alert>
+      )}
 
       <div className="flex flex-col items-start gap-2 sm:flex-row sm:justify-between sm:gap-4">
         <div>
           <p className="mb-1 text-xs font-bold uppercase tracking-widest text-gold-ink">
-            Mock response
+            {isMockResult ? 'Mock response' : 'Prediction response'}
           </p>
           <h1
             ref={titleRef}
@@ -65,7 +76,9 @@ export function PredictionResult({ result, onReset }: PredictionResultProps) {
                 : `${Math.round(result.confidence * 100)}%`}
             </p>
             <p className="mt-1 text-sm text-ink-soft">
-              No percentage is available for this mock response.
+              {isMockResult
+                ? 'No percentage is available for this mock response.'
+                : 'This score supports review and is not an automatic routing decision.'}
             </p>
           </CardContent>
         </Card>
@@ -105,7 +118,9 @@ export function PredictionResult({ result, onReset }: PredictionResultProps) {
       </Card>
 
       <div className="flex flex-wrap gap-4 rounded-lg bg-sand px-4 py-3 font-mono text-xs text-ink-soft">
-        <span>Mock source: {result.model_version}</span>
+        <span>
+          {isMockResult ? 'Mock source' : 'Model'}: {result.model_version}
+        </span>
         <span>Taxonomy: {result.taxonomy_version}</span>
         <span>Reference: {result.prediction_id.slice(0, 8)}</span>
       </div>
