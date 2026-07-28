@@ -103,14 +103,22 @@ que el texto escrito.
 
 La interfaz MUST utilizar un contrato TypeScript alineado con
 `PredictionRequest` y `PredictionResponse` de `docs/api/openapi.json`,
-manteniendo el cliente de predicción separado de los componentes visuales para
-poder sustituir el mock por un servicio real.
+manteniendo el cliente de predicción separado de los componentes visuales. Con una
+URL local de API configurada explícitamente, el cliente MAY solicitar el servicio
+real; sin ella, MUST conservar el cliente mock. Ningún modo puede leer el CSV ni
+acceder a artefactos de entrenamiento desde el navegador.
 
 #### Scenario: Uso del cliente mock
 
-- **GIVEN** que no existe backend ni modelo entrenado
+- **GIVEN** que no hay una URL local de API configurada
 - **WHEN** el formulario envía una narrativa válida
 - **THEN** la interfaz invocará un cliente mock que respete el contrato TypeScript sin leer el CSV ni acceder a artefactos de entrenamiento
+
+#### Scenario: Uso del cliente de servicio local
+
+- **GIVEN** que una URL local de API está configurada explícitamente
+- **WHEN** el formulario envía una narrativa válida con conexión disponible
+- **THEN** la interfaz enviará únicamente `PredictionRequest.narrative` al endpoint versionado y validará la respuesta antes de mostrarla
 
 #### Scenario: Respuesta incompatible
 
@@ -120,7 +128,7 @@ poder sustituir el mock por un servicio real.
 
 ### Requirement: Recomendación simulada inequívoca
 
-Mientras no exista inferencia real, toda recomendación MUST identificarse de
+Cuando la interfaz use el cliente mock, toda recomendación MUST identificarse de
 forma visible y accesible como demostración o mock, y MUST NOT atribuirse a un
 modelo entrenado ni utilizar métricas, versiones o resultados reales inventados.
 
@@ -163,7 +171,7 @@ limitada y sin conexión, con una acción de recuperación cuando corresponda.
 #### Scenario: Envío en curso
 
 - **GIVEN** una narrativa válida
-- **WHEN** el cliente procesa la solicitud mock
+- **WHEN** el cliente seleccionado procesa la solicitud
 - **THEN** se anunciará el progreso y se impedirán envíos duplicados
 
 #### Scenario: Error seguro
@@ -174,7 +182,7 @@ limitada y sin conexión, con una acción de recuperación cuando corresponda.
 
 #### Scenario: Servicio no disponible
 
-- **GIVEN** una futura configuración de cliente real que no puede alcanzar el servicio
+- **GIVEN** una configuración de cliente real que no puede alcanzar el servicio
 - **WHEN** se intenta clasificar
 - **THEN** la interfaz indicará la indisponibilidad y ofrecerá reintento sin fabricar un resultado
 
@@ -263,9 +271,10 @@ revisiones de accesibilidad, responsive, offline, dictado y privacidad.
 La documentación de la capacidad `complaint-routing-interface` MUST usar la
 identidad visible integrada de la interfaz y MUST comunicar que sigue siendo un
 prototipo React PWA. La identidad visual MUST NOT alterar el contrato de
-predicción ni utilizarse para afirmar que existen modelo entrenado, inferencia,
-autenticación, administración, entrenamiento, registro de modelos o despliegue
-operativos.
+predicción ni utilizarse para afirmar que existen autenticación, administración,
+entrenamiento, registro de modelos o despliegue operativos. La inferencia local
+debe seguir identificándose como una recomendación con revisión humana, no como
+un producto desplegado.
 
 #### Scenario: Consulta del manual de frontend
 

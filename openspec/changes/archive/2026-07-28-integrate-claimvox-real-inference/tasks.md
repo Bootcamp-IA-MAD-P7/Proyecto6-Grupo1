@@ -59,19 +59,18 @@
   and evidence. Preserve the distinction between local integration and deployed
   product. Evidence: `README.md`, both component guides,
   `docs/project_management/delivery_levels.md`, daily, changelog and NotebookLM
-  sources identify the local `ESS-04` evidence as pending review and merge, and
-  explicitly exclude deployment, authentication, persistence and automatic
-  routing.
+  sources identify `ESS-04` as verified after PR `#40`, while explicitly
+  excluding deployment, authentication, persistence and automatic routing.
 
 ## 4. Review and closure
 
 - [x] 4.1 [Coordination] Reconcile `PG-6`, this change, tests, evidence, and
   Pull Request before human review. Do not mark `ESS-04` verified unless the
   full end-to-end evidence is merged and meets the delivery criterion. Evidence:
-  the branch is clean, based on current `origin/dev` (`0` commits behind and
-  `10` ahead), has no existing Pull Request, and contains the OpenSpec change,
-  focused tests and `claimvox_local_inference_smoke.md`. Jira remains in its
-  current operational state until the human-reviewed Pull Request is merged.
+  the branch was clean, based on current `origin/dev` (`0` commits behind and
+  `10` ahead), and contained the OpenSpec change, focused tests and
+  `claimvox_local_inference_smoke.md`. PR `#40` passed CI and was merged; Jira
+  `PG-6` is `Listo` and `ESS-04` is now verified for local integration only.
 - [x] 4.2 [Coordination] Prepare the Pull Request toward `dev` with explicit
   limits, security review, verification output, and rollback note; do not merge
   or archive without human approval. Evidence:

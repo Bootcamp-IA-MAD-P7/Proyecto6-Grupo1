@@ -15,7 +15,7 @@
 
 ### Changed
 
-- `PG-6` deja preparada para revisión la evidencia de `ESS-04`: la React PWA consume inferencia local real con respuesta contractual y revisión humana. No acredita autenticación, persistencia, despliegue ni una operación productiva.
+- `PG-6` y la PR #40 verifican `ESS-04`: la React PWA consume inferencia local real con respuesta contractual y revisión humana. No acredita autenticación, persistencia, despliegue ni una operación productiva.
 
 - `pyproject.toml` incluye `xgboost>=2.1.0`, `optuna>=4.0.0`, `joblib>=1.5.0`.
 - README actualizado: MED-01/MED-03 pasan a `En curso`; ESS-07/ESS-08 pasan a `En curso`.
