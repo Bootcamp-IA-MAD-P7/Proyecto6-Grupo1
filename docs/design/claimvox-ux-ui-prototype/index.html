@@ -1,0 +1,155 @@
+<!doctype html>
+<html lang="es">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta
+      name="description"
+      content="Propuesta visual aislada y no integrada para ClaimVox."
+    />
+    <title>ClaimVox · Propuesta UX/UI</title>
+    <link rel="stylesheet" href="styles.css" />
+  </head>
+  <body>
+    <a class="skip-link" href="#main-content">Saltar al contenido principal</a>
+
+    <div class="prototype-banner" role="status">
+      <strong>Propuesta visual no integrada.</strong> Esta maqueta no usa API,
+      modelo, datos reales ni almacenamiento.
+    </div>
+
+    <div class="app-shell">
+      <aside class="sidebar" aria-label="Recorrido de la propuesta">
+        <div class="brand">ClaimVox<span aria-hidden="true">.</span></div>
+        <p class="brand-caption">Orientación revisable</p>
+
+        <nav>
+          <p class="nav-label">Flujo de ejemplo</p>
+          <ol class="nav-list">
+            <li><a class="active" href="#describe"><span aria-hidden="true">01</span> Describir</a></li>
+            <li><a href="#review"><span aria-hidden="true">02</span> Revisar texto</a></li>
+            <li><a href="#guidance"><span aria-hidden="true">03</span> Orientación</a></li>
+            <li><a href="#next-step"><span aria-hidden="true">04</span> Siguiente paso</a></li>
+          </ol>
+        </nav>
+
+        <div class="sidebar-note">
+          <span class="note-icon" aria-hidden="true">✓</span>
+          <p><strong>Revisión humana</strong><br />Una sugerencia nunca decide ni enruta por sí sola.</p>
+        </div>
+      </aside>
+
+      <div class="page">
+        <header class="topbar">
+          <p><span class="status-dot" aria-hidden="true"></span> Prototipo de interfaz</p>
+          <div class="top-actions">
+            <button class="quiet-button" type="button" data-help>¿Cómo funciona?</button>
+            <span class="avatar" aria-hidden="true">CV</span>
+          </div>
+        </header>
+
+        <main id="main-content">
+          <section class="progress-card" aria-label="Progreso de orientación">
+            <ol class="progress-list">
+              <li class="current"><span>1</span><strong>Describir</strong></li>
+              <li><span>2</span><strong>Revisar</strong></li>
+              <li><span>3</span><strong>Orientación</strong></li>
+              <li><span>4</span><strong>Siguiente paso</strong></li>
+            </ol>
+          </section>
+
+          <div class="content-grid">
+            <section class="workspace" id="describe" aria-labelledby="page-title">
+              <div class="eyebrow">Paso 1 de 4 · narrativa</div>
+              <h1 id="page-title">Describe lo ocurrido</h1>
+              <p class="lead">
+                Explica el problema con tus propias palabras. No incluyas nombres,
+                direcciones, números de cuenta u otra información personal innecesaria.
+              </p>
+
+              <form id="guidance-form" novalidate>
+                <label for="narrative">Narrativa de la reclamación</label>
+                <textarea
+                  id="narrative"
+                  name="narrative"
+                  rows="10"
+                  aria-describedby="privacy-note form-status"
+                  placeholder="Describe el problema y lo que intentaste resolver…"
+                ></textarea>
+                <div class="field-meta">
+                  <span id="character-count">0 caracteres</span>
+                  <span id="privacy-note">El texto no se guarda en esta maqueta.</span>
+                </div>
+
+                <div class="form-actions">
+                  <button class="secondary-button" type="button" data-dictation>
+                    <span aria-hidden="true">◌</span> Dictado opcional
+                  </button>
+                  <button class="primary-button" type="submit">
+                    Obtener orientación <span aria-hidden="true">→</span>
+                  </button>
+                </div>
+                <p class="permission-note">
+                  El dictado depende del navegador y de sus permisos. ClaimVox no
+                  guarda audio ni transcripciones en esta propuesta.
+                </p>
+                <p id="form-status" class="sr-only" aria-live="polite"></p>
+              </form>
+
+              <section id="guidance" class="result-panel" hidden aria-labelledby="result-title">
+                <div class="result-heading">
+                  <div>
+                    <p class="eyebrow">Respuesta mock · solo demostración</p>
+                    <h2 id="result-title">Orientación para revisión</h2>
+                  </div>
+                  <span class="review-badge">Revisión humana requerida</span>
+                </div>
+                <p>
+                  Este ejemplo muestra cómo podría aparecer una sugerencia. No es una
+                  predicción, no usa un modelo y no toma una decisión final.
+                </p>
+                <button class="text-button" type="button" data-reset>Empezar otra descripción</button>
+              </section>
+            </section>
+
+            <aside class="guidance-card" id="review" aria-labelledby="review-title">
+              <div class="human-mark" aria-hidden="true">◎</div>
+              <p class="eyebrow">Principio de ClaimVox</p>
+              <h2 id="review-title">La orientación siempre requiere una persona</h2>
+              <div class="accent-line" aria-hidden="true"></div>
+              <p>
+                La herramienta puede ayudar a iniciar la revisión. La clasificación,
+                derivación y decisión final pertenecen al equipo responsable.
+              </p>
+              <ul>
+                <li><span aria-hidden="true">✓</span> No enruta automáticamente.</li>
+                <li><span aria-hidden="true">✓</span> No guarda la narrativa.</li>
+                <li><span aria-hidden="true">✓</span> Explica sus límites.</li>
+              </ul>
+            </aside>
+          </div>
+
+          <section class="tip-card" id="next-step" aria-labelledby="tip-title">
+            <span class="tip-icon" aria-hidden="true">i</span>
+            <div>
+              <h2 id="tip-title">Consejo para una revisión útil</h2>
+              <p>Describe el problema y las acciones ya intentadas, sin añadir datos personales innecesarios.</p>
+            </div>
+            <button class="quiet-button" type="button" data-tip-toggle aria-expanded="true">Ocultar consejo</button>
+          </section>
+        </main>
+      </div>
+    </div>
+
+    <dialog id="help-dialog" aria-labelledby="help-title">
+      <h2 id="help-title">Sobre esta propuesta</h2>
+      <p>
+        Esta pantalla explora jerarquía visual y mensajes de privacidad. No está
+        integrada en la PWA ni sustituye sus estados o pruebas reales.
+      </p>
+      <button class="primary-button" type="button" data-close-help>Entendido</button>
+    </dialog>
+
+    <script src="prototype.js"></script>
+  </body>
+</html>
