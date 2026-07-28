@@ -20,7 +20,10 @@ export function PWAUpdateNotification() {
   if (!showUpdate) return null
 
   return (
-    <div role="status" className="fixed bottom-4 right-4 z-50 max-w-sm rounded-xl border border-line bg-paper p-4 shadow-2xl">
+    <div
+      role="status"
+      className="fixed bottom-4 right-4 z-50 max-w-sm rounded-xl border border-line bg-paper p-4 shadow-2xl"
+    >
       <div className="flex items-center gap-3">
         <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-lg bg-forest/10">
           <RefreshCw className="h-5 w-5 text-forest animate-spin" />

@@ -4,6 +4,8 @@
 
 ### Added
 
+- `PG-6`: integración local explícita entre ClaimVox y `POST /api/v1/predictions`, con transporte TypeScript validado, CORS local de mínimo privilegio, estados de recuperación seguros y smoke end-to-end con entrada sintética. El mock sigue siendo el valor por defecto.
+
 - MED-01: Módulo reutilizable `src/ml/` con vectorizador, evaluación, modelos (RF, XGBoost), tuning con Optuna y visualización.
 - MED-01: `scripts/ml/train_ensemble.py` para entrenar, evaluar y comparar Random Forest y XGBoost, con figuras (confusión, importancia, comparativa) y reporte Markdown+JSON.
 - MED-01: `scripts/ml/train_baseline.py` refactorizado para consumir `src/ml/vectorizer` y `src/ml/evaluation`.
@@ -12,6 +14,8 @@
 - MED-01: LightGBM (GPU) añadido como extensión; XGBoost obtiene el mejor macro F1 de validación (`0.6332`) sobre muestra de 50K, sin selección definitiva por su gap superior al 5 %.
 
 ### Changed
+
+- `PG-6` deja preparada para revisión la evidencia de `ESS-04`: la React PWA consume inferencia local real con respuesta contractual y revisión humana. No acredita autenticación, persistencia, despliegue ni una operación productiva.
 
 - `pyproject.toml` incluye `xgboost>=2.1.0`, `optuna>=4.0.0`, `joblib>=1.5.0`.
 - README actualizado: MED-01/MED-03 pasan a `En curso`; ESS-07/ESS-08 pasan a `En curso`.
@@ -66,8 +70,9 @@
 - EDA reproducible de Víctor incorporado mediante la PR `#24`, con conversión
   segura a Parquet, notebook Jupytext, cuatro figuras agregadas e informe de
   clases, temporalidad, duplicados, longitud e idioma.
-- Integración frontend de Abel fusionada mediante la PR `#25`; la PWA sigue
-  usando respuestas sintéticas y no acredita inferencia real.
+- Integración frontend de Abel fusionada mediante la PR `#25`; en esa entrega la
+  PWA usaba respuestas sintéticas. La integración local posterior se registra
+  separadamente en `PG-6`.
 - Constructor local contractual para `T-005` / `PG-2`, con rutas explícitas,
   soporte seguro de ZIP, filtros, aliases, exclusiones, huella de narrativa,
   exclusión de conflictos y manifiesto agregado sin textos CFPB.
@@ -84,7 +89,7 @@
 
 ### Changed
 
-- El prototipo React PWA integrado adopta la identidad visible ClaimVox mediante la PR #28, con preferencias de tema claro, oscuro y sistema, además de mejoras visuales y de accesibilidad. Sigue siendo una demostración sin conexión al backend ni inferencia de extremo a extremo.
+- El prototipo React PWA integrado adopta la identidad visible ClaimVox mediante la PR #28, con preferencias de tema claro, oscuro y sistema, además de mejoras visuales y de accesibilidad. En esa PR permanecía desacoplado del backend; la integración local posterior se registra separadamente en `PG-6`.
 - `PG-2` queda en `Listo` y la PR #31 incorpora el baseline de `PG-3`. La evidencia del baseline habilita el trabajo de contrato/backend, pero no acredita inferencia integrada ni un producto operativo.
 - Las dailies se consolidan en un único documento canónico por fecha dentro de gestión de proyecto; NotebookLM consume esa fuente sin duplicarla.
 - El equipo activo pasa a estar formado por José, Abel, Víctor y Miguel tras la baja comunicada de Josué.

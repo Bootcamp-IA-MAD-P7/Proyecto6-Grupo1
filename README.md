@@ -28,18 +28,20 @@
 | Desbalanceo preliminar | Clase mayoritaria: 72,45 % |
 | EDA y política de datos | EDA multiclase verificado; política inicial de idioma, grupos, split y desbalanceo aplicada |
 | Modelos | Baseline LogisticRegression (gap 0.0482 ✅); RF, XGBoost y LightGBM comparados sobre una muestra de 50K. No hay modelo seleccionado para producción. |
-| Aplicación | Prototipo React PWA ClaimVox integrado mediante PR #25 y evolución visual PR #28; sin predicción real |
-| Backend e inferencia | Servicio FastAPI verificado localmente con artefacto reproducible; la PWA sigue en mock |
+| Aplicación | ClaimVox React PWA: mock seguro por defecto y predicción local real mediante configuración explícita |
+| Backend e inferencia | Servicio FastAPI y flujo PWA→API verificados localmente con un artefacto reproducible; sin despliegue |
 | Despliegue y MLOps | No iniciados |
 | Método de trabajo | OpenSpec + arnés implantados y comprobados |
 
-ClaimVox, la implementación fusionada en `dev`, permite revisar el recorrido
-previsto con contenido sintético, dictado, instalación PWA, preferencia de tema
-claro/oscuro/sistema y comportamiento offline seguro.
-Esto no acredita `ESS-04`: ClaimVox todavía no consume el servicio de inferencia
-real. Véanse el [manual del frontend](app/interface/README.md), el [manual del
-backend](app/api/README.md), su
-[informe de validación](reports/validation/frontend_foundation_integration.md).
+ClaimVox permite revisar el recorrido con contenido sintético, dictado,
+instalación PWA, preferencia de tema claro/oscuro/sistema y comportamiento
+offline seguro. Con una URL local explícita, consume la respuesta del servicio
+FastAPI y mantiene la revisión humana obligatoria; sin configuración conserva el
+mock como modo seguro. Esta evidencia local deja `ESS-04` listo para revisión y
+su verificación tras el merge, no acredita un despliegue,
+autenticación, persistencia ni operación productiva. Véanse el [manual del
+frontend](app/interface/README.md), el [manual del backend](app/api/README.md) y
+el [smoke end-to-end](reports/validation/claimvox_local_inference_smoke.md).
 
 ## El problema
 
@@ -197,7 +199,7 @@ Detalle: [blueprint arquitectónico](docs/architecture/system_blueprint.md).
 | ESS‑01 | Modelo multiclase funcional | `En curso` | Pipeline, artefacto y predicciones válidas |
 | ESS‑02 | EDA orientado a clasificación | `Verificado` | Script, informe, cuatro figuras agregadas, visualizaciones pertinentes y continuidad con la política de datos |
 | ESS‑03 | Overfitting inferior al 5 % | `Verificado` | Macro F1 train/validation y gap `0.0482` en el informe del baseline |
-| ESS‑04 | Aplicación que productiviza el modelo | `En curso` | Backend real verificado localmente; falta conectar React PWA a inferencia real |
+| ESS‑04 | Aplicación que productiviza el modelo | `En curso` | Evidencia local completa en revisión: ClaimVox usa inferencia real configurada, con errores seguros y revisión humana; falta fusionar la evidencia |
 | ESS‑05 | Accuracy global | `Verificado` | Validation `0.8484` y test protegido `0.8230` |
 | ESS‑06 | Precision, recall y F1 por clase | `Verificado` | Once clases, agregados macro/weighted y JSON versionados |
 | ESS‑07 | Matriz de confusión | `En curso` | Figuras generadas para RF y XGB (sample 50K); pendiente sobre split completo |
@@ -284,8 +286,8 @@ Las subcarpetas aparecen con su primer archivo real. No se crean árboles vacío
 
 | Persona | Área | Trabajo actual |
 |---|---|---|
-| José | Backend | `PG-5` verificado localmente; siguiente dependencia `PG-6`, integración de ClaimVox con el servicio |
-| Abel | Frontend y UX | `PG-4`, revisión de la React PWA integrada mediante OpenSpec |
+| José | Backend | `PG-5` verificado localmente; servicio usado por la integración local de `PG-6` |
+| Abel | Frontend y UX | `PG-4` integrado; ClaimVox conserva mock seguro y admite servicio local configurado en `PG-6` |
 | Víctor | Datos y EDA | `PG-2` completada; `PG-3` baseline evaluado; `MED-01` / `PG-8` comparativa ensemble verificada mediante PR #36; `MED-03` pendiente |
 | Miguel | Arquitectura y método | Integración, evidencia y gobierno Jira–OpenSpec–arnés |
 
@@ -326,9 +328,9 @@ Antes de subir un paquete a NotebookLM se excluyen secretos, datos brutos, narra
 ## Próximos hitos
 
 1. Mantener el test protegido y cerrar la procedencia/versionado formal del artefacto antes de seleccionar un Champion.
-2. Conectar ClaimVox al servicio backend local, con errores y revisión humana, sin presentar el prototipo actual como un producto desplegado.
-3. Completar matriz de confusión, importancia de variables, análisis de errores e informe técnico del nivel esencial.
-4. Comparar candidatos posteriores con el baseline sin utilizar el test protegido para seleccionarlos.
+2. Completar matriz de confusión, importancia de variables, análisis de errores e informe técnico del nivel esencial.
+3. Comparar candidatos posteriores con el baseline sin utilizar el test protegido para seleccionarlos.
+4. Definir autenticación, despliegue y operación solo mediante cambios específicos posteriores.
 5. Proteger primero el nivel esencial; investigar niveles superiores sin desestabilizarlo.
 
 ## Referencias

@@ -5,10 +5,11 @@
 - Fase: preparación de datos cerrada y baseline reproducible evaluado, con OpenSpec + Harness Engineering operativos.
 - Idea de negocio: clasificación y enrutamiento de reclamaciones financieras, elegida por unanimidad con condiciones.
 - Dataset: Consumer Complaint Database del CFPB viable con condiciones; target y reglas de EDA versionados.
-- Producto demostrable: prototipo React PWA ClaimVox integrado mediante las PR
-  #25 y #28, con respuestas sintéticas y preferencias de tema. Existe un
-  servicio FastAPI verificado localmente contra un artefacto reproducible, pero
-  la PWA todavía no lo consume y no hay servicio desplegado.
+- Producto demostrable: ClaimVox React PWA integrado mediante las PR #25 y #28,
+  con tema configurable y mock seguro por defecto. Una URL local explícita
+  habilita la respuesta contractual del servicio FastAPI contra un artefacto
+  reproducible; la evidencia conserva revisión humana y no hay servicio
+  desplegado.
 - Despliegue: no iniciado.
 - Seguimiento: Jira `PG` operativo para responsables, estados y bloqueos; `PG-1`
   agrupa el nivel esencial sin sustituir requisitos ni evidencias versionadas.
@@ -30,9 +31,9 @@
 - El EDA de Víctor está incorporado mediante la PR #24 con evidencia agregada sobre clases, tiempo, ausencias, duplicados, longitud e idioma. `T-006` aplica para el baseline inicial una política de inglés, grupos completos, split temporal y pesos balanceados; no autoriza conclusiones de modelo.
 - El constructor contractual de `T-005` se ha ejecutado sobre una instantánea local actual del CFPB. La preparación posterior de `T-006` obtuvo 1.961.073 filas en inglés y particiones locales de 1.372.751/294.161/294.161 para train/validation/test, sin leakage de grupos y con 100 filas mínimas por clase en validation y test. El informe EDA previo usa otra instantánea; ambos resultados siguen trazados por huella y no se mezclan.
 - React PWA confirmada como dirección frontend inicial; el prototipo de `PG-4`
-  ya permite recorrer la captura, respuesta sintética y revisión humana. El
-  backend local de `PG-5` está verificado; quedan pendientes la integración
-  con la PWA, la inferencia de extremo a extremo y la evolución nativa.
+  permite recorrer la captura, respuesta sintética y revisión humana. `PG-6`
+  incorpora una ruta local configurada de PWA a API, con respuesta contractual,
+  recuperación segura y revisión humana. La evolución nativa sigue pendiente.
 - Spec `003-complaint-routing-experience` aporta la arquitectura de información
   y el OpenAPI `0.1.0` contract-only; el frontend implementa su lado del
   contrato mediante un cliente TypeScript y un mock explícito.
@@ -58,8 +59,8 @@
 - El arnés consulta validación, estado, instrucciones y tareas de OpenSpec; conserva el modo numerado solo para el EDA y frontend ya asignados.
 - El quality gate incorpora instalación reproducible, auditoría npm, diagnóstico y validación estricta de OpenSpec.
 - Responsabilidades principales confirmadas: Miguel en arquitectura y arnés, José en backend, Abel en frontend/UX y Víctor en datos y EDA.
-- `PG-2` / `001/T-004` a `T-006` tienen evidencia documental y de preparación completada. El cierre documental del EDA confirma `ESS-02`: script reproducible, informe agregado, cuatro figuras y justificación de visualizaciones para texto, sin narrativas. La PR #31 completa la primera evaluación del baseline de `PG-3`: macro F1 validation `0.5973`, gap train/validation `0.0482`, accuracy validation `0.8484` y una evaluación de test protegido. `ESS-02`, `ESS-03`, `ESS-05` y `ESS-06` tienen evidencia mínima; `ESS-04` está en curso porque `PG-5` ya verifica API y predictor local, sin conexión desde ClaimVox.
-- `PG-5` dispone de FastAPI, validación contractual, predictor real con fallback mock y una comprobación local contra un artefacto reproducido con las particiones aprobadas. La evidencia cubre health, predicción, clases canónicas, confianza numérica y ausencia de eco de la narrativa, pero no acredita despliegue ni integración de producto.
+- `PG-2` / `001/T-004` a `T-006` tienen evidencia documental y de preparación completada. El cierre documental del EDA confirma `ESS-02`: script reproducible, informe agregado, cuatro figuras y justificación de visualizaciones para texto, sin narrativas. La PR #31 completa la primera evaluación del baseline de `PG-3`: macro F1 validation `0.5973`, gap train/validation `0.0482`, accuracy validation `0.8484` y una evaluación de test protegido. `ESS-02`, `ESS-03`, `ESS-05` y `ESS-06` tienen evidencia mínima; `ESS-04` dispone de smoke local completo de `PG-6`, pendiente de revisión y merge, no de despliegue.
+- `PG-5` dispone de FastAPI, validación contractual, predictor real con fallback mock y una comprobación local contra un artefacto reproducido con las particiones aprobadas. `PG-6` conecta ClaimVox bajo una URL local explícita, valida la respuesta, aplica CORS local restringido y mantiene revisión humana. Ninguna de estas evidencias acredita autenticación, persistencia, despliegue ni producto operativo.
 - La comparación ensemble de `MED-01` incorpora Random Forest, XGBoost y LightGBM sobre una muestra de 50K con las mismas métricas que el baseline. XGBoost obtiene el mejor macro F1 de validation (`0.6332`), pero sus gaps superiores al 5 % impiden elegirlo como modelo definitivo; la selección y optimización posterior pertenecen a `MED-03`.
 - Workflow `repository-quality` ejecutado correctamente y asociado automáticamente a las Pull Requests `#14` y `#15`.
 - La PR `#17` se integró en `dev` y verificó en Linux las suites Python, convenciones, whitespace, auditoría npm, diagnóstico y validación estricta de OpenSpec; la ejecución `30000072621` finalizó correctamente.
@@ -80,7 +81,6 @@
 
 - Selección y gobierno de un Champion. Existe un baseline reproducible y un
   servicio local capaz de cargarlo, pero no un modelo aprobado para producción.
-- Conexión de la React PWA con backend e inferencia multiclase reales.
 - Persistencia y feedback.
 - Docker y despliegue.
 - CI/CD completo.

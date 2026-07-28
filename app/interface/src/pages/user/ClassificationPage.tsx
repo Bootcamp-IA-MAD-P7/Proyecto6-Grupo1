@@ -3,7 +3,7 @@ import { PredictionResult } from '@/components/PredictionResult'
 import { useOnlineStatus, type ConnectivityCheck } from '@/hooks/use-online-status'
 import { useVoiceDictation } from '@/hooks/use-voice-dictation'
 import type { PredictionResponse } from '@/contracts/prediction'
-import { createMockPredictionClient } from '@/services/mock-prediction-client'
+import { createConfiguredPredictionClient } from '@/services/configured-prediction-client'
 import { PredictionClientError, type PredictionClient } from '@/services/prediction-client'
 import { Button } from '@/components/ui/button'
 import { Alert, AlertDescription } from '@/components/ui/alert'
@@ -23,18 +23,24 @@ const safeErrorMessage = (error: unknown) => {
     if (error.code === 'rate_limited') {
       return 'Too many requests. Wait a moment before trying again.'
     }
-    if (error.code === 'validation_error') {
+    if (error.code === 'bad_request' || error.code === 'validation_error') {
       return 'The service could not validate this narrative. Review the text and try again.'
     }
+    if (error.code === 'invalid_response') {
+      return 'The prediction response could not be safely validated. No recommendation was shown.'
+    }
   }
-  return 'The simulated prediction service is unavailable. Your narrative was not stored.'
+  return 'The prediction service is unavailable. Your narrative was not stored.'
 }
 
 export default function ClassificationPage({
   predictionClient,
   connectivityCheck,
 }: ClassificationPageProps) {
-  const client = useMemo(() => predictionClient ?? createMockPredictionClient(), [predictionClient])
+  const client = useMemo(
+    () => predictionClient ?? createConfiguredPredictionClient().client,
+    [predictionClient],
+  )
   const { isOnline, verifyOnline } = useOnlineStatus(connectivityCheck)
   const narrativeRef = useRef<HTMLTextAreaElement>(null)
   const errorRef = useRef<HTMLDivElement>(null)
@@ -233,7 +239,7 @@ export default function ClassificationPage({
         </div>
         {isSubmitting && (
           <p role="status" aria-live="polite" className="sr-only">
-            Creating a simulated result. Please wait.
+            Creating a recommendation. Please wait.
           </p>
         )}
       </form>

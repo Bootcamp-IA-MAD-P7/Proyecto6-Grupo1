@@ -21,7 +21,9 @@ function getStoredTheme(): Theme {
   try {
     const stored = localStorage.getItem(STORAGE_KEY)
     if (stored === 'dark' || stored === 'light' || stored === 'system') return stored
-  } catch {}
+  } catch {
+    // Storage can be unavailable in privacy-restricted browser contexts.
+  }
   return 'system'
 }
 
@@ -48,7 +50,9 @@ export function ThemeProvider({ children }: { children: ReactNode }) {
       setThemeState(newTheme)
       try {
         localStorage.setItem(STORAGE_KEY, newTheme)
-      } catch {}
+      } catch {
+        // A local visual preference is optional and must not block the interface.
+      }
       applyTheme(resolveTheme(newTheme))
     },
     [applyTheme],
@@ -68,10 +72,14 @@ export function ThemeProvider({ children }: { children: ReactNode }) {
   }, [theme, applyTheme])
 
   return (
-    <ThemeContext.Provider value={{ theme, resolvedTheme, setTheme }}>{children}</ThemeContext.Provider>
+    <ThemeContext.Provider value={{ theme, resolvedTheme, setTheme }}>
+      {children}
+    </ThemeContext.Provider>
   )
 }
 
+// The hook intentionally shares the provider context from this module.
+// eslint-disable-next-line react-refresh/only-export-components
 export function useTheme(): ThemeContextValue {
   const context = useContext(ThemeContext)
   if (!context) {

@@ -1,8 +1,8 @@
 # Narrativa de negocio
 
-> Narrativa basada en evidencia vigente. Existe un prototipo de interfaz para
-> revisar el recorrido y un baseline evaluado fuera de la aplicación, pero no
-> un producto operativo ni predicción integrada.
+> Narrativa basada en evidencia vigente. ClaimVox puede demostrar localmente el
+> recorrido completo entre interfaz, servicio y baseline, pero no existe un
+> producto desplegado ni una decisión automática.
 
 ## Situación actual
 
@@ -38,8 +38,8 @@ El impacto esperado es reducir esfuerzo de clasificación y hacer más consisten
 
 ## Mensaje de cierre
 
-El equipo ha elegido esta dirección por unanimidad y ya puede demostrar el
-recorrido mediante ClaimVox, una interfaz con respuestas sintéticas. También
-dispone de una primera evaluación reproducible de un baseline fuera de la
-aplicación. No se afirmará que existe predicción real hasta disponer de una
-integración verificada entre interfaz, servicio y artefacto de modelo.
+El equipo ha elegido esta dirección por unanimidad y ya puede demostrar
+localmente el recorrido entre ClaimVox, un servicio y un baseline reproducible,
+manteniendo siempre la revisión humana. El mock sigue disponible para demos sin
+servicio. No se afirmará que existe un producto desplegado, una decisión
+automática ni una operación productiva.

@@ -14,9 +14,7 @@ export default function AuthLayout({ children }: AuthLayoutProps) {
       <div className="w-full max-w-md">
         <div className="mb-8 text-center">
           <h1 className="text-2xl font-semibold tracking-tight text-ink">ClaimVox</h1>
-          <p className="mt-1 text-sm text-ink-soft">
-            Authentication concept demo
-          </p>
+          <p className="mt-1 text-sm text-ink-soft">Authentication concept demo</p>
         </div>
         {children}
       </div>

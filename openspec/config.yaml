@@ -3,7 +3,10 @@ schema: spec-driven
 context: |
   Project: CFPB financial complaint multiclass classification and routing support.
   Repository language: documentation is primarily Spanish; code identifiers follow each area standard.
-  Product status: discovery and EDA are active. No trained model, real inference service, deployed application, database, or MLOps capability exists yet.
+  Product status: EDA and a reproducible baseline are evaluated. A local FastAPI
+  inference service and an opt-in local ClaimVox integration exist with
+  human-review safeguards. No deployment, database, authentication, persistence
+  or MLOps capability exists yet.
   Product direction: eleven canonical CFPB product classes, narrative-only candidate input, React PWA, human review, and no automatic operational routing in the first version.
 
   Read before creating or applying artifacts:

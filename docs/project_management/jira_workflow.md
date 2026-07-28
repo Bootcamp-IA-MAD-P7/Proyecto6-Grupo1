@@ -20,15 +20,16 @@ pero no necesita conectarse a Atlassian.
 | Jira | Responsable funcional | Resultado | Fuente de requisitos | Estado inicial |
 |---|---|---|---|---|
 | `PG-2` | Víctor | EDA y decisiones de datos | `specs/001-cfpb-target-contract/`, `T-004` a `T-006` | Listo; preparación cerrada |
-| `PG-3` | Víctor | Baseline multiclase | Cambio OpenSpec por crear | Pendiente de inicio; `PG-2` ya no lo bloquea |
+| `PG-3` | Víctor | Baseline multiclase | `cfpb-baseline` | Baseline evaluado y evidenciado; seguimiento de selección posterior en `MED-03` |
 | `PG-4` | Abel | React PWA ClaimVox | `specs/003-complaint-routing-experience/`, `T-006` | Integrado mediante PR #25 y evolución visual PR #28 |
-| `PG-5` | José | Backend de inferencia | `specs/003-complaint-routing-experience/`, `T-007` | Bloqueada por `PG-3` |
-| `PG-6` | Equipo | Integración de extremo a extremo | Cambio OpenSpec por crear | Bloqueada por `PG-3`, `PG-4` y `PG-5` |
-| `PG-7` | Equipo | Métricas e informe técnico | Cambio OpenSpec por crear | Bloqueada por `PG-3` y `PG-6` |
+| `PG-5` | José | Backend de inferencia | `backend-foundation` | Integrado y verificado localmente |
+| `PG-6` | Equipo | Integración de extremo a extremo | `integrate-claimvox-real-inference` | Implementación y evidencia local listas para revisión humana |
+| `PG-7` | Equipo | Métricas e informe técnico | Cambio OpenSpec por crear | Dependencia técnica de `PG-6` satisfecha; pendiente de iniciar |
 
-Jira confirma el cierre de `PG-2`, la responsabilidad de Víctor sobre `PG-3`
-y la integración de `PG-4` de Abel. La cuenta de José y los responsables de
-`PG-6` y `PG-7` siguen sin confirmarse; no deben asignarse por suposición.
+La referencia versionada confirma el cierre de `PG-2`, la evaluación del
+baseline de `PG-3`, la integración de `PG-4`, el backend local de `PG-5` y la
+evidencia pendiente de revisión de `PG-6`. Jira conserva el estado operativo;
+no debe cerrarse ningún ticket antes de la revisión humana y la Pull Request.
 
 ## Qué se escribe en cada lugar
 

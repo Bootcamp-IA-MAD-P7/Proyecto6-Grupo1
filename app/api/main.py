@@ -7,8 +7,9 @@ from contextlib import asynccontextmanager
 from typing import AsyncGenerator
 
 from fastapi import FastAPI
+from fastapi.middleware.cors import CORSMiddleware
 
-from app.api.config import get_settings
+from app.api.config import Settings, get_settings
 from app.api.errors import register_exception_handlers
 from app.api.predictors.baseline import BaselinePredictor
 from app.api.predictors.mock import MockPredictor
@@ -22,7 +23,7 @@ logger = logging.getLogger(__name__)
 @asynccontextmanager
 async def lifespan(app: FastAPI) -> AsyncGenerator[None, None]:
     """Load model at startup, clean up at shutdown."""
-    settings = get_settings()
+    settings: Settings = app.state.bootstrap_settings
 
     # Attempt to load the baseline artifact
     try:
@@ -49,9 +50,9 @@ async def lifespan(app: FastAPI) -> AsyncGenerator[None, None]:
     yield
 
 
-def create_app() -> FastAPI:
+def create_app(settings: Settings | None = None) -> FastAPI:
     """Build and return the FastAPI application."""
-    settings = get_settings()
+    settings = settings or get_settings()
 
     app = FastAPI(
         title="Complaint Routing Prediction Service",
@@ -62,6 +63,16 @@ def create_app() -> FastAPI:
         ),
         lifespan=lifespan,
     )
+    app.state.bootstrap_settings = settings
+
+    if settings.local_cors_origins:
+        app.add_middleware(
+            CORSMiddleware,
+            allow_origins=list(settings.local_cors_origins),
+            allow_credentials=False,
+            allow_methods=["GET", "POST", "OPTIONS"],
+            allow_headers=["Content-Type"],
+        )
 
     # Register routes
     app.include_router(predictions_router, prefix="/api/v1")

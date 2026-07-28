@@ -24,6 +24,13 @@ const SYNTHETIC_RESPONSE: PredictionResponse = {
   warnings: ['Synthetic fixture. This is not a model prediction.'],
 }
 
+const SYNTHETIC_REAL_RESPONSE: PredictionResponse = {
+  ...SYNTHETIC_RESPONSE,
+  confidence: 0.76,
+  model_version: 'baseline-lr-C0.1-f8000',
+  review_reasons: ['low_confidence'],
+}
+
 interface SpeechResultEvent extends Event {
   results: {
     readonly [index: number]: {
@@ -144,6 +151,28 @@ describe('ClassificationPage', () => {
     expect(screen.queryByText('Model confidence')).not.toBeInTheDocument()
   })
 
+  it('renders a configured service response as advisory human-review support', async () => {
+    const user = userEvent.setup()
+    const client: PredictionClient = {
+      createPrediction: vi.fn().mockResolvedValue(SYNTHETIC_REAL_RESPONSE),
+    }
+
+    renderWithRouter(<ClassificationPage predictionClient={client} />)
+
+    await user.type(screen.getByLabelText('Complaint narrative'), 'Synthetic real-service case')
+    await user.click(screen.getByRole('button', { name: 'Classify complaint' }))
+
+    expect(client.createPrediction).toHaveBeenCalledWith({
+      narrative: 'Synthetic real-service case',
+    })
+    expect(await screen.findByText('Prediction response')).toBeVisible()
+    expect(screen.getByText('Human review remains required.')).toBeVisible()
+    expect(screen.getByText('Human review required')).toBeVisible()
+    expect(screen.getByText('76%')).toBeVisible()
+    expect(screen.queryByText('Interface demonstration only.')).not.toBeInTheDocument()
+    expect(screen.getByText('Model: baseline-lr-C0.1-f8000')).toBeVisible()
+  })
+
   it('announces progress and prevents duplicate submissions', async () => {
     const user = userEvent.setup()
     let resolvePrediction: (response: PredictionResponse) => void = () => undefined
@@ -159,9 +188,7 @@ describe('ClassificationPage', () => {
     await user.type(screen.getByLabelText('Complaint narrative'), 'Synthetic loading case')
     await user.click(screen.getByRole('button', { name: 'Classify complaint' }))
 
-    expect(screen.getByRole('status')).toHaveTextContent(
-      'Creating a simulated result. Please wait.',
-    )
+    expect(screen.getByRole('status')).toHaveTextContent('Creating a recommendation. Please wait.')
     expect(screen.getByRole('button', { name: 'Classifying...' })).toBeDisabled()
     expect(screen.getByLabelText('Complaint narrative')).toBeDisabled()
     expect(client.createPrediction).toHaveBeenCalledTimes(1)
@@ -239,19 +266,18 @@ describe('ClassificationPage', () => {
 
     await waitFor(() => {
       expect(screen.getAllByRole('alert').length).toBeGreaterThanOrEqual(1)
-      expect(
-        screen.getByText(/The simulated prediction service is unavailable/),
-      ).toBeInTheDocument()
+      expect(screen.getByText(/The prediction service is unavailable/)).toBeInTheDocument()
     })
     const errorAlert = screen
-      .getByText(/The simulated prediction service is unavailable/)
-      .closest('[role="alert"]')
+      .getByText(/The prediction service is unavailable/)
+      .closest('[tabindex="-1"]')
 
     expect(errorAlert).not.toHaveTextContent('Test error case')
     expect(errorAlert).not.toHaveTextContent(/internal stack/i)
     expect(screen.queryByText(/internal stack/i)).not.toBeInTheDocument()
     expect(screen.getByLabelText('Complaint narrative')).toHaveValue('Test error case')
     expect(screen.getByRole('button', { name: 'Classify complaint' })).toBeEnabled()
+    expect(errorAlert).toHaveFocus()
   })
 
   it('presents a specific rate-limit error without leaking the narrative', async () => {
@@ -271,6 +297,30 @@ describe('ClassificationPage', () => {
       await screen.findByText('Too many requests. Wait a moment before trying again.'),
     ).toBeVisible()
     expect(screen.queryByText(/internal limit detail/i)).not.toBeInTheDocument()
+  })
+
+  it('presents an incompatible service response safely and restores focus to the alert', async () => {
+    const user = userEvent.setup()
+    const invalidClient: PredictionClient = {
+      createPrediction: vi
+        .fn()
+        .mockRejectedValue(new PredictionClientError('invalid_response', 'internal response body')),
+    }
+
+    renderWithRouter(<ClassificationPage predictionClient={invalidClient} />)
+
+    await user.type(screen.getByLabelText('Complaint narrative'), 'Synthetic invalid response case')
+    await user.click(screen.getByRole('button', { name: 'Classify complaint' }))
+
+    const error = await screen.findByText(
+      'The prediction response could not be safely validated. No recommendation was shown.',
+    )
+    const errorAlert = error.closest('[tabindex="-1"]')
+
+    expect(errorAlert).toHaveFocus()
+    expect(errorAlert).not.toHaveTextContent('internal response body')
+    expect(errorAlert).not.toHaveTextContent('Synthetic invalid response case')
+    expect(screen.queryByText('Mock response')).not.toBeInTheDocument()
   })
 
   it('adds a voice transcript to the editable narrative and stops explicitly', async () => {

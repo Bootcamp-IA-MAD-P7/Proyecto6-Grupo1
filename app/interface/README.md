@@ -11,17 +11,54 @@ y al [expediente OpenSpec archivado](../../openspec/changes/archive/2026-07-24-i
 | --------------------------------- | ------------------------------------------------------------- |
 | Formulario de reclamación         | Implementado y verificado con texto sintético                 |
 | Contrato TypeScript               | Implementado y alineado con OpenAPI                           |
-| Recomendación                     | Mock; no procede de un modelo                                 |
+| Recomendación                     | Mock seguro por defecto; respuesta local real con configuración explícita |
 | Revisión humana                   | Representada en la interfaz                                   |
 | Dictado                           | Implementado mediante Web Speech API con fallback por teclado |
 | PWA instalable                    | Verificada manualmente en Chrome sobre Windows                |
 | Shell offline                     | Implementado; no clasifica sin conexión                       |
 | Identidad y tema                  | ClaimVox; preferencias claro, oscuro y sistema persistentes   |
 | Autenticación y administración    | Propuestas mock; no aportan seguridad ni operaciones reales   |
-| Backend, modelo e inferencia real | No implementados                                              |
+| Backend, modelo e inferencia local | Integración local verificada; no hay despliegue ni modelo aprobado para producción |
 
-Esta interfaz avanza el requisito `ESS-04`, pero no permite marcarlo como
-verificado hasta que exista una predicción real extremo a extremo.
+La integración local de frontend, servicio y artefacto reproducible aporta la
+evidencia para verificar `ESS-04` tras revisión y merge. No equivale a
+autenticación, despliegue, persistencia, observabilidad operativa ni a un modelo
+aprobado para producción.
+
+## Servicio local opcional
+
+ClaimVox mantiene el mock como modo seguro por defecto. Para conectar el
+servicio FastAPI exclusivamente en tu equipo, copia `.env.example` a
+`.env.local` y conserva el origen local de ejemplo:
+
+```powershell
+Copy-Item .env.example .env.local
+```
+
+Arranca el backend desde la raíz en otra terminal con el mismo origen permitido:
+
+```powershell
+$env:APP_CORS_ALLOWED_ORIGINS = "http://127.0.0.1:5173,http://127.0.0.1:4173"
+uvicorn app.api.main:app --reload --host 127.0.0.1 --port 8000
+```
+
+Para el servidor de desarrollo usa:
+
+```bash
+npm run dev -- --host 127.0.0.1
+```
+
+Para comprobar el build PWA, la variable se incorpora durante el build:
+
+```bash
+npm run build
+npm run preview -- --host 127.0.0.1
+```
+
+El desarrollo usa normalmente el puerto `5173` y la vista previa `4173`. Si se
+elimina `VITE_PREDICTION_API_BASE_URL` de `.env.local`, ClaimVox vuelve al mock.
+No se usan comodines CORS, credenciales, dominios públicos, proxy ni datos CFPB
+reales en este recorrido.
 
 La identidad ClaimVox y las preferencias de tema se integraron mediante la PR
 #28. Son cambios de experiencia visual: no modifican el contrato de predicción
@@ -66,20 +103,23 @@ build, no solo sobre el servidor de desarrollo.
 3. Revisar que el texto no contiene nombres, cuentas, direcciones ni otros datos
    personales innecesarios.
 4. Pulsar `Classify complaint`.
-5. Revisar la respuesta marcada como `Mock response · demo only`.
-6. Confirmar que no aparece una confianza inventada y que se exige revisión
-   humana.
+5. Sin `VITE_PREDICTION_API_BASE_URL`, revisar la respuesta marcada como `Mock
+   response · demo only`.
+6. Con la URL local explícita y el backend en marcha, revisar `Prediction
+   response`, la confianza devuelta y el estado `Human review required`.
 7. Pulsar `Start a new classification` para volver a un formulario vacío.
 
-La respuesta actual es fija y sintética. No se consulta el CSV, no existe
-backend y no se ejecuta ningún modelo.
+El mock es fijo y sintético. En modo local configurado, la vista consulta solo
+`POST /api/v1/predictions`; nunca consulta el CSV ni artefactos de entrenamiento
+desde el navegador. La respuesta sigue siendo una recomendación revisable, no
+una decisión automática.
 
 ### Rutas
 
 | Ruta              | Propósito                           |
 | ----------------- | ----------------------------------- |
 | `/`               | Resumen público del prototipo       |
-| `/classify`       | Formulario y recomendación mock     |
+| `/classify`       | Formulario y recomendación mock o local configurada |
 | `/login`          | Propuesta de autenticación ficticia |
 | `/admin`          | Concepto de panel administrativo    |
 | `/admin/training` | Concepto de flujo de entrenamiento  |
@@ -117,11 +157,11 @@ Reglas relevantes:
 - una respuesta sin confianza calibrada exige revisión humana;
 - la narrativa no forma parte de la respuesta.
 
-El cliente actual es
-[`src/services/mock-prediction-client.ts`](src/services/mock-prediction-client.ts).
-Para conectar un servicio real deberá añadirse otro `PredictionTransport` que
-respete el mismo contrato. No es necesario acoplar la vista al backend ni acceder
-directamente a datos de entrenamiento.
+El selector de cliente conserva
+[`src/services/mock-prediction-client.ts`](src/services/mock-prediction-client.ts)
+como valor por defecto y usa el transporte HTTP tipado solo con
+`VITE_PREDICTION_API_BASE_URL`. El transporte valida la respuesta antes de
+mostrarla. La vista no accede directamente a datos de entrenamiento.
 
 ## Dictado por voz
 
@@ -253,7 +293,9 @@ app/interface/
 
 ## Limitaciones y próximos límites
 
-- No existe backend, modelo entrenado, inferencia real ni confianza calibrada.
+- No existe autenticación, despliegue, persistencia, observabilidad operativa ni
+  modelo seleccionado para producción. La inferencia real disponible es solo
+  local y requiere configuración explícita.
 - No existe una cola operativa ni persistencia de reclamaciones o feedback.
 - No existe autenticación, autorización ni administración real.
 - Las pantallas de entrenamiento y modelos son conceptos no operativos.

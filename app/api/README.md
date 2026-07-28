@@ -13,7 +13,7 @@ using the trained baseline model, conforming to `docs/api/openapi.json`.
 | Mock fallback when artifact missing | Implemented |
 | Predictor interface for extensibility | Implemented |
 | Authentication / authorization | NOT implemented (pending decision) |
-| CORS | NOT implemented (pending decision) |
+| CORS | Local opt-in only; explicit origins, no credentials or wildcard |
 | Rate limiting | NOT implemented (pending decision) |
 | Database / persistence | NOT implemented |
 | Docker | NOT implemented |
@@ -51,6 +51,22 @@ The service will:
 
 API docs available at: http://localhost:8000/docs
 
+### Local ClaimVox integration
+
+This is a local development path, not a deployment configuration. To permit a
+ClaimVox development or preview origin, set an explicit allowlist before starting
+the API:
+
+```powershell
+$env:APP_CORS_ALLOWED_ORIGINS = "http://127.0.0.1:5173,http://127.0.0.1:4173"
+uvicorn app.api.main:app --reload --host 127.0.0.1 --port 8000
+```
+
+Only local `localhost` or `127.0.0.1` origins are accepted. Do not use `*`,
+credentials, a public domain, or a proxy as a substitute for a deployment
+security policy. The checked-in [`.env.example`](.env.example) is a reference;
+the actual environment remains local and ignored by Git.
+
 ## Environment variables
 
 | Variable | Default | Description |
@@ -59,6 +75,7 @@ API docs available at: http://localhost:8000/docs
 | `APP_SERVICE_VERSION` | `0.1.0` | Version reported in health endpoint |
 | `APP_TAXONOMY_VERSION` | `1.0` | Taxonomy version in prediction responses |
 | `APP_DEBUG` | `false` | Debug mode (do not use in production) |
+| `APP_CORS_ALLOWED_ORIGINS` | empty | Comma-separated local ClaimVox origins; cross-origin access stays disabled when absent |
 
 ## Running tests
 
@@ -107,13 +124,16 @@ The predictor interface allows swapping implementations without changing routes:
 ## Limitations
 
 - No authentication or authorization
-- No CORS headers (must be configured before frontend integration)
+- Local CORS is opt-in through `APP_CORS_ALLOWED_ORIGINS`; it accepts only
+  explicitly configured local origins, never wildcards or credentials
 - No rate limiting
 - No persistence or feedback collection
 - Model artifact is gitignored and must exist locally to serve real predictions
 - No formal model versioning/registry (artifact identified by config params)
-- No ClaimVox-to-API integration yet; the PWA continues to show an explicit mock
-  response until `PG-6` supplies the end-to-end integration evidence.
+- ClaimVox can use this service locally when both origins are explicitly
+  configured. The end-to-end evidence is
+  [`claimvox_local_inference_smoke.md`](../../reports/validation/claimvox_local_inference_smoke.md);
+  this is not a deployed public API.
 
 ## Related documents
 
