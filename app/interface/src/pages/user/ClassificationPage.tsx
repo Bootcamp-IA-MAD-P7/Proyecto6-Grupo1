@@ -23,11 +23,14 @@ const safeErrorMessage = (error: unknown) => {
     if (error.code === 'rate_limited') {
       return 'Too many requests. Wait a moment before trying again.'
     }
-    if (error.code === 'validation_error') {
+    if (error.code === 'bad_request' || error.code === 'validation_error') {
       return 'The service could not validate this narrative. Review the text and try again.'
     }
+    if (error.code === 'invalid_response') {
+      return 'The prediction response could not be safely validated. No recommendation was shown.'
+    }
   }
-  return 'The simulated prediction service is unavailable. Your narrative was not stored.'
+  return 'The prediction service is unavailable. Your narrative was not stored.'
 }
 
 export default function ClassificationPage({
@@ -236,7 +239,7 @@ export default function ClassificationPage({
         </div>
         {isSubmitting && (
           <p role="status" aria-live="polite" className="sr-only">
-            Creating a simulated result. Please wait.
+            Creating a recommendation. Please wait.
           </p>
         )}
       </form>

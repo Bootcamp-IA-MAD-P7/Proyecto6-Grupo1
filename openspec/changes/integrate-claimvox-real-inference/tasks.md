@@ -26,9 +26,12 @@
   requests, canonical output, review state, and no automatic routing. Evidence:
   `ClassificationPage.test.tsx` verifies a configured-service response is
   rendered as advisory human-review support and not as a simulated result.
-- [ ] 2.2 [Frontend] Add accessible loading and recovery states for unavailable,
+- [x] 2.2 [Frontend] Add accessible loading and recovery states for unavailable,
   rejected, timed-out, and incompatible service responses. Verification:
   keyboard and screen-reader-friendly error assertions plus responsive checks.
+  Evidence: `ClassificationPage.test.tsx` asserts generic live progress, safe
+  error categories, focus transfer to the alert, and no narrative or internals
+  in service-unavailable and incompatible-response recovery states.
 - [ ] 2.3 [Frontend / Backend] Ensure the local API origin can be configured for
   the Vite dev and preview workflows without becoming a public deployment
   policy. Verification: documented local commands and preflight behaviour.
