@@ -23,8 +23,9 @@ Este catálogo indica qué documentos pueden alimentar una presentación y con q
 | `ai-specs/` | Roles y procedimientos reutilizables para IA | Cuando cambie el arnés | Miguel / equipo | Activa técnica |
 | `openspec/config.yaml` | Contexto y reglas obligatorias de los cambios | Cuando cambie el gobierno | Miguel / equipo | Activa técnica |
 | `docs/design/information_architecture.md` | Usuario, tareas, estados y accesibilidad del flujo | Cuando cambie la experiencia | Producto / UX | Activa |
-| `docs/api/openapi.json` | Contrato entre React PWA y futura inferencia | Cuando cambie la API | Aplicación / plataforma | Activa contract-only |
+| `docs/api/openapi.json` | Contrato vigente entre React PWA y servicio de inferencia local; la PWA aún usa mock | Cuando cambie la API | Aplicación / plataforma | Activa técnica |
 | `app/interface/README.md` | Uso reproducible y límites del prototipo React PWA ClaimVox | Por cambio de frontend | Abel / frontend | Activa técnica |
+| `app/api/README.md` | Ejecución local, límites y contrato del servicio FastAPI | Por cambio de backend | José / backend | Activa técnica |
 | `docs/security/threat_model.md` | Amenazas y controles del producto | Cuando cambien datos o arquitectura | Seguridad / equipo | Activa |
 | `reports/validation/frontend_foundation_integration.md` | Evidencia automática y manual de la React PWA prototipo | Por hito frontend | Abel / Miguel | Activa técnica |
 | `reports/validation/claimvox_state_reconciliation_inventory.md` | Trazabilidad documental de PR #28, estado Jira y límites del prototipo ClaimVox | Por reconciliación de estado | Arquitectura / documentación | Activa técnica |
@@ -36,7 +37,7 @@ Este catálogo indica qué documentos pueden alimentar una presentación y con q
 | `docs/notebooklm/business_narrative.md` | Historia para audiencia no técnica | Cuando se defina el negocio | Equipo | Activa con límites explícitos |
 | `docs/notebooklm/technical_status.md` | Estado técnico consolidado | Diaria o por PR | Miguel / equipo | Activa |
 | `docs/assets/diagrams/readme-project-overview.svg` | Flujo de valor y límites del producto | Cuando cambie el flujo | Arquitectura / producto | Activa visual |
-| `docs/assets/charts/delivery-status-2026-07-23.svg` | Estado de las 25 puertas del briefing | Cuando cambie un criterio | Miguel / QA | Activa visual |
+| `docs/assets/charts/delivery-status-2026-07-27.svg` | Estado de las 25 puertas del briefing | Cuando cambie un criterio | Miguel / QA | Activa visual |
 | `reports/metrics/` | Evidencia cuantitativa | Por experimento | ML/QA | Pendiente |
 | `reports/figures/` | Gráficos finales | Por experimento | ML/Docs | Activa técnica |
 | `notebooks/01_eda.py` | EDA reproducible del CFPB | Por cambio de datos | Víctor / Datos | Activa técnica |
@@ -49,6 +50,7 @@ Este catálogo indica qué documentos pueden alimentar una presentación y con q
 | `reports/validation/cfpb_training_preparation_manifest.json` | Huellas, recuentos por clase y límites temporales de la preparación | Por preparación del baseline | Datos / ML | Activa técnica |
 | `reports/validation/cfpb_baseline.md` | Configuración y métricas agregadas del baseline, incluyendo validation y test protegido | Tras cambio de baseline | Datos / ML | Activa técnica |
 | `reports/validation/cfpb_baseline_metrics.json` | Métricas agregadas y por clase del baseline, sin narrativas | Tras cambio de baseline | Datos / ML | Activa técnica |
+| `reports/validation/backend_foundation_real_smoke.md` | Evidencia agregada de entrenamiento local reproducible y smoke del servicio FastAPI; no acredita despliegue ni integración PWA | Por cambio de backend o artefacto | Backend / ML | Activa técnica |
 | `reports/validation/med_01_comparison.md` | Comparación agregada del baseline con RF, XGBoost y LightGBM; no selecciona un modelo definitivo | Tras comparación ensemble | Víctor / Datos | Activa técnica |
 | `reports/validation/med_01_metrics.json` | Métricas agregadas reproducibles de la comparación ensemble, sin narrativas | Tras comparación ensemble | Víctor / Datos | Activa técnica |
 | `reports/validation/screenshots/PG-4/` | Evidencia visual sintética del prototipo | Por cambio de UI | UX/QA | Activa técnica |

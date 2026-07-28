@@ -80,10 +80,11 @@
 - Cierre verificable de `ESS-02`: el informe EDA enlaza el script reproducible, cuatro figuras agregadas, visualizaciones pertinentes para texto multiclase y las decisiones posteriores de preparación, sin exponer narrativas ni mezclar instantáneas.
 
 - Backend foundation (`PG-5`): servicio FastAPI en `app/api/` con endpoint de predicción (`POST /api/v1/predictions`) y health (`GET /api/v1/health`), conforme al contrato `docs/api/openapi.json`. Carga el baseline real (`models/cfpb_baseline.pkl`) cuando está disponible; opera en modo mock claramente identificado cuando no. Interfaz de predictor extensible para futuro RAG sin modificar rutas. 22 tests de contrato pasando. No incluye autenticación, CORS, rate limiting, persistencia ni Docker.
+- `PG-5`: verificación local del servicio con un artefacto baseline reproducido a partir de las particiones aprobadas, sin incorporar datos ni artefactos pesados a Git. Health devuelve `ok` y la predicción usa clases canónicas, confianza numérica y no repite la narrativa. La evidencia agregada está en `reports/validation/backend_foundation_real_smoke.md`.
 
 ### Changed
 
-- El prototipo React PWA integrado adopta la identidad visible ClaimVox mediante la PR #28, con preferencias de tema claro, oscuro y sistema, además de mejoras visuales y de accesibilidad. Sigue siendo una demostración sin modelo, backend ni inferencia real.
+- El prototipo React PWA integrado adopta la identidad visible ClaimVox mediante la PR #28, con preferencias de tema claro, oscuro y sistema, además de mejoras visuales y de accesibilidad. Sigue siendo una demostración sin conexión al backend ni inferencia de extremo a extremo.
 - `PG-2` queda en `Listo` y la PR #31 incorpora el baseline de `PG-3`. La evidencia del baseline habilita el trabajo de contrato/backend, pero no acredita inferencia integrada ni un producto operativo.
 - Las dailies se consolidan en un único documento canónico por fecha dentro de gestión de proyecto; NotebookLM consume esa fuente sin duplicarla.
 - El equipo activo pasa a estar formado por José, Abel, Víctor y Miguel tras la baja comunicada de Josué.

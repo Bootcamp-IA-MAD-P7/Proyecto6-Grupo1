@@ -8,7 +8,7 @@
 
 ## T-001 Scaffold FastAPI project and dependencies
 
-- Status: `[ ]`
+- Status: `[x]`
 - Owner: `Backend / José`
 - Dependencies: none
 - Requirements covered: D-001, D-007
@@ -28,7 +28,7 @@
 
 ## T-002 Define Pydantic schemas from OpenAPI contract
 
-- Status: `[ ]`
+- Status: `[x]`
 - Owner: `Backend / José`
 - Dependencies: `T-001`
 - Requirements covered: R-001, R-002, R-006
@@ -49,7 +49,7 @@
 
 ## T-003 Implement predictor interface, MockPredictor, and BaselinePredictor
 
-- Status: `[ ]`
+- Status: `[x]`
 - Owner: `Backend / José`
 - Dependencies: `T-002`
 - Requirements covered: R-003, R-004, R-008
@@ -72,7 +72,7 @@
 
 ## T-004 Implement prediction service and routes
 
-- Status: `[ ]`
+- Status: `[x]`
 - Owner: `Backend / José`
 - Dependencies: `T-003`
 - Requirements covered: R-001, R-002, R-004, R-005, R-007
@@ -100,7 +100,7 @@
 
 ## T-005 Contract tests against OpenAPI spec
 
-- Status: `[ ]`
+- Status: `[x]`
 - Owner: `Backend / José`
 - Dependencies: `T-004`
 - Requirements covered: R-002, R-006
@@ -122,7 +122,7 @@
 
 ## T-006 Documentation and integration readiness
 
-- Status: `[ ]`
+- Status: `[x]`
 - Owner: `Backend / José`
 - Dependencies: `T-005`
 - Requirements covered: proposal outcomes, CONTRIBUTING.md compliance
@@ -147,16 +147,16 @@
 
 ## Checklist de cierre
 
-- [ ] All contract tests pass with both MockPredictor and BaselinePredictor.
-- [ ] Health endpoint reports correct status (ok/degraded).
-- [ ] No narrative appears in any log output or response body.
-- [ ] Error responses conform to ErrorResponse schema.
-- [ ] `docs/api/openapi.json` is unchanged (service conforms to existing contract).
-- [ ] `config/cfpb_target_contract.json` canonical labels are the only valid prediction classes.
-- [ ] All tests use synthetic data exclusively.
-- [ ] OpenSpec validates strict.
-- [ ] Repository quality check passes.
-- [ ] Documentation distinguishes implemented vs. mock vs. pending.
+- [x] All contract tests pass with both MockPredictor and BaselinePredictor. Evidence: 33 focused baseline and backend tests passed on 2026-07-28.
+- [x] Health endpoint reports correct status (ok/degraded). Evidence: mock contract test and local real-artifact smoke returned `degraded` and `ok` respectively.
+- [x] No narrative appears in any log output or response body. Evidence: synthetic contract and local smoke assertions passed; no request-body logging is implemented.
+- [x] Error responses conform to ErrorResponse schema. Evidence: contract tests cover invalid, missing and extra request fields.
+- [x] `docs/api/openapi.json` is unchanged (service conforms to existing contract).
+- [x] `config/cfpb_target_contract.json` canonical labels are the only valid prediction classes. Evidence: synthetic real-predictor and contract tests passed.
+- [x] All tests use synthetic data exclusively.
+- [x] OpenSpec validates strict. Evidence: `npm exec -- openspec validate backend-foundation --type change --strict` passed on 2026-07-28.
+- [x] Repository quality check passes. Evidence: `python scripts/quality/check_repository.py` passed on 2026-07-28.
+- [x] Documentation distinguishes implemented vs. mock vs. pending. Evidence: README, API guide, delivery levels, daily, NotebookLM sources and `backend_foundation_real_smoke.md` were reconciled on 2026-07-28.
 
 ---
 

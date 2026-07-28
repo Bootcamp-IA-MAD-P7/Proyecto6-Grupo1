@@ -7,13 +7,19 @@ to the OpenAPI contract. All test data is synthetic — no CFPB narratives.
 from __future__ import annotations
 
 import json
+import tempfile
 import unittest
 from pathlib import Path
 
+import joblib
+import polars as pl
 from fastapi.testclient import TestClient
+from sklearn.feature_extraction.text import TfidfVectorizer
+from sklearn.linear_model import LogisticRegression
 
 from app.api.config import get_settings
 from app.api.main import create_app
+from app.api.predictors.baseline import BaselinePredictor
 from app.api.predictors.mock import MockPredictor
 from app.api.services.prediction_service import PredictionService
 
@@ -28,6 +34,7 @@ CANONICAL_CLASSES = set(TARGET["target"]["canonical_labels"])
 # Synthetic test narratives (never real CFPB data)
 VALID_NARRATIVE = "I noticed a duplicate charge on my account statement last week."
 WHITESPACE_NARRATIVE = "   "
+SYNTHETIC_FIXTURE = ROOT / "tests" / "fixtures" / "synthetic_baseline_data.csv"
 
 
 def _create_test_client() -> TestClient:
@@ -255,6 +262,60 @@ class HealthEndpointContractTests(unittest.TestCase):
         r = self.client.get("/api/v1/health")
         data = r.json()
         self.assertEqual(data["status"], "degraded")
+
+
+class BaselinePredictorContractTests(unittest.TestCase):
+    """Verify the real-predictor path with a synthetic serialized artifact."""
+
+    @classmethod
+    def setUpClass(cls) -> None:
+        fixture = pl.read_csv(SYNTHETIC_FIXTURE)
+        vectorizer = TfidfVectorizer(max_features=100, stop_words="english")
+        matrix = vectorizer.fit_transform(
+            fixture["complaint_what_happened"].to_list()
+        )
+        model = LogisticRegression(
+            solver="lbfgs", class_weight="balanced", max_iter=1000, random_state=42
+        )
+        model.fit(matrix, fixture["product_canonical"].to_list())
+
+        cls.temp_dir = tempfile.TemporaryDirectory()
+        artifact_path = Path(cls.temp_dir.name) / "synthetic_baseline.pkl"
+        joblib.dump(
+            {
+                "vectorizer": vectorizer,
+                "model": model,
+                "config": {"C": 1.0, "max_features": 100},
+            },
+            artifact_path,
+        )
+        predictor = BaselinePredictor(artifact_path)
+        app = create_app()
+        settings = get_settings()
+        app.state.prediction_service = PredictionService(
+            predictor=predictor,
+            taxonomy_version=settings.taxonomy_version,
+        )
+        app.state.settings = settings
+        cls.client = TestClient(app, raise_server_exceptions=False)
+
+    @classmethod
+    def tearDownClass(cls) -> None:
+        cls.temp_dir.cleanup()
+
+    def test_real_predictor_reports_healthy_and_returns_probabilities(self) -> None:
+        narrative = "Synthetic verification input for a credit card billing issue."
+        health = self.client.get("/api/v1/health")
+        response = self.client.post("/api/v1/predictions", json={"narrative": narrative})
+
+        self.assertEqual(health.status_code, 200)
+        self.assertEqual(health.json()["status"], "ok")
+        self.assertEqual(response.status_code, 200)
+        body = response.json()
+        self.assertNotEqual(body["model_version"], "mock-v0")
+        self.assertIsInstance(body["confidence"], float)
+        self.assertIn(body["predicted_class"], CANONICAL_CLASSES)
+        self.assertNotIn(narrative, json.dumps(body))
 
 
 if __name__ == "__main__":

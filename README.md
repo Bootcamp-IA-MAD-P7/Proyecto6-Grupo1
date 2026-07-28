@@ -29,15 +29,16 @@
 | EDA y política de datos | EDA multiclase verificado; política inicial de idioma, grupos, split y desbalanceo aplicada |
 | Modelos | Baseline LogisticRegression (gap 0.0482 ✅); RF, XGBoost y LightGBM comparados sobre una muestra de 50K. No hay modelo seleccionado para producción. |
 | Aplicación | Prototipo React PWA ClaimVox integrado mediante PR #25 y evolución visual PR #28; sin predicción real |
-| Backend e inferencia | No iniciados |
+| Backend e inferencia | Servicio FastAPI verificado localmente con artefacto reproducible; la PWA sigue en mock |
 | Despliegue y MLOps | No iniciados |
 | Método de trabajo | OpenSpec + arnés implantados y comprobados |
 
 ClaimVox, la implementación fusionada en `dev`, permite revisar el recorrido
 previsto con contenido sintético, dictado, instalación PWA, preferencia de tema
 claro/oscuro/sistema y comportamiento offline seguro.
-Esto no acredita `ESS-04`: no existe un modelo ni un servicio de inferencia al
-que conectarla. Véanse el [manual del frontend](app/interface/README.md) y su
+Esto no acredita `ESS-04`: ClaimVox todavía no consume el servicio de inferencia
+real. Véanse el [manual del frontend](app/interface/README.md), el [manual del
+backend](app/api/README.md), su
 [informe de validación](reports/validation/frontend_foundation_integration.md).
 
 ## El problema
@@ -196,7 +197,7 @@ Detalle: [blueprint arquitectónico](docs/architecture/system_blueprint.md).
 | ESS‑01 | Modelo multiclase funcional | `En curso` | Pipeline, artefacto y predicciones válidas |
 | ESS‑02 | EDA orientado a clasificación | `Verificado` | Script, informe, cuatro figuras agregadas, visualizaciones pertinentes y continuidad con la política de datos |
 | ESS‑03 | Overfitting inferior al 5 % | `Verificado` | Macro F1 train/validation y gap `0.0482` en el informe del baseline |
-| ESS‑04 | Aplicación que productiviza el modelo | No iniciado | React PWA conectada a inferencia real |
+| ESS‑04 | Aplicación que productiviza el modelo | `En curso` | Backend real verificado localmente; falta conectar React PWA a inferencia real |
 | ESS‑05 | Accuracy global | `Verificado` | Validation `0.8484` y test protegido `0.8230` |
 | ESS‑06 | Precision, recall y F1 por clase | `Verificado` | Once clases, agregados macro/weighted y JSON versionados |
 | ESS‑07 | Matriz de confusión | `En curso` | Figuras generadas para RF y XGB (sample 50K); pendiente sobre split completo |
@@ -222,7 +223,7 @@ Detalle: [blueprint arquitectónico](docs/architecture/system_blueprint.md).
 | ADV‑02 | Base de datos integrada | No iniciado | Esquema, migraciones y mínimo privilegio |
 | ADV‑03 | Despliegue cloud | No iniciado | Entorno, smoke test y rollback |
 | ADV‑04 | Tests de integridad de datos | No iniciado | Esquema, clases, duplicados y leakage |
-| ADV‑05 | Tests del modelo | No iniciado | Carga, salida, clases e inferencia |
+| ADV‑05 | Tests del modelo | `En curso` | Carga, salida, clases e inferencia; falta convertir los umbrales en gate completo |
 | ADV‑06 | Tests de métricas mínimas | No iniciado | Umbrales y overfitting como quality gates |
 
 ### Nivel experto — 0 de 4 verificados
@@ -283,7 +284,7 @@ Las subcarpetas aparecen con su primer archivo real. No se crean árboles vacío
 
 | Persona | Área | Trabajo actual |
 |---|---|---|
-| José | Backend | `PG-5` / `003/T-007`, puede preparar el servicio; la integración requiere entregar un artefacto de modelo trazable |
+| José | Backend | `PG-5` verificado localmente; siguiente dependencia `PG-6`, integración de ClaimVox con el servicio |
 | Abel | Frontend y UX | `PG-4`, revisión de la React PWA integrada mediante OpenSpec |
 | Víctor | Datos y EDA | `PG-2` completada; `PG-3` baseline evaluado; `MED-01` / `PG-8` comparativa ensemble verificada mediante PR #36; `MED-03` pendiente |
 | Miguel | Arquitectura y método | Integración, evidencia y gobierno Jira–OpenSpec–arnés |
@@ -324,8 +325,8 @@ Antes de subir un paquete a NotebookLM se excluyen secretos, datos brutos, narra
 
 ## Próximos hitos
 
-1. Mantener el test protegido y cerrar la procedencia/versionado del artefacto antes de integrar inferencia.
-2. Implementar el servicio backend y su contrato para conectar ClaimVox a una inferencia real, sin presentar el prototipo actual como tal.
+1. Mantener el test protegido y cerrar la procedencia/versionado formal del artefacto antes de seleccionar un Champion.
+2. Conectar ClaimVox al servicio backend local, con errores y revisión humana, sin presentar el prototipo actual como un producto desplegado.
 3. Completar matriz de confusión, importancia de variables, análisis de errores e informe técnico del nivel esencial.
 4. Comparar candidatos posteriores con el baseline sin utilizar el test protegido para seleccionarlos.
 5. Proteger primero el nivel esencial; investigar niveles superiores sin desestabilizarlo.
