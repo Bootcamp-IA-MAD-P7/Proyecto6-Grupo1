@@ -40,7 +40,7 @@ Las capas superiores pueden investigarse en paralelo, pero no deben retrasar ni 
 | `ESS-01` | Modelo de clasificación funcional con tres o más clases | `En curso` | Datos / ML | Pipeline reproducible, artefacto versionado y predicciones válidas sobre las once clases contratadas |
 | `ESS-02` | EDA orientado a clasificación multiclase | `Verificado` | Datos / EDA | `notebooks/01_eda.py`, `reports/validation/cfpb_eda.md`, cuatro figuras agregadas y continuidad trazada con la política de preparación; la correlación numérica no aplica a la entrada textual y al target categórico |
 | `ESS-03` | Overfitting inferior al 5 % | `Verificado` | Datos / ML | Macro F1 train/validation y gap `0.0482` documentados en `reports/validation/cfpb_baseline.md` |
-| `ESS-04` | Aplicación que productiviza el modelo | `No iniciado` | Frontend / backend | React PWA conectada a inferencia real, con entrada validada, predicción multiclase, errores y revisión humana |
+| `ESS-04` | Aplicación que productiviza el modelo | `En curso` | Frontend / backend | Backend real verificado localmente; falta React PWA conectada a inferencia real, errores y revisión humana |
 | `ESS-05` | Accuracy global | `Verificado` | Datos / ML | Accuracy en validation (`0.8484`) y test protegido (`0.8230`) con configuración y particiones registradas |
 | `ESS-06` | Precision, recall y F1 por clase | `Verificado` | Datos / ML | Métricas por las once clases y agregados macro/weighted en los JSON de `reports/validation/cfpb_baseline_*` |
 | `ESS-07` | Matriz de confusión | `En curso` | Datos / ML | Figuras generadas para RF y XGB (sample 50K); pendiente sobre split completo |
@@ -74,7 +74,7 @@ El modelo Champion se elige mediante criterios definidos antes de comparar resul
 | `ADV-02` | Base de datos integrada | `No iniciado` | Backend / plataforma | Esquema versionado, migraciones, mínimo privilegio, privacidad y pruebas |
 | `ADV-03` | Despliegue en la nube | `No iniciado` | Plataforma | URL o entorno verificable, secretos protegidos, smoke test, observabilidad y reversión |
 | `ADV-04` | Tests de integridad de datos | `No iniciado` | Datos / QA | Esquema, nulos, clases, duplicados, leakage y contratos críticos automatizados |
-| `ADV-05` | Tests del modelo | `No iniciado` | ML / QA | Carga, preprocesamiento, forma de salida, clases, probabilidades e inferencia controladas |
+| `ADV-05` | Tests del modelo | `En curso` | ML / QA | Carga, preprocesamiento, forma de salida, clases, probabilidades e inferencia controladas; falta gate completo de métricas |
 | `ADV-06` | Tests de métricas mínimas | `No iniciado` | ML / QA | Umbrales aprobados, overfitting y rendimiento por clase convertidos en quality gates |
 
 ### Puerta avanzada
@@ -110,7 +110,7 @@ Cada criterio verificado debe registrar:
 
 | Nivel | Resultado |
 |---|---|---|
-| Esencial | `4 de 10 verificados`: `ESS-02`, `ESS-03`, `ESS-05` y `ESS-06`; `ESS-01`, `ESS-07` y `ESS-08` en curso; `ESS-04`, `ESS-09` y `ESS-10` pendientes |
+| Esencial | `4 de 10 verificados`: `ESS-02`, `ESS-03`, `ESS-05` y `ESS-06`; `ESS-01`, `ESS-04`, `ESS-07` y `ESS-08` en curso; `ESS-09` y `ESS-10` pendientes |
 | Medio | `1 de 5 verificado` (`MED-01`); `1 en curso` (`MED-03`); resto pendiente |
 | Avanzado | `No iniciado` |
 | Experto | `No iniciado` |

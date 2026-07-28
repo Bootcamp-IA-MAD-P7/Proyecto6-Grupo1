@@ -10,10 +10,10 @@
 - Frontend integrado: prototipo React PWA ClaimVox; una evolución nativa solo se evaluará si aparece evidencia que la justifique.
 - Responsabilidades: Miguel coordina arquitectura; José, backend; Abel, frontend/UX; Víctor, datos y EDA. Josué está fuera del equipo.
 - Jira: proyecto `PG`; `PG-1` agrupa el nivel esencial.
-- Trabajo actual: `PG-3` para Víctor mediante un cambio OpenSpec nuevo; `PG-4` está integrado como prototipo ClaimVox y `PG-5` queda pendiente para José cuando exista un baseline evaluado. Las tareas numeradas `001/T-004` a `T-006` y `003/T-006` permanecen como expedientes cerrados de compatibilidad.
-- No existe todavía modelo entrenado, inferencia real, aplicación integrada con un servicio, base de datos, despliegue ni capacidad MLOps.
+- Trabajo actual: `PG-4` está integrado como prototipo ClaimVox; `PG-5` dispone de un servicio FastAPI verificado localmente con un artefacto reproducible, y `PG-6` queda pendiente para conectar ambos. Las tareas numeradas `001/T-004` a `T-006` y `003/T-006` permanecen como expedientes cerrados de compatibilidad.
+- Existe un baseline reproducible y una verificación local de inferencia real. No existe todavía una aplicación integrada con el servicio, base de datos, despliegue ni capacidad MLOps.
 
-La métrica inicial del baseline, la política de idioma, duplicados, partición y desbalanceo ya están versionadas para la preparación actual. Siguen abiertas la selección basada en resultados, los modelos posteriores, la cobertura multilingüe, el backend, la persistencia y el proveedor cloud. No deben cerrarse sin evidencia y una decisión versionada.
+La métrica inicial del baseline, la política de idioma, duplicados, partición y desbalanceo ya están versionadas para la preparación actual. Siguen abiertas la selección basada en resultados, los modelos posteriores, la cobertura multilingüe, la integración frontend-backend, la persistencia y el proveedor cloud. No deben cerrarse sin evidencia y una decisión versionada.
 
 ## Fuente de verdad para cambios
 

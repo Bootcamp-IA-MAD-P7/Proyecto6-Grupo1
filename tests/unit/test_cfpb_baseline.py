@@ -6,11 +6,20 @@ import json
 import pickle
 import tempfile
 import unittest
+from argparse import Namespace
 from pathlib import Path
 
 import polars as pl
+import joblib
 from sklearn.feature_extraction.text import TfidfVectorizer
 from sklearn.linear_model import LogisticRegression
+
+from scripts.ml.train_baseline import (
+    APPROVED_BASELINE_DEFAULTS,
+    evaluate_test,
+    load_approved_splits,
+    train_pipeline,
+)
 
 ROOT = Path(__file__).resolve().parents[2]
 FIXTURE_PATH = ROOT / "tests" / "fixtures" / "synthetic_baseline_data.csv"
@@ -44,6 +53,37 @@ def train_on_fixture() -> tuple:
 
 
 class CFPBBaselineTests(unittest.TestCase):
+    def test_default_training_policy_matches_evaluated_baseline(self) -> None:
+        """The CLI defaults must reproduce the versioned baseline policy."""
+        self.assertEqual(APPROVED_BASELINE_DEFAULTS["C"], 0.1)
+        self.assertEqual(APPROVED_BASELINE_DEFAULTS["max_features"], 8000)
+        self.assertEqual(APPROVED_BASELINE_DEFAULTS["min_df"], 3)
+        self.assertEqual(APPROVED_BASELINE_DEFAULTS["max_df"], 0.8)
+        self.assertEqual(APPROVED_BASELINE_DEFAULTS["ngram_range"], "1,2")
+        self.assertTrue(APPROVED_BASELINE_DEFAULTS["sublinear_tf"])
+
+    def test_approved_partition_paths_are_loaded_without_resplitting(self) -> None:
+        """The policy-approved train/validation/test paths are used as supplied."""
+        frame = pl.read_csv(FIXTURE_PATH)
+        with tempfile.TemporaryDirectory() as tmp:
+            tmp_path = Path(tmp)
+            paths = []
+            for name, rows in (("train", 5), ("validation", 3), ("test", 3)):
+                path = tmp_path / f"{name}.parquet"
+                frame.head(rows).write_parquet(path)
+                paths.append(str(path))
+
+            train, validation, test = load_approved_splits(
+                Namespace(
+                    input=None,
+                    train_input=paths[0],
+                    validation_input=paths[1],
+                    test_input=paths[2],
+                )
+            )
+
+            self.assertEqual((len(train), len(validation), len(test)), (5, 3, 3))
+
     def test_output_shape(self) -> None:
         vectorizer, model, df = train_on_fixture()
         texts = df["complaint_what_happened"].to_list()
@@ -119,6 +159,64 @@ class CFPBBaselineTests(unittest.TestCase):
         self.assertIn("gap_within_threshold", report)
         self.assertIn("train", report)
         self.assertIn("validation", report)
+
+    def test_training_pipeline_separates_vectorizer_and_model_settings(self) -> None:
+        """The approved baseline config must not pass model keys into TF-IDF."""
+        fixture = pl.read_csv(FIXTURE_PATH)
+        with tempfile.TemporaryDirectory() as tmp:
+            tmp_path = Path(tmp)
+            input_path = tmp_path / "synthetic.parquet"
+            model_dir = tmp_path / "models"
+            report_path = tmp_path / "metrics.json"
+            fixture.write_parquet(input_path)
+
+            train_pipeline(
+                Namespace(
+                    input=str(input_path),
+                    model_dir=str(model_dir),
+                    report=str(report_path),
+                    C=0.1,
+                    max_features=100,
+                    min_df=1,
+                    max_df=1.0,
+                    ngram_range="1,2",
+                    sublinear_tf=True,
+                    evaluate_test=False,
+                )
+            )
+
+            artifact_path = model_dir / "cfpb_baseline.pkl"
+            self.assertTrue(artifact_path.exists())
+            artifact = joblib.load(artifact_path)
+            self.assertEqual(artifact["config"]["model"], "LogisticRegression")
+            self.assertNotIn("model", artifact["vectorizer"].get_config())
+            self.assertTrue(report_path.exists())
+
+    def test_test_only_uses_the_approved_test_partition_by_default(self) -> None:
+        """Test-only evaluation must not require or re-split the legacy corpus."""
+        vectorizer, model, frame = train_on_fixture()
+        with tempfile.TemporaryDirectory() as tmp:
+            tmp_path = Path(tmp)
+            model_dir = tmp_path / "models"
+            model_dir.mkdir()
+            joblib.dump(
+                {"vectorizer": vectorizer, "model": model},
+                model_dir / "cfpb_baseline.pkl",
+            )
+            test_path = tmp_path / "test.parquet"
+            report_path = tmp_path / "metrics.json"
+            frame.write_parquet(test_path)
+
+            evaluate_test(
+                Namespace(
+                    input=None,
+                    test_input=str(test_path),
+                    model_dir=str(model_dir),
+                    report=str(report_path),
+                )
+            )
+
+            self.assertTrue(report_path.exists())
 
 
 if __name__ == "__main__":

@@ -17,7 +17,13 @@ using the trained baseline model, conforming to `docs/api/openapi.json`.
 | Rate limiting | NOT implemented (pending decision) |
 | Database / persistence | NOT implemented |
 | Docker | NOT implemented |
-| RAG integration | Interface only (not implemented) |
+| RAG integration | Not implemented |
+
+The service and a reproducible local baseline artifact were smoke-tested on
+2026-07-28. The evidence is aggregate only and is recorded in
+[`reports/validation/backend_foundation_real_smoke.md`](../../reports/validation/backend_foundation_real_smoke.md).
+This does **not** mean that ClaimVox consumes the service, or that the service
+is deployed, authenticated, or production-ready.
 
 ## Installation
 
@@ -106,6 +112,8 @@ The predictor interface allows swapping implementations without changing routes:
 - No persistence or feedback collection
 - Model artifact is gitignored and must exist locally to serve real predictions
 - No formal model versioning/registry (artifact identified by config params)
+- No ClaimVox-to-API integration yet; the PWA continues to show an explicit mock
+  response until `PG-6` supplies the end-to-end integration evidence.
 
 ## Related documents
 
@@ -114,3 +122,4 @@ The predictor interface allows swapping implementations without changing routes:
 - [Security baseline](../../docs/security/security_baseline.md)
 - [System blueprint](../../docs/architecture/system_blueprint.md)
 - [OpenSpec change](../../openspec/changes/backend-foundation/)
+- [Local backend smoke evidence](../../reports/validation/backend_foundation_real_smoke.md)

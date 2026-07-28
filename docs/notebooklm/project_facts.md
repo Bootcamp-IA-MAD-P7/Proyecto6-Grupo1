@@ -38,10 +38,16 @@
 - Aplicación: ClaimVox es un prototipo React PWA incorporado mediante la PR #25
   y evolucionado visualmente mediante la PR #28. Permite revisar con texto
   sintético el formulario, dictado, respuesta mock, revisión humana,
-  instalación, shell offline y preferencias de tema. No existe backend ni
-  inferencia real, por lo que `ESS-04` continúa sin verificar. La necesidad
-  de una evolución nativa se evaluará después de cubrir el alcance web
-  instalable.
+  instalación, shell offline y preferencias de tema. Un servicio FastAPI y un
+  artefacto reproducible se han verificado localmente, pero la PWA no los
+  consume todavía: mantiene su respuesta mock. Por ello `ESS-04` está en curso,
+  no verificado. La necesidad de una evolución nativa se evaluará después de
+  cubrir el alcance web instalable.
+- Backend local: `app/api/` ofrece health y predicción conforme al contrato;
+  carga el baseline local cuando existe y cae a mock de forma explícita cuando
+  falta. La verificación local no incluye autenticación, CORS, persistencia,
+  despliegue ni conexión desde la PWA. Véase
+  `reports/validation/backend_foundation_real_smoke.md`.
 - Despliegue: pendiente.
 - Persistencia: pendiente.
 - Estado MLOps: pendiente.

@@ -16,9 +16,21 @@ from src.ml.vectorizer import VectorizerConfig
 
 ROOT = Path(__file__).resolve().parents[2]
 DEFAULT_INPUT = ROOT / "data" / "processed" / "cfpb_training.parquet"
+DEFAULT_SPLIT_DIR = ROOT / "data" / "processed" / "cfpb_baseline_en"
+DEFAULT_TRAIN_INPUT = DEFAULT_SPLIT_DIR / "train.parquet"
+DEFAULT_VALIDATION_INPUT = DEFAULT_SPLIT_DIR / "validation.parquet"
+DEFAULT_TEST_INPUT = DEFAULT_SPLIT_DIR / "test.parquet"
 DEFAULT_MODEL_DIR = ROOT / "models"
 DEFAULT_REPORT = ROOT / "reports" / "validation" / "cfpb_baseline_metrics.json"
 RANDOM_STATE = 42
+APPROVED_BASELINE_DEFAULTS = {
+    "C": 0.1,
+    "max_features": 8000,
+    "min_df": 3,
+    "max_df": 0.8,
+    "ngram_range": "1,2",
+    "sublinear_tf": True,
+}
 CLASSES = [
     "Checking or savings account",
     "Credit card",
@@ -52,8 +64,28 @@ def temporal_split(df: pl.DataFrame, val_frac: float = 0.15, test_frac: float = 
     return train, val, test
 
 
+def load_approved_splits(args: argparse.Namespace) -> tuple[pl.DataFrame, pl.DataFrame, pl.DataFrame]:
+    """Load approved local partitions, or use the legacy split only when explicit."""
+    train_input = getattr(args, "train_input", None)
+    validation_input = getattr(args, "validation_input", None)
+    test_input = getattr(args, "test_input", None)
+    split_inputs = (train_input, validation_input, test_input)
+
+    if any(split_inputs):
+        if not all(split_inputs):
+            raise ValueError(
+                "Approved training requires train, validation, and test paths together."
+            )
+        train, validation, test = (load_data(Path(path)) for path in split_inputs)
+        return train, validation, test
+
+    input_value = getattr(args, "input", None)
+    if not input_value:
+        raise ValueError("Provide approved split paths or an explicit legacy input path.")
+    return temporal_split(load_data(Path(input_value)))
+
+
 def train_pipeline(args: argparse.Namespace) -> None:
-    input_path = Path(args.input)
     model_dir = Path(args.model_dir)
     report_path = Path(args.report)
 
@@ -70,14 +102,24 @@ def train_pipeline(args: argparse.Namespace) -> None:
         "max_iter": 1000,
         "random_state": RANDOM_STATE,
     }
+    vectorizer_config = {
+        key: config[key]
+        for key in (
+            "max_features",
+            "min_df",
+            "max_df",
+            "ngram_range",
+            "sublinear_tf",
+        )
+    }
     print(f"Config: {json.dumps(config)}")
 
-    print(f"Loading {input_path}...")
-    df = load_data(input_path)
-    print(f"Total rows: {len(df):,}")
-
-    print("Splitting temporally...")
-    train, val, test = temporal_split(df)
+    print("Loading approved local partitions..." if not args.input else f"Loading {args.input}...")
+    train, val, test = load_approved_splits(args)
+    print(
+        "Loaded partitions: "
+        f"train={len(train):,} validation={len(val):,} test={len(test):,}"
+    )
 
     train_texts = train["complaint_what_happened"].to_list()
     train_labels = train["product_canonical"].to_list()
@@ -90,7 +132,7 @@ def train_pipeline(args: argparse.Namespace) -> None:
 
     print("Vectorizing with TF-IDF...")
     t0 = time.time()
-    vc = VectorizerConfig(config)
+    vc = VectorizerConfig(vectorizer_config)
     X_train = vc.fit_transform(train_texts)
     X_val = vc.transform(val_texts)
     print(f"Vectorization done in {time.time() - t0:.1f}s. Shape: {X_train.shape}")
@@ -162,7 +204,6 @@ def train_pipeline(args: argparse.Namespace) -> None:
 def evaluate_test(args: argparse.Namespace) -> None:
     model_dir = Path(args.model_dir)
     report_path = Path(args.report)
-    input_path = Path(args.input)
     model_path = model_dir / "cfpb_baseline.pkl"
 
     print(f"Loading model from {model_path}...")
@@ -170,9 +211,15 @@ def evaluate_test(args: argparse.Namespace) -> None:
     vc = artifact["vectorizer"]
     model = artifact["model"]
 
-    print(f"Loading data from {input_path}...")
-    df = load_data(input_path)
-    _, _, test = temporal_split(df)
+    if args.input:
+        input_path = Path(args.input)
+        print(f"Loading legacy corpus from {input_path} and applying its temporal split...")
+        df = load_data(input_path)
+        _, _, test = temporal_split(df)
+    else:
+        input_path = Path(args.test_input)
+        print(f"Loading approved protected test split from {input_path}...")
+        test = load_data(input_path)
     test_texts = test["complaint_what_happened"].to_list()
     test_labels = test["product_canonical"].to_list()
     print(f"Test size: {len(test):,}")
@@ -196,15 +243,30 @@ def evaluate_test(args: argparse.Namespace) -> None:
 
 def main() -> None:
     parser = argparse.ArgumentParser()
-    parser.add_argument("--input", default=str(DEFAULT_INPUT))
+    parser.add_argument(
+        "--input",
+        default=None,
+        help="Legacy unsplit corpus; use only when explicit temporal splitting is intended.",
+    )
+    parser.add_argument("--train-input", default=str(DEFAULT_TRAIN_INPUT))
+    parser.add_argument("--validation-input", default=str(DEFAULT_VALIDATION_INPUT))
+    parser.add_argument("--test-input", default=str(DEFAULT_TEST_INPUT))
     parser.add_argument("--model-dir", default=str(DEFAULT_MODEL_DIR))
     parser.add_argument("--report", default=str(DEFAULT_REPORT))
-    parser.add_argument("--C", type=float, default=1.0)
-    parser.add_argument("--max-features", type=int, default=10000)
-    parser.add_argument("--min-df", type=int, default=1)
-    parser.add_argument("--max-df", type=float, default=1.0)
-    parser.add_argument("--ngram-range", type=str, default="1,1")
-    parser.add_argument("--sublinear-tf", action="store_true")
+    parser.add_argument("--C", type=float, default=APPROVED_BASELINE_DEFAULTS["C"])
+    parser.add_argument(
+        "--max-features", type=int, default=APPROVED_BASELINE_DEFAULTS["max_features"]
+    )
+    parser.add_argument("--min-df", type=int, default=APPROVED_BASELINE_DEFAULTS["min_df"])
+    parser.add_argument("--max-df", type=float, default=APPROVED_BASELINE_DEFAULTS["max_df"])
+    parser.add_argument(
+        "--ngram-range", type=str, default=APPROVED_BASELINE_DEFAULTS["ngram_range"]
+    )
+    parser.add_argument(
+        "--sublinear-tf",
+        action=argparse.BooleanOptionalAction,
+        default=APPROVED_BASELINE_DEFAULTS["sublinear_tf"],
+    )
     parser.add_argument("--evaluate-test", action="store_true")
     parser.add_argument("--test-only", action="store_true")
     args = parser.parse_args()
