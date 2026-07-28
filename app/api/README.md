@@ -56,13 +56,15 @@ API docs available at: http://localhost:8000/docs
 
 ### Local ClaimVox integration
 
-This is a local development path, not a deployment configuration. To permit a
-ClaimVox development or preview origin, set an explicit allowlist before starting
-the API:
+This is a local development path, not a deployment configuration. The canonical
+Git Bash sequence, including the frontend variable and the health check, is in
+the [ClaimVox local guide](../../docs/project_management/essential_delivery_guide.md).
+To permit a ClaimVox development origin, set an explicit allowlist before
+starting the API:
 
-```powershell
-$env:APP_CORS_ALLOWED_ORIGINS = "http://127.0.0.1:5173,http://127.0.0.1:4173"
-uvicorn app.api.main:app --reload --host 127.0.0.1 --port 8000
+```bash
+export APP_CORS_ALLOWED_ORIGINS="http://127.0.0.1:5173"
+python -m uvicorn app.api.main:app --host 127.0.0.1 --port 8000
 ```
 
 Only local `localhost` or `127.0.0.1` origins are accepted. Do not use `*`,

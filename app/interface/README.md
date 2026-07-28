@@ -27,38 +27,16 @@ aprobado para producción.
 
 ## Servicio local opcional
 
-ClaimVox mantiene el mock como modo seguro por defecto. Para conectar el
-servicio FastAPI exclusivamente en tu equipo, copia `.env.example` a
-`.env.local` y conserva el origen local de ejemplo:
+ClaimVox mantiene el mock como modo seguro por defecto. La [guía local
+canónica](../../docs/project_management/essential_delivery_guide.md) explica el
+recorrido Git Bash de dos terminales: backend FastAPI con origen CORS local
+explícito y frontend con `VITE_PREDICTION_API_BASE_URL`.
 
-```powershell
-Copy-Item .env.example .env.local
-```
-
-Arranca el backend desde la raíz en otra terminal con el mismo origen permitido:
-
-```powershell
-$env:APP_CORS_ALLOWED_ORIGINS = "http://127.0.0.1:5173,http://127.0.0.1:4173"
-uvicorn app.api.main:app --reload --host 127.0.0.1 --port 8000
-```
-
-Para el servidor de desarrollo usa:
-
-```bash
-npm run dev -- --host 127.0.0.1
-```
-
-Para comprobar el build PWA, la variable se incorpora durante el build:
-
-```bash
-npm run build
-npm run preview -- --host 127.0.0.1
-```
-
-El desarrollo usa normalmente el puerto `5173` y la vista previa `4173`. Si se
-elimina `VITE_PREDICTION_API_BASE_URL` de `.env.local`, ClaimVox vuelve al mock.
-No se usan comodines CORS, credenciales, dominios públicos, proxy ni datos CFPB
-reales en este recorrido.
+La variable puede vivir solo en la sesión de terminal o en un `.env.local`
+ignorado por Git. El desarrollo usa el puerto `5173` y la vista previa `4173`.
+Si `VITE_PREDICTION_API_BASE_URL` no está configurada al iniciar Vite, ClaimVox
+vuelve al mock. No se usan comodines CORS, credenciales, dominios públicos,
+proxy ni datos CFPB reales en este recorrido.
 
 La identidad ClaimVox y las preferencias de tema se integraron mediante la PR
 #28. Son cambios de experiencia visual: no modifican el contrato de predicción
