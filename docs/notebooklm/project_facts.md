@@ -41,9 +41,9 @@
   y preferencias de tema. El mock sigue siendo el valor seguro por defecto; con
   una URL local explícita la PWA consume el servicio FastAPI y valida su
   respuesta contractual. La prueba extremo a extremo usa entrada sintética,
-  mantiene revisión humana y no conserva la narrativa. Por ello `ESS-04` tiene
-  evidencia local completa pendiente de revisión y merge, no de despliegue u
-  operación productiva.
+  mantiene revisión humana y no conserva la narrativa. La evidencia está
+  fusionada mediante la PR #40, por lo que `ESS-04` queda verificado para la
+  integración local, no para despliegue u operación productiva.
 - Backend local: `app/api/` ofrece health y predicción conforme al contrato;
   carga el baseline local cuando existe y cae a mock de forma explícita cuando
   falta. CORS local es explícito y restringido a orígenes locales configurados,
