@@ -4,6 +4,10 @@
 
 ### Added
 
+- README reorganizado para evaluación: recorrido seguro de ClaimVox en cinco
+  minutos, resumen ejecutivo, evidencias esenciales enlazadas, arquitectura
+  actual frente a evolución prevista y hoja de ruta verificable. No modifica
+  la aplicación ni amplía capacidades del MVP.
 - Preparación de MVP local ClaimVox: máximo de 5.000 caracteres, 20
   predicciones/minuto por cliente temporal en memoria, cabeceras de respuesta
   seguras y eventos técnicos sin identidad ni contenido. No añade cuentas,
