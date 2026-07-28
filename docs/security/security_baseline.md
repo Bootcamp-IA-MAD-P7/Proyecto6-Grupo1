@@ -12,9 +12,10 @@
 
 - Validación estricta de entradas.
 - Mensajes de error sin detalles internos.
-- Límites de tamaño y frecuencia cuando proceda.
+- Límite contractual de 5.000 caracteres y frecuencia local en memoria de 20 predicciones por minuto por cliente temporal; ambos son configurables y no sustituyen un control distribuido.
 - Autenticación y autorización definidas antes de exponer datos privados.
-- Cabeceras, CORS y transporte seguro configurados por entorno.
+- CORS local explícito, sin comodines ni credenciales; cabeceras `no-store`, `nosniff`, `no-referrer` y `DENY`. HSTS y TLS requieren un cambio de despliegue específico.
+- Eventos técnicos mínimos sin identidad, IP persistida, narrativa, alternativas ni confianza individual.
 
 ## Datos
 

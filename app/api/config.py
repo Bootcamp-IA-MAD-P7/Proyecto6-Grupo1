@@ -24,6 +24,8 @@ class Settings(BaseSettings):
     taxonomy_version: str = "1.0"
     debug: bool = False
     cors_allowed_origins: str = ""
+    max_narrative_characters: int = 5000
+    prediction_rate_limit_per_minute: int = 20
 
     model_config = {"env_prefix": "APP_"}
 
@@ -47,6 +49,22 @@ class Settings(BaseSettings):
                 raise ValueError("CORS origins must not include a path or query")
 
         return ",".join(origins)
+
+    @field_validator("max_narrative_characters")
+    @classmethod
+    def validate_max_narrative_characters(cls, value: int) -> int:
+        """Keep the local policy within the published request contract."""
+        if not 1 <= value <= 5000:
+            raise ValueError("max narrative characters must be between 1 and 5000")
+        return value
+
+    @field_validator("prediction_rate_limit_per_minute")
+    @classmethod
+    def validate_prediction_rate_limit(cls, value: int) -> int:
+        """Require a positive, intentionally bounded local frequency limit."""
+        if not 1 <= value <= 600:
+            raise ValueError("prediction rate limit must be between 1 and 600")
+        return value
 
     @property
     def local_cors_origins(self) -> tuple[str, ...]:

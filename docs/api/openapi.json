@@ -3,7 +3,7 @@
   "info": {
     "title": "Complaint Routing Prediction Contract",
     "version": "0.1.0",
-    "description": "Contract-only API for React PWA mocks and future inference integration. No service is implemented yet."
+    "description": "Contract for ClaimVox local inference. The FastAPI service is implemented for local execution; it is not deployed or a public production service."
   },
   "servers": [
     {
@@ -15,7 +15,7 @@
       "post": {
         "operationId": "createPrediction",
         "summary": "Classify one complaint narrative",
-        "x-implementation-status": "contract-only",
+        "x-implementation-status": "local-implemented",
         "x-data-handling": {
           "request_body_logging": "prohibited",
           "narrative_persistence": "none-by-default",
@@ -63,7 +63,7 @@
       "get": {
         "operationId": "getHealth",
         "summary": "Read non-sensitive service health",
-        "x-implementation-status": "contract-only",
+        "x-implementation-status": "local-implemented",
         "responses": {
           "200": {
             "description": "Service health",
@@ -91,6 +91,7 @@
           "narrative": {
             "type": "string",
             "minLength": 1,
+            "maxLength": 5000,
             "pattern": "\\S",
             "description": "Complaint narrative. Clients must reject whitespace-only values and warn against unnecessary personal data."
           },

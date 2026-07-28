@@ -2,9 +2,12 @@
 
 ## Contrato disponible
 
-[`openapi.json`](openapi.json) define el contrato `0.1.0` para mocks de la React PWA y una futura integración de inferencia.
+[`openapi.json`](openapi.json) define el contrato `0.1.0` entre ClaimVox y el
+servicio local de inferencia, y también permite el mock seguro por defecto de la
+PWA.
 
-Estado: `contract-only`. No existe todavía un servicio desplegado.
+Estado: `local-implemented`. Existe un servicio FastAPI para ejecución local;
+no existe un servicio desplegado ni una API pública.
 
 El contrato incluye:
 

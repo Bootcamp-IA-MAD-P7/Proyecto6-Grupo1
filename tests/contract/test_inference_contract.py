@@ -1,4 +1,4 @@
-"""Contract checks for the future complaint prediction API."""
+"""Contract checks for the local ClaimVox prediction API."""
 
 from __future__ import annotations
 
@@ -15,10 +15,10 @@ TARGET = json.loads(
 
 
 class InferenceContractTests(unittest.TestCase):
-    def test_contract_is_openapi_31_and_not_implemented(self) -> None:
+    def test_contract_is_openapi_31_and_locally_implemented(self) -> None:
         self.assertEqual(OPENAPI["openapi"], "3.1.0")
         prediction = OPENAPI["paths"]["/v1/predictions"]["post"]
-        self.assertEqual(prediction["x-implementation-status"], "contract-only")
+        self.assertEqual(prediction["x-implementation-status"], "local-implemented")
 
     def test_api_classes_equal_the_target_contract(self) -> None:
         api_labels = OPENAPI["components"]["schemas"]["CanonicalClass"]["enum"]

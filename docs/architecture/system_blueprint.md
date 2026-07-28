@@ -2,27 +2,32 @@
 
 ## Objetivo
 
-Preparar una base escalable y testeable con React PWA como frontend inicial, sin fijar prematuramente backend, persistencia o proveedor cloud.
+Mantener una base escalable y testeable con ClaimVox React PWA y FastAPI local
+como recorrido esencial ya verificado, sin fijar prematuramente persistencia ni
+proveedor cloud.
 
 ## Vista lógica
 
 ```mermaid
 flowchart LR
-    UI[React PWA] --> APP[Casos de uso]
-    API[API opcional] --> APP
-    APP --> DOMAIN[Dominio]
-    APP --> PORTS[Puertos]
-    ADAPTERS[Adaptadores de infraestructura] --> PORTS
-    ADAPTERS --> MODEL[Servicio de inferencia]
-    ADAPTERS --> DB[(Persistencia)]
-    ML[Pipeline ML] --> REGISTRY[Registro de modelos]
-    REGISTRY --> MODEL
-    MODEL --> EVENTS[Predicciones y feedback]
-    EVENTS --> MONITOR[Monitorización]
-    MONITOR --> PROMOTION[Evaluación de promoción]
+    UI[ClaimVox React PWA] --> API[FastAPI local]
+    API --> APP[PredictionService]
+    APP --> PORTS[PredictorInterface]
+    PORTS --> MODEL[Baseline local]
+    PORTS --> MOCK[Mock seguro]
+    ML[Pipeline ML] --> MODEL
+    APP -. futuro .-> DB[(Persistencia)]
+    MODEL -. futuro .-> REGISTRY[Registro de modelos]
+    DB -. futuro .-> EVENTS[Feedback]
+    EVENTS -. futuro .-> MONITOR[Monitorización]
+    MONITOR -. futuro .-> PROMOTION[Promoción]
 ```
 
-Todos los elementos salvo la estructura de carpetas y la dirección React PWA son responsabilidades previstas. Los contratos de producto, inferencia, persistencia y despliegue se concretarán mediante specs y decisiones.
+La PWA, FastAPI local, `PredictionService`, la interfaz de predictor, el
+baseline local y el fallback mock están implementados y probados para ejecución
+local. Persistencia, registro, feedback, monitorización, promoción y despliegue
+siguen siendo responsabilidades previstas. Sus contratos se concretarán mediante
+OpenSpec y decisiones versionadas antes de implementarlos.
 
 React PWA debe cubrir primero el flujo web instalable y responsive. Una aplicación nativa no forma parte del alcance aprobado; se evaluará únicamente si requisitos de dispositivo, distribución o experiencia demuestran que la PWA no es suficiente.
 

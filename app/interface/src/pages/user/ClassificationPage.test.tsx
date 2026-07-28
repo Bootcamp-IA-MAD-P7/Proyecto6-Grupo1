@@ -123,6 +123,18 @@ describe('ClassificationPage', () => {
     expect(screen.getByLabelText('Complaint narrative')).toHaveFocus()
   })
 
+  it('communicates the local narrative size limit before sending content', async () => {
+    const user = userEvent.setup()
+    const client: PredictionClient = { createPrediction: vi.fn() }
+    renderWithRouter(<ClassificationPage predictionClient={client} />)
+
+    const narrative = screen.getByLabelText('Complaint narrative')
+    expect(narrative).toHaveAttribute('maxlength', '5000')
+    await user.type(narrative, 'Synthetic text')
+
+    expect(screen.getByText('14 / 5,000 characters')).toBeVisible()
+  })
+
   it('shows a synthetic result', async () => {
     const user = userEvent.setup()
     const client = createMockPredictionClient({ latencyMs: 0 })

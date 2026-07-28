@@ -216,6 +216,14 @@ class ValidationErrorContractTests(unittest.TestCase):
         self.assertEqual(r.status_code, 422)
         self._assert_error_response(r.json())
 
+    def test_narrative_over_contract_limit_returns_422_without_echo(self) -> None:
+        """R-006: narratives over 5,000 characters are safely rejected."""
+        narrative = "sensitive-oversized-input-" + ("x" * 5000)
+        r = self.client.post("/api/v1/predictions", json={"narrative": narrative})
+        self.assertEqual(r.status_code, 422)
+        self._assert_error_response(r.json())
+        self.assertNotIn(narrative, json.dumps(r.json()))
+
     def test_error_does_not_leak_narrative(self) -> None:
         """R-006: Error responses never contain the submitted narrative."""
         narrative = "sensitive unique narrative content abc789"

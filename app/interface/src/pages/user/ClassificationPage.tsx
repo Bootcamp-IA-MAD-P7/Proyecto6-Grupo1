@@ -2,7 +2,7 @@ import { useState, useRef, useMemo, useCallback, type FormEvent } from 'react'
 import { PredictionResult } from '@/components/PredictionResult'
 import { useOnlineStatus, type ConnectivityCheck } from '@/hooks/use-online-status'
 import { useVoiceDictation } from '@/hooks/use-voice-dictation'
-import type { PredictionResponse } from '@/contracts/prediction'
+import { MAX_NARRATIVE_CHARACTERS, type PredictionResponse } from '@/contracts/prediction'
 import { createConfiguredPredictionClient } from '@/services/configured-prediction-client'
 import { PredictionClientError, type PredictionClient } from '@/services/prediction-client'
 import { Button } from '@/components/ui/button'
@@ -12,6 +12,7 @@ import { WifiOff, Mic, MicOff, Send, Sparkles, AlertTriangle } from 'lucide-reac
 
 const SYNTHETIC_EXAMPLE =
   'A payment appears twice on a monthly statement and the card holder cannot resolve the duplicate charge.'
+const MAX_NARRATIVE_CHARACTERS_LABEL = MAX_NARRATIVE_CHARACTERS.toLocaleString('en-US')
 
 interface ClassificationPageProps {
   predictionClient?: PredictionClient
@@ -69,6 +70,14 @@ export default function ClassificationPage({
 
     if (!narrative.trim()) {
       setValidationMessage('Enter a complaint narrative before continuing.')
+      narrativeRef.current?.focus()
+      return
+    }
+
+    if (narrative.length > MAX_NARRATIVE_CHARACTERS) {
+      setValidationMessage(
+        `Keep the narrative to ${MAX_NARRATIVE_CHARACTERS_LABEL} characters or fewer.`,
+      )
       narrativeRef.current?.focus()
       return
     }
@@ -158,11 +167,14 @@ export default function ClassificationPage({
             aria-invalid={Boolean(validationMessage)}
             placeholder="Enter the complaint narrative..."
             rows={9}
+            maxLength={MAX_NARRATIVE_CHARACTERS}
             disabled={isSubmitting}
             className="w-full min-h-56 resize-y rounded-lg border border-line bg-paper p-4 text-ink transition-colors placeholder:text-ink-soft focus:border-forest focus:outline-none focus:ring-2 focus:ring-forest/20 disabled:cursor-wait disabled:opacity-66"
           />
           <div className="flex flex-col gap-1 text-xs text-ink-soft sm:flex-row sm:justify-between">
-            <span id="narrative-counter">{narrative.length} characters</span>
+            <span id="narrative-counter">
+              {narrative.length.toLocaleString('en-US')} / {MAX_NARRATIVE_CHARACTERS_LABEL} characters
+            </span>
             <span>No text is retained by this prototype.</span>
           </div>
           {isVoiceSupported ? (
