@@ -121,5 +121,5 @@ The predictor interface allows swapping implementations without changing routes:
 - [Target contract](../../config/cfpb_target_contract.json)
 - [Security baseline](../../docs/security/security_baseline.md)
 - [System blueprint](../../docs/architecture/system_blueprint.md)
-- [OpenSpec change](../../openspec/changes/backend-foundation/)
+- [Archived OpenSpec change](../../openspec/changes/archive/2026-07-28-backend-foundation/)
 - [Local backend smoke evidence](../../reports/validation/backend_foundation_real_smoke.md)
