@@ -1,5 +1,6 @@
 import { useEffect, useRef } from 'react'
 import type { PredictionResponse, ReviewReason } from '@/contracts/prediction'
+import type { PredictionClientMode } from '@/services/configured-prediction-client'
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
 import { Badge } from '@/components/ui/badge'
 import { Button } from '@/components/ui/button'
@@ -8,6 +9,7 @@ import { AlertTriangle, CheckCircle, Info, RotateCcw } from 'lucide-react'
 
 interface PredictionResultProps {
   result: PredictionResponse
+  clientMode?: PredictionClientMode
   onReset: () => void
 }
 
@@ -19,9 +21,10 @@ const REVIEW_REASON_LABELS: Record<ReviewReason, string> = {
   service_policy: 'The service policy requires review',
 }
 
-export function PredictionResult({ result, onReset }: PredictionResultProps) {
+export function PredictionResult({ result, clientMode, onReset }: PredictionResultProps) {
   const titleRef = useRef<HTMLHeadingElement>(null)
-  const isMockResult = result.model_version === 'mock-not-a-model'
+  const isMockResult = clientMode === 'mock' || result.model_version === 'mock-not-a-model'
+  const visibleAlternatives = result.alternatives.slice(0, 3)
 
   useEffect(() => {
     titleRef.current?.focus()
@@ -50,7 +53,7 @@ export function PredictionResult({ result, onReset }: PredictionResultProps) {
       <div className="flex flex-col items-start gap-2 sm:flex-row sm:justify-between sm:gap-4">
         <div>
           <p className="mb-1 text-xs font-bold uppercase tracking-widest text-gold-ink">
-            {isMockResult ? 'Mock response' : 'Prediction response'}
+            {isMockResult ? 'Mock response' : 'Local prediction response'}
           </p>
           <h1
             ref={titleRef}
@@ -89,14 +92,20 @@ export function PredictionResult({ result, onReset }: PredictionResultProps) {
             <CardTitle className="text-sm">Review reason</CardTitle>
           </CardHeader>
           <CardContent>
-            <ul className="space-y-1.5">
-              {result.review_reasons.map((reason) => (
-                <li key={reason} className="flex items-center gap-2 text-sm">
-                  <CheckCircle className="h-3.5 w-3.5 shrink-0 text-ink-soft" />
-                  {REVIEW_REASON_LABELS[reason]}
-                </li>
-              ))}
-            </ul>
+            {result.review_reasons.length > 0 ? (
+              <ul className="space-y-1.5">
+                {result.review_reasons.map((reason) => (
+                  <li key={reason} className="flex items-center gap-2 text-sm">
+                    <CheckCircle className="h-3.5 w-3.5 shrink-0 text-ink-soft" />
+                    {REVIEW_REASON_LABELS[reason]}
+                  </li>
+                ))}
+              </ul>
+            ) : (
+              <p className="text-sm text-ink-soft">
+                Human review is required before any routing or final decision.
+              </p>
+            )}
           </CardContent>
         </Card>
       </div>
@@ -107,20 +116,25 @@ export function PredictionResult({ result, onReset }: PredictionResultProps) {
           <CardTitle className="text-sm">Other classes to consider</CardTitle>
         </CardHeader>
         <CardContent>
-          <ol className="list-decimal space-y-1 pl-5">
-            {result.alternatives.map((alternative) => (
-              <li key={alternative.class_label} className="text-sm">
-                {alternative.class_label}
-              </li>
-            ))}
-          </ol>
+          {visibleAlternatives.length > 0 ? (
+            <ol className="list-decimal space-y-1 pl-5">
+              {visibleAlternatives.map((alternative) => (
+                <li key={alternative.class_label} className="text-sm">
+                  {alternative.class_label}
+                </li>
+              ))}
+            </ol>
+          ) : (
+            <p className="text-sm text-ink-soft">No alternative classes are available.</p>
+          )}
         </CardContent>
       </Card>
 
       <div className="flex flex-wrap gap-4 rounded-lg bg-sand px-4 py-3 font-mono text-xs text-ink-soft">
         <span>
-          {isMockResult ? 'Mock source' : 'Model'}: {result.model_version}
+          {isMockResult ? 'Source: Mock response' : 'Source: Local API'}
         </span>
+        <span>Model version: {result.model_version}</span>
         <span>Taxonomy: {result.taxonomy_version}</span>
         <span>Reference: {result.prediction_id.slice(0, 8)}</span>
       </div>

@@ -1,11 +1,8 @@
-import { Link, NavLink, Outlet, useNavigate } from 'react-router-dom'
-import { useAuth } from '@/hooks/use-auth'
-import { Button } from '@/components/ui/button'
+import { NavLink, Outlet } from 'react-router-dom'
 import { Badge } from '@/components/ui/badge'
 import { ThemeToggle } from '@/components/ThemeToggle'
-import { buttonVariants } from '@/lib/button-variants'
 import { cn } from '@/lib/utils'
-import { Home, FileText, LogOut } from 'lucide-react'
+import { Home, FileText } from 'lucide-react'
 
 const navItems = [
   { to: '/', label: 'Home', icon: Home },
@@ -13,14 +10,6 @@ const navItems = [
 ]
 
 export default function UserLayout() {
-  const { user, logout } = useAuth()
-  const navigate = useNavigate()
-
-  const handleLogout = () => {
-    logout()
-    navigate('/classify')
-  }
-
   return (
     <div className="flex min-h-screen flex-col bg-paper md:flex-row">
       <aside className="border-b border-line bg-forest text-white md:w-64 md:border-r md:border-b-0">
@@ -59,24 +48,7 @@ export default function UserLayout() {
           <span className="text-sm font-medium text-ink md:hidden">ClaimVox</span>
           <div className="flex flex-wrap items-center gap-2 md:gap-4">
             <ThemeToggle />
-            {user ? (
-              <>
-                <span className="text-sm text-ink-soft">
-                  {user.name} ({user.role})
-                </span>
-                <Button variant="ghost" size="sm" onClick={handleLogout}>
-                  <LogOut className="h-4 w-4" />
-                  Sign out
-                </Button>
-              </>
-            ) : (
-              <>
-                <span className="text-sm text-ink-soft">Public prototype</span>
-                <Link to="/login" className={cn(buttonVariants({ variant: 'ghost', size: 'sm' }))}>
-                  Sign in
-                </Link>
-              </>
-            )}
+            <span className="text-sm text-ink-soft">Local classification prototype</span>
           </div>
         </header>
         <main className="flex-1 overflow-auto p-4 md:p-6">

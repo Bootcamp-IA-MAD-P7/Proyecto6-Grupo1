@@ -87,6 +87,11 @@
   PWA para revisión local. No cambia el modelo, el servicio ni el estado de
   entrega; la evidencia está en
   `reports/validation/claimvox_local_runbook_review.md`.
+- `PG-18` mejora el resultado de clasificación local sin alterar API ni modelo:
+  distingue API local de mock, limita alternativas, preserva revisión humana y
+  retira la sesión mock del recorrido público. La administración continúa
+  siendo conceptual; evidencia en
+  `reports/validation/claimvox_local_classification_usability.md`.
 - El cambio `mvp-readiness-and-presentation` añade límites proporcionados para
   la API local: máximo de narrativa, frecuencia efímera en memoria, cabeceras
   de respuesta y un evento técnico sin identidad ni contenido. La evidencia

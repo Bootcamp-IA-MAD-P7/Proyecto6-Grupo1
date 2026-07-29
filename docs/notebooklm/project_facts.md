@@ -45,6 +45,11 @@
   mantiene revisión humana y no conserva la narrativa. La evidencia está
   fusionada mediante la PR #40, por lo que `ESS-04` queda verificado para la
   integración local, no para despliegue u operación productiva.
+- Usabilidad local: el resultado identifica explícitamente la fuente API local
+  o mock, presenta clase, confianza, versión y revisión humana, y limita las
+  alternativas a tres. El recorrido público prioriza Home y Classify; la
+  administración sigue siendo un concepto no operativo. Véase
+  `reports/validation/claimvox_local_classification_usability.md`.
 - Backend local: `app/api/` ofrece health y predicción conforme al contrato;
   carga el baseline local cuando existe y cae a mock de forma explícita cuando
   falta. CORS local es explícito y restringido a orígenes locales configurados,

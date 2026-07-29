@@ -1,4 +1,4 @@
-import { act, render, screen, waitFor } from '@testing-library/react'
+import { act, render, screen, waitFor, within } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
 import { MemoryRouter } from 'react-router-dom'
 import { afterEach, describe, it, expect, vi } from 'vitest'
@@ -29,6 +29,16 @@ const SYNTHETIC_REAL_RESPONSE: PredictionResponse = {
   confidence: 0.76,
   model_version: 'baseline-lr-C0.1-f8000',
   review_reasons: ['low_confidence'],
+}
+
+const SYNTHETIC_REAL_RESPONSE_WITH_ALTERNATIVES: PredictionResponse = {
+  ...SYNTHETIC_REAL_RESPONSE,
+  alternatives: [
+    { class_label: 'Credit card', confidence: 0.1 },
+    { class_label: 'Debt collection', confidence: 0.08 },
+    { class_label: 'Mortgage', confidence: 0.06 },
+    { class_label: 'Student loan', confidence: 0.04 },
+  ],
 }
 
 interface SpeechResultEvent extends Event {
@@ -177,12 +187,35 @@ describe('ClassificationPage', () => {
     expect(client.createPrediction).toHaveBeenCalledWith({
       narrative: 'Synthetic real-service case',
     })
-    expect(await screen.findByText('Prediction response')).toBeVisible()
+    expect(await screen.findByText('Local prediction response')).toBeVisible()
     expect(screen.getByText('Human review remains required.')).toBeVisible()
     expect(screen.getByText('Human review required')).toBeVisible()
     expect(screen.getByText('76%')).toBeVisible()
     expect(screen.queryByText('Interface demonstration only.')).not.toBeInTheDocument()
-    expect(screen.getByText('Model: baseline-lr-C0.1-f8000')).toBeVisible()
+    expect(screen.getByText('Source: Local API')).toBeVisible()
+    expect(screen.getByText('Model version: baseline-lr-C0.1-f8000')).toBeVisible()
+  })
+
+  it('limits alternatives and supplies a safe review message when none is provided', async () => {
+    const user = userEvent.setup()
+    const client: PredictionClient = {
+      createPrediction: vi.fn().mockResolvedValue({
+        ...SYNTHETIC_REAL_RESPONSE_WITH_ALTERNATIVES,
+        review_reasons: [],
+      }),
+    }
+
+    renderWithRouter(<ClassificationPage predictionClient={client} clientMode="local_api" />)
+
+    await user.type(screen.getByLabelText('Complaint narrative'), 'Synthetic UX review case')
+    await user.click(screen.getByRole('button', { name: 'Classify complaint' }))
+
+    expect(await screen.findByText('Human review is required before any routing or final decision.')).toBeVisible()
+    const alternatives = within(screen.getByRole('list'))
+    expect(alternatives.getByText('Credit card')).toBeVisible()
+    expect(alternatives.getByText('Debt collection')).toBeVisible()
+    expect(alternatives.getByText('Mortgage')).toBeVisible()
+    expect(alternatives.queryByText('Student loan')).not.toBeInTheDocument()
   })
 
   it('announces progress and prevents duplicate submissions', async () => {

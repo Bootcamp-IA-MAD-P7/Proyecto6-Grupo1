@@ -3,7 +3,10 @@ import { PredictionResult } from '@/components/PredictionResult'
 import { useOnlineStatus, type ConnectivityCheck } from '@/hooks/use-online-status'
 import { useVoiceDictation } from '@/hooks/use-voice-dictation'
 import { MAX_NARRATIVE_CHARACTERS, type PredictionResponse } from '@/contracts/prediction'
-import { createConfiguredPredictionClient } from '@/services/configured-prediction-client'
+import {
+  createConfiguredPredictionClient,
+  type PredictionClientMode,
+} from '@/services/configured-prediction-client'
 import { PredictionClientError, type PredictionClient } from '@/services/prediction-client'
 import { Button } from '@/components/ui/button'
 import { Alert, AlertDescription } from '@/components/ui/alert'
@@ -16,6 +19,7 @@ const MAX_NARRATIVE_CHARACTERS_LABEL = MAX_NARRATIVE_CHARACTERS.toLocaleString('
 
 interface ClassificationPageProps {
   predictionClient?: PredictionClient
+  predictionClientMode?: PredictionClientMode
   connectivityCheck?: ConnectivityCheck
 }
 
@@ -36,12 +40,17 @@ const safeErrorMessage = (error: unknown) => {
 
 export default function ClassificationPage({
   predictionClient,
+  predictionClientMode,
   connectivityCheck,
 }: ClassificationPageProps) {
-  const client = useMemo(
-    () => predictionClient ?? createConfiguredPredictionClient().client,
-    [predictionClient],
+  const configuredClient = useMemo(
+    () =>
+      predictionClient
+        ? { client: predictionClient, mode: predictionClientMode }
+        : createConfiguredPredictionClient(),
+    [predictionClient, predictionClientMode],
   )
+  const client = configuredClient.client
   const { isOnline, verifyOnline } = useOnlineStatus(connectivityCheck)
   const narrativeRef = useRef<HTMLTextAreaElement>(null)
   const errorRef = useRef<HTMLDivElement>(null)
@@ -110,7 +119,7 @@ export default function ClassificationPage({
   }
 
   if (result) {
-    return <PredictionResult result={result} onReset={reset} />
+    return <PredictionResult result={result} clientMode={configuredClient.mode} onReset={reset} />
   }
 
   return (
