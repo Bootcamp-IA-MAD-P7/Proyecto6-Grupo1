@@ -33,3 +33,7 @@ conecte una predicción real con el registro permitido y su resumen agregado.
   criterios de entrega `MED-04` y `MED-05`.
 - No introduce dependencias, almacenamiento compartido, cambios de modelo ni
   contratos de datos adicionales.
+
+## Tracking
+
+- Jira: `PG-13`
