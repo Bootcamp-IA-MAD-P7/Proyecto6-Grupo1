@@ -31,3 +31,11 @@ salida agregada de Colab.
 Este resultado es un piloto de viabilidad. No calcula gap train-validación, no
 consulta el test protegido, no selecciona un Champion y no verifica `MED-02` ni
 `MED-03`. No contiene narrativas CFPB, datos brutos, binarios ni credenciales.
+
+## Decisión humana
+
+El 29 de julio de 2026 se revisó el piloto y se decidió conservar XGBoost solo
+como candidato explorado. No se aprueba un Champion ni se modifica el estado de
+`MED-02` o `MED-03`: faltan una ejecución completa gobernada, el gap
+train-validación y la evidencia mínima correspondiente. La ejecución completa
+queda pendiente de una aprobación explícita de presupuesto y tiempo.
