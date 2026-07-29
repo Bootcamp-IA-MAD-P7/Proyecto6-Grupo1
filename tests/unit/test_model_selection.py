@@ -3,6 +3,7 @@
 from __future__ import annotations
 
 import unittest
+from tempfile import TemporaryDirectory
 from pathlib import Path
 from unittest.mock import patch
 
@@ -12,12 +13,17 @@ import polars as pl
 from scripts.ml.evaluate_model_selection import (
     DELIVERY_PROFILE,
     DEFAULT_POLICY_PATH,
+    DEFAULT_DELIVERY_APPROVAL_PATH,
     ModelSelectionInputError,
     PILOT_PROFILE,
     apply_pilot_limit,
+    build_delivery_evidence,
     load_selection_policy,
     load_selection_training_partition,
     resolve_execution_profile,
+    validate_and_write_delivery_evidence,
+    validate_delivery_approval,
+    validate_delivery_output_path,
     validate_training_input_path,
 )
 from src.ml import tuning
@@ -143,6 +149,9 @@ class CrossValidationTests(unittest.TestCase):
                     "train_macro_f1": 0.6,
                     "validation_macro_f1": 0.5,
                     "class_limitations": ["b"],
+                    "per_class_metrics": {
+                        "b": {"precision": 0.5, "recall": 0.5, "f1": 0.5, "support": 2}
+                    },
                 },
             ),
         ):
@@ -161,6 +170,82 @@ class CrossValidationTests(unittest.TestCase):
         self.assertEqual(result["fold_macro_f1"], [0.5])
         self.assertEqual(result["fold_metrics"][0]["train_macro_f1"], 0.6)
         self.assertEqual(result["trials"][0]["class_limitations"], ["b"])
+        self.assertEqual(result["per_class_metrics"]["b"]["support"], 2)
+
+
+class DeliveryExecutionTests(unittest.TestCase):
+    labels = (
+        "Checking or savings account",
+        "Credit card",
+        "Credit reporting or other personal consumer reports",
+        "Debt collection",
+        "Debt or credit management",
+        "Money transfer, virtual currency, or money service",
+        "Mortgage",
+        "Payday loan, title loan, personal loan, or advance loan",
+        "Prepaid card",
+        "Student loan",
+        "Vehicle loan or lease",
+    )
+
+    def _delivery_result(self) -> dict:
+        fold = {
+            "train_macro_f1": 0.71,
+            "validation_macro_f1": 0.69,
+            "class_limitations": [],
+        }
+        return {
+            "best_params": {"max_depth": 5},
+            "macro_f1_mean": 0.69,
+            "train_macro_f1_mean": 0.71,
+            "n_trials": 30,
+            "n_splits": 5,
+            "random_state": 42,
+            "per_class_metrics": {
+                label: {"precision": 0.7, "recall": 0.7, "f1": 0.7, "support": 1}
+                for label in self.labels
+            },
+            "trials": [
+                {
+                    "params": {"max_depth": 5},
+                    "fold_metrics": [fold.copy() for _ in range(5)],
+                    "train_macro_f1_mean": 0.71,
+                    "train_macro_f1_std": 0.01,
+                    "validation_macro_f1_mean": 0.69,
+                    "validation_macro_f1_std": 0.02,
+                    "execution_cost_seconds": 1.0,
+                    "class_limitations": [],
+                }
+            ],
+        }
+
+    def test_accepts_the_versioned_xgboost_delivery_approval(self):
+        validate_delivery_approval(DEFAULT_DELIVERY_APPROVAL_PATH, "xgb")
+
+    def test_rejects_external_approval_and_output_paths(self):
+        with TemporaryDirectory() as directory:
+            external = Path(directory) / "approval.md"
+            external.write_text("synthetic", encoding="utf-8")
+            with self.assertRaises(ModelSelectionInputError):
+                validate_delivery_approval(external, "xgb")
+            with self.assertRaises(ModelSelectionInputError):
+                validate_delivery_output_path(Path(directory) / "result.json")
+
+    def test_writes_only_schema_valid_aggregate_delivery_evidence(self):
+        policy = load_selection_policy(DEFAULT_POLICY_PATH)
+        with TemporaryDirectory() as directory:
+            train_input = Path(directory) / "train.parquet"
+            output_path = Path(directory) / "result.json"
+            train_input.write_bytes(b"synthetic-partition")
+            evidence = build_delivery_evidence(
+                policy=policy,
+                candidate="xgb",
+                result=self._delivery_result(),
+                train_input=train_input,
+            )
+            validate_and_write_delivery_evidence(evidence, output_path)
+            self.assertTrue(output_path.is_file())
+            self.assertNotIn("test_results", output_path.read_text(encoding="utf-8"))
 
 
 class RecommendationTests(unittest.TestCase):

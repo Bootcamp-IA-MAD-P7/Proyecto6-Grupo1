@@ -16,7 +16,7 @@ def _fold_metrics(y_train, train_predictions, y_validation, validation_predictio
         f1_score(y_validation, validation_predictions, average="macro")
     )
     labels = sorted(set(y_validation))
-    _, _, per_class_f1, _ = precision_recall_fscore_support(
+    precision, recall, per_class_f1, support = precision_recall_fscore_support(
         y_validation,
         validation_predictions,
         labels=labels,
@@ -28,6 +28,40 @@ def _fold_metrics(y_train, train_predictions, y_validation, validation_predictio
         "class_limitations": [
             label for label, score in zip(labels, per_class_f1) if float(score) == 0.0
         ],
+        "per_class_metrics": {
+            str(label): {
+                "precision": float(precision[index]),
+                "recall": float(recall[index]),
+                "f1": float(per_class_f1[index]),
+                "support": int(support[index]),
+            }
+            for index, label in enumerate(labels)
+        },
+    }
+
+
+def _aggregate_per_class_metrics(fold_metrics: list[dict]) -> dict:
+    """Aggregate validation metrics by canonical class across held-out folds."""
+    totals: dict[str, dict[str, float | int]] = {}
+    for metrics in fold_metrics:
+        for label, values in metrics["per_class_metrics"].items():
+            aggregate = totals.setdefault(
+                label,
+                {"precision": 0.0, "recall": 0.0, "f1": 0.0, "support": 0, "folds": 0},
+            )
+            aggregate["precision"] += values["precision"]
+            aggregate["recall"] += values["recall"]
+            aggregate["f1"] += values["f1"]
+            aggregate["support"] += values["support"]
+            aggregate["folds"] += 1
+    return {
+        label: {
+            "precision": values["precision"] / values["folds"],
+            "recall": values["recall"] / values["folds"],
+            "f1": values["f1"] / values["folds"],
+            "support": values["support"],
+        }
+        for label, values in sorted(totals.items())
     }
 
 
@@ -241,6 +275,7 @@ def tune_hyperparams_cv(
         trial.set_user_attr("validation_macro_f1_std", float(np.std(validation_scores)))
         trial.set_user_attr("execution_cost_seconds", perf_counter() - started_at)
         trial.set_user_attr("class_limitations", class_limitations)
+        trial.set_user_attr("per_class_metrics", _aggregate_per_class_metrics(fold_metrics))
         return float(np.mean(validation_scores))
 
     study.optimize(run_trial, n_trials=n_trials)
@@ -256,6 +291,7 @@ def tune_hyperparams_cv(
             "fold_metrics": trial.user_attrs["fold_metrics"],
             "execution_cost_seconds": trial.user_attrs["execution_cost_seconds"],
             "class_limitations": trial.user_attrs["class_limitations"],
+            "per_class_metrics": trial.user_attrs["per_class_metrics"],
         }
         for trial in study.trials
     ]
@@ -269,6 +305,7 @@ def tune_hyperparams_cv(
         "train_macro_f1_std": best_trial.user_attrs["train_macro_f1_std"],
         "execution_cost_seconds": best_trial.user_attrs["execution_cost_seconds"],
         "class_limitations": best_trial.user_attrs["class_limitations"],
+        "per_class_metrics": best_trial.user_attrs["per_class_metrics"],
         "trials": trial_results,
         "n_trials": n_trials,
         "n_splits": n_splits,
