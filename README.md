@@ -9,7 +9,7 @@
   <img alt="OpenSpec 1.6.0" src="https://img.shields.io/badge/OpenSpec-1.6.0-173F4F">
   <img alt="Python 3.12" src="https://img.shields.io/badge/Python-3.12-52755B">
   <img alt="Estado: baseline evaluado" src="https://img.shields.io/badge/estado-baseline%20evaluado-52755B">
-  <img alt="Entrega verificada: 11 de 25" src="https://img.shields.io/badge/criterios%20verificados-11%2F25-52755B">
+  <img alt="Entrega verificada: 15 de 25" src="https://img.shields.io/badge/criterios%20verificados-15%2F25-52755B">
 </p>
 
 > Una herramienta local de apoyo para proponer una categoría inicial de una reclamación financiera escrita. La propuesta siempre debe ser revisada por una persona; no enruta automáticamente ni toma decisiones financieras.
@@ -249,13 +249,13 @@ flowchart LR
 
 La PWA, la API local, el servicio, el adaptador de predictor y el baseline son
 capacidades construidas y verificadas para ejecución local. El repositorio de
-feedback local está construido pero no está conectado a una ruta ni interfaz;
-registro operativo, monitorización, autenticación y despliegue siguen siendo
-arquitectura prevista.
+feedback local está conectado a la ruta e interfaz locales y su recorrido
+extremo a extremo está verificado; operación compartida, monitorización de
+producción, autenticación y despliegue siguen siendo arquitectura prevista.
 
 | Construido ahora | Evolución gobernada después del MVP |
 |---|---|
-| PWA ClaimVox, FastAPI local, predictor intercambiable, baseline reproducible, repositorio local de feedback con privacidad y revisión humana | Ruta e interfaz de feedback, base de datos compartida, Docker, cloud, monitorización y promoción de modelos |
+| PWA ClaimVox, FastAPI local, predictor intercambiable, baseline reproducible, feedback local minimizado con ruta, interfaz y revisión humana | Base de datos compartida, Docker, cloud, monitorización de producción y promoción de modelos |
 
 La separación de capas evita rehacer la aplicación: el frontend solo conoce el
 contrato, la API delega en un predictor y el entrenamiento permanece fuera de
@@ -295,14 +295,14 @@ archivados conservan el contexto de su fecha; no sustituyen este estado vigente.
 | ESS‑09 | Análisis de errores | `Verificado` | Clases débiles, confusiones agregadas y acciones de revisión humana |
 | ESS‑10 | Informe técnico y guía | `Verificado` | Informe de evaluación y guía reproducible de ejecución local |
 
-### Nivel medio — 1 de 5 verificados
+### Nivel medio — 2 de 5 verificados
 
 | ID | Criterio | Estado | Evidencia necesaria |
 |---|---|---|---|
 | MED‑01 | Ensemble comparado con baseline | `Verificado` | RF, XGBoost y LightGBM comparados con el baseline en la misma muestra; XGBoost obtiene el mejor macro F1 de validación (`0.6332`), sin selección de modelo definitiva |
-| MED‑02 | Validación cruzada estratificada | No iniciado | Folds, semillas y variabilidad |
+| MED‑02 | Validación cruzada estratificada | `En curso` | Estrategia agrupada y semillas versionadas; pendiente CV completa convergida con folds y variabilidad finales |
 | MED‑03 | Optimización de hiperparámetros | `En curso` | Optuna implementado en `src/ml/tuning.py`; pendiente ejecución con split completo |
-| MED‑04 | Feedback y métricas operativas | `En curso` | Persistencia local minimizada con versión y privacidad; faltan interfaz y métricas operativas |
+| MED‑04 | Feedback y métricas operativas | `Verificado` | Predicción local real, feedback minimizado y resumen agregado verificados extremo a extremo; `reports/validation/claimvox_local_feedback_e2e.md` |
 | MED‑05 | Recolección para reentrenamiento | `En curso` | Registro local trazable; faltan pipeline, validación y política de incorporación |
 
 ### Nivel avanzado — 3 de 6 verificados
@@ -437,7 +437,7 @@ Antes de subir un paquete a NotebookLM se excluyen secretos, datos brutos, narra
 
 1. Ejecutar [PG-11](https://miguel-redondo.atlassian.net/browse/PG-11): validación cruzada estratificada y optimización sin utilizar el test protegido para seleccionar.
 2. Ejecutar [PG-12](https://miguel-redondo.atlassian.net/browse/PG-12): quality gates de integridad, modelo y métricas en CI.
-3. Continuar [PG-13](https://miguel-redondo.atlassian.net/browse/PG-13): el flujo local minimizado ya registra feedback y resume métricas agregadas sobre [PG-14](https://miguel-redondo.atlassian.net/browse/PG-14); faltan operación compartida y recolección validada para reentrenamiento.
+3. Mantener [PG-13](https://miguel-redondo.atlassian.net/browse/PG-13) como feedback local verificado: predicción real, registro minimizado y resumen agregado; siguen pendientes operación compartida y recolección validada para reentrenamiento.
 4. Abordar [PG-15](https://miguel-redondo.atlassian.net/browse/PG-15): Docker y despliegue reproducible después de estabilizar controles y persistencia.
 5. Consultar la [hoja de ruta posterior](docs/project_management/mvp_delivery_roadmap.md) para dependencias, responsables y evidencia mínima.
 

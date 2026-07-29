@@ -63,7 +63,7 @@
   identidad ni contenido. No acreditan seguridad de despliegue ni analítica de
   usuarios. Véase `reports/validation/mvp_readiness_inventory.md`.
 - Despliegue: pendiente.
-- Feedback local: creación explícita posterior a predicción y resumen agregado por versión, clase y decisión, sobre persistencia SQLite local gobernada con retención finita. No conserva narrativa, identidad, texto libre ni probabilidades completas; no hay autenticación, base compartida, operación productiva ni reentrenamiento automático. Véanse `reports/validation/claimvox_feedback_persistence.md` y `reports/validation/claimvox_feedback_operational_flow.md`.
+- Feedback local: creación explícita posterior a predicción local real y resumen agregado por versión, clase y decisión, sobre persistencia SQLite local gobernada con retención finita. La comprobación extremo a extremo está en `reports/validation/claimvox_local_feedback_e2e.md`. No conserva narrativa, identidad, texto libre ni probabilidades completas; no hay autenticación, base compartida, operación productiva ni reentrenamiento automático.
 - Estado MLOps: pendiente.
 
 ## Regla

@@ -57,9 +57,9 @@ El nivel esencial solo se declara alcanzado cuando `ESS-01` a `ESS-10` están en
 | ID | Criterio obligatorio | Estado | Área | Evidencia mínima para verificar |
 |---|---|---|---|---|
 | `MED-01` | Modelo ensemble comparado con el baseline | `Verificado` | Datos / ML | RF, XGBoost y LightGBM comparados con LR baseline: XGBoost líder (macro F1 0.6332), LightGBM (0.6175), RF (0.4704) sobre sample 50K; gaps >5% transferidos a MED-03 |
-| `MED-02` | Validación cruzada estratificada | `No iniciado` | Datos / ML | `StratifiedKFold` o alternativa justificada, semillas, resultados por fold y variabilidad |
+| `MED-02` | Validación cruzada estratificada | `En curso` | Datos / ML | Estrategia agrupada, semillas y pruebas versionadas; la CV completa no convergente no acredita todavía folds ni variabilidad finales |
 | `MED-03` | Optimización de hiperparámetros | `En curso` | Datos / ML | Optuna implementado en `src/ml/tuning.py`; pendiente ejecución con split completo |
-| `MED-04` | Recogida y monitorización de feedback | `En curso` | Producto / aplicación | Flujo local explícito con creación minimizada y resumen agregado por versión/clase/decisión; faltan autenticación, operación compartida y métricas operativas de producción |
+| `MED-04` | Recogida y monitorización de feedback | `Verificado` | Producto / aplicación | Predicción local real, creación minimizada de feedback y resumen agregado por versión/clase/decisión verificados extremo a extremo; `reports/validation/claimvox_local_feedback_e2e.md`. No acredita autenticación, operación compartida ni métricas de producción |
 | `MED-05` | Recolección de nuevos datos para reentrenamiento | `En curso` | Datos / MLOps | Finalidad local trazable `future_retraining_candidate` sin narrativa ni incorporación automática; faltan pipeline, validación, deduplicación y política de incorporación |
 
 ### Puerta media
@@ -111,7 +111,7 @@ Cada criterio verificado debe registrar:
 | Nivel | Resultado |
 |---|---|---|
 | Esencial | `10 de 10 verificados`: evidencia enlazada para `ESS-01` a `ESS-10`; la ejecución sigue siendo local y no acredita despliegue |
-| Medio | `1 de 5 verificado` (`MED-01`); `1 en curso` (`MED-03`); resto pendiente |
+| Medio | `2 de 5 verificados` (`MED-01`, `MED-04`); `3 en curso` (`MED-02`, `MED-03`, `MED-05`) |
 | Avanzado | `No iniciado` |
 | Experto | `No iniciado` |
 
