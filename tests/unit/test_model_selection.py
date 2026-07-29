@@ -11,6 +11,7 @@ import polars as pl
 
 from scripts.ml.evaluate_model_selection import (
     ModelSelectionInputError,
+    apply_pilot_limit,
     load_selection_training_partition,
     validate_training_input_path,
 )
@@ -49,6 +50,14 @@ class InputBoundaryTests(unittest.TestCase):
             result.columns,
             ["complaint_what_happened", "product_canonical", "narrative_hash"],
         )
+
+    def test_pilot_limit_is_deterministic_and_bounded(self):
+        frame = pl.DataFrame({"value": list(range(10))})
+        policy = {"maximum_training_rows": 4, "sampling_seed": 42}
+        first = apply_pilot_limit(frame, policy)
+        second = apply_pilot_limit(frame, policy)
+        self.assertEqual(first.height, 4)
+        self.assertEqual(first.to_dicts(), second.to_dicts())
 
 
 class CrossValidationTests(unittest.TestCase):

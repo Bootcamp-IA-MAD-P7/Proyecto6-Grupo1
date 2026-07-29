@@ -71,6 +71,17 @@ def load_selection_policy(policy_path: Path) -> dict:
     return policy
 
 
+def apply_pilot_limit(frame: pl.DataFrame, pilot_policy: dict) -> pl.DataFrame:
+    """Return the approved deterministic feasibility sample."""
+    maximum_rows = pilot_policy["maximum_training_rows"]
+    if maximum_rows <= 0:
+        raise ModelSelectionInputError("Pilot maximum_training_rows must be positive.")
+    return frame.sample(
+        n=min(frame.height, maximum_rows),
+        seed=pilot_policy["sampling_seed"],
+    )
+
+
 def parse_args() -> argparse.Namespace:
     parser = argparse.ArgumentParser(
         description="Prepare the approved training partition for PG-11 model selection."
@@ -78,6 +89,11 @@ def parse_args() -> argparse.Namespace:
     parser.add_argument("--train-input", type=Path, default=DEFAULT_TRAIN_INPUT)
     parser.add_argument("--policy", type=Path, default=DEFAULT_POLICY_PATH)
     parser.add_argument("--candidate", choices=("rf", "xgb", "lgbm"), default="xgb")
+    parser.add_argument(
+        "--pilot",
+        action="store_true",
+        help="Use the approved deterministic feasibility sample.",
+    )
     parser.add_argument(
         "--execute",
         action="store_true",
@@ -91,9 +107,16 @@ def main() -> None:
     frame = load_selection_training_partition(args.train_input)
     policy = load_selection_policy(args.policy)
     print(f"PG-11 input accepted: {frame.height:,} training rows with grouped leakage control.")
+    if args.pilot:
+        frame = apply_pilot_limit(frame, policy["pilot"])
+        print(f"Pilot limited to {frame.height:,} deterministic training rows.")
     if not args.execute:
         print("No evaluation executed. Use --execute only after human approval.")
         return
+    if not args.pilot:
+        raise ModelSelectionInputError(
+            "Full PG-11 execution is disabled; use the approved --pilot mode."
+        )
 
     vectorizer = VectorizerConfig({"max_features": 8000, "ngram_range": [1, 2]})
     matrix = vectorizer.fit_transform(frame["complaint_what_happened"].to_list())
@@ -108,6 +131,8 @@ def main() -> None:
         n_trials=optimization["max_trials_per_candidate"],
         random_state=cv_policy["random_state"],
     )
+    result["execution_scope"] = "pilot"
+    result["may_verify_delivery_criteria"] = False
     print(json.dumps(result, sort_keys=True))
 
 
