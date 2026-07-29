@@ -17,11 +17,14 @@ from app.api.services.feedback_repository import FeedbackRepositoryError, LocalF
 CANONICAL_CLASS = get_args(FeedbackRecord.model_fields["suggested_class"].annotation)[0]
 
 
-def feedback_payload() -> dict[str, object]:
+def feedback_payload(
+    identifier: int = 1,
+    expires_at: datetime | None = None,
+) -> dict[str, object]:
     created_at = datetime(2026, 7, 29, tzinfo=timezone.utc)
     return {
-        "feedback_id": UUID("00000000-0000-0000-0000-000000000001"),
-        "prediction_id": UUID("00000000-0000-0000-0000-000000000002"),
+        "feedback_id": UUID(f"00000000-0000-0000-0000-{identifier:012d}"),
+        "prediction_id": UUID(f"00000000-0000-0000-0000-{identifier + 100:012d}"),
         "model_version": "baseline-1",
         "taxonomy_version": "1.0",
         "suggested_class": CANONICAL_CLASS,
@@ -29,7 +32,7 @@ def feedback_payload() -> dict[str, object]:
         "decision": "confirmed",
         "purpose": "human_review_quality_assurance",
         "created_at": created_at,
-        "expires_at": created_at + timedelta(days=30),
+        "expires_at": expires_at or created_at + timedelta(days=30),
     }
 
 
@@ -93,6 +96,52 @@ class FeedbackPersistenceTests(unittest.TestCase):
         finally:
             connection.close()
         self.assertEqual(count, 1)
+
+    def test_purge_removes_only_expired_feedback(self) -> None:
+        created_at = datetime(2026, 7, 29, tzinfo=timezone.utc)
+        expired = validate_feedback_payload(
+            feedback_payload(3, created_at + timedelta(days=1))
+        )
+        current = validate_feedback_payload(
+            feedback_payload(4, created_at + timedelta(days=30))
+        )
+        self.repository.record_feedback(expired)
+        self.repository.record_feedback(current)
+
+        purged = self.repository.purge_expired_feedback(created_at + timedelta(days=2))
+
+        self.assertEqual(purged, 1)
+        self.assertEqual(self.repository.list_feedback_summary()[0]["count"], 1)
+
+    def test_purge_is_idempotent(self) -> None:
+        created_at = datetime(2026, 7, 29, tzinfo=timezone.utc)
+        expired = validate_feedback_payload(
+            feedback_payload(5, created_at + timedelta(days=1))
+        )
+        self.repository.record_feedback(expired)
+
+        self.repository.purge_expired_feedback(created_at + timedelta(days=2))
+        purged_again = self.repository.purge_expired_feedback(created_at + timedelta(days=2))
+
+        self.assertEqual(purged_again, 0)
+
+    def test_summary_contains_only_approved_aggregate_fields(self) -> None:
+        self.repository.record_feedback(validate_feedback_payload(feedback_payload(6)))
+        self.repository.record_feedback(validate_feedback_payload(feedback_payload(7)))
+
+        summary = self.repository.list_feedback_summary()
+
+        self.assertEqual(summary, ({
+            "model_version": "baseline-1",
+            "suggested_class": CANONICAL_CLASS,
+            "decision": "confirmed",
+            "count": 2,
+        },))
+
+    def test_no_feedback_is_stored_without_an_explicit_record_operation(self) -> None:
+        self.repository.initialize()
+
+        self.assertEqual(self.repository.list_feedback_summary(), ())
 
 
 if __name__ == "__main__":
