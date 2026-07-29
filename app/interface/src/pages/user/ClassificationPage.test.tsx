@@ -205,12 +205,16 @@ describe('ClassificationPage', () => {
       }),
     }
 
-    renderWithRouter(<ClassificationPage predictionClient={client} clientMode="local_api" />)
+    renderWithRouter(
+      <ClassificationPage predictionClient={client} predictionClientMode="local_api" />,
+    )
 
     await user.type(screen.getByLabelText('Complaint narrative'), 'Synthetic UX review case')
     await user.click(screen.getByRole('button', { name: 'Classify complaint' }))
 
-    expect(await screen.findByText('Human review is required before any routing or final decision.')).toBeVisible()
+    expect(
+      await screen.findByText('Human review is required before any routing or final decision.'),
+    ).toBeVisible()
     const alternatives = within(screen.getByRole('list'))
     expect(alternatives.getByText('Credit card')).toBeVisible()
     expect(alternatives.getByText('Debt collection')).toBeVisible()

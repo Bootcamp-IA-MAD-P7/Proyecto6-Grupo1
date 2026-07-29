@@ -1,9 +1,9 @@
 # Guía local de ClaimVox
 
 Esta es la guía canónica para ejecutar ClaimVox en un equipo Windows con Git
-Bash. Describe una demostración segura con mock y una comprobación opcional de
-inferencia local real. Ninguna equivale a un despliegue, autenticación,
-persistencia ni operación productiva.
+Bash. Describe una demostración segura con mock y una comprobación de inferencia
+y feedback locales. Ninguna equivale a despliegue, autenticación, base
+compartida ni operación productiva.
 
 ## Antes de empezar
 
@@ -86,6 +86,18 @@ Con health `ok`, el resultado esperado es **Prediction response**, con una
 confianza numérica, alternativas y **Human review required**. La revisión humana
 sigue siendo obligatoria: una predicción local no enruta automáticamente una
 reclamación ni toma una decisión financiera.
+
+Después de una predicción local válida aparece **Record human review**. El
+registro envía únicamente versión, clases, decisión y finalidad; no guarda la
+narrativa. Para comprobar el resumen agregado:
+
+```bash
+curl -s http://127.0.0.1:8000/api/v1/feedback/summary
+```
+
+La salida no contiene UUID ni registros individuales. Se conserva en SQLite
+local con retención finita; no es una base compartida ni un corpus de
+reentrenamiento.
 
 ## Si el navegador muestra una versión antigua
 

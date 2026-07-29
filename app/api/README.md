@@ -12,12 +12,15 @@ using the trained baseline model, conforming to `docs/api/openapi.json`.
 | Baseline model loading (models/cfpb_baseline.pkl) | Implemented |
 | Mock fallback when artifact missing | Implemented |
 | Predictor interface for extensibility | Implemented |
+| Feedback endpoint (POST /api/v1/feedback) | Implemented for local use |
+| Aggregated feedback summary (GET /api/v1/feedback/summary) | Implemented for local use |
+| Governed local persistence | Implemented with finite-retention SQLite |
 | Authentication / authorization | NOT implemented (pending decision) |
 | CORS | Local opt-in only; explicit origins, no credentials or wildcard |
 | Request controls | 5,000-character maximum and 20 predictions/minute per temporary local client, configurable by environment |
 | Response headers | `Cache-Control: no-store`, `Referrer-Policy: no-referrer`, `X-Content-Type-Options: nosniff`, `X-Frame-Options: DENY` |
 | Technical events | Local structured events without narrative, identity, IP, alternatives or individual confidence |
-| Database / persistence | NOT implemented |
+| Shared database / migrations | NOT implemented |
 | Docker | NOT implemented |
 | RAG integration | Not implemented |
 
@@ -109,7 +112,9 @@ app/api/
 │   ├── response.py      # PredictionResponse, Alternative, ErrorResponse
 │   └── health.py        # HealthResponse
 ├── services/
-│   └── prediction_service.py  # Orchestration: predictor → response
+│   ├── prediction_service.py  # Orchestration: predictor → response
+│   ├── feedback_service.py    # Local creation, retention and aggregation
+│   └── feedback_repository.py # Governed local SQLite repository
 └── predictors/
     ├── base.py          # PredictorInterface (abstract)
     ├── baseline.py      # Real model (TF-IDF + LogisticRegression)
@@ -135,7 +140,8 @@ The predictor interface allows swapping implementations without changing routes:
 - Local CORS is opt-in through `APP_CORS_ALLOWED_ORIGINS`; it accepts only
   explicitly configured local origins, never wildcards or credentials
 - Local in-memory rate limiting is not a distributed or production-grade abuse control
-- No persistence or feedback collection
+- Feedback persistence is local-only; there is no shared database, user
+  history or endpoint for individual records
 - Model artifact is gitignored and must exist locally to serve real predictions
 - No formal model versioning/registry (artifact identified by config params)
 - ClaimVox can use this service locally when both origins are explicitly

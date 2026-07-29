@@ -2,7 +2,8 @@
 
 ## Estado confirmado del proyecto
 
-- Fase: nivel esencial verificado con baseline evaluado, servicio local e integración local de ClaimVox; OpenSpec + Harness Engineering operativos.
+- Fase: nivel esencial verificado; `MED-01` y `MED-04` verificados; `ADV-04`
+  a `ADV-06` verificados mediante quality gates locales.
 - Problema: clasificación y apoyo al enrutamiento de reclamaciones financieras escritas.
 - Dataset: Consumer Complaint Database del CFPB, viable con condiciones.
 - Entrada candidata permitida: `complaint_what_happened`.
@@ -10,10 +11,22 @@
 - Frontend integrado: prototipo React PWA ClaimVox; una evolución nativa solo se evaluará si aparece evidencia que la justifique.
 - Responsabilidades: Miguel coordina arquitectura; José, backend; Abel, frontend/UX; Víctor, datos y EDA. Josué está fuera del equipo.
 - Jira: proyecto `PG`; `PG-1` agrupa el nivel esencial.
-- Trabajo actual: `PG-2` a `PG-7` completan el nivel esencial con evidencia local; `PG-8` verifica la comparación ensemble `MED-01`. Los siguientes cambios deben gobernar los criterios medios, la selección posterior de modelo o capacidades operativas. Las tareas numeradas `001/T-004` a `T-006` y `003/T-006` permanecen como expedientes cerrados de compatibilidad.
-- Existe un baseline reproducible, inferencia local, una PWA integrada localmente bajo configuración explícita y un repositorio local gobernado de feedback sin ruta pública. No existe todavía base de datos compartida o productiva, despliegue, autenticación, interfaz de feedback ni capacidad MLOps.
+- Trabajo actual: `PG-11` permanece en curso para `MED-02` y `MED-03`;
+  `PG-12`, `PG-13` y `PG-14` están cerradas en Jira con evidencia local.
+  `PG-15`, `PG-16` y `PG-17` permanecen por hacer. Las tareas numeradas
+  `001/T-004` a `T-006` y `003/T-006` son expedientes cerrados de
+  compatibilidad.
+- Existe un baseline reproducible, inferencia local, una PWA integrada y un
+  flujo local de feedback gobernado con persistencia SQLite, retención y
+  resumen agregado. No existe todavía Champion, base compartida,
+  autenticación, despliegue ni capacidad MLOps.
 
-La métrica inicial del baseline, la política de idioma, duplicados, partición y desbalanceo ya están versionadas para la preparación actual. El modelo evaluado sigue siendo local y revisable, no un Champion ni un servicio desplegado. Siguen abiertas la selección basada en resultados, los modelos posteriores, la cobertura multilingüe, la integración operativa de feedback y el proveedor cloud. No deben cerrarse sin evidencia y una decisión versionada.
+La métrica inicial del baseline, la política de idioma, duplicados, partición y
+desbalanceo ya están versionadas. El modelo evaluado sigue siendo local y
+revisable, no un Champion ni un servicio desplegado. Siguen abiertas la
+selección basada en resultados, los modelos posteriores, la cobertura
+multilingüe, el corpus gobernado de reentrenamiento, la base compartida y el
+proveedor cloud. No deben cerrarse sin evidencia y una decisión versionada.
 
 ## Fuente de verdad para cambios
 

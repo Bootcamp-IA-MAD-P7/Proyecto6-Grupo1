@@ -7,23 +7,25 @@ y al [expediente OpenSpec archivado](../../openspec/changes/archive/2026-07-24-i
 
 ## Estado real
 
-| Capacidad                         | Estado                                                        |
-| --------------------------------- | ------------------------------------------------------------- |
-| Formulario de reclamación         | Implementado y verificado con texto sintético                 |
-| Contrato TypeScript               | Implementado y alineado con OpenAPI                           |
-| Recomendación                     | Mock seguro por defecto; respuesta local real con configuración explícita |
-| Revisión humana                   | Representada en la interfaz                                   |
-| Dictado                           | Implementado mediante Web Speech API con fallback por teclado |
-| PWA instalable                    | Verificada manualmente en Chrome sobre Windows                |
-| Shell offline                     | Implementado; no clasifica sin conexión                       |
-| Identidad y tema                  | ClaimVox; preferencias claro, oscuro y sistema persistentes   |
-| Autenticación y administración    | Propuestas mock; no aportan seguridad ni operaciones reales   |
+| Capacidad                          | Estado                                                                             |
+| ---------------------------------- | ---------------------------------------------------------------------------------- |
+| Formulario de reclamación          | Implementado y verificado con texto sintético                                      |
+| Contrato TypeScript                | Implementado y alineado con OpenAPI                                                |
+| Recomendación                      | Mock seguro por defecto; respuesta local real con configuración explícita          |
+| Revisión humana                    | Representada en la interfaz                                                        |
+| Dictado                            | Implementado mediante Web Speech API con fallback por teclado                      |
+| PWA instalable                     | Verificada manualmente en Chrome sobre Windows                                     |
+| Shell offline                      | Implementado; no clasifica sin conexión                                            |
+| Identidad y tema                   | ClaimVox; preferencias claro, oscuro y sistema persistentes                        |
+| Autenticación y administración     | Propuestas mock; no aportan seguridad ni operaciones reales                        |
 | Backend, modelo e inferencia local | Integración local verificada; no hay despliegue ni modelo aprobado para producción |
+| Feedback local                     | Registro minimizado y resumen agregado tras predicción local real                  |
 
 La integración local de frontend, servicio y artefacto reproducible aporta la
-evidencia para verificar `ESS-04` tras revisión y merge. No equivale a
-autenticación, despliegue, persistencia, observabilidad operativa ni a un modelo
-aprobado para producción.
+evidencia de `ESS-04`. No equivale a autenticación, despliegue, persistencia de
+reclamaciones, observabilidad operativa ni a un modelo aprobado para producción.
+La única persistencia implementada conserva metadatos cerrados de feedback en
+SQLite local y aplica retención finita.
 
 ## Servicio local opcional
 
@@ -42,7 +44,7 @@ La identidad ClaimVox y las preferencias de tema se integraron mediante la PR
 #28. Son cambios de experiencia visual: no modifican el contrato de predicción
 ni acreditan modelo, servicio, autenticación o administración operativos.
 
-## Arranque en cinco minutos
+## Ejecución local
 
 Requisitos:
 
@@ -82,10 +84,12 @@ build, no solo sobre el servidor de desarrollo.
    personales innecesarios.
 4. Pulsar `Classify complaint`.
 5. Sin `VITE_PREDICTION_API_BASE_URL`, revisar la respuesta marcada como `Mock
-   response · demo only`.
-6. Con la URL local explícita y el backend en marcha, revisar `Prediction
-   response`, la confianza devuelta y el estado `Human review required`.
-7. Pulsar `Start a new classification` para volver a un formulario vacío.
+response`.
+6. Con la URL local explícita y el backend en marcha, revisar `Local prediction
+response`, la confianza devuelta y el estado `Human review required`.
+7. Tras una respuesta local real, confirmar o corregir la sugerencia con los
+   selectores cerrados de revisión y registrar el feedback local.
+8. Pulsar `Start a new classification` para volver a un formulario vacío.
 
 El mock es fijo y sintético. En modo local configurado, la vista consulta solo
 `POST /api/v1/predictions`; nunca consulta el CSV ni artefactos de entrenamiento
@@ -94,14 +98,14 @@ una decisión automática.
 
 ### Rutas
 
-| Ruta              | Propósito                           |
-| ----------------- | ----------------------------------- |
-| `/`               | Resumen público del prototipo       |
+| Ruta              | Propósito                                           |
+| ----------------- | --------------------------------------------------- |
+| `/`               | Resumen público del prototipo                       |
 | `/classify`       | Formulario y recomendación mock o local configurada |
-| `/login`          | Propuesta de autenticación ficticia |
-| `/admin`          | Concepto de panel administrativo    |
-| `/admin/training` | Concepto de flujo de entrenamiento  |
-| `/admin/models`   | Concepto de registro de modelos     |
+| `/login`          | Propuesta de autenticación ficticia                 |
+| `/admin`          | Concepto de panel administrativo                    |
+| `/admin/training` | Concepto de flujo de entrenamiento                  |
+| `/admin/models`   | Concepto de registro de modelos                     |
 
 Las rutas administrativas solo pueden revisarse con la identidad sintética
 `carlos@example.com`. La propuesta de usuario utiliza `ana@example.com`.
@@ -271,17 +275,18 @@ app/interface/
 
 ## Limitaciones y próximos límites
 
-- No existe autenticación, despliegue, persistencia, observabilidad operativa ni
-  modelo seleccionado para producción. La inferencia real disponible es solo
-  local y requiere configuración explícita.
-- No existe una cola operativa ni persistencia de reclamaciones o feedback.
+- No existe autenticación, despliegue, observabilidad operativa ni modelo
+  seleccionado para producción. La inferencia real es local y requiere
+  configuración explícita.
+- No existe cola operativa ni persistencia de reclamaciones. El feedback se
+  limita a metadatos cerrados en SQLite local; no es una base compartida.
 - No existe autenticación, autorización ni administración real.
 - Las pantallas de entrenamiento y modelos son conceptos no operativos.
 - No se ha aprobado una política de idioma.
 - Edge continúa pendiente de revisión manual equivalente.
 - La PWA no ofrece clasificación offline.
-- Las métricas del nivel esencial solo podrán presentarse cuando exista un
-  modelo evaluado con evidencia reproducible.
+- Las métricas del nivel esencial están versionadas y deben citarse con el
+  tamaño y la partición del informe correspondiente; no acreditan un Champion.
 
 La evidencia detallada está en
 [`reports/validation/frontend_foundation_integration.md`](../../reports/validation/frontend_foundation_integration.md).

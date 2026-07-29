@@ -20,7 +20,7 @@ No se versionan árboles vacíos para representar capacidades futuras. El mapa s
 | `src/application/` | Casos de uso y orquestación del dominio. |
 | `src/infrastructure/` | Persistencia, artefactos y adaptadores externos. |
 | `src/ml/` | Datos, features, entrenamiento y evaluación multiclase. |
-| `app/` | Adaptadores de entrega: interfaz y API, si resulta necesaria. |
+| `app/` | Adaptadores de entrega: React PWA, FastAPI y servicios locales. |
 | `src/mlops/` | Experimentos, monitorización, registro y promoción. |
 | `models/` | Artefactos versionados o metadatos de modelos. |
 | `reports/` | Evidencias generadas para evaluación y defensa. |
@@ -52,8 +52,10 @@ Este flujo es una capacidad estructural prevista, no una afirmación de implemen
 ## Evolución sin reorganizaciones
 
 - El nivel esencial usará datos, notebooks, `src/`, un modelo, la app, informes y tests mínimos.
-- El nivel medio añadirá challengers, tuning, feedback y recolección.
-- El nivel avanzado activará infraestructura, persistencia, despliegue y tests operativos.
+- El nivel medio completa selección, tuning y recolección; el feedback local ya
+  está verificado.
+- El nivel avanzado completa contenedores, base compartida y despliegue; los
+  quality gates locales de datos, modelo y métricas ya están verificados.
 - El nivel experto activará experimentos, monitorización, registro y promoción controlada.
 
 Cada ruta aparecerá de forma incremental en la Pull Request que implemente su primera capacidad. Un README puede conservar el contrato futuro sin acompañarse de `.gitkeep` ni subcarpetas vacías.

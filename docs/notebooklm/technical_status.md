@@ -2,7 +2,8 @@
 
 ## Estado general
 
-- Fase: preparación de datos cerrada y baseline reproducible evaluado, con OpenSpec + Harness Engineering operativos.
+- Fase: nivel esencial 10/10 verificado; nivel medio 2/5 y avanzado 3/6,
+  con OpenSpec + Harness Engineering operativos.
 - Idea de negocio: clasificación y enrutamiento de reclamaciones financieras, elegida por unanimidad con condiciones.
 - Dataset: Consumer Complaint Database del CFPB viable con condiciones; target y reglas de EDA versionados.
 - Producto demostrable: ClaimVox React PWA integrado mediante las PR #25 y #28,
@@ -12,23 +13,27 @@
   desplegado.
 - Despliegue: no iniciado.
 - Feedback: persistencia SQLite local gobernada y flujo explícito posterior a predicción, con creación minimizada y resumen agregado. No hay autenticación, permisos reales, base compartida, operación productiva, corpus ni reentrenamiento automático.
-- Seguimiento: Jira `PG` operativo para responsables, estados y bloqueos; `PG-1`
-  agrupa el nivel esencial sin sustituir requisitos ni evidencias versionadas.
+- Seguimiento: Jira `PG` operativo; `PG-11` está en curso, `PG-12` a `PG-14`
+  están listos y `PG-15` a `PG-17` permanecen por hacer. Jira no sustituye
+  requisitos ni evidencia versionada.
 
 ## Capacidades verificadas
 
 - Rama `dev` creada y configurada como rama predeterminada.
 - Estructura inicial integrada en `dev` mediante Pull Request y squash merge.
 - Intent global del proyecto integrado y vigente.
-- Spec `000-problem-discovery` activa para gobernar la evaluación y el cierre de las puertas de datos.
+- Spec `000-problem-discovery` conservada como expediente histórico de
+  descubrimiento; el estado vigente se gobierna con OpenSpec.
 - Reglas de evaluación `1.0` aprobadas por mayoría absoluta del equipo activo, con puertas críticas, matriz y gobierno de la selección.
 - Dos candidatas evaluadas con la matriz `1.0`: reclamaciones CFPB y clasificación visual de residuos con RealWaste.
 - `CAND-001` elegida por José, Abel, Víctor y Miguel con cuatro votos favorables, cero contrarios y cero abstenciones.
 - El spike está completado y la spec `001` autoriza el EDA bajo contrato. Las decisiones posteriores de preparación habilitaron y la PR #31 incorporó el baseline reproducible; no autorizan por sí solas inferencia integrada.
 - Arnés CFPB reproducible implementado con configuración versionada, probe API, muestra temporal en memoria, informes agregados y siete tests unitarios.
 - Probe verificado: 2.306.723 narrativas, catorce etiquetas observadas, licencia CC0 informada por la API y clase mayoritaria del 72,45 %.
-- G-02, G-03, G-04 y G-06 superadas para EDA; G-05 continúa condicionada por la revisión de privacidad.
-- Spec `001-cfpb-target-contract` activa con once clases canónicas, dos aliases, una exclusión ambigua y ocho tests unitarios de contrato de target.
+- Las puertas de descubrimiento habilitaron el EDA. La privacidad se mantiene
+  como control transversal y no como permiso para versionar narrativas.
+- El expediente `001-cfpb-target-contract` conserva once clases canónicas, dos
+  aliases, una exclusión ambigua y ocho tests de contrato.
 - El EDA de Víctor está incorporado mediante la PR #24 con evidencia agregada sobre clases, tiempo, ausencias, duplicados, longitud e idioma. `T-006` aplica para el baseline inicial una política de inglés, grupos completos, split temporal y pesos balanceados; no autoriza conclusiones de modelo.
 - El constructor contractual de `T-005` se ha ejecutado sobre una instantánea local actual del CFPB. La preparación posterior de `T-006` obtuvo 1.961.073 filas en inglés y particiones locales de 1.372.751/294.161/294.161 para train/validation/test, sin leakage de grupos y con 100 filas mínimas por clase en validation y test. El informe EDA previo usa otra instantánea; ambos resultados siguen trazados por huella y no se mezclan.
 - React PWA confirmada como dirección frontend inicial; el prototipo de `PG-4`
@@ -62,12 +67,18 @@
 - `PG-12` añade puertas locales versionadas para integridad de datos, contrato de modelo y métricas; 16 pruebas sintéticas cubren los criterios `ADV-04` a `ADV-06`. No ejecuta particiones CFPB, no entrena, no persiste artefactos ni opera en producción.
 - Responsabilidades principales confirmadas: Miguel en arquitectura y arnés, José en backend, Abel en frontend/UX y Víctor en datos y EDA.
 - `PG-2` / `001/T-004` a `T-006` tienen evidencia documental y de preparación completada. El cierre documental del EDA confirma `ESS-02`: script reproducible, informe agregado, cuatro figuras y justificación de visualizaciones para texto, sin narrativas. La PR #31 completa la primera evaluación del baseline de `PG-3`: macro F1 validation `0.5973`, gap train/validation `0.0482`, accuracy validation `0.8484` y una evaluación de test protegido. `ESS-02`, `ESS-03`, `ESS-04`, `ESS-05` y `ESS-06` tienen evidencia mínima; `ESS-04` se verifica mediante el smoke local de `PG-6` fusionado en la PR #40, no como despliegue.
-- `PG-5` dispone de FastAPI, validación contractual, predictor real con fallback mock y una comprobación local contra un artefacto reproducido con las particiones aprobadas. `PG-6` conecta ClaimVox bajo una URL local explícita, valida la respuesta, aplica CORS local restringido y mantiene revisión humana. Ninguna de estas evidencias acredita autenticación, persistencia, despliegue ni producto operativo.
+- `PG-5` dispone de FastAPI, validación contractual, predictor real con fallback
+  mock y una comprobación local contra un artefacto reproducido. `PG-6` conecta
+  ClaimVox bajo una URL local explícita, valida la respuesta, aplica CORS local
+  restringido y mantiene revisión humana. `PG-13`/`PG-14` añaden feedback y
+  persistencia SQLite locales. Nada de ello acredita autenticación, base
+  compartida, despliegue ni producto operativo.
 - La comparación ensemble de `MED-01` incorpora Random Forest, XGBoost y LightGBM sobre una muestra de 50K con las mismas métricas que el baseline. XGBoost obtiene el mejor macro F1 de validation (`0.6332`), pero sus gaps superiores al 5 % impiden elegirlo como modelo definitivo; la selección y optimización posterior pertenecen a `MED-03`.
 - `PG-7` reconstruye el baseline sobre las particiones locales actuales y genera diagnósticos únicamente sobre validation: matriz de confusión, importancia TF-IDF y análisis agregado de errores. El informe registra macro F1 `0.6390`, accuracy `0.8684` y gap `0.0078`; completa la evidencia de `ESS-01` y `ESS-07` a `ESS-10`, sin acreditar despliegue ni Champion.
 - Workflow `repository-quality` ejecutado correctamente y asociado automáticamente a las Pull Requests `#14` y `#15`.
 - La PR `#17` se integró en `dev` y verificó en Linux las suites Python, convenciones, whitespace, auditoría npm, diagnóstico y validación estricta de OpenSpec; la ejecución `30000072621` finalizó correctamente.
-- El piloto con Víctor ya no bloquea la implantación; su tarea real servirá para recoger feedback del uso heredado y adaptar decisiones nuevas mediante OpenSpec.
+- `PG-11` continúa bloqueado por falta de CV completa convergida; ningún piloto
+  ni rama no fusionada acredita `MED-02`, `MED-03` o un Champion.
 - Ruleset `Protect dev` activo con PR y check de calidad obligatorios, historial lineal y bloqueo de force push y borrado.
 - Aprobaciones humanas no requeridas temporalmente.
 - Estructura simplificada para crear subcarpetas de aplicación, ML, MLOps, infraestructura y evidencias únicamente cuando contengan una capacidad real.

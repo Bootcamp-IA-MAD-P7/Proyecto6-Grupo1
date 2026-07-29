@@ -8,7 +8,7 @@ where = ["src"]
 [project]
 name = "proyecto6-grupo1"
 version = "0.1.0"
-description = "Add your description here"
+description = "ClaimVox: governed multiclass classification support for financial complaints"
 readme = "README.md"
 requires-python = ">=3.12"
 dependencies = [

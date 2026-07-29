@@ -23,6 +23,9 @@
 - Minimización y finalidad documentadas.
 - Separación entre datos originales, procesados y operativos.
 - Retención y eliminación definidas si se recoge feedback.
+- El feedback local usa campos cerrados, retención finita, purga idempotente y
+  resumen agregado; no conserva narrativa, identidad, texto libre ni
+  probabilidades completas.
 - Datos de tests sintéticos o anonimizados.
 
 ## Modelos

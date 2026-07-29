@@ -1,5 +1,17 @@
 # Notebooks
 
+## Estado vigente
+
+`01_eda.py` es la fuente narrativa reproducible del EDA que sustenta
+`ESS-02`. Su evidencia agregada está en
+`reports/validation/cfpb_eda.md`; las decisiones posteriores de preparación y
+partición están en `config/cfpb_training_policy.json`. Los recuentos de ambos
+cortes no se mezclan.
+
+No existe un notebook de selección de Champion. La lógica reutilizable de
+entrenamiento y evaluación vive en `src/ml/` y `scripts/ml/`; los notebooks no
+son la fuente de verdad de métricas ni contratos.
+
 ## Formato
 
 Los notebooks se editan como archivos Python con celdas en formato `percent`:
@@ -14,7 +26,7 @@ notebooks/
 La sintaxis `# %%` está soportada nativamente por VS Code (Python Interactive)
 y otros editores. No necesitas Jupytext para ejecutar celdas en VS Code.
 
-Se añade Jupytext para sincronizar con `.ipynb` cuando se necesite Jupyter
+Jupytext permite sincronizar con `.ipynb` cuando se necesite Jupyter
 Notebook/Lab o ejecución headless con `nbconvert`.
 
 El `.py` es fuente de verdad; el `.ipynb` no se versiona.
@@ -26,6 +38,9 @@ Ver [ADR-003](../specs/001-cfpb-target-contract/decisions.md).
 ```bash
 uv add jupytext ruff nbstripout polars
 ```
+
+Las dependencias también están declaradas en `pyproject.toml`. No es necesario
+regenerar ni ejecutar el notebook para revisar la evidencia versionada.
 
 ## Comandos
 
@@ -64,4 +79,5 @@ make notebook TARGET=notebooks/eda.py   # solo un archivo
 ```
 
 Los notebooks sirven para exploración y narrativa. La lógica necesaria para
-reproducir el sistema debe trasladarse a `src/`.
+reproducir el sistema debe trasladarse a `src/`. Ninguna ejecución puede
+versionar narrativas CFPB, datasets, outputs por fila o `.ipynb` generado.

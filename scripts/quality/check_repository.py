@@ -38,6 +38,10 @@ DELIVERY_ID_GROUPS = {
     "ADV": 6,
     "EXP": 4,
 }
+DELIVERY_STATES = ("Verificado", "En curso", "No iniciado")
+ACTIVE_DELIVERY_CHART = Path(
+    "docs/assets/charts/delivery-status-2026-07-30.svg"
+)
 JIRA_TRACKING_PATTERN = re.compile(r"(?m)^- Jira:\s*`PG-[1-9]\d*`\.\s*$")
 JIRA_EXCEPTION_PATTERN = re.compile(
     r"(?m)^- Jira exception:\s*`(?:bootstrap|emergency|automation)`\.\s*$"
@@ -191,41 +195,62 @@ def check_readme_delivery_ids(errors: list[str]) -> None:
         )
 
 
-def check_delivery_state_consistency(errors: list[str]) -> None:
-    readme_path = ROOT / "README.md"
-    levels_path = ROOT / "docs/project_management/delivery_levels.md"
-    chart_path = ROOT / "docs/assets/charts/delivery-status-2026-07-27.svg"
-    if not readme_path.is_file() or not levels_path.is_file():
-        return
-
-    readme_states: dict[str, str] = {}
-    for line in readme_path.read_text(encoding="utf-8").splitlines():
+def parse_delivery_states(text: str, id_hyphen: str = "-") -> dict[str, str]:
+    states: dict[str, str] = {}
+    for line in text.splitlines():
         columns = [column.strip() for column in line.split("|")]
         if len(columns) < 5:
             continue
-        identifier = columns[1].replace(NON_BREAKING_HYPHEN, "-")
+        identifier = columns[1].replace(id_hyphen, "-").strip("` ")
         if re.fullmatch(r"(?:ESS|MED|ADV|EXP)-\d{2}", identifier):
-            readme_states[identifier] = columns[3].strip("*` ")
+            states[identifier] = columns[3].strip("*` ")
+    return states
 
-    level_states: dict[str, str] = {}
-    for line in levels_path.read_text(encoding="utf-8").splitlines():
-        columns = [column.strip() for column in line.split("|")]
-        if len(columns) < 6:
-            continue
-        identifier = columns[1].strip("` ")
-        if re.fullmatch(r"(?:ESS|MED|ADV|EXP)-\d{2}", identifier):
-            level_states[identifier] = columns[3].strip("*` ")
 
-    expected_count = sum(DELIVERY_ID_GROUPS.values())
-    if len(readme_states) != expected_count:
+def expected_delivery_ids() -> set[str]:
+    return {
+        f"{prefix}-{index:02d}"
+        for prefix, count in DELIVERY_ID_GROUPS.items()
+        for index in range(1, count + 1)
+    }
+
+
+def delivery_state_counts(states: dict[str, str]) -> dict[str, int]:
+    return {
+        state: sum(value == state for value in states.values())
+        for state in DELIVERY_STATES
+    }
+
+
+def check_delivery_state_consistency(errors: list[str]) -> None:
+    readme_path = ROOT / "README.md"
+    levels_path = ROOT / "docs/project_management/delivery_levels.md"
+    chart_path = ROOT / ACTIVE_DELIVERY_CHART
+    if not readme_path.is_file() or not levels_path.is_file():
+        return
+
+    readme_states = parse_delivery_states(
+        readme_path.read_text(encoding="utf-8"),
+        NON_BREAKING_HYPHEN,
+    )
+    level_states = parse_delivery_states(
+        levels_path.read_text(encoding="utf-8"),
+    )
+    expected_ids = expected_delivery_ids()
+
+    missing_readme = sorted(expected_ids - set(readme_states))
+    extra_readme = sorted(set(readme_states) - expected_ids)
+    if missing_readme or extra_readme:
         errors.append(
-            f"README must expose {expected_count} delivery states; "
-            f"found {len(readme_states)}"
+            "README delivery IDs differ from the canonical 25: "
+            f"missing={missing_readme}, extra={extra_readme}"
         )
-    if len(level_states) != expected_count:
+    missing_levels = sorted(expected_ids - set(level_states))
+    extra_levels = sorted(set(level_states) - expected_ids)
+    if missing_levels or extra_levels:
         errors.append(
-            f"delivery_levels.md must define {expected_count} delivery states; "
-            f"found {len(level_states)}"
+            "delivery_levels.md IDs differ from the canonical 25: "
+            f"missing={missing_levels}, extra={extra_levels}"
         )
 
     for identifier in sorted(set(readme_states) | set(level_states)):
@@ -236,17 +261,35 @@ def check_delivery_state_consistency(errors: list[str]) -> None:
                 f"delivery_levels={level_states.get(identifier)!r}"
             )
 
-    if chart_path.is_file() and level_states:
+    if not chart_path.is_file():
+        errors.append(
+            f"Missing active delivery chart: {ACTIVE_DELIVERY_CHART.as_posix()}"
+        )
+    elif level_states:
         chart = chart_path.read_text(encoding="utf-8")
-        state_counts = {
-            state: sum(value == state for value in level_states.values())
-            for state in ("Verificado", "En curso", "No iniciado")
-        }
+        state_counts = delivery_state_counts(level_states)
         for state, count in state_counts.items():
             if f"{state} {count}" not in chart:
                 errors.append(
                     "Delivery chart is not synchronized with delivery_levels.md: "
                     f"expected '{state} {count}'"
+                )
+        for prefix, expected_count in DELIVERY_ID_GROUPS.items():
+            prefix_states = {
+                identifier: state
+                for identifier, state in level_states.items()
+                if identifier.startswith(f"{prefix}-")
+            }
+            verified = sum(
+                state == "Verificado" for state in prefix_states.values()
+            )
+            if (
+                len(prefix_states) == expected_count
+                and f"{prefix}: {verified}/{expected_count}" not in chart
+            ):
+                errors.append(
+                    "Delivery chart has an incorrect level summary: "
+                    f"expected '{prefix}: {verified}/{expected_count}'"
                 )
 
 

@@ -47,9 +47,7 @@ const createLocalFeedbackClient = (baseUrl: string): FeedbackClient => ({
   },
 })
 
-export const createConfiguredFeedbackClient = (
-  apiBaseUrl?: string,
-): ConfiguredFeedbackClient => {
+export const createConfiguredFeedbackClient = (apiBaseUrl?: string): ConfiguredFeedbackClient => {
   let resolvedApiBaseUrl = apiBaseUrl
   if (resolvedApiBaseUrl === undefined) {
     try {
