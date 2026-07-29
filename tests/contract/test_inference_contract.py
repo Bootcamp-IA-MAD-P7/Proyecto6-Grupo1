@@ -64,8 +64,25 @@ class InferenceContractTests(unittest.TestCase):
         self.assertEqual(handling["narrative_persistence"], "none-by-default")
         self.assertTrue({"400", "422", "429", "503"}.issubset(prediction["responses"]))
 
-    def test_feedback_endpoint_is_not_exposed(self) -> None:
-        self.assertFalse(any("feedback" in path for path in OPENAPI["paths"]))
+    def test_feedback_endpoints_are_local_and_privacy_minimised(self) -> None:
+        creation = OPENAPI["paths"]["/v1/feedback"]["post"]
+        summary = OPENAPI["paths"]["/v1/feedback/summary"]["get"]
+        request = OPENAPI["components"]["schemas"]["FeedbackCreateRequest"]
+        summary_item = OPENAPI["components"]["schemas"]["FeedbackSummaryItem"]
+
+        self.assertEqual(creation["x-implementation-status"], "local-implemented")
+        self.assertEqual(summary["x-implementation-status"], "local-implemented")
+        self.assertEqual(creation["x-data-handling"]["operation_scope"], "local-only")
+        self.assertEqual(summary["x-data-handling"]["operation_scope"], "local-only")
+        self.assertFalse(request["additionalProperties"])
+        self.assertTrue(
+            {"narrative", "identity", "free_text", "audio", "transcription", "probabilities"}
+            .isdisjoint(request["properties"])
+        )
+        self.assertEqual(
+            set(summary_item["properties"]),
+            {"model_version", "suggested_class", "decision", "count"},
+        )
 
 
 if __name__ == "__main__":
