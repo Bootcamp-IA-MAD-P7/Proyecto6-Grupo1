@@ -1,0 +1,131 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "cfpb_fast_linear_search.schema.json",
+  "title": "ClaimVox fast linear phase-A search evidence",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version",
+    "execution_phase",
+    "candidate_family",
+    "train_partition_fingerprint",
+    "group_column",
+    "random_state",
+    "sample",
+    "cross_validation",
+    "optimization",
+    "metrics",
+    "frozen_parameters",
+    "execution_cost",
+    "class_limitations",
+    "decision_boundary"
+  ],
+  "properties": {
+    "schema_version": {
+      "const": "1.0"
+    },
+    "execution_phase": {
+      "const": "search"
+    },
+    "candidate_family": {
+      "const": "LogisticRegression"
+    },
+    "train_partition_fingerprint": {
+      "type": "string",
+      "minLength": 1
+    },
+    "group_column": {
+      "const": "narrative_hash"
+    },
+    "random_state": {
+      "const": 42
+    },
+    "sample": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["grouped", "maximum_rows", "rows_used", "sampling_seed"],
+      "properties": {
+        "grouped": {"const": true},
+        "maximum_rows": {"const": 50000},
+        "rows_used": {"type": "integer", "minimum": 1, "maximum": 50000},
+        "sampling_seed": {"const": 42}
+      }
+    },
+    "cross_validation": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["strategy", "n_splits", "shuffle", "random_state"],
+      "properties": {
+        "strategy": {"const": "StratifiedGroupKFold"},
+        "n_splits": {"const": 3},
+        "shuffle": {"const": true},
+        "random_state": {"const": 42}
+      }
+    },
+    "optimization": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["primary_metric", "max_trials", "trials_completed", "sampler_seed"],
+      "properties": {
+        "primary_metric": {"const": "macro_f1"},
+        "max_trials": {"const": 30},
+        "trials_completed": {"type": "integer", "minimum": 1, "maximum": 30},
+        "sampler_seed": {"const": 42}
+      }
+    },
+    "metrics": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["macro_f1_mean", "macro_f1_std"],
+      "properties": {
+        "macro_f1_mean": {"type": "number", "minimum": 0, "maximum": 1},
+        "macro_f1_std": {"type": "number", "minimum": 0, "maximum": 1}
+      }
+    },
+    "frozen_parameters": {
+      "type": "object",
+      "minProperties": 1,
+      "additionalProperties": {
+        "type": ["string", "number", "integer", "boolean", "null"]
+      }
+    },
+    "execution_cost": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["elapsed_seconds"],
+      "properties": {
+        "elapsed_seconds": {"type": "number", "minimum": 0}
+      }
+    },
+    "class_limitations": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["class_name", "limitation_code"],
+        "properties": {
+          "class_name": {"type": "string", "minLength": 1},
+          "limitation_code": {
+            "enum": ["low_support", "low_recall", "high_confusion", "not_observed"]
+          }
+        }
+      }
+    },
+    "decision_boundary": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "validation_used_for_selection",
+        "test_used_for_selection",
+        "champion_declared",
+        "contains_prohibited_content"
+      ],
+      "properties": {
+        "validation_used_for_selection": {"const": false},
+        "test_used_for_selection": {"const": false},
+        "champion_declared": {"const": false},
+        "contains_prohibited_content": {"const": false}
+      }
+    }
+  }
+}

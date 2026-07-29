@@ -5,7 +5,7 @@
 
 ## 2. Generar evidencia privada
 
-- [ ] 2.1 [Datos / ML] Implementar salida agregada de búsqueda con semillas, presupuesto, parámetros, coste y limitaciones por clase, sin narrativas ni datos brutos. Evidencia: esquema y fixture sintético válidos.
+- [x] 2.1 [Datos / ML] Implementar salida agregada de búsqueda con semillas, presupuesto, parámetros, coste y limitaciones por clase, sin narrativas ni datos brutos. Evidencia: `reports/validation/cfpb_fast_linear_search.schema.json` y `tests/unit/test_fast_linear_search_schema.py`; JSON válido y 4 pruebas sintéticas superadas, incluidas fronteras de validation/test, Champion y campos no estructurados.
 - [ ] 2.2 [Datos / ML] Implementar salida de CV completa con macro F1 train/fold, desviación, gap estricto, coste y métricas de las once clases. Evidencia: pruebas directas y quality gate afectados superados.
 - [ ] 2.3 [Tests / QA] Añadir pruebas sintéticas de aislamiento, grupos, parámetros congelados, once clases, gap, ausencia de Champion y prohibición de test. Evidencia: comando unitario focalizado superado.
 
