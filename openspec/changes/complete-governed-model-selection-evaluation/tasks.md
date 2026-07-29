@@ -11,7 +11,7 @@
 
 ## 3. Ejecutar y revisar con autorización humana
 
-- [ ] 3.1 [Miguel / coordinación] Registrar la aprobación humana explícita del presupuesto de cómputo, entorno y duración antes de ejecutar la totalidad de `train.parquet`; no iniciar una ejecución de entrega sin esa decisión.
+- [x] 3.1 [Miguel / coordinación] Registrar la aprobación humana explícita del presupuesto de cómputo, entorno y duración antes de ejecutar la totalidad de `train.parquet`; no iniciar una ejecución de entrega sin esa decisión. Evidencia: `reports/validation/cfpb_model_selection_delivery_approval.md` registra el 29 de julio de 2026 la autorización de Miguel para XGBoost completo en Colab, cinco folds, hasta 30 trials y sin límite de tiempo.
 - [ ] 3.2 [Datos / ML] Ejecutar el perfil completo aprobado sobre `train.parquet`, cinco folds y hasta 30 trials por candidato; generar únicamente informe y manifiesto agregados. Si la ejecución no finaliza o no alcanza el presupuesto, marcar evidencia incompleta y no actualizar `MED-02` ni `MED-03`.
 - [ ] 3.3 [Miguel / Datos] Revisar humanamente la recomendación o ausencia de selección y, solo si procede, confirmar una única configuración contra validation sin retunar; no cargar test protegido ni declarar Champion.
 
