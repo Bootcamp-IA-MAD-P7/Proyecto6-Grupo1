@@ -22,7 +22,9 @@
     "model_random_state": 42
   },
   "pilot": {
-    "maximum_training_rows": 100000,
+    "maximum_training_rows": 20000,
+    "n_splits": 3,
+    "max_trials_per_candidate": 5,
     "sampling_seed": 42,
     "purpose": "feasibility_only",
     "may_verify_delivery_criteria": false

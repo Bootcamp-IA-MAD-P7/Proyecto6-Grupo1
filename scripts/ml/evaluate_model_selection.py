@@ -122,13 +122,18 @@ def main() -> None:
     matrix = vectorizer.fit_transform(frame["complaint_what_happened"].to_list())
     cv_policy = policy["cross_validation"]
     optimization = policy["optimization"]
+    pilot_policy = policy["pilot"]
     result = tune_hyperparams_cv(
         args.candidate,
         matrix,
         frame["product_canonical"].to_list(),
         frame["narrative_hash"].to_list(),
-        n_splits=cv_policy["n_splits"],
-        n_trials=optimization["max_trials_per_candidate"],
+        n_splits=pilot_policy["n_splits"] if args.pilot else cv_policy["n_splits"],
+        n_trials=(
+            pilot_policy["max_trials_per_candidate"]
+            if args.pilot
+            else optimization["max_trials_per_candidate"]
+        ),
         random_state=cv_policy["random_state"],
     )
     result["execution_scope"] = "pilot"

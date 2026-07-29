@@ -10,8 +10,10 @@ import numpy as np
 import polars as pl
 
 from scripts.ml.evaluate_model_selection import (
+    DEFAULT_POLICY_PATH,
     ModelSelectionInputError,
     apply_pilot_limit,
+    load_selection_policy,
     load_selection_training_partition,
     validate_training_input_path,
 )
@@ -58,6 +60,12 @@ class InputBoundaryTests(unittest.TestCase):
         second = apply_pilot_limit(frame, policy)
         self.assertEqual(first.height, 4)
         self.assertEqual(first.to_dicts(), second.to_dicts())
+
+    def test_pilot_policy_has_approved_budget(self):
+        policy = load_selection_policy(DEFAULT_POLICY_PATH)
+        self.assertEqual(policy["pilot"]["maximum_training_rows"], 20_000)
+        self.assertEqual(policy["pilot"]["n_splits"], 3)
+        self.assertEqual(policy["pilot"]["max_trials_per_candidate"], 5)
 
 
 class CrossValidationTests(unittest.TestCase):

@@ -32,7 +32,7 @@ No abras el Parquet, no imprimas filas y no uses `validation.parquet`,
 ## 3. Ejecutar un candidato aprobado
 
 Ejecuta una sola vez por candidato, empezando por el acordado en la revisión
-humana. El presupuesto vigente es 30 trials y 5 folds agrupados.
+humana. El piloto vigente usa 20.000 filas, 5 trials y 3 folds agrupados.
 
 ```python
 !python scripts/ml/evaluate_model_selection.py \

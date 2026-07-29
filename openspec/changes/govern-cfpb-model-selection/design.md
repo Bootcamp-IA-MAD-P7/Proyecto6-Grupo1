@@ -63,8 +63,8 @@ definitiva.
 ### Piloto de viabilidad
 
 - La primera ejecución en Colab se limitará a una muestra determinista de
-  100.000 filas de `train.parquet`, con semilla `42`, para comprobar coste y
-  comportamiento del protocolo.
+  20.000 filas de `train.parquet`, con semilla `42`, tres folds y cinco trials
+  por candidato, para comprobar coste y comportamiento del protocolo.
 - El piloto es evidencia de viabilidad exclusivamente: no puede verificar
   `MED-02` ni `MED-03`, seleccionar un Champion ni sustituir una ejecución sobre
   el alcance aprobado completo.
