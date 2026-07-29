@@ -10,11 +10,14 @@ import numpy as np
 import polars as pl
 
 from scripts.ml.evaluate_model_selection import (
+    DELIVERY_PROFILE,
     DEFAULT_POLICY_PATH,
     ModelSelectionInputError,
+    PILOT_PROFILE,
     apply_pilot_limit,
     load_selection_policy,
     load_selection_training_partition,
+    resolve_execution_profile,
     validate_training_input_path,
 )
 from src.ml import tuning
@@ -66,6 +69,25 @@ class InputBoundaryTests(unittest.TestCase):
         self.assertEqual(policy["pilot"]["maximum_training_rows"], 20_000)
         self.assertEqual(policy["pilot"]["n_splits"], 3)
         self.assertEqual(policy["pilot"]["max_trials_per_candidate"], 5)
+
+    def test_delivery_profile_uses_the_full_versioned_budget(self):
+        profile = resolve_execution_profile(
+            load_selection_policy(DEFAULT_POLICY_PATH), DELIVERY_PROFILE
+        )
+        self.assertEqual(profile["name"], DELIVERY_PROFILE)
+        self.assertEqual(profile["n_splits"], 5)
+        self.assertEqual(profile["n_trials"], 30)
+        self.assertTrue(profile["may_verify_delivery_criteria"])
+
+    def test_delivery_rejects_a_reduced_tuning_budget(self):
+        policy = load_selection_policy(DEFAULT_POLICY_PATH)
+        policy["optimization"]["max_trials_per_candidate"] = 5
+        with self.assertRaisesRegex(ModelSelectionInputError, "reduced tuning budget"):
+            resolve_execution_profile(policy, DELIVERY_PROFILE)
+
+    def test_pilot_profile_cannot_verify_delivery_criteria(self):
+        profile = resolve_execution_profile(load_selection_policy(DEFAULT_POLICY_PATH), PILOT_PROFILE)
+        self.assertFalse(profile["may_verify_delivery_criteria"])
 
 
 class CrossValidationTests(unittest.TestCase):

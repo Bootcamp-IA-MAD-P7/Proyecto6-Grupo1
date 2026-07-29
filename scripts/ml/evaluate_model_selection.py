@@ -28,6 +28,8 @@ FORBIDDEN_INPUT_NAMES = {
     "validation.parquet",
     "test.parquet",
 }
+DELIVERY_PROFILE = "delivery"
+PILOT_PROFILE = "pilot"
 
 
 class ModelSelectionInputError(ValueError):
@@ -71,6 +73,46 @@ def load_selection_policy(policy_path: Path) -> dict:
     return policy
 
 
+def resolve_execution_profile(policy: dict, profile_name: str) -> dict:
+    """Return a governed profile and reject weakened delivery budgets."""
+    if profile_name == PILOT_PROFILE:
+        pilot = policy["pilot"]
+        return {
+            "name": PILOT_PROFILE,
+            "n_splits": pilot["n_splits"],
+            "n_trials": pilot["max_trials_per_candidate"],
+            "may_verify_delivery_criteria": False,
+        }
+
+    if profile_name != DELIVERY_PROFILE:
+        raise ModelSelectionInputError("PG-11 execution profile must be pilot or delivery.")
+
+    cross_validation = policy["cross_validation"]
+    optimization = policy["optimization"]
+    if cross_validation != {
+        "strategy": "StratifiedGroupKFold",
+        "group_column": "narrative_hash",
+        "n_splits": 5,
+        "shuffle": True,
+        "random_state": 42,
+        "temporal_holdout_boundary_preserved": True,
+    }:
+        raise ModelSelectionInputError(
+            "PG-11 delivery requires the versioned five-fold grouped strategy."
+        )
+    if optimization["max_trials_per_candidate"] < 30:
+        raise ModelSelectionInputError(
+            "PG-11 delivery cannot use a reduced tuning budget as MED evidence."
+        )
+
+    return {
+        "name": DELIVERY_PROFILE,
+        "n_splits": cross_validation["n_splits"],
+        "n_trials": optimization["max_trials_per_candidate"],
+        "may_verify_delivery_criteria": True,
+    }
+
+
 def apply_pilot_limit(frame: pl.DataFrame, pilot_policy: dict) -> pl.DataFrame:
     """Return the approved deterministic feasibility sample."""
     maximum_rows = pilot_policy["maximum_training_rows"]
@@ -90,9 +132,15 @@ def parse_args() -> argparse.Namespace:
     parser.add_argument("--policy", type=Path, default=DEFAULT_POLICY_PATH)
     parser.add_argument("--candidate", choices=("rf", "xgb", "lgbm"), default="xgb")
     parser.add_argument(
+        "--profile",
+        choices=(PILOT_PROFILE, DELIVERY_PROFILE),
+        default=PILOT_PROFILE,
+        help="Use the feasibility pilot or the governed delivery profile.",
+    )
+    parser.add_argument(
         "--pilot",
         action="store_true",
-        help="Use the approved deterministic feasibility sample.",
+        help="Deprecated alias for --profile pilot.",
     )
     parser.add_argument(
         "--execute",
@@ -104,40 +152,36 @@ def parse_args() -> argparse.Namespace:
 
 def main() -> None:
     args = parse_args()
+    if args.pilot and args.profile != PILOT_PROFILE:
+        raise ModelSelectionInputError("--pilot cannot be combined with --profile delivery.")
     frame = load_selection_training_partition(args.train_input)
     policy = load_selection_policy(args.policy)
+    profile = resolve_execution_profile(policy, args.profile)
     print(f"PG-11 input accepted: {frame.height:,} training rows with grouped leakage control.")
-    if args.pilot:
+    if profile["name"] == PILOT_PROFILE:
         frame = apply_pilot_limit(frame, policy["pilot"])
         print(f"Pilot limited to {frame.height:,} deterministic training rows.")
     if not args.execute:
         print("No evaluation executed. Use --execute only after human approval.")
         return
-    if not args.pilot:
+    if profile["name"] == DELIVERY_PROFILE:
         raise ModelSelectionInputError(
-            "Full PG-11 execution is disabled; use the approved --pilot mode."
+            "Full PG-11 delivery requires the recorded human approval from task 3.1."
         )
 
     vectorizer = VectorizerConfig({"max_features": 8000, "ngram_range": [1, 2]})
     matrix = vectorizer.fit_transform(frame["complaint_what_happened"].to_list())
-    cv_policy = policy["cross_validation"]
-    optimization = policy["optimization"]
-    pilot_policy = policy["pilot"]
     result = tune_hyperparams_cv(
         args.candidate,
         matrix,
         frame["product_canonical"].to_list(),
         frame["narrative_hash"].to_list(),
-        n_splits=pilot_policy["n_splits"] if args.pilot else cv_policy["n_splits"],
-        n_trials=(
-            pilot_policy["max_trials_per_candidate"]
-            if args.pilot
-            else optimization["max_trials_per_candidate"]
-        ),
-        random_state=cv_policy["random_state"],
+        n_splits=profile["n_splits"],
+        n_trials=profile["n_trials"],
+        random_state=policy["cross_validation"]["random_state"],
     )
-    result["execution_scope"] = "pilot"
-    result["may_verify_delivery_criteria"] = False
+    result["execution_scope"] = profile["name"]
+    result["may_verify_delivery_criteria"] = profile["may_verify_delivery_criteria"]
     print(json.dumps(result, sort_keys=True))
 
 
