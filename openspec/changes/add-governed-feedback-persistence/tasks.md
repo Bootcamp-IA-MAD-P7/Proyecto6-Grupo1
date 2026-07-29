@@ -18,6 +18,6 @@
 
 ## 4. Verificar y cerrar
 
-- [ ] 4.1 [Tests / QA] Ejecutar solo las pruebas unitarias afectadas, `git diff --check` y validación estricta del cambio; registrar resultados reales sin entrenar modelos.
+- [x] 4.1 [Tests / QA] Ejecutar solo las pruebas unitarias afectadas, `git diff --check` y validación estricta del cambio; registrar resultados reales sin entrenar modelos. Evidencia: `python -m unittest tests.unit.test_feedback_persistence -v` superado: 10 pruebas, 0 fallos; `python -m py_compile app/api/schemas/feedback.py app/api/services/feedback_repository.py`, `git diff --check` y `npm exec -- openspec validate add-governed-feedback-persistence --type change --strict` superados el 29 de julio de 2026.
 - [ ] 4.2 [Documentación] Crear evidencia agregada y actualizar documentación canónica solo si cambian realmente los estados de `MED-04`, `MED-05` o `ADV-02`; distinguir persistencia local de autenticación, servicio compartido, despliegue y MLOps.
 - [ ] 4.3 [Miguel / coordinación] Preparar la Pull Request hacia `dev` con alcance, límites de privacidad, evidencia y reversión; no fusionar ni archivar sin revisión humana.
