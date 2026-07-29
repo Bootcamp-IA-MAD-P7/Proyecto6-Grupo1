@@ -11,7 +11,7 @@
 ## 3. Implementar puerta del contrato de modelo
 
 - [x] 3.1 [Quality Engineer] Implementar la validación de carga desde ubicación controlada, contrato de feature, forma de probabilidades, etiquetas canónicas e inferencia segura usando un artefacto sintético local temporal. Evidencia: `scripts/quality/cfpb_model_quality_gate.py` compila con `python -m py_compile scripts/quality/cfpb_model_quality_gate.py`; las pruebas sintéticas directas corresponden a la tarea 3.2.
-- [ ] 3.2 [Tests / QA] Añadir pruebas directas para artefacto no compatible, clase no autorizada, forma de salida inválida y entrada prohibida. Verificación: `python -m unittest <módulo-de-tests-de-quality-gates> -v`.
+- [x] 3.2 [Tests / QA] Añadir pruebas directas para artefacto no compatible, clase no autorizada, forma de salida inválida y entrada prohibida. Evidencia: `tests/unit/test_cfpb_model_quality_gate.py`; `python -m unittest tests.unit.test_cfpb_model_quality_gate -v` superado: 5 pruebas, 0 fallos.
 
 ## 4. Implementar puerta de métricas mínimas
 
