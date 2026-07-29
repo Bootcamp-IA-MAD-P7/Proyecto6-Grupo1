@@ -1,0 +1,141 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "cfpb_fast_linear_full_cv.schema.json",
+  "title": "ClaimVox fast linear phase-B full CV evidence",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version",
+    "execution_phase",
+    "candidate_family",
+    "train_partition_fingerprint",
+    "group_column",
+    "random_state",
+    "cross_validation",
+    "frozen_parameters",
+    "retuning_performed",
+    "fold_metrics",
+    "metrics",
+    "per_class_metrics",
+    "execution_cost",
+    "decision_boundary"
+  ],
+  "properties": {
+    "schema_version": {"const": "1.0"},
+    "execution_phase": {"const": "full_cv"},
+    "candidate_family": {"const": "LogisticRegression"},
+    "train_partition_fingerprint": {"type": "string", "minLength": 1},
+    "group_column": {"const": "narrative_hash"},
+    "random_state": {"const": 42},
+    "cross_validation": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["strategy", "n_splits", "shuffle", "random_state"],
+      "properties": {
+        "strategy": {"const": "StratifiedGroupKFold"},
+        "n_splits": {"const": 5},
+        "shuffle": {"const": true},
+        "random_state": {"const": 42}
+      }
+    },
+    "frozen_parameters": {
+      "type": "object",
+      "minProperties": 1,
+      "additionalProperties": {"type": ["string", "number", "integer", "boolean", "null"]}
+    },
+    "retuning_performed": {"const": false},
+    "fold_metrics": {
+      "type": "array",
+      "minItems": 5,
+      "maxItems": 5,
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["fold", "train_macro_f1", "validation_macro_f1"],
+        "properties": {
+          "fold": {"type": "integer", "minimum": 1, "maximum": 5},
+          "train_macro_f1": {"type": "number", "minimum": 0, "maximum": 1},
+          "validation_macro_f1": {"type": "number", "minimum": 0, "maximum": 1}
+        }
+      }
+    },
+    "metrics": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["macro_f1_mean", "macro_f1_std", "train_fold_macro_f1_gap"],
+      "properties": {
+        "macro_f1_mean": {"type": "number", "minimum": 0, "maximum": 1},
+        "macro_f1_std": {"type": "number", "minimum": 0, "maximum": 1},
+        "train_fold_macro_f1_gap": {
+          "type": "number",
+          "minimum": 0,
+          "exclusiveMaximum": 0.05
+        }
+      }
+    },
+    "per_class_metrics": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "Checking or savings account",
+        "Credit card",
+        "Credit reporting or other personal consumer reports",
+        "Debt collection",
+        "Debt or credit management",
+        "Money transfer, virtual currency, or money service",
+        "Mortgage",
+        "Payday loan, title loan, personal loan, or advance loan",
+        "Prepaid card",
+        "Student loan",
+        "Vehicle loan or lease"
+      ],
+      "properties": {
+        "Checking or savings account": {"$ref": "#/$defs/class_metrics"},
+        "Credit card": {"$ref": "#/$defs/class_metrics"},
+        "Credit reporting or other personal consumer reports": {"$ref": "#/$defs/class_metrics"},
+        "Debt collection": {"$ref": "#/$defs/class_metrics"},
+        "Debt or credit management": {"$ref": "#/$defs/class_metrics"},
+        "Money transfer, virtual currency, or money service": {"$ref": "#/$defs/class_metrics"},
+        "Mortgage": {"$ref": "#/$defs/class_metrics"},
+        "Payday loan, title loan, personal loan, or advance loan": {"$ref": "#/$defs/class_metrics"},
+        "Prepaid card": {"$ref": "#/$defs/class_metrics"},
+        "Student loan": {"$ref": "#/$defs/class_metrics"},
+        "Vehicle loan or lease": {"$ref": "#/$defs/class_metrics"}
+      }
+    },
+    "execution_cost": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["elapsed_seconds"],
+      "properties": {"elapsed_seconds": {"type": "number", "minimum": 0}}
+    },
+    "decision_boundary": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "validation_used_for_selection",
+        "test_used_for_selection",
+        "champion_declared",
+        "contains_prohibited_content"
+      ],
+      "properties": {
+        "validation_used_for_selection": {"const": false},
+        "test_used_for_selection": {"const": false},
+        "champion_declared": {"const": false},
+        "contains_prohibited_content": {"const": false}
+      }
+    }
+  },
+  "$defs": {
+    "class_metrics": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["precision", "recall", "f1"],
+      "properties": {
+        "precision": {"type": "number", "minimum": 0, "maximum": 1},
+        "recall": {"type": "number", "minimum": 0, "maximum": 1},
+        "f1": {"type": "number", "minimum": 0, "maximum": 1}
+      }
+    }
+  }
+}
