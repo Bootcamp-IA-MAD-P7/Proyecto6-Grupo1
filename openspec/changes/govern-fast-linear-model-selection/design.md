@@ -51,7 +51,16 @@ CV será evidencia insuficiente, no un Champion.
 ## Risks / Trade-offs
 
 - [La búsqueda usa una muestra] → documentar su propósito y ejecutar CV completa
-  con parámetros congelados antes de actualizar criterios.
+con parámetros congelados antes de actualizar criterios.
+
+### Resolución de convergencia de fase A
+
+La búsqueda aprobada puede producir trials que no convergen. Esos trials SHALL
+NOT congelarse para fase B aunque obtengan el mayor macro F1. El 29 de julio de
+2026, tras una búsqueda real de 20.000 filas, tres folds y diez trials, Miguel
+aprobó congelar el candidato convergido `C=0.004207988669606638`. La CV completa
+deberá conservar sus parámetros fijos y registrar la convergencia; cualquier
+aviso de convergencia hace que la evidencia sea insuficiente.
 - [CV completa aún consume tiempo] → usar el modelo lineal existente, registrar
   coste y no iniciar sin aprobación humana del entorno.
 - [Clases minoritarias inestables] → usar grupos, resultados por clase y revisión

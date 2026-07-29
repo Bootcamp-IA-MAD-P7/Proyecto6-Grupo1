@@ -39,6 +39,14 @@
     "n_splits": 5,
     "random_state": 42,
     "parameters_source": "phase_a_frozen",
+    "frozen_parameters": {
+      "C": 0.004207988669606638,
+      "class_weight": "balanced",
+      "max_iter": 500,
+      "random_state": 42,
+      "solver": "saga"
+    },
+    "frozen_parameter_approval": "reports/validation/cfpb_fast_linear_search_resolution.md",
     "retuning_allowed": false,
     "required_metrics": [
       "train_macro_f1",
