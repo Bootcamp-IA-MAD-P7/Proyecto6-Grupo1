@@ -11,9 +11,9 @@
 - Responsabilidades: Miguel coordina arquitectura; José, backend; Abel, frontend/UX; Víctor, datos y EDA. Josué está fuera del equipo.
 - Jira: proyecto `PG`; `PG-1` agrupa el nivel esencial.
 - Trabajo actual: `PG-2` a `PG-7` completan el nivel esencial con evidencia local; `PG-8` verifica la comparación ensemble `MED-01`. Los siguientes cambios deben gobernar los criterios medios, la selección posterior de modelo o capacidades operativas. Las tareas numeradas `001/T-004` a `T-006` y `003/T-006` permanecen como expedientes cerrados de compatibilidad.
-- Existe un baseline reproducible, inferencia local y una PWA integrada localmente bajo configuración explícita. No existe todavía base de datos, despliegue, autenticación, persistencia ni capacidad MLOps.
+- Existe un baseline reproducible, inferencia local, una PWA integrada localmente bajo configuración explícita y un repositorio local gobernado de feedback sin ruta pública. No existe todavía base de datos compartida o productiva, despliegue, autenticación, interfaz de feedback ni capacidad MLOps.
 
-La métrica inicial del baseline, la política de idioma, duplicados, partición y desbalanceo ya están versionadas para la preparación actual. El modelo evaluado sigue siendo local y revisable, no un Champion ni un servicio desplegado. Siguen abiertas la selección basada en resultados, los modelos posteriores, la cobertura multilingüe, la persistencia y el proveedor cloud. No deben cerrarse sin evidencia y una decisión versionada.
+La métrica inicial del baseline, la política de idioma, duplicados, partición y desbalanceo ya están versionadas para la preparación actual. El modelo evaluado sigue siendo local y revisable, no un Champion ni un servicio desplegado. Siguen abiertas la selección basada en resultados, los modelos posteriores, la cobertura multilingüe, la integración operativa de feedback y el proveedor cloud. No deben cerrarse sin evidencia y una decisión versionada.
 
 ## Fuente de verdad para cambios
 

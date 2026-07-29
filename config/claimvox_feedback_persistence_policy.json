@@ -1,0 +1,64 @@
+{
+  "schema_version": "1.0",
+  "status": "approved_for_local_feedback_persistence",
+  "references": {
+    "target_contract": "config/cfpb_target_contract.json",
+    "prediction_contract": "app/interface/src/contracts/prediction.ts",
+    "contract_review": "reports/validation/feedback_persistence_contract_review.md"
+  },
+  "storage": {
+    "allowed_root": "data/local/feedback",
+    "network_access": false,
+    "shared_service": false,
+    "require_versioned_schema": true,
+    "require_idempotent_migrations": true
+  },
+  "retention": {
+    "default_days": 30,
+    "require_expiry_timestamp": true,
+    "purge_expired_only": true
+  },
+  "feedback": {
+    "allowed_fields": [
+      "feedback_id",
+      "prediction_id",
+      "model_version",
+      "taxonomy_version",
+      "suggested_class",
+      "reviewed_class",
+      "decision",
+      "purpose",
+      "created_at",
+      "expires_at"
+    ],
+    "canonical_label_count": 11,
+    "decisions": [
+      "confirmed",
+      "corrected",
+      "not_actionable"
+    ],
+    "purposes": [
+      "human_review_quality_assurance",
+      "future_retraining_candidate"
+    ]
+  },
+  "privacy": {
+    "prohibited_fields": [
+      "narrative",
+      "client_request_id",
+      "audio",
+      "transcription",
+      "name",
+      "email",
+      "account_number",
+      "address",
+      "ip_address",
+      "http_headers",
+      "free_text"
+    ],
+    "allow_individual_record_export": false,
+    "allow_aggregate_summary_only": true,
+    "persist_narratives": false,
+    "persist_identity": false
+  }
+}

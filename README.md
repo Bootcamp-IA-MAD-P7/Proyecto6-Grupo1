@@ -56,7 +56,7 @@ local](reports/validation/claimvox_local_inference_smoke.md).
 | Salida | Una de once clases canónicas, alternativas y revisión humana obligatoria. |
 | Estado esencial | `10 de 10` criterios verificados para ejecución local. |
 | Corte verificable | Tag anotado [`v0.1.0-essential-mvp`](https://github.com/Bootcamp-IA-MAD-P7/Proyecto6-Grupo1/tree/v0.1.0-essential-mvp). |
-| Fuera de alcance | Despliegue, cuentas reales, base de datos, feedback persistente, Docker, cloud y MLOps. |
+| Fuera de alcance | Despliegue, cuentas reales, base de datos compartida, interfaz de feedback, Docker, cloud y MLOps. |
 
 > El tag representa un corte local, revisable y no desplegado. El detalle de
 > los criterios y sus fuentes está en los [niveles de entrega](docs/project_management/delivery_levels.md).
@@ -76,6 +76,7 @@ local](reports/validation/claimvox_local_inference_smoke.md).
 | Comparativa posterior | RF, XGBoost y LightGBM comparados sobre una muestra de 50K. No hay Champion ni modelo seleccionado para producción. |
 | Aplicación | ClaimVox React PWA: mock seguro por defecto y predicción local real mediante configuración explícita |
 | Backend e inferencia | Servicio FastAPI y flujo PWA→API verificados localmente con un artefacto reproducible; sin despliegue |
+| Feedback local | Repositorio SQLite local gobernado, sin endpoint, interfaz ni operación compartida |
 | Despliegue, cuentas y MLOps | No implementados |
 | Método de trabajo | OpenSpec + arnés implantados y comprobados |
 
@@ -85,7 +86,7 @@ offline seguro. Con una URL local explícita, consume la respuesta del servicio
 FastAPI y mantiene la revisión humana obligatoria; sin configuración conserva el
 mock como modo seguro. La evidencia fusionada verifica `ESS-04` para la
 integración local, pero no acredita un despliegue,
-autenticación, persistencia ni operación productiva. Véanse el [manual del
+autenticación, persistencia operativa ni operación productiva. Véanse el [manual del
 frontend](app/interface/README.md), el [manual del backend](app/api/README.md) y
 el [smoke end-to-end](reports/validation/claimvox_local_inference_smoke.md).
 
@@ -98,7 +99,7 @@ el [smoke end-to-end](reports/validation/claimvox_local_inference_smoke.md).
 
 ### Qué no debe afirmarse
 
-No hay despliegue público, autenticación real, base de datos, feedback persistente, analítica de usuarios, monitorización de producción, Docker, cloud ni MLOps. El artefacto vive localmente y la aplicación no lee el CSV del CFPB.
+No hay despliegue público, autenticación real, base de datos compartida, endpoint o interfaz de feedback, analítica de usuarios, monitorización de producción, Docker, cloud ni MLOps. Existe únicamente un repositorio SQLite local, aislado y sin datos CFPB reales. El artefacto vive localmente y la aplicación no lee el CSV del CFPB.
 
 ### Evidencia esencial destacada
 
@@ -234,23 +235,26 @@ flowchart LR
     INF --> MODEL[Baseline local]
     INF --> MOCK[Fallback mock]
     PIPE[Pipeline de datos y ML] --> MODEL
-    UC -. futuro .-> DB[(Feedback gobernado)]
+    FDB[(Feedback local gobernado)]
+    FDB -. futuro: ruta explícita .-> UC
     MODEL -. futuro .-> MON[Registro y monitorización]
 
     classDef prototype fill:#e7f2ed,stroke:#52755b,color:#17322e
     classDef planned fill:#fff7e7,stroke:#8b6f3d,stroke-dasharray:6 4,color:#423719
     class UI,API,UC,INF,MODEL,MOCK,PIPE prototype
-    class DB,MON planned
+    class FDB prototype
+    class MON planned
 ```
 
 La PWA, la API local, el servicio, el adaptador de predictor y el baseline son
-capacidades construidas y verificadas para ejecución local. Feedback, registro,
-monitorización, autenticación, persistencia y despliegue siguen siendo
-arquitectura prevista; el diagrama no acredita esas capacidades futuras.
+capacidades construidas y verificadas para ejecución local. El repositorio de
+feedback local está construido pero no está conectado a una ruta ni interfaz;
+registro operativo, monitorización, autenticación y despliegue siguen siendo
+arquitectura prevista.
 
 | Construido ahora | Evolución gobernada después del MVP |
 |---|---|
-| PWA ClaimVox, FastAPI local, predictor intercambiable, baseline reproducible, contrato de once clases y revisión humana | Feedback con privacidad aprobada, base de datos, Docker, cloud, monitorización y promoción de modelos |
+| PWA ClaimVox, FastAPI local, predictor intercambiable, baseline reproducible, repositorio local de feedback con privacidad y revisión humana | Ruta e interfaz de feedback, base de datos compartida, Docker, cloud, monitorización y promoción de modelos |
 
 La separación de capas evita rehacer la aplicación: el frontend solo conoce el
 contrato, la API delega en un predictor y el entrenamiento permanece fuera de
@@ -297,8 +301,8 @@ archivados conservan el contexto de su fecha; no sustituyen este estado vigente.
 | MED‑01 | Ensemble comparado con baseline | `Verificado` | RF, XGBoost y LightGBM comparados con el baseline en la misma muestra; XGBoost obtiene el mejor macro F1 de validación (`0.6332`), sin selección de modelo definitiva |
 | MED‑02 | Validación cruzada estratificada | No iniciado | Folds, semillas y variabilidad |
 | MED‑03 | Optimización de hiperparámetros | `En curso` | Optuna implementado en `src/ml/tuning.py`; pendiente ejecución con split completo |
-| MED‑04 | Feedback y métricas operativas | No iniciado | Versión de modelo y privacidad |
-| MED‑05 | Recolección para reentrenamiento | No iniciado | Pipeline, trazabilidad y validación |
+| MED‑04 | Feedback y métricas operativas | `En curso` | Persistencia local minimizada con versión y privacidad; faltan interfaz y métricas operativas |
+| MED‑05 | Recolección para reentrenamiento | `En curso` | Registro local trazable; faltan pipeline, validación y política de incorporación |
 
 ### Nivel avanzado — 3 de 6 verificados
 
@@ -432,7 +436,7 @@ Antes de subir un paquete a NotebookLM se excluyen secretos, datos brutos, narra
 
 1. Ejecutar [PG-11](https://miguel-redondo.atlassian.net/browse/PG-11): validación cruzada estratificada y optimización sin utilizar el test protegido para seleccionar.
 2. Ejecutar [PG-12](https://miguel-redondo.atlassian.net/browse/PG-12): quality gates de integridad, modelo y métricas en CI.
-3. Diseñar [PG-13](https://miguel-redondo.atlassian.net/browse/PG-13) y [PG-14](https://miguel-redondo.atlassian.net/browse/PG-14): feedback y persistencia solo con finalidad, retención y privacidad aprobadas.
+3. Completar [PG-13](https://miguel-redondo.atlassian.net/browse/PG-13): interfaz y métricas de feedback sobre la persistencia local gobernada de [PG-14](https://miguel-redondo.atlassian.net/browse/PG-14), sin ampliar retención ni privacidad sin evidencia.
 4. Abordar [PG-15](https://miguel-redondo.atlassian.net/browse/PG-15): Docker y despliegue reproducible después de estabilizar controles y persistencia.
 5. Consultar la [hoja de ruta posterior](docs/project_management/mvp_delivery_roadmap.md) para dependencias, responsables y evidencia mínima.
 
