@@ -13,7 +13,7 @@
 
 - [x] 3.1 [Miguel / coordinación] Registrar la aprobación humana de entorno y presupuesto antes de fase A; no ejecutar si la aprobación falta. Evidencia: `reports/validation/cfpb_fast_linear_phase_a_approval.md` registra la aprobación humana revisada del 29 de julio de 2026 para Colab, 20.000 filas como máximo, 3 folds y 10 trials.
 - [x] 3.2 [Datos / ML] Ejecutar fase A en entorno aprobado, versionar solo evidencia agregada y congelar parámetros si la salida es válida. Evidencia: `reports/validation/cfpb_fast_linear_search.json` valida contra su esquema; registra 20.000 filas agrupadas, 3 folds, 10 trials, macro F1 `0.565097` y desviación `0.032584`. La resolución humana en `reports/validation/cfpb_fast_linear_search_resolution.md` descarta el trial no convergido y congela `C=0.004207988669606638` para fase B sin retuning.
-- [ ] 3.3 [Datos / ML] Ejecutar fase B sobre todo `train.parquet` con los parámetros congelados, sin retuning; generar evidencia agregada o registrar ejecución incompleta.
+- [x] 3.3 [Datos / ML] Ejecutar fase B sobre todo `train.parquet` con los parámetros congelados, sin retuning; generar evidencia agregada o registrar ejecución incompleta. Evidencia: `reports/validation/cfpb_fast_linear_full_cv_nonconvergence.md` registra que la CV completa fue iniciada sobre `train.parquet` con cinco folds, pero LogisticRegression no convergió; el ejecutor no escribió evidencia delivery válida y `MED-02`/`MED-03` permanecen en curso.
 - [ ] 3.4 [Miguel / Datos] Revisar resultados y, solo si cumplen, permitir una única confirmación contra validation sin retuning ni test; no declarar Champion.
 
 ## 4. Cerrar con evidencia real
