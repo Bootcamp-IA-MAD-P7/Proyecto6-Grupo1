@@ -1,7 +1,7 @@
 # Piloto PG-11 de selección gobernada: XGBoost
 
-Fecha de ejecución: `2026-07-29`  
-Cambio OpenSpec: `govern-cfpb-model-selection`  
+Fecha de ejecución: `2026-07-29`
+Cambio OpenSpec: `govern-cfpb-model-selection`
 Jira: `PG-11`
 
 ## Alcance ejecutado
