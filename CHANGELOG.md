@@ -4,6 +4,12 @@
 
 ### Added
 
+- `PG-18`: mejora acotada de la usabilidad de clasificación local. ClaimVox
+  diferencia API local y mock, prioriza clase, confianza, versión y revisión
+  humana, limita alternativas a tres y elimina el acceso público a la sesión
+  mock. No añade autenticación, administración operativa, despliegue ni cambia
+  el contrato de predicción.
+
 - `PG-14`: persistencia local gobernada de feedback con contrato minimizado,
   política de privacidad y retención, esquema SQLite idempotente y diez pruebas
   sintéticas. No añade endpoint, interfaz, autenticación, base compartida,

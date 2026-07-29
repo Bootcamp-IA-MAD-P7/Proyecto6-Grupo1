@@ -63,6 +63,7 @@ Este catálogo indica qué documentos pueden alimentar una presentación y con q
 | `reports/validation/screenshots/PG-4/` | Evidencia visual sintética del prototipo | Por cambio de UI | UX/QA | Activa técnica |
 | `reports/validation/cfpb_quality_gates.md` | Evidencia agregada de puertas locales de datos, modelo y métricas con límites explícitos | Tras cambio de quality gates | QA / arquitectura | Activa técnica |
 | `reports/validation/claimvox_feedback_persistence.md` | Evidencia agregada de persistencia local gobernada: contrato minimizado, retención, privacidad y pruebas sintéticas; no acredita endpoint, base compartida ni MLOps | Tras cambio de feedback local | Backend / arquitectura | Activa técnica |
+| `reports/validation/claimvox_local_classification_usability.md` | Evidencia agregada de la revisión del flujo local: fuente API/mock, resultado, revisión humana, límites de alternativas y navegación pública | Tras cambio de UX local | Frontend / UX | Activa técnica |
 | `docs/assets/screenshots/` | Evidencia visual general del producto | Por cambio de UI | UX/QA | Pendiente |
 
 ## Regla editorial

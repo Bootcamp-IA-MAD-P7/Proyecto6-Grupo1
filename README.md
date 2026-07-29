@@ -96,6 +96,7 @@ el [smoke end-to-end](reports/validation/claimvox_local_inference_smoke.md).
 2. FastAPI carga ese artefacto y devuelve una predicción multiclase contractual.
 3. ClaimVox consume el servicio solo cuando se configura una URL local explícita; en otro caso se identifica como mock.
 4. La respuesta mantiene la revisión humana, no conserva el texto y aplica controles locales de tamaño, frecuencia, CORS y errores seguros.
+5. La experiencia local identifica de forma visible la respuesta de API local frente al mock, muestra la versión disponible, limita las alternativas a tres y mantiene un motivo seguro de revisión humana. La navegación pública no presenta el inicio de sesión ni la administración conceptual como capacidades operativas.
 
 ### Qué no debe afirmarse
 
