@@ -1,7 +1,7 @@
 ## 1. Preparar el protocolo
 
 - [x] 1.1 [Datos / ML] Confirmar que los datos usados para CV pertenecen solo al conjunto de entrenamiento permitido y que se conserva la prevención de leakage vigente. Evidencia: `reports/validation/cfpb_model_selection_partition_review.md` confirma la partición temporal aislada por `narrative_hash`, el test protegido y la obligación de limitar CV a `train.parquet`.
-- [ ] 1.2 [Datos / ML] Definir y versionar la estrategia estratificada compatible, número de folds, semillas y presupuesto de ejecución antes de ejecutar candidatos.
+- [x] 1.2 [Datos / ML] Definir y versionar la estrategia estratificada compatible, número de folds, semillas y presupuesto de ejecución antes de ejecutar candidatos. Evidencia: `config/cfpb_model_selection_policy.json` fija `StratifiedGroupKFold`, cinco folds, semilla `42` y 30 trials por candidato sin permitir el test protegido.
 - [ ] 1.3 [Datos / ML] Definir el formato agregado de resultados: macro F1 por fold, media, variabilidad, gap train-validación, coste y limitaciones por clase.
 
 ## 2. Implementar evaluación gobernada

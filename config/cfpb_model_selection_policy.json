@@ -1,0 +1,48 @@
+{
+  "policy_version": "1.0",
+  "jira_issue": "PG-11",
+  "data_scope": {
+    "eligible_partition": "train",
+    "reserved_confirmation_partition": "validation",
+    "protected_partition": "test",
+    "protected_test_allowed_for_selection": false
+  },
+  "cross_validation": {
+    "strategy": "StratifiedGroupKFold",
+    "group_column": "narrative_hash",
+    "n_splits": 5,
+    "shuffle": true,
+    "random_state": 42,
+    "temporal_holdout_boundary_preserved": true
+  },
+  "optimization": {
+    "primary_metric": "macro_f1",
+    "max_trials_per_candidate": 30,
+    "sampler_seed": 42,
+    "model_random_state": 42
+  },
+  "selection": {
+    "maximum_train_validation_macro_f1_gap": 0.05,
+    "tie_breakers": [
+      "lower_fold_variability",
+      "lower_execution_cost",
+      "documented_per_class_limitations"
+    ],
+    "human_approval_required": true
+  },
+  "evidence": {
+    "allowed": [
+      "aggregated_fold_metrics",
+      "configuration",
+      "execution_budget",
+      "limitations"
+    ],
+    "forbidden": [
+      "cfpb_narratives",
+      "raw_data",
+      "model_binaries",
+      "credentials",
+      "sensitive_logs"
+    ]
+  }
+}
