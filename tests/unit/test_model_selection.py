@@ -85,6 +85,18 @@ class InputBoundaryTests(unittest.TestCase):
         with self.assertRaisesRegex(ModelSelectionInputError, "reduced tuning budget"):
             resolve_execution_profile(policy, DELIVERY_PROFILE)
 
+    def test_delivery_rejects_incompatible_grouped_cross_validation_policy(self):
+        for field, unsafe_value in (
+            ("strategy", "StratifiedKFold"),
+            ("group_column", "synthetic_group"),
+            ("n_splits", 3),
+        ):
+            policy = load_selection_policy(DEFAULT_POLICY_PATH)
+            policy["cross_validation"][field] = unsafe_value
+            with self.subTest(field=field):
+                with self.assertRaisesRegex(ModelSelectionInputError, "five-fold grouped"):
+                    resolve_execution_profile(policy, DELIVERY_PROFILE)
+
     def test_pilot_profile_cannot_verify_delivery_criteria(self):
         profile = resolve_execution_profile(load_selection_policy(DEFAULT_POLICY_PATH), PILOT_PROFILE)
         self.assertFalse(profile["may_verify_delivery_criteria"])

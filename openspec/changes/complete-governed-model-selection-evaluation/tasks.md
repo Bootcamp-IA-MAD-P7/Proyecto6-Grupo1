@@ -6,7 +6,7 @@
 
 ## 2. Proteger el protocolo
 
-- [ ] 2.1 [Tests / QA] Añadir pruebas sintéticas para rechazar corpus completo, validation, test, ausencia de `narrative_hash`, número de folds o presupuesto incompatibles, y uso del perfil piloto como cierre de entrega. Verificación: `python -m unittest tests.unit.test_model_selection -v` y los tests nuevos directamente afectados superados.
+- [x] 2.1 [Tests / QA] Añadir pruebas sintéticas para rechazar corpus completo, validation, test, ausencia de `narrative_hash`, número de folds o presupuesto incompatibles, y uso del perfil piloto como cierre de entrega. Evidencia: `python -m unittest tests.unit.test_model_selection -v` (12 pruebas, 0 fallos) y `git diff --check` superados el 29 de julio de 2026.
 - [ ] 2.2 [Tests / QA] Añadir pruebas sintéticas de informe para comprobar macro F1 por fold, variabilidad, gap estricto menor que `0.05`, coste, métricas por clase, ausencia de Champion y prohibición de test para selección. Verificación: tests nuevos directamente afectados superados.
 
 ## 3. Ejecutar y revisar con autorización humana
