@@ -197,6 +197,75 @@ def tune_hyperparams_cv(
     }
 
 
+def tune_logistic_regression_cv(
+    X,
+    y: list[str],
+    groups: list[str],
+    *,
+    n_splits: int,
+    n_trials: int,
+    random_state: int,
+) -> dict:
+    """Tune only LogisticRegression within grouped, stratified train folds."""
+    if len(y) != len(groups):
+        raise ValueError("Labels and leakage-control groups must have the same length.")
+
+    from sklearn.linear_model import LogisticRegression
+
+    labels = np.asarray(y)
+    group_values = np.asarray(groups)
+    splitter = StratifiedGroupKFold(
+        n_splits=n_splits,
+        shuffle=True,
+        random_state=random_state,
+    )
+    sampler = optuna.samplers.TPESampler(seed=random_state)
+    study = optuna.create_study(direction="maximize", sampler=sampler)
+
+    def run_trial(trial):
+        params = {
+            "C": trial.suggest_float("C", 1e-3, 10.0, log=True),
+            "class_weight": "balanced",
+            "max_iter": 500,
+            "random_state": random_state,
+            "solver": "saga",
+        }
+        fold_scores = []
+        validation_support = {label: 0 for label in sorted(set(labels))}
+        for train_index, fold_index in splitter.split(X, labels, group_values):
+            model = LogisticRegression(**params)
+            model.fit(X[train_index], labels[train_index])
+            predictions = model.predict(X[fold_index])
+            fold_scores.append(
+                float(f1_score(labels[fold_index], predictions, average="macro"))
+            )
+            for label in labels[fold_index]:
+                validation_support[label] += 1
+        trial.set_user_attr("fold_macro_f1", fold_scores)
+        trial.set_user_attr("class_validation_support", validation_support)
+        return float(np.mean(fold_scores))
+
+    study.optimize(run_trial, n_trials=n_trials)
+    best_trial = study.best_trial
+    fold_scores = best_trial.user_attrs["fold_macro_f1"]
+    class_support = best_trial.user_attrs["class_validation_support"]
+    limitations = [
+        {"class_name": label, "limitation_code": "not_observed"}
+        for label, support in sorted(class_support.items())
+        if support == 0
+    ]
+    return {
+        "best_params": best_trial.params,
+        "macro_f1_mean": best_trial.value,
+        "macro_f1_std": float(np.std(fold_scores)),
+        "fold_macro_f1": fold_scores,
+        "class_limitations": limitations,
+        "n_trials": n_trials,
+        "n_splits": n_splits,
+        "random_state": random_state,
+    }
+
+
 def recommend_candidate(
     candidates: list[dict],
     *,
