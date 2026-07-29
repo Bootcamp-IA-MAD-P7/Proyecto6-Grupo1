@@ -68,7 +68,6 @@ El registro candidato podrá contener únicamente:
 
 ## Trazabilidad y éxito
 
-- Jira: `PG-14`.
 - Dependencias: contrato de predicción vigente y límites de privacidad de
   ClaimVox.
 - Relación de entrega: prepara `MED-04` y `MED-05`; puede contribuir a
@@ -76,3 +75,7 @@ El registro candidato podrá contener únicamente:
 - Éxito: diseño, requisitos y tareas trazables que permitan implementar una
   persistencia local sin introducir narrativas reales, identidad, permisos de
   producción ni capacidades no evidenciadas.
+
+## Tracking
+
+- Jira: `PG-14`.
