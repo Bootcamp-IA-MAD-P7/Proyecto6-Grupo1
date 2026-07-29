@@ -59,8 +59,8 @@ El nivel esencial solo se declara alcanzado cuando `ESS-01` a `ESS-10` están en
 | `MED-01` | Modelo ensemble comparado con el baseline | `Verificado` | Datos / ML | RF, XGBoost y LightGBM comparados con LR baseline: XGBoost líder (macro F1 0.6332), LightGBM (0.6175), RF (0.4704) sobre sample 50K; gaps >5% transferidos a MED-03 |
 | `MED-02` | Validación cruzada estratificada | `No iniciado` | Datos / ML | `StratifiedKFold` o alternativa justificada, semillas, resultados por fold y variabilidad |
 | `MED-03` | Optimización de hiperparámetros | `En curso` | Datos / ML | Optuna implementado en `src/ml/tuning.py`; pendiente ejecución con split completo |
-| `MED-04` | Recogida y monitorización de feedback | `En curso` | Producto / aplicación | Persistencia local minimizada ligada a versión y privacidad; faltan interfaz, métricas operativas y operación compartida |
-| `MED-05` | Recolección de nuevos datos para reentrenamiento | `En curso` | Datos / MLOps | Registro local trazable con finalidad acotada; faltan pipeline, validación, deduplicación y política de incorporación |
+| `MED-04` | Recogida y monitorización de feedback | `En curso` | Producto / aplicación | Flujo local explícito con creación minimizada y resumen agregado por versión/clase/decisión; faltan autenticación, operación compartida y métricas operativas de producción |
+| `MED-05` | Recolección de nuevos datos para reentrenamiento | `En curso` | Datos / MLOps | Finalidad local trazable `future_retraining_candidate` sin narrativa ni incorporación automática; faltan pipeline, validación, deduplicación y política de incorporación |
 
 ### Puerta media
 

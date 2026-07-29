@@ -1,6 +1,18 @@
-import { useEffect, useRef } from 'react'
-import type { PredictionResponse, ReviewReason } from '@/contracts/prediction'
+import { useEffect, useMemo, useRef, useState } from 'react'
+import {
+  CANONICAL_CLASSES,
+  type CanonicalClass,
+  type PredictionResponse,
+  type ReviewReason,
+} from '@/contracts/prediction'
+import {
+  FEEDBACK_DECISIONS,
+  FEEDBACK_PURPOSES,
+  type FeedbackDecision,
+  type FeedbackPurpose,
+} from '@/contracts/feedback'
 import type { PredictionClientMode } from '@/services/configured-prediction-client'
+import { createConfiguredFeedbackClient } from '@/services/configured-feedback-client'
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
 import { Badge } from '@/components/ui/badge'
 import { Button } from '@/components/ui/button'
@@ -25,10 +37,46 @@ export function PredictionResult({ result, clientMode, onReset }: PredictionResu
   const titleRef = useRef<HTMLHeadingElement>(null)
   const isMockResult = clientMode === 'mock' || result.model_version === 'mock-not-a-model'
   const visibleAlternatives = result.alternatives.slice(0, 3)
+  const configuredFeedbackClient = useMemo(() => createConfiguredFeedbackClient(), [])
+  const [decision, setDecision] = useState<FeedbackDecision>('confirmed')
+  const [purpose, setPurpose] = useState<FeedbackPurpose>('human_review_quality_assurance')
+  const [reviewedClass, setReviewedClass] = useState<CanonicalClass | ''>('')
+  const [isSavingFeedback, setIsSavingFeedback] = useState(false)
+  const [feedbackStatus, setFeedbackStatus] = useState<'idle' | 'recorded' | 'error'>('idle')
+  const isLocalPrediction = !isMockResult && clientMode === 'local_api'
+  const canRecordFeedback =
+    isLocalPrediction &&
+    configuredFeedbackClient.mode === 'local_api' &&
+    configuredFeedbackClient.client !== undefined
 
   useEffect(() => {
     titleRef.current?.focus()
   }, [])
+
+  const recordFeedback = async () => {
+    if (!configuredFeedbackClient.client || (decision === 'corrected' && !reviewedClass)) {
+      return
+    }
+
+    setIsSavingFeedback(true)
+    setFeedbackStatus('idle')
+    try {
+      await configuredFeedbackClient.client.recordFeedback({
+        prediction_id: result.prediction_id,
+        model_version: result.model_version,
+        taxonomy_version: result.taxonomy_version,
+        suggested_class: result.predicted_class,
+        ...(decision === 'corrected' ? { reviewed_class: reviewedClass } : {}),
+        decision,
+        purpose,
+      })
+      setFeedbackStatus('recorded')
+    } catch {
+      setFeedbackStatus('error')
+    } finally {
+      setIsSavingFeedback(false)
+    }
+  }
 
   return (
     <div className="space-y-6">
@@ -145,6 +193,114 @@ export function PredictionResult({ result, clientMode, onReset }: PredictionResu
           <AlertDescription>{warning}</AlertDescription>
         </Alert>
       ))}
+
+      {isLocalPrediction && (
+        <Card>
+          <CardHeader>
+            <CardTitle className="text-base">Record human review</CardTitle>
+          </CardHeader>
+          <CardContent className="space-y-4">
+            {canRecordFeedback ? (
+              <>
+                <div className="grid gap-4 sm:grid-cols-2">
+                  <label className="space-y-1 text-sm font-bold">
+                    Review decision
+                    <select
+                      value={decision}
+                      onChange={(event) => {
+                        const nextDecision = event.target.value as FeedbackDecision
+                        setDecision(nextDecision)
+                        if (nextDecision !== 'corrected') setReviewedClass('')
+                      }}
+                      className="block w-full rounded-md border border-line bg-paper px-3 py-2 text-sm font-normal"
+                    >
+                      {FEEDBACK_DECISIONS.map((option) => (
+                        <option key={option} value={option}>
+                          {option}
+                        </option>
+                      ))}
+                    </select>
+                  </label>
+
+                  <label className="space-y-1 text-sm font-bold">
+                    Purpose
+                    <select
+                      value={purpose}
+                      onChange={(event) => setPurpose(event.target.value as FeedbackPurpose)}
+                      className="block w-full rounded-md border border-line bg-paper px-3 py-2 text-sm font-normal"
+                    >
+                      {FEEDBACK_PURPOSES.map((option) => (
+                        <option key={option} value={option}>
+                          {option}
+                        </option>
+                      ))}
+                    </select>
+                  </label>
+                </div>
+
+                {decision === 'corrected' && (
+                  <label className="block space-y-1 text-sm font-bold">
+                    Reviewed class
+                    <select
+                      value={reviewedClass}
+                      onChange={(event) => setReviewedClass(event.target.value as CanonicalClass)}
+                      className="block w-full rounded-md border border-line bg-paper px-3 py-2 text-sm font-normal"
+                    >
+                      <option value="">Select the reviewed class</option>
+                      {CANONICAL_CLASSES.map((classLabel) => (
+                        <option key={classLabel} value={classLabel}>
+                          {classLabel}
+                        </option>
+                      ))}
+                    </select>
+                  </label>
+                )}
+
+                <Button
+                  type="button"
+                  onClick={recordFeedback}
+                  disabled={isSavingFeedback || (decision === 'corrected' && !reviewedClass)}
+                >
+                  {isSavingFeedback ? 'Saving review...' : 'Record review'}
+                </Button>
+              </>
+            ) : (
+              <Alert variant="warning">
+                <AlertTriangle className="h-4 w-4" />
+                <AlertDescription>
+                  Local feedback is unavailable. No feedback was recorded and this prediction is
+                  unchanged.
+                </AlertDescription>
+              </Alert>
+            )}
+
+            <p className="text-xs text-ink-soft">
+              Only model version, classes, decision, and purpose are sent. The narrative, identity,
+              free text, and probabilities are not stored. This is a local prototype without sign-in,
+              shared operation, or automatic retraining.
+            </p>
+
+            {feedbackStatus === 'recorded' && (
+              <Alert>
+                <CheckCircle className="h-4 w-4" />
+                <AlertDescription>
+                  Feedback was recorded locally. It does not change this prediction or retrain a
+                  model automatically.
+                </AlertDescription>
+              </Alert>
+            )}
+            {feedbackStatus === 'error' && (
+              <Alert variant="destructive" role="alert">
+                <AlertTriangle className="h-4 w-4" />
+                <AlertDescription>
+                  Feedback could not be recorded locally. This prediction is unchanged; check the
+                  local service and try again.
+                </AlertDescription>
+              </Alert>
+            )}
+          </CardContent>
+        </Card>
+      )}
 
       <p className="text-sm text-ink-soft">
         This output supports review. It does not make a final financial or routing decision.

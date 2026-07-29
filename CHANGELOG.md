@@ -15,6 +15,12 @@
   sintéticas. No añade endpoint, interfaz, autenticación, base compartida,
   métricas operativas, reentrenamiento, despliegue ni MLOps.
 
+- `PG-13`: flujo explícito de feedback local posterior a una predicción, con
+  creación minimizada y resumen agregado, retención de 30 días y pruebas
+  sintéticas de API e interfaz. No añade autenticación, permisos reales, base
+  compartida, corpus, Champion, reentrenamiento automático, Docker, despliegue
+  ni MLOps.
+
 - `PG-12`: tres quality gates locales y configurables para integridad de datos,
   contrato de modelo y métricas agregadas. Las 16 pruebas usan exclusivamente
   fixtures y artefactos sintéticos; no acreditan entrenamiento, datos CFPB
