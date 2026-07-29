@@ -77,6 +77,73 @@
           }
         }
       }
+    },
+    "/v1/feedback": {
+      "post": {
+        "operationId": "createLocalFeedback",
+        "summary": "Record privacy-minimised local human feedback",
+        "x-implementation-status": "local-implemented",
+        "x-data-handling": {
+          "narrative_persistence": "prohibited",
+          "identity_persistence": "prohibited",
+          "individual_record_export": "prohibited",
+          "operation_scope": "local-only"
+        },
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/FeedbackCreateRequest"
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "Feedback recorded locally without returning an individual record",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/FeedbackAcceptedResponse"
+                }
+              }
+            }
+          },
+          "400": {
+            "$ref": "#/components/responses/FeedbackRejected"
+          },
+          "503": {
+            "$ref": "#/components/responses/ServiceUnavailable"
+          }
+        }
+      }
+    },
+    "/v1/feedback/summary": {
+      "get": {
+        "operationId": "getLocalFeedbackSummary",
+        "summary": "Read aggregate-only local feedback summary",
+        "x-implementation-status": "local-implemented",
+        "x-data-handling": {
+          "individual_record_export": "prohibited",
+          "operation_scope": "local-only"
+        },
+        "responses": {
+          "200": {
+            "description": "Aggregate feedback counters after expired-record purge",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/FeedbackSummaryResponse"
+                }
+              }
+            }
+          },
+          "503": {
+            "$ref": "#/components/responses/ServiceUnavailable"
+          }
+        }
+      }
     }
   },
   "components": {
@@ -237,6 +304,124 @@
         },
         "description": "The response never echoes the complaint narrative or recommends an operational queue."
       },
+      "FeedbackCreateRequest": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "prediction_id",
+          "model_version",
+          "taxonomy_version",
+          "suggested_class",
+          "decision",
+          "purpose"
+        ],
+        "properties": {
+          "prediction_id": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "model_version": {
+            "type": "string",
+            "minLength": 1
+          },
+          "taxonomy_version": {
+            "type": "string",
+            "minLength": 1
+          },
+          "suggested_class": {
+            "$ref": "#/components/schemas/CanonicalClass"
+          },
+          "reviewed_class": {
+            "oneOf": [
+              {
+                "$ref": "#/components/schemas/CanonicalClass"
+              },
+              {
+                "type": "null"
+              }
+            ]
+          },
+          "decision": {
+            "type": "string",
+            "enum": [
+              "confirmed",
+              "corrected",
+              "not_actionable"
+            ]
+          },
+          "purpose": {
+            "type": "string",
+            "enum": [
+              "human_review_quality_assurance",
+              "future_retraining_candidate"
+            ]
+          }
+        },
+        "description": "Approved feedback metadata only. The request never includes narrative, identity, free text, audio, transcription, or probabilities."
+      },
+      "FeedbackAcceptedResponse": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "status"
+        ],
+        "properties": {
+          "status": {
+            "type": "string",
+            "enum": [
+              "recorded"
+            ]
+          }
+        },
+        "description": "Confirmation without a feedback identifier or individual record."
+      },
+      "FeedbackSummaryItem": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "model_version",
+          "suggested_class",
+          "decision",
+          "count"
+        ],
+        "properties": {
+          "model_version": {
+            "type": "string",
+            "minLength": 1
+          },
+          "suggested_class": {
+            "$ref": "#/components/schemas/CanonicalClass"
+          },
+          "decision": {
+            "type": "string",
+            "enum": [
+              "confirmed",
+              "corrected",
+              "not_actionable"
+            ]
+          },
+          "count": {
+            "type": "integer",
+            "minimum": 0
+          }
+        }
+      },
+      "FeedbackSummaryResponse": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "items"
+        ],
+        "properties": {
+          "items": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/FeedbackSummaryItem"
+            }
+          }
+        },
+        "description": "Aggregate-only feedback counts; individual records and identifiers are never returned."
+      },
       "ErrorResponse": {
         "type": "object",
         "additionalProperties": false,
@@ -292,6 +477,16 @@
       },
       "ValidationError": {
         "description": "Narrative rejected by an active validation policy",
+        "content": {
+          "application/json": {
+            "schema": {
+              "$ref": "#/components/schemas/ErrorResponse"
+            }
+          }
+        }
+      },
+      "FeedbackRejected": {
+        "description": "Feedback request rejected without echoing submitted content",
         "content": {
           "application/json": {
             "schema": {

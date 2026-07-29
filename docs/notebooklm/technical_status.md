@@ -11,7 +11,7 @@
   reproducible; la evidencia conserva revisión humana y no hay servicio
   desplegado.
 - Despliegue: no iniciado.
-- Persistencia: repositorio SQLite local gobernado, aislado de la ruta de predicción; no hay endpoint, interfaz, autenticación, base compartida ni operación productiva.
+- Feedback: persistencia SQLite local gobernada y flujo explícito posterior a predicción, con creación minimizada y resumen agregado. No hay autenticación, permisos reales, base compartida, operación productiva, corpus ni reentrenamiento automático.
 - Seguimiento: Jira `PG` operativo para responsables, estados y bloqueos; `PG-1`
   agrupa el nivel esencial sin sustituir requisitos ni evidencias versionadas.
 
@@ -102,7 +102,7 @@
 
 - Selección y gobierno de un Champion. Existe un baseline reproducible y un
   servicio local capaz de cargarlo, pero no un modelo aprobado para producción.
-- Interfaz de feedback, métricas operativas y recolección validada para reentrenamiento; la persistencia local minimizada ya existe, sin operación compartida.
+- Operación compartida de feedback, métricas operativas de producción y recolección validada para reentrenamiento; existe solo un flujo local minimizado, sin corpus ni incorporación automática.
 - Docker y despliegue.
 - CI/CD completo.
 - Red neuronal, A/B testing, drift y promoción.

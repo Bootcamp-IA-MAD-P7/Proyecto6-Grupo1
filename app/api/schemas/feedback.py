@@ -38,6 +38,54 @@ class FeedbackValidationError(ValueError):
     """A safe validation error that never includes submitted field values."""
 
 
+class FeedbackCreateRequest(BaseModel):
+    """Approved metadata accepted by the local feedback operation."""
+
+    model_config = ConfigDict(extra="forbid")
+
+    prediction_id: UUID
+    model_version: str = Field(min_length=1)
+    taxonomy_version: str = Field(min_length=1)
+    suggested_class: CanonicalClass
+    reviewed_class: CanonicalClass | None = None
+    decision: FeedbackDecision
+    purpose: FeedbackPurpose
+
+    @field_validator("model_version", "taxonomy_version")
+    @classmethod
+    def require_non_blank_version(cls, value: str) -> str:
+        if not value.strip():
+            raise ValueError("Version must not be blank.")
+        return value
+
+    @model_validator(mode="after")
+    def require_reviewed_class_for_correction(self) -> "FeedbackCreateRequest":
+        if self.decision == "corrected" and self.reviewed_class is None:
+            raise ValueError("Corrected feedback requires a reviewed class.")
+        if self.decision != "corrected" and self.reviewed_class is not None:
+            raise ValueError("Only corrected feedback may include a reviewed class.")
+        return self
+
+
+class FeedbackSummaryItem(BaseModel):
+    """One privacy-minimised feedback aggregate."""
+
+    model_config = ConfigDict(extra="forbid")
+
+    model_version: str = Field(min_length=1)
+    suggested_class: CanonicalClass
+    decision: FeedbackDecision
+    count: int = Field(ge=0)
+
+
+class FeedbackSummaryResponse(BaseModel):
+    """Aggregate-only local feedback response."""
+
+    model_config = ConfigDict(extra="forbid")
+
+    items: list[FeedbackSummaryItem]
+
+
 class FeedbackRecord(BaseModel):
     """Minimum local record allowed after an explicit human review."""
 

@@ -56,7 +56,7 @@ local](reports/validation/claimvox_local_inference_smoke.md).
 | Salida | Una de once clases canónicas, alternativas y revisión humana obligatoria. |
 | Estado esencial | `10 de 10` criterios verificados para ejecución local. |
 | Corte verificable | Tag anotado [`v0.1.0-essential-mvp`](https://github.com/Bootcamp-IA-MAD-P7/Proyecto6-Grupo1/tree/v0.1.0-essential-mvp). |
-| Fuera de alcance | Despliegue, cuentas reales, base de datos compartida, interfaz de feedback, Docker, cloud y MLOps. |
+| Fuera de alcance | Despliegue, cuentas reales, base de datos compartida, operación de feedback compartida, Docker, cloud y MLOps. |
 
 > El tag representa un corte local, revisable y no desplegado. El detalle de
 > los criterios y sus fuentes está en los [niveles de entrega](docs/project_management/delivery_levels.md).
@@ -76,7 +76,7 @@ local](reports/validation/claimvox_local_inference_smoke.md).
 | Comparativa posterior | RF, XGBoost y LightGBM comparados sobre una muestra de 50K. No hay Champion ni modelo seleccionado para producción. |
 | Aplicación | ClaimVox React PWA: mock seguro por defecto y predicción local real mediante configuración explícita |
 | Backend e inferencia | Servicio FastAPI y flujo PWA→API verificados localmente con un artefacto reproducible; sin despliegue |
-| Feedback local | Repositorio SQLite local gobernado, sin endpoint, interfaz ni operación compartida |
+| Feedback local | Creación y resumen agregados locales, con retención y privacidad; sin operación compartida |
 | Despliegue, cuentas y MLOps | No implementados |
 | Método de trabajo | OpenSpec + arnés implantados y comprobados |
 
@@ -100,7 +100,7 @@ el [smoke end-to-end](reports/validation/claimvox_local_inference_smoke.md).
 
 ### Qué no debe afirmarse
 
-No hay despliegue público, autenticación real, base de datos compartida, endpoint o interfaz de feedback, analítica de usuarios, monitorización de producción, Docker, cloud ni MLOps. Existe únicamente un repositorio SQLite local, aislado y sin datos CFPB reales. El artefacto vive localmente y la aplicación no lee el CSV del CFPB.
+No hay despliegue público, autenticación real, permisos reales, base de datos compartida, operación de feedback compartida, analítica de usuarios, monitorización de producción, Docker, cloud ni MLOps. Existe un flujo de feedback exclusivamente local y minimizado, sin datos CFPB reales: no conserva narrativas, identidad, texto libre ni probabilidades completas, no crea un corpus y no reentrena automáticamente. El artefacto vive localmente y la aplicación no lee el CSV del CFPB.
 
 ### Evidencia esencial destacada
 
@@ -437,7 +437,7 @@ Antes de subir un paquete a NotebookLM se excluyen secretos, datos brutos, narra
 
 1. Ejecutar [PG-11](https://miguel-redondo.atlassian.net/browse/PG-11): validación cruzada estratificada y optimización sin utilizar el test protegido para seleccionar.
 2. Ejecutar [PG-12](https://miguel-redondo.atlassian.net/browse/PG-12): quality gates de integridad, modelo y métricas en CI.
-3. Completar [PG-13](https://miguel-redondo.atlassian.net/browse/PG-13): interfaz y métricas de feedback sobre la persistencia local gobernada de [PG-14](https://miguel-redondo.atlassian.net/browse/PG-14), sin ampliar retención ni privacidad sin evidencia.
+3. Continuar [PG-13](https://miguel-redondo.atlassian.net/browse/PG-13): el flujo local minimizado ya registra feedback y resume métricas agregadas sobre [PG-14](https://miguel-redondo.atlassian.net/browse/PG-14); faltan operación compartida y recolección validada para reentrenamiento.
 4. Abordar [PG-15](https://miguel-redondo.atlassian.net/browse/PG-15): Docker y despliegue reproducible después de estabilizar controles y persistencia.
 5. Consultar la [hoja de ruta posterior](docs/project_management/mvp_delivery_roadmap.md) para dependencias, responsables y evidencia mínima.
 
