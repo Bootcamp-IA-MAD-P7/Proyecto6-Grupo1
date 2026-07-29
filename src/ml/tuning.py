@@ -195,3 +195,47 @@ def tune_hyperparams_cv(
         "n_splits": n_splits,
         "random_state": random_state,
     }
+
+
+def recommend_candidate(
+    candidates: list[dict],
+    *,
+    maximum_gap: float,
+    macro_f1_tie_tolerance: float,
+) -> dict:
+    """Apply the versioned PG-11 selection rule without consulting test data."""
+    eligible = [
+        candidate
+        for candidate in candidates
+        if candidate["train_validation_gap"] < maximum_gap
+    ]
+    if not eligible:
+        return {
+            "status": "no_selection_approved",
+            "candidate": None,
+            "rationale": ["No candidate satisfies the approved train-validation gap."],
+        }
+
+    best_macro_f1 = max(candidate["macro_f1_mean"] for candidate in eligible)
+    tied = [
+        candidate
+        for candidate in eligible
+        if best_macro_f1 - candidate["macro_f1_mean"] <= macro_f1_tie_tolerance
+    ]
+    selected = min(
+        tied,
+        key=lambda candidate: (
+            candidate["macro_f1_std"],
+            candidate["execution_cost"]["seconds"],
+            len(candidate["class_limitations"]),
+            candidate["name"],
+        ),
+    )
+    return {
+        "status": "recommended_for_validation",
+        "candidate": selected["name"],
+        "rationale": [
+            "Macro F1 is within the approved selection tolerance.",
+            "Tie-breakers applied: fold variability, execution cost, and class limitations.",
+        ],
+    }

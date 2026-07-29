@@ -23,6 +23,7 @@
   },
   "selection": {
     "maximum_train_validation_macro_f1_gap": 0.05,
+    "macro_f1_tie_tolerance": 0.001,
     "tie_breakers": [
       "lower_fold_variability",
       "lower_execution_cost",

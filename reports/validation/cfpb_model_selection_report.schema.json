@@ -52,7 +52,13 @@
           "macro_f1_mean": { "type": "number" },
           "macro_f1_std": { "type": "number", "minimum": 0 },
           "train_validation_gap": { "type": "number", "minimum": 0 },
-          "execution_cost": { "type": "object" },
+          "execution_cost": {
+            "type": "object",
+            "required": ["seconds"],
+            "properties": {
+              "seconds": { "type": "number", "minimum": 0 }
+            }
+          },
           "class_limitations": { "type": "array", "items": { "type": "string" } }
         }
       }
