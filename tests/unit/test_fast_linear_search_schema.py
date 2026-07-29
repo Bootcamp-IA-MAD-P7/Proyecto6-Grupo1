@@ -24,7 +24,7 @@ def valid_evidence() -> dict:
         "random_state": 42,
         "sample": {
             "grouped": True,
-            "maximum_rows": 50000,
+            "maximum_rows": 20000,
             "rows_used": 100,
             "sampling_seed": 42,
         },
@@ -36,7 +36,7 @@ def valid_evidence() -> dict:
         },
         "optimization": {
             "primary_metric": "macro_f1",
-            "max_trials": 30,
+            "max_trials": 10,
             "trials_completed": 2,
             "sampler_seed": 42,
         },
@@ -66,7 +66,7 @@ class FastLinearSearchSchemaTests(unittest.TestCase):
 
     def test_rejects_invalid_phase_budget(self):
         evidence = copy.deepcopy(valid_evidence())
-        evidence["optimization"]["max_trials"] = 31
+        evidence["optimization"]["max_trials"] = 11
         self.assertNotEqual(list(self.validator.iter_errors(evidence)), [])
 
     def test_rejects_reserved_partitions_and_champion(self):

@@ -57,9 +57,9 @@ class InputBoundaryTests(unittest.TestCase):
     def test_fast_linear_policy_has_approved_two_phase_budget(self):
         policy = load_selection_policy(DEFAULT_POLICY_PATH)
         self.assertEqual(policy["candidate"]["family"], "LogisticRegression")
-        self.assertEqual(policy["phase_a_tuning"]["maximum_training_rows"], 50_000)
+        self.assertEqual(policy["phase_a_tuning"]["maximum_training_rows"], 20_000)
         self.assertEqual(policy["phase_a_tuning"]["n_splits"], 3)
-        self.assertEqual(policy["phase_a_tuning"]["max_trials"], 30)
+        self.assertEqual(policy["phase_a_tuning"]["max_trials"], 10)
         self.assertEqual(policy["phase_b_full_cv"]["n_splits"], 5)
         self.assertFalse(policy["phase_b_full_cv"]["retuning_allowed"])
 
@@ -108,7 +108,7 @@ class InputBoundaryTests(unittest.TestCase):
             "macro_f1_mean": 0.5,
             "macro_f1_std": 0.01,
             "class_limitations": [],
-            "n_trials": 30,
+            "n_trials": 10,
         }
         with patch(
             "scripts.ml.evaluate_model_selection.tune_logistic_regression_cv",
@@ -117,7 +117,7 @@ class InputBoundaryTests(unittest.TestCase):
             evidence = execute_search(frame, policy, output_path)
         self.assertEqual(evidence["candidate_family"], "LogisticRegression")
         self.assertFalse(evidence["decision_boundary"]["champion_declared"])
-        self.assertEqual(evidence["optimization"]["trials_completed"], 30)
+        self.assertEqual(evidence["optimization"]["trials_completed"], 10)
         write_text.assert_called_once()
 
 

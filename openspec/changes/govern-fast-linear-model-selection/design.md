@@ -26,9 +26,9 @@ de ejecución disponible. Esta decisión no promociona el baseline a Champion.
 
 ### Dos fases aisladas
 
-La fase A SHALL tomar una muestra determinista de hasta 50.000 filas de grupos
+La fase A SHALL tomar una muestra determinista de hasta 20.000 filas de grupos
 de `train.parquet`, estratificada por la clase contratada, con tres folds
-`StratifiedGroupKFold`, semilla `42` y hasta 30 trials de LogisticRegression.
+`StratifiedGroupKFold`, semilla `42` y hasta 10 trials de LogisticRegression.
 La muestra es exclusivamente de búsqueda y no acredita `MED-02` por sí sola.
 
 La fase B SHALL usar todos los grupos de `train.parquet`, cinco folds

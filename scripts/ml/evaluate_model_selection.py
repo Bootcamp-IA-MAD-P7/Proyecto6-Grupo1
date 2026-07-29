@@ -89,10 +89,10 @@ def load_selection_policy(policy_path: Path) -> dict:
         "temporal_holdout_boundary_preserved": True,
     }:
         raise ModelSelectionInputError("Fast PG-11 policy must preserve grouped folds and seed 42.")
-    if phase_a.get("n_splits") != 3 or phase_a.get("max_trials") != 30:
-        raise ModelSelectionInputError("Fast PG-11 search must use three folds and 30 trials.")
-    if phase_a.get("maximum_training_rows", 0) > 50_000:
-        raise ModelSelectionInputError("Fast PG-11 search may use at most 50,000 rows.")
+    if phase_a.get("n_splits") != 3 or phase_a.get("max_trials") != 10:
+        raise ModelSelectionInputError("Fast PG-11 search must use three folds and 10 trials.")
+    if phase_a.get("maximum_training_rows", 0) > 20_000:
+        raise ModelSelectionInputError("Fast PG-11 search may use at most 20,000 rows.")
     if (
         phase_b.get("input_scope") != "full_train"
         or phase_b.get("n_splits") != 5

@@ -46,8 +46,8 @@
       "required": ["grouped", "maximum_rows", "rows_used", "sampling_seed"],
       "properties": {
         "grouped": {"const": true},
-        "maximum_rows": {"const": 50000},
-        "rows_used": {"type": "integer", "minimum": 1, "maximum": 50000},
+        "maximum_rows": {"const": 20000},
+        "rows_used": {"type": "integer", "minimum": 1, "maximum": 20000},
         "sampling_seed": {"const": 42}
       }
     },
@@ -68,8 +68,8 @@
       "required": ["primary_metric", "max_trials", "trials_completed", "sampler_seed"],
       "properties": {
         "primary_metric": {"const": "macro_f1"},
-        "max_trials": {"const": 30},
-        "trials_completed": {"type": "integer", "minimum": 1, "maximum": 30},
+        "max_trials": {"const": 10},
+        "trials_completed": {"type": "integer", "minimum": 1, "maximum": 10},
         "sampler_seed": {"const": 42}
       }
     },

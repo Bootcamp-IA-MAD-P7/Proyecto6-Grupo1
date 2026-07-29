@@ -10,9 +10,9 @@ Miguel aprueba la ejecución de la fase A en Colab con LogisticRegression.
 
 ## Límite aprobado
 
-- Entrada: muestra determinista y agrupada de hasta 50.000 filas de `train.parquet`.
+- Entrada: muestra determinista y agrupada de hasta 20.000 filas de `train.parquet`.
 - Control de fuga: `narrative_hash`, `StratifiedGroupKFold`, tres folds y semilla `42`.
-- Búsqueda: hasta 30 trials y macro F1 como métrica primaria.
+- Búsqueda: hasta 10 trials y macro F1 como métrica primaria.
 - Salida: únicamente evidencia agregada conforme al contrato versionado.
 
 ## Límites mantenidos
