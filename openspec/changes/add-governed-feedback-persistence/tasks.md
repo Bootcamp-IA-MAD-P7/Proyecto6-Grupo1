@@ -2,7 +2,7 @@
 
 ## 1. Fijar contratos y límites
 
-- [ ] 1.1 [Arquitectura / backend] Inventariar el contrato de predicción y los campos mínimos permitidos para feedback, sin duplicar narrativas ni crear un endpoint público. Evidencia: diseño y contrato de persistencia trazables a `PredictionResponse`.
+- [x] 1.1 [Arquitectura / backend] Inventariar el contrato de predicción y los campos mínimos permitidos para feedback, sin duplicar narrativas ni crear un endpoint público. Evidencia: `reports/validation/feedback_persistence_contract_review.md` traza los campos mínimos a `PredictionResponse` y excluye narrativa, `client_request_id`, identidad y texto libre.
 - [ ] 1.2 [Arquitectura / seguridad] Versionar la política local de ubicación, retención, vocabularios de decisión/finalidad y campos prohibidos. Verificación: JSON o configuración equivalente válida, sin secretos ni datos reales.
 
 ## 2. Implementar el almacén local aislado
