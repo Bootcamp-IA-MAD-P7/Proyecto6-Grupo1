@@ -47,7 +47,8 @@ class LocalFeedbackRepository:
         """Create the versioned local schema idempotently."""
         self._storage_directory.mkdir(parents=True, exist_ok=True)
         try:
-            with sqlite3.connect(self._database_path) as connection:
+            connection = sqlite3.connect(self._database_path)
+            try:
                 connection.execute("PRAGMA foreign_keys = ON")
                 connection.execute(
                     """
@@ -76,6 +77,9 @@ class LocalFeedbackRepository:
                     "INSERT OR IGNORE INTO schema_migrations(version) VALUES (?)",
                     (self._SCHEMA_VERSION,),
                 )
+                connection.commit()
+            finally:
+                connection.close()
         except sqlite3.Error as error:
             raise FeedbackRepositoryError("Feedback storage is unavailable.") from error
 
@@ -83,7 +87,8 @@ class LocalFeedbackRepository:
         """Store an already validated minimum feedback record locally."""
         self.initialize()
         try:
-            with sqlite3.connect(self._database_path) as connection:
+            connection = sqlite3.connect(self._database_path)
+            try:
                 connection.execute(
                     """
                     INSERT INTO feedback_records (
@@ -105,5 +110,8 @@ class LocalFeedbackRepository:
                         feedback.expires_at.isoformat(),
                     ),
                 )
+                connection.commit()
+            finally:
+                connection.close()
         except sqlite3.Error as error:
             raise FeedbackRepositoryError("Feedback record could not be stored.") from error
