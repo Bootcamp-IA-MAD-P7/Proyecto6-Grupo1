@@ -1,0 +1,77 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "CFPB governed model-selection report",
+  "type": "object",
+  "required": [
+    "policy_version",
+    "data_scope",
+    "cross_validation",
+    "candidates",
+    "selection"
+  ],
+  "properties": {
+    "policy_version": { "type": "string" },
+    "data_scope": {
+      "type": "object",
+      "required": ["eligible_partition", "protected_test_used"],
+      "properties": {
+        "eligible_partition": { "const": "train" },
+        "protected_test_used": { "const": false }
+      }
+    },
+    "cross_validation": {
+      "type": "object",
+      "required": ["strategy", "group_column", "n_splits", "random_state"],
+      "properties": {
+        "strategy": { "type": "string" },
+        "group_column": { "const": "narrative_hash" },
+        "n_splits": { "type": "integer", "minimum": 2 },
+        "random_state": { "type": "integer" }
+      }
+    },
+    "candidates": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": [
+          "name",
+          "configuration",
+          "budget",
+          "folds",
+          "macro_f1_mean",
+          "macro_f1_std",
+          "train_validation_gap",
+          "execution_cost",
+          "class_limitations"
+        ],
+        "properties": {
+          "name": { "type": "string" },
+          "configuration": { "type": "object" },
+          "budget": { "type": "object" },
+          "folds": { "type": "array", "items": { "type": "number" } },
+          "macro_f1_mean": { "type": "number" },
+          "macro_f1_std": { "type": "number", "minimum": 0 },
+          "train_validation_gap": { "type": "number", "minimum": 0 },
+          "execution_cost": {
+            "type": "object",
+            "required": ["seconds"],
+            "properties": {
+              "seconds": { "type": "number", "minimum": 0 }
+            }
+          },
+          "class_limitations": { "type": "array", "items": { "type": "string" } }
+        }
+      }
+    },
+    "selection": {
+      "type": "object",
+      "required": ["status", "human_approval_required", "rationale"],
+      "properties": {
+        "status": { "enum": ["recommended_for_validation", "no_selection_approved"] },
+        "candidate": { "type": ["string", "null"] },
+        "human_approval_required": { "const": true },
+        "rationale": { "type": "array", "items": { "type": "string" } }
+      }
+    }
+  }
+}

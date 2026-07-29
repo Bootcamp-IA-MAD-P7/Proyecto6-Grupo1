@@ -3,7 +3,9 @@
 from __future__ import annotations
 
 import optuna
+import numpy as np
 from sklearn.metrics import f1_score
+from sklearn.model_selection import StratifiedGroupKFold
 
 
 def _objective_rf(trial, X_train, y_train, X_val, y_val):
@@ -124,4 +126,116 @@ def tune_hyperparams(
         "best_params": study.best_params,
         "best_value": study.best_value,
         "n_trials": n_trials,
+    }
+
+
+def tune_hyperparams_cv(
+    model_type: str,
+    X,
+    y: list[str],
+    groups: list[str],
+    *,
+    n_splits: int,
+    n_trials: int,
+    random_state: int,
+    runtime_config: dict | None = None,
+) -> dict:
+    """Tune one candidate only within grouped, stratified training folds."""
+    if len(y) != len(groups):
+        raise ValueError("Labels and leakage-control groups must have the same length.")
+
+    objectives = {"rf": _objective_rf, "xgb": _objective_xgb, "lgbm": _objective_lgbm}
+    objective = objectives.get(model_type)
+    if objective is None:
+        raise ValueError(f"Unsupported model candidate: {model_type}.")
+
+    labels = np.asarray(y)
+    group_values = np.asarray(groups)
+    splitter = StratifiedGroupKFold(
+        n_splits=n_splits,
+        shuffle=True,
+        random_state=random_state,
+    )
+    sampler = optuna.samplers.TPESampler(seed=random_state)
+    study = optuna.create_study(direction="maximize", sampler=sampler)
+
+    def run_trial(trial):
+        fold_scores = []
+        for train_index, fold_index in splitter.split(X, labels, group_values):
+            if model_type == "lgbm":
+                score = objective(
+                    trial,
+                    X[train_index],
+                    labels[train_index],
+                    X[fold_index],
+                    labels[fold_index],
+                    runtime_config,
+                )
+            else:
+                score = objective(
+                    trial,
+                    X[train_index],
+                    labels[train_index],
+                    X[fold_index],
+                    labels[fold_index],
+                )
+            fold_scores.append(float(score))
+        trial.set_user_attr("fold_macro_f1", fold_scores)
+        return float(np.mean(fold_scores))
+
+    study.optimize(run_trial, n_trials=n_trials)
+    best_trial = study.best_trial
+    fold_scores = best_trial.user_attrs["fold_macro_f1"]
+    return {
+        "best_params": best_trial.params,
+        "macro_f1_mean": best_trial.value,
+        "macro_f1_std": float(np.std(fold_scores)),
+        "fold_macro_f1": fold_scores,
+        "n_trials": n_trials,
+        "n_splits": n_splits,
+        "random_state": random_state,
+    }
+
+
+def recommend_candidate(
+    candidates: list[dict],
+    *,
+    maximum_gap: float,
+    macro_f1_tie_tolerance: float,
+) -> dict:
+    """Apply the versioned PG-11 selection rule without consulting test data."""
+    eligible = [
+        candidate
+        for candidate in candidates
+        if candidate["train_validation_gap"] < maximum_gap
+    ]
+    if not eligible:
+        return {
+            "status": "no_selection_approved",
+            "candidate": None,
+            "rationale": ["No candidate satisfies the approved train-validation gap."],
+        }
+
+    best_macro_f1 = max(candidate["macro_f1_mean"] for candidate in eligible)
+    tied = [
+        candidate
+        for candidate in eligible
+        if best_macro_f1 - candidate["macro_f1_mean"] <= macro_f1_tie_tolerance
+    ]
+    selected = min(
+        tied,
+        key=lambda candidate: (
+            candidate["macro_f1_std"],
+            candidate["execution_cost"]["seconds"],
+            len(candidate["class_limitations"]),
+            candidate["name"],
+        ),
+    )
+    return {
+        "status": "recommended_for_validation",
+        "candidate": selected["name"],
+        "rationale": [
+            "Macro F1 is within the approved selection tolerance.",
+            "Tie-breakers applied: fold variability, execution cost, and class limitations.",
+        ],
     }
