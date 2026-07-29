@@ -1,7 +1,7 @@
 # Revisión de partición para selección de modelo
 
-Fecha: `2026-07-29`  
-Cambio OpenSpec: `govern-cfpb-model-selection`  
+Fecha: `2026-07-29`
+Cambio OpenSpec: `govern-cfpb-model-selection`
 Tarea: `1.1`
 
 ## Confirmación
