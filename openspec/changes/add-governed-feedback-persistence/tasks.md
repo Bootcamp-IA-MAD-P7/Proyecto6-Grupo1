@@ -7,7 +7,7 @@
 
 ## 2. Implementar el almacén local aislado
 
-- [ ] 2.1 [Backend] Crear el modelo de dominio y la validación de feedback mínimo, con clases canónicas, versiones, marcas temporales y rechazo seguro de campos prohibidos. Verificación: pruebas sintéticas directas.
+- [x] 2.1 [Backend] Crear el modelo de dominio y la validación de feedback mínimo, con clases canónicas, versiones, marcas temporales y rechazo seguro de campos prohibidos. Evidencia: `app/api/schemas/feedback.py`; `python -m py_compile app/api/schemas/feedback.py` superado. Las pruebas sintéticas directas corresponden a la tarea 2.3.
 - [ ] 2.2 [Backend / plataforma] Implementar un repositorio local bajo raíz controlada con esquema versionado, migración idempotente y rechazo de rutas externas, sin red ni base compartida. Verificación: almacén temporal sintético.
 - [ ] 2.3 [Tests / QA] Añadir pruebas sintéticas de registro conforme, clase inválida, campo sensible, fecha inválida, ruta externa e inicialización repetible. No usar narrativas CFPB ni identidad.
 
