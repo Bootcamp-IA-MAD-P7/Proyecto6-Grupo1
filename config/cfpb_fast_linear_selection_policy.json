@@ -1,0 +1,79 @@
+{
+  "policy_version": "1.0",
+  "jira_issue": "PG-11",
+  "candidate": {
+    "family": "LogisticRegression",
+    "status": "existing_local_baseline_not_champion",
+    "feature_column": "complaint_what_happened",
+    "target_column": "product_canonical",
+    "target_contract_path": "config/cfpb_target_contract.json",
+    "required_canonical_class_count": 11
+  },
+  "data_scope": {
+    "eligible_partition": "train",
+    "reserved_confirmation_partition": "validation",
+    "protected_partition": "test",
+    "validation_allowed_for_selection": false,
+    "protected_test_allowed_for_selection": false
+  },
+  "grouping": {
+    "strategy": "StratifiedGroupKFold",
+    "group_column": "narrative_hash",
+    "shuffle": true,
+    "random_state": 42,
+    "temporal_holdout_boundary_preserved": true
+  },
+  "phase_a_tuning": {
+    "purpose": "select_frozen_linear_parameters",
+    "input_scope": "deterministic_grouped_train_sample",
+    "maximum_training_rows": 50000,
+    "sampling_seed": 42,
+    "n_splits": 3,
+    "max_trials": 30,
+    "sampler_seed": 42,
+    "model_random_state": 42,
+    "primary_metric": "macro_f1"
+  },
+  "phase_b_full_cv": {
+    "input_scope": "full_train",
+    "n_splits": 5,
+    "random_state": 42,
+    "parameters_source": "phase_a_frozen",
+    "retuning_allowed": false,
+    "required_metrics": [
+      "train_macro_f1",
+      "fold_macro_f1",
+      "macro_f1_mean",
+      "macro_f1_std",
+      "train_fold_macro_f1_gap",
+      "per_class_precision_recall_f1",
+      "execution_cost"
+    ],
+    "maximum_train_fold_macro_f1_gap": 0.05,
+    "maximum_gap_is_strict": true
+  },
+  "selection": {
+    "champion_declared_automatically": false,
+    "human_approval_required": true,
+    "validation_confirmation_after_human_review_only": true,
+    "validation_retuning_allowed": false
+  },
+  "evidence": {
+    "allowed": [
+      "aggregated_fold_metrics",
+      "per_class_metrics",
+      "configuration",
+      "execution_budget",
+      "execution_cost",
+      "limitations"
+    ],
+    "forbidden": [
+      "cfpb_narratives",
+      "raw_data",
+      "model_binaries",
+      "credentials",
+      "sensitive_logs",
+      "test_results"
+    ]
+  }
+}

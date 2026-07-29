@@ -1,6 +1,6 @@
 ## 1. Definir el protocolo lineal
 
-- [ ] 1.1 [Datos / ML] Versionar el perfil de dos fases: muestra agrupada determinista de hasta 50.000 filas, tres folds y 30 trials para búsqueda lineal; CV completa de cinco folds con parámetros congelados. Evidencia: configuración JSON válida y prueba sintética.
+- [x] 1.1 [Datos / ML] Versionar el perfil de dos fases: muestra agrupada determinista de hasta 50.000 filas, tres folds y 30 trials para búsqueda lineal; CV completa de cinco folds con parámetros congelados. Evidencia: `config/cfpb_fast_linear_selection_policy.json` validado con `python -m json.tool`; fija LogisticRegression, semilla 42, aislamiento de validation/test, ausencia de retuning en fase B y prohibición de Champion automático.
 - [ ] 1.2 [Datos / ML] Adaptar el ejecutor aislado para aceptar solo LogisticRegression, `train.parquet` y `narrative_hash`; rechazar validation, test, XGBoost/RF y retuning en la fase completa. Evidencia: pruebas directas superadas.
 
 ## 2. Generar evidencia privada
