@@ -300,16 +300,16 @@ archivados conservan el contexto de su fecha; no sustituyen este estado vigente.
 | MED‑04 | Feedback y métricas operativas | No iniciado | Versión de modelo y privacidad |
 | MED‑05 | Recolección para reentrenamiento | No iniciado | Pipeline, trazabilidad y validación |
 
-### Nivel avanzado — 0 de 6 verificados
+### Nivel avanzado — 3 de 6 verificados
 
 | ID | Criterio | Estado | Evidencia necesaria |
 |---|---|---|---|
 | ADV‑01 | Dockerización completa | No iniciado | Imágenes, healthcheck y ejecución |
 | ADV‑02 | Base de datos integrada | No iniciado | Esquema, migraciones y mínimo privilegio |
 | ADV‑03 | Despliegue cloud | No iniciado | Entorno, smoke test y rollback |
-| ADV‑04 | Tests de integridad de datos | No iniciado | Esquema, clases, duplicados y leakage |
-| ADV‑05 | Tests del modelo | `En curso` | Carga, salida, clases e inferencia; falta convertir los umbrales en gate completo |
-| ADV‑06 | Tests de métricas mínimas | No iniciado | Umbrales y overfitting como quality gates |
+| ADV‑04 | Tests de integridad de datos | `Verificado` | Puerta local de esquema, once clases, duplicados y fuga; 6 pruebas sintéticas |
+| ADV‑05 | Tests del modelo | `Verificado` | Puerta local de carga, salida, clases e inferencia; 5 pruebas sintéticas |
+| ADV‑06 | Tests de métricas mínimas | `Verificado` | Umbrales, gap estricto y test protegido como quality gates; 5 pruebas sintéticas |
 
 ### Nivel experto — 0 de 4 verificados
 

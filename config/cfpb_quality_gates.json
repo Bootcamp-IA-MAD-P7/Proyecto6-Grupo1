@@ -1,0 +1,60 @@
+{
+  "schema_version": "1.0",
+  "status": "approved_for_local_quality_gates",
+  "references": {
+    "target_contract": "config/cfpb_target_contract.json",
+    "training_policy": "config/cfpb_training_policy.json",
+    "baseline_metrics": "reports/validation/cfpb_baseline_metrics.json"
+  },
+  "data": {
+    "required_columns": [
+      "complaint_what_happened",
+      "product_canonical",
+      "narrative_hash"
+    ],
+    "canonical_label_count": 11,
+    "group_key": "narrative_hash",
+    "reject_cross_partition_groups": true,
+    "reject_conflicting_duplicate_targets": true
+  },
+  "model": {
+    "allowed_artifact_root": "models",
+    "allowed_feature_columns": [
+      "complaint_what_happened"
+    ],
+    "expected_class_count": 11,
+    "require_probability_output": true,
+    "require_canonical_prediction_labels": true
+  },
+  "metrics": {
+    "evaluation_partition": "validation",
+    "required_validation_fields": [
+      "accuracy",
+      "macro_f1",
+      "weighted_f1",
+      "precision_macro",
+      "recall_macro"
+    ],
+    "required_per_class_fields": [
+      "precision",
+      "recall",
+      "f1-score",
+      "support"
+    ],
+    "required_report_fields": [
+      "train",
+      "validation",
+      "per_class_metrics",
+      "gap_macro_f1",
+      "gap_within_threshold"
+    ],
+    "max_train_validation_macro_f1_gap_exclusive": 0.05,
+    "protected_test_must_not_select_or_promote": true
+  },
+  "privacy": {
+    "version_narratives": false,
+    "publish_narratives": false,
+    "log_narratives": false,
+    "evidence": "aggregate_only"
+  }
+}

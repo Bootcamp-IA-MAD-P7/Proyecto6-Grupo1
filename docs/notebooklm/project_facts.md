@@ -32,6 +32,7 @@
 - El test se ejecutó una vez como evaluación protegida. Su macro F1 (`0.6625`) se registra como resultado descriptivo; no se usa para seleccionar configuraciones ni prueba por sí solo una conclusión de generalización.
 - Evaluación esencial local: el baseline reconstruido con las particiones actuales obtiene macro F1 validation `0.6390`, accuracy `0.8684` y gap `0.0078`, sin cargar el test protegido. Su artefacto y manifiesto locales permiten verificar `ESS-01`; no equivale a Champion ni a despliegue. Véase `reports/validation/cfpb_essential_evaluation.md`.
 - Comparativa ensemble: Random Forest, XGBoost y LightGBM se han comparado con el baseline sobre una muestra de 50K. XGBoost alcanza macro F1 de validation `0.6332`, pero su gap train/validation (`0.2868`) supera el umbral aceptado; no existe Champion seleccionado.
+- Quality gates locales: `ADV-04` a `ADV-06` están verificados mediante una configuración versionada y 16 pruebas sintéticas de integridad, contrato de modelo y métricas. La evidencia no procesa narrativas CFPB ni sustituye entrenamiento, selección de Champion, persistencia, despliegue o MLOps. Véase `reports/validation/cfpb_quality_gates.md`.
 
 ## Producto y operación
 

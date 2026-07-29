@@ -73,9 +73,9 @@ El modelo Champion se elige mediante criterios definidos antes de comparar resul
 | `ADV-01` | Dockerización completa | `No iniciado` | Plataforma | Imágenes reproducibles, configuración por entorno, healthcheck y ejecución documentada |
 | `ADV-02` | Base de datos integrada | `No iniciado` | Backend / plataforma | Esquema versionado, migraciones, mínimo privilegio, privacidad y pruebas |
 | `ADV-03` | Despliegue en la nube | `No iniciado` | Plataforma | URL o entorno verificable, secretos protegidos, smoke test, observabilidad y reversión |
-| `ADV-04` | Tests de integridad de datos | `No iniciado` | Datos / QA | Esquema, nulos, clases, duplicados, leakage y contratos críticos automatizados |
-| `ADV-05` | Tests del modelo | `En curso` | ML / QA | Carga, preprocesamiento, forma de salida, clases, probabilidades e inferencia controladas; falta gate completo de métricas |
-| `ADV-06` | Tests de métricas mínimas | `No iniciado` | ML / QA | Umbrales aprobados, overfitting y rendimiento por clase convertidos en quality gates |
+| `ADV-04` | Tests de integridad de datos | `Verificado` | Datos / QA | Puerta local con columnas, once clases, nulos, conflictos y fuga por `narrative_hash`; 6 pruebas sintéticas |
+| `ADV-05` | Tests del modelo | `Verificado` | ML / QA | Puerta local de carga controlada, feature permitida, clases, probabilidades e inferencia sintética; 5 pruebas |
+| `ADV-06` | Tests de métricas mínimas | `Verificado` | ML / QA | Puerta local para métricas agregadas, clases, gap estricto y prohibición de selección con test; 5 pruebas |
 
 ### Puerta avanzada
 
