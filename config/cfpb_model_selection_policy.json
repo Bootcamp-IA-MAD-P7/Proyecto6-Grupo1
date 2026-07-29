@@ -21,6 +21,12 @@
     "sampler_seed": 42,
     "model_random_state": 42
   },
+  "pilot": {
+    "maximum_training_rows": 100000,
+    "sampling_seed": 42,
+    "purpose": "feasibility_only",
+    "may_verify_delivery_criteria": false
+  },
   "selection": {
     "maximum_train_validation_macro_f1_gap": 0.05,
     "macro_f1_tie_tolerance": 0.001,

@@ -60,6 +60,15 @@ definitiva.
   datos brutos, narrativas CFPB, artefactos pesados, credenciales y logs
   sensibles permanecerán fuera del repositorio.
 
+### Piloto de viabilidad
+
+- La primera ejecución en Colab se limitará a una muestra determinista de
+  100.000 filas de `train.parquet`, con semilla `42`, para comprobar coste y
+  comportamiento del protocolo.
+- El piloto es evidencia de viabilidad exclusivamente: no puede verificar
+  `MED-02` ni `MED-03`, seleccionar un Champion ni sustituir una ejecución sobre
+  el alcance aprobado completo.
+
 ## Riesgos y mitigaciones
 
 - Las clases minoritarias pueden provocar folds inestables; la variabilidad se
@@ -68,6 +77,8 @@ definitiva.
   declarará explícitamente la cobertura alcanzada en vez de extrapolar.
 - Si estratificación y agrupación entran en conflicto, se detiene la selección
   hasta documentar una variante que preserve la prevención de leakage.
+- El piloto puede no representar las clases minoritarias del alcance completo;
+  sus resultados se etiquetarán como piloto y no como decisión definitiva.
 
 ## Trazabilidad
 

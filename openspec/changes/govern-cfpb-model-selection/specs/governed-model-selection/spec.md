@@ -68,3 +68,16 @@ credenciales ni logs sensibles.
 - **WHEN** se versiona el resultado de una ejecución
 - **THEN** incluye métricas agregadas, configuración y limitaciones
 - **AND** no contiene contenido sensible ni datos de reclamaciones.
+
+### Requirement: Piloto de viabilidad explícitamente limitado
+
+El sistema MAY ejecutar un piloto determinista de 100.000 filas de
+`train.parquet` con semilla `42`. Un informe de piloto MUST identificarse como
+evidencia de viabilidad y MUST NOT verificar `MED-02`, `MED-03`, un Champion ni
+una selección definitiva.
+
+#### Scenario: Ejecución de piloto en Colab
+
+- **WHEN** se solicita una ejecución limitada de selección
+- **THEN** el ejecutor limita la entrada a 100.000 filas con la semilla aprobada
+- **AND** la salida declara que el resultado no cierra criterios de entrega.
