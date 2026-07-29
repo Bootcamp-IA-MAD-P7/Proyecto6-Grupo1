@@ -1,4 +1,4 @@
-"""Load only the approved training partition for governed model selection."""
+"""Prepare only the approved input boundary for fast linear model selection."""
 
 from __future__ import annotations
 
@@ -13,11 +13,8 @@ ROOT = Path(__file__).resolve().parents[2]
 if str(ROOT) not in sys.path:
     sys.path.insert(0, str(ROOT))
 
-from src.ml.tuning import tune_hyperparams_cv
-from src.ml.vectorizer import VectorizerConfig
-
 DEFAULT_TRAIN_INPUT = ROOT / "data" / "processed" / "cfpb_baseline_en" / "train.parquet"
-DEFAULT_POLICY_PATH = ROOT / "config" / "cfpb_model_selection_policy.json"
+DEFAULT_POLICY_PATH = ROOT / "config" / "cfpb_fast_linear_selection_policy.json"
 REQUIRED_COLUMNS = (
     "complaint_what_happened",
     "product_canonical",
@@ -59,45 +56,76 @@ def load_selection_training_partition(input_path: Path) -> pl.DataFrame:
 
 
 def load_selection_policy(policy_path: Path) -> dict:
-    """Load the versioned PG-11 constraints before an explicit execution."""
+    """Load and validate the versioned fast-linear selection boundary."""
     policy = json.loads(policy_path.read_text(encoding="utf-8"))
-    if policy["data_scope"] != {
-        "eligible_partition": "train",
-        "reserved_confirmation_partition": "validation",
-        "protected_partition": "test",
-        "protected_test_allowed_for_selection": False,
-    }:
+    candidate = policy.get("candidate", {})
+    data_scope = policy.get("data_scope", {})
+    grouping = policy.get("grouping", {})
+    phase_a = policy.get("phase_a_tuning", {})
+    phase_b = policy.get("phase_b_full_cv", {})
+    selection = policy.get("selection", {})
+
+    if candidate.get("family") != "LogisticRegression":
+        raise ModelSelectionInputError("Fast PG-11 accepts only LogisticRegression.")
+    if data_scope.get("eligible_partition") != "train" or (
+        data_scope.get("validation_allowed_for_selection") is not False
+        or data_scope.get("protected_test_allowed_for_selection") is not False
+    ):
         raise ModelSelectionInputError("PG-11 policy must keep validation and test reserved.")
+    if grouping != {
+        "strategy": "StratifiedGroupKFold",
+        "group_column": "narrative_hash",
+        "shuffle": True,
+        "random_state": 42,
+        "temporal_holdout_boundary_preserved": True,
+    }:
+        raise ModelSelectionInputError("Fast PG-11 policy must preserve grouped folds and seed 42.")
+    if phase_a.get("n_splits") != 3 or phase_a.get("max_trials") != 30:
+        raise ModelSelectionInputError("Fast PG-11 search must use three folds and 30 trials.")
+    if phase_a.get("maximum_training_rows", 0) > 50_000:
+        raise ModelSelectionInputError("Fast PG-11 search may use at most 50,000 rows.")
+    if (
+        phase_b.get("input_scope") != "full_train"
+        or phase_b.get("n_splits") != 5
+        or phase_b.get("parameters_source") != "phase_a_frozen"
+        or phase_b.get("retuning_allowed") is not False
+    ):
+        raise ModelSelectionInputError("Fast PG-11 full CV must use frozen phase-A parameters.")
+    if selection.get("champion_declared_automatically") is not False:
+        raise ModelSelectionInputError("Fast PG-11 must not declare a Champion automatically.")
     return policy
 
 
-def apply_pilot_limit(frame: pl.DataFrame, pilot_policy: dict) -> pl.DataFrame:
-    """Return the approved deterministic feasibility sample."""
-    maximum_rows = pilot_policy["maximum_training_rows"]
-    if maximum_rows <= 0:
-        raise ModelSelectionInputError("Pilot maximum_training_rows must be positive.")
-    return frame.sample(
-        n=min(frame.height, maximum_rows),
-        seed=pilot_policy["sampling_seed"],
-    )
+def phase_settings(policy: dict, phase: str) -> dict:
+    """Expose phase settings without loading reserved partitions or training."""
+    if phase == "search":
+        return policy["phase_a_tuning"]
+    if phase == "full_cv":
+        return policy["phase_b_full_cv"]
+    raise ModelSelectionInputError("Fast PG-11 phase must be search or full_cv.")
 
 
 def parse_args() -> argparse.Namespace:
     parser = argparse.ArgumentParser(
-        description="Prepare the approved training partition for PG-11 model selection."
+        description="Prepare the approved train boundary for fast linear PG-11 selection."
     )
     parser.add_argument("--train-input", type=Path, default=DEFAULT_TRAIN_INPUT)
     parser.add_argument("--policy", type=Path, default=DEFAULT_POLICY_PATH)
-    parser.add_argument("--candidate", choices=("rf", "xgb", "lgbm"), default="xgb")
     parser.add_argument(
-        "--pilot",
-        action="store_true",
-        help="Use the approved deterministic feasibility sample.",
+        "--candidate",
+        choices=("LogisticRegression",),
+        default="LogisticRegression",
+    )
+    parser.add_argument(
+        "--phase",
+        choices=("search", "full_cv"),
+        default="search",
+        help="Prepare phase A search or phase B full cross-validation.",
     )
     parser.add_argument(
         "--execute",
         action="store_true",
-        help="Run the approved CV search; omitted by default to prevent accidental training.",
+        help="Reserved for a later approved execution task; omitted prevents training.",
     )
     return parser.parse_args()
 
@@ -106,39 +134,16 @@ def main() -> None:
     args = parse_args()
     frame = load_selection_training_partition(args.train_input)
     policy = load_selection_policy(args.policy)
+    settings = phase_settings(policy, args.phase)
     print(f"PG-11 input accepted: {frame.height:,} training rows with grouped leakage control.")
-    if args.pilot:
-        frame = apply_pilot_limit(frame, policy["pilot"])
-        print(f"Pilot limited to {frame.height:,} deterministic training rows.")
+    print(f"Fast linear phase prepared: {args.phase}.")
     if not args.execute:
         print("No evaluation executed. Use --execute only after human approval.")
         return
-    if not args.pilot:
-        raise ModelSelectionInputError(
-            "Full PG-11 execution is disabled; use the approved --pilot mode."
-        )
-
-    vectorizer = VectorizerConfig({"max_features": 8000, "ngram_range": [1, 2]})
-    matrix = vectorizer.fit_transform(frame["complaint_what_happened"].to_list())
-    cv_policy = policy["cross_validation"]
-    optimization = policy["optimization"]
-    pilot_policy = policy["pilot"]
-    result = tune_hyperparams_cv(
-        args.candidate,
-        matrix,
-        frame["product_canonical"].to_list(),
-        frame["narrative_hash"].to_list(),
-        n_splits=pilot_policy["n_splits"] if args.pilot else cv_policy["n_splits"],
-        n_trials=(
-            pilot_policy["max_trials_per_candidate"]
-            if args.pilot
-            else optimization["max_trials_per_candidate"]
-        ),
-        random_state=cv_policy["random_state"],
+    del settings
+    raise ModelSelectionInputError(
+        "Fast linear execution is not implemented by the input-boundary task."
     )
-    result["execution_scope"] = "pilot"
-    result["may_verify_delivery_criteria"] = False
-    print(json.dumps(result, sort_keys=True))
 
 
 if __name__ == "__main__":
