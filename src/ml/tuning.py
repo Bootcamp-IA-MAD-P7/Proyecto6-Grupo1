@@ -255,7 +255,13 @@ def tune_logistic_regression_cv(
         if support == 0
     ]
     return {
-        "best_params": best_trial.params,
+        "best_params": {
+            "C": best_trial.params["C"],
+            "class_weight": "balanced",
+            "max_iter": 500,
+            "random_state": random_state,
+            "solver": "saga",
+        },
         "macro_f1_mean": best_trial.value,
         "macro_f1_std": float(np.std(fold_scores)),
         "fold_macro_f1": fold_scores,
