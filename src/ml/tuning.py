@@ -2,9 +2,12 @@
 
 from __future__ import annotations
 
+import warnings
+
 import optuna
 import numpy as np
-from sklearn.metrics import f1_score
+from sklearn.exceptions import ConvergenceWarning
+from sklearn.metrics import confusion_matrix, f1_score
 from sklearn.model_selection import StratifiedGroupKFold
 
 
@@ -269,6 +272,93 @@ def tune_logistic_regression_cv(
         "n_trials": n_trials,
         "n_splits": n_splits,
         "random_state": random_state,
+    }
+
+
+class LinearModelConvergenceError(RuntimeError):
+    """Raised when a frozen linear candidate fails to converge in a CV fold."""
+
+
+def evaluate_frozen_logistic_regression_cv(
+    X,
+    y: list[str],
+    groups: list[str],
+    *,
+    class_labels: list[str],
+    frozen_parameters: dict,
+    n_splits: int,
+    random_state: int,
+) -> dict:
+    """Evaluate frozen LogisticRegression parameters without retuning.
+
+    A convergence warning aborts immediately so no partial result can be used as
+    delivery evidence or a model-promotion signal.
+    """
+    if len(y) != len(groups):
+        raise ValueError("Labels and leakage-control groups must have the same length.")
+
+    from sklearn.linear_model import LogisticRegression
+
+    labels = np.asarray(y)
+    group_values = np.asarray(groups)
+    splitter = StratifiedGroupKFold(
+        n_splits=n_splits,
+        shuffle=True,
+        random_state=random_state,
+    )
+    fold_metrics = []
+    aggregate_confusion = np.zeros((len(class_labels), len(class_labels)), dtype=int)
+    for fold, (train_index, validation_index) in enumerate(
+        splitter.split(X, labels, group_values), start=1
+    ):
+        model = LogisticRegression(**frozen_parameters)
+        with warnings.catch_warnings(record=True) as captured_warnings:
+            warnings.simplefilter("always", ConvergenceWarning)
+            model.fit(X[train_index], labels[train_index])
+        if any(issubclass(warning.category, ConvergenceWarning) for warning in captured_warnings):
+            raise LinearModelConvergenceError(
+                "Frozen LogisticRegression did not converge; no delivery evidence was written."
+            )
+        train_predictions = model.predict(X[train_index])
+        validation_predictions = model.predict(X[validation_index])
+        fold_metrics.append(
+            {
+                "fold": fold,
+                "train_macro_f1": float(
+                    f1_score(labels[train_index], train_predictions, average="macro")
+                ),
+                "validation_macro_f1": float(
+                    f1_score(labels[validation_index], validation_predictions, average="macro")
+                ),
+            }
+        )
+        aggregate_confusion += confusion_matrix(
+            labels[validation_index], validation_predictions, labels=class_labels
+        )
+
+    true_positive = np.diag(aggregate_confusion).astype(float)
+    predicted_total = aggregate_confusion.sum(axis=0).astype(float)
+    actual_total = aggregate_confusion.sum(axis=1).astype(float)
+    precision = np.divide(true_positive, predicted_total, out=np.zeros_like(true_positive), where=predicted_total != 0)
+    recall = np.divide(true_positive, actual_total, out=np.zeros_like(true_positive), where=actual_total != 0)
+    f1 = np.divide(2 * precision * recall, precision + recall, out=np.zeros_like(precision), where=(precision + recall) != 0)
+    per_class_metrics = {
+        label: {
+            "precision": float(precision[index]),
+            "recall": float(recall[index]),
+            "f1": float(f1[index]),
+        }
+        for index, label in enumerate(class_labels)
+    }
+    train_scores = [fold["train_macro_f1"] for fold in fold_metrics]
+    validation_scores = [fold["validation_macro_f1"] for fold in fold_metrics]
+    return {
+        "fold_metrics": fold_metrics,
+        "macro_f1_mean": float(np.mean(validation_scores)),
+        "macro_f1_std": float(np.std(validation_scores)),
+        "train_fold_macro_f1_gap": float(abs(np.mean(train_scores) - np.mean(validation_scores))),
+        "per_class_metrics": per_class_metrics,
+        "convergence_warning_count": 0,
     }
 
 

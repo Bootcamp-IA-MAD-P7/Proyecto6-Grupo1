@@ -3,15 +3,19 @@
 from __future__ import annotations
 
 import unittest
+import warnings
 from pathlib import Path
 from unittest.mock import patch
 
+import numpy as np
 import polars as pl
+from sklearn.exceptions import ConvergenceWarning
 
 from scripts.ml.evaluate_model_selection import (
     DEFAULT_POLICY_PATH,
     ModelSelectionInputError,
     apply_grouped_search_limit,
+    execute_full_cv,
     execute_search,
     load_selection_policy,
     load_selection_training_partition,
@@ -19,6 +23,8 @@ from scripts.ml.evaluate_model_selection import (
     phase_settings,
     validate_training_input_path,
 )
+from src.ml.tuning import LinearModelConvergenceError, evaluate_frozen_logistic_regression_cv
+from tests.unit.test_fast_linear_full_cv_schema import valid_evidence as valid_full_cv_evidence
 
 
 class InputBoundaryTests(unittest.TestCase):
@@ -119,6 +125,82 @@ class InputBoundaryTests(unittest.TestCase):
         self.assertFalse(evidence["decision_boundary"]["champion_declared"])
         self.assertEqual(evidence["optimization"]["trials_completed"], 10)
         write_text.assert_called_once()
+
+    def test_full_cv_execution_writes_frozen_schema_conforming_aggregate(self):
+        full_evidence = valid_full_cv_evidence()
+        frame = pl.DataFrame(
+            {
+                "complaint_what_happened": ["alpha token"] * 3 + ["beta token"] * 3,
+                "product_canonical": ["Credit card"] * 3 + ["Mortgage"] * 3,
+                "narrative_hash": ["a", "b", "c", "d", "e", "f"],
+            }
+        )
+        result = {
+            "fold_metrics": full_evidence["fold_metrics"],
+            "macro_f1_mean": full_evidence["metrics"]["macro_f1_mean"],
+            "macro_f1_std": full_evidence["metrics"]["macro_f1_std"],
+            "train_fold_macro_f1_gap": full_evidence["metrics"]["train_fold_macro_f1_gap"],
+            "per_class_metrics": full_evidence["per_class_metrics"],
+            "convergence_warning_count": 0,
+        }
+        with patch(
+            "scripts.ml.evaluate_model_selection.evaluate_frozen_logistic_regression_cv",
+            return_value=result,
+        ), patch.object(Path, "write_text") as write_text:
+            evidence = execute_full_cv(
+                frame,
+                load_selection_policy(DEFAULT_POLICY_PATH),
+                Path("reports/validation/synthetic-fast-linear-full-cv.json"),
+            )
+        self.assertFalse(evidence["retuning_performed"])
+        self.assertEqual(evidence["convergence_warning_count"], 0)
+        write_text.assert_called_once()
+
+    def test_full_cv_rejects_a_convergence_warning_without_writing_evidence(self):
+        frame = pl.DataFrame(
+            {
+                "complaint_what_happened": ["alpha token"] * 3 + ["beta token"] * 3,
+                "product_canonical": ["Credit card"] * 3 + ["Mortgage"] * 3,
+                "narrative_hash": ["a", "b", "c", "d", "e", "f"],
+            }
+        )
+        with patch(
+            "scripts.ml.evaluate_model_selection.evaluate_frozen_logistic_regression_cv",
+            side_effect=LinearModelConvergenceError("synthetic non-convergence"),
+        ), patch.object(Path, "write_text") as write_text:
+            with self.assertRaisesRegex(ModelSelectionInputError, "synthetic non-convergence"):
+                execute_full_cv(
+                    frame,
+                    load_selection_policy(DEFAULT_POLICY_PATH),
+                    Path("reports/validation/synthetic-fast-linear-full-cv.json"),
+                )
+        write_text.assert_not_called()
+
+    def test_frozen_cv_stops_on_a_convergence_warning(self):
+        class WarningModel:
+            def __init__(self, **_parameters):
+                pass
+
+            def fit(self, _X, _y):
+                warnings.warn("synthetic", ConvergenceWarning)
+                return self
+
+            def predict(self, X):
+                return np.array(["class_a"] * len(X))
+
+        labels = ["class_a"] * 5 + ["class_b"] * 5
+        groups = [f"group-{index}" for index in range(10)]
+        with patch("sklearn.linear_model.LogisticRegression", WarningModel):
+            with self.assertRaises(LinearModelConvergenceError):
+                evaluate_frozen_logistic_regression_cv(
+                    np.arange(10).reshape(-1, 1),
+                    labels,
+                    groups,
+                    class_labels=["class_a", "class_b"],
+                    frozen_parameters={"C": 1.0},
+                    n_splits=5,
+                    random_state=42,
+                )
 
 
 if __name__ == "__main__":

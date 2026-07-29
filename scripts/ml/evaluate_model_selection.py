@@ -16,14 +16,20 @@ ROOT = Path(__file__).resolve().parents[2]
 if str(ROOT) not in sys.path:
     sys.path.insert(0, str(ROOT))
 
-from src.ml.tuning import tune_logistic_regression_cv
+from src.ml.tuning import (
+    LinearModelConvergenceError,
+    evaluate_frozen_logistic_regression_cv,
+    tune_logistic_regression_cv,
+)
 from src.ml.vectorizer import VectorizerConfig
 
 DEFAULT_TRAIN_INPUT = ROOT / "data" / "processed" / "cfpb_baseline_en" / "train.parquet"
 DEFAULT_POLICY_PATH = ROOT / "config" / "cfpb_fast_linear_selection_policy.json"
 DEFAULT_APPROVAL_PATH = ROOT / "reports" / "validation" / "cfpb_fast_linear_phase_a_approval.md"
 DEFAULT_SEARCH_OUTPUT = ROOT / "reports" / "validation" / "cfpb_fast_linear_search.json"
+DEFAULT_FULL_CV_OUTPUT = ROOT / "reports" / "validation" / "cfpb_fast_linear_full_cv.json"
 SEARCH_SCHEMA_PATH = ROOT / "reports" / "validation" / "cfpb_fast_linear_search.schema.json"
+FULL_CV_SCHEMA_PATH = ROOT / "reports" / "validation" / "cfpb_fast_linear_full_cv.schema.json"
 REQUIRED_COLUMNS = (
     "complaint_what_happened",
     "product_canonical",
@@ -98,6 +104,8 @@ def load_selection_policy(policy_path: Path) -> dict:
         or phase_b.get("n_splits") != 5
         or phase_b.get("parameters_source") != "phase_a_frozen"
         or phase_b.get("retuning_allowed") is not False
+        or not isinstance(phase_b.get("frozen_parameters"), dict)
+        or not phase_b.get("frozen_parameter_approval")
     ):
         raise ModelSelectionInputError("Fast PG-11 full CV must use frozen phase-A parameters.")
     if selection.get("champion_declared_automatically") is not False:
@@ -186,6 +194,24 @@ def validate_search_evidence(evidence: dict) -> None:
         raise ModelSelectionInputError("Search evidence does not satisfy its aggregate schema.")
 
 
+def load_canonical_labels(policy: dict) -> list[str]:
+    """Load only the canonical target labels needed for aggregate metrics."""
+    contract_path = ROOT / policy["candidate"]["target_contract_path"]
+    contract = json.loads(contract_path.read_text(encoding="utf-8"))
+    labels = contract.get("target", {}).get("canonical_labels")
+    if not isinstance(labels, list) or len(labels) != policy["candidate"]["required_canonical_class_count"]:
+        raise ModelSelectionInputError("Fast PG-11 requires the canonical class contract.")
+    return labels
+
+
+def validate_full_cv_evidence(evidence: dict) -> None:
+    """Validate aggregate-only phase-B output before it is persisted."""
+    schema = json.loads(FULL_CV_SCHEMA_PATH.read_text(encoding="utf-8"))
+    errors = list(Draft202012Validator(schema).iter_errors(evidence))
+    if errors:
+        raise ModelSelectionInputError("Full CV evidence does not satisfy its aggregate schema.")
+
+
 def execute_search(frame: pl.DataFrame, policy: dict, output_path: Path) -> dict:
     """Run only approved phase-A tuning and persist its aggregated evidence."""
     phase_policy = phase_settings(policy, "search")
@@ -247,6 +273,65 @@ def execute_search(frame: pl.DataFrame, policy: dict, output_path: Path) -> dict
     return evidence
 
 
+def execute_full_cv(frame: pl.DataFrame, policy: dict, output_path: Path) -> dict:
+    """Run only frozen, grouped phase-B CV and persist aggregate evidence."""
+    phase_policy = phase_settings(policy, "full_cv")
+    approval_path = ROOT / phase_policy["frozen_parameter_approval"]
+    if not approval_path.is_file():
+        raise ModelSelectionInputError("Fast linear full CV requires its frozen-parameter approval.")
+    started_at = time.monotonic()
+    vectorizer = VectorizerConfig({"max_features": 8000, "ngram_range": [1, 2]})
+    matrix = vectorizer.fit_transform(frame["complaint_what_happened"].to_list())
+    try:
+        result = evaluate_frozen_logistic_regression_cv(
+            matrix,
+            frame["product_canonical"].to_list(),
+            frame["narrative_hash"].to_list(),
+            class_labels=load_canonical_labels(policy),
+            frozen_parameters=phase_policy["frozen_parameters"],
+            n_splits=phase_policy["n_splits"],
+            random_state=phase_policy["random_state"],
+        )
+    except LinearModelConvergenceError as error:
+        raise ModelSelectionInputError(str(error)) from error
+    evidence = {
+        "schema_version": "1.0",
+        "execution_phase": "full_cv",
+        "candidate_family": "LogisticRegression",
+        "train_partition_fingerprint": fingerprint_groups(frame),
+        "group_column": "narrative_hash",
+        "random_state": phase_policy["random_state"],
+        "cross_validation": {
+            "strategy": policy["grouping"]["strategy"],
+            "n_splits": phase_policy["n_splits"],
+            "shuffle": policy["grouping"]["shuffle"],
+            "random_state": phase_policy["random_state"],
+        },
+        "frozen_parameters": phase_policy["frozen_parameters"],
+        "retuning_performed": False,
+        "convergence_warning_count": result["convergence_warning_count"],
+        "fold_metrics": result["fold_metrics"],
+        "metrics": {
+            "macro_f1_mean": result["macro_f1_mean"],
+            "macro_f1_std": result["macro_f1_std"],
+            "train_fold_macro_f1_gap": result["train_fold_macro_f1_gap"],
+        },
+        "per_class_metrics": result["per_class_metrics"],
+        "execution_cost": {"elapsed_seconds": time.monotonic() - started_at},
+        "decision_boundary": {
+            "validation_used_for_selection": False,
+            "test_used_for_selection": False,
+            "champion_declared": False,
+            "contains_prohibited_content": False,
+        },
+    }
+    validate_full_cv_evidence(evidence)
+    output_path = validate_controlled_output_path(output_path)
+    output_path.parent.mkdir(parents=True, exist_ok=True)
+    output_path.write_text(json.dumps(evidence, indent=2, sort_keys=True) + "\n", encoding="utf-8")
+    return evidence
+
+
 def parse_args() -> argparse.Namespace:
     parser = argparse.ArgumentParser(
         description="Prepare the approved train boundary for fast linear PG-11 selection."
@@ -254,7 +339,7 @@ def parse_args() -> argparse.Namespace:
     parser.add_argument("--train-input", type=Path, default=DEFAULT_TRAIN_INPUT)
     parser.add_argument("--policy", type=Path, default=DEFAULT_POLICY_PATH)
     parser.add_argument("--approval", type=Path, default=DEFAULT_APPROVAL_PATH)
-    parser.add_argument("--output", type=Path, default=DEFAULT_SEARCH_OUTPUT)
+    parser.add_argument("--output", type=Path)
     parser.add_argument(
         "--candidate",
         choices=("LogisticRegression",),
@@ -269,7 +354,7 @@ def parse_args() -> argparse.Namespace:
     parser.add_argument(
         "--execute",
         action="store_true",
-        help="Run only the approved phase-A search; omitted prevents training.",
+        help="Run only the approved phase selected by --phase; omitted prevents training.",
     )
     return parser.parse_args()
 
@@ -284,11 +369,15 @@ def main() -> None:
     if not args.execute:
         print("No evaluation executed. Use --execute only after human approval.")
         return
-    if args.phase != "search":
-        raise ModelSelectionInputError("Fast linear full CV is not implemented by the phase-A task.")
-    if not args.approval.is_file():
-        raise ModelSelectionInputError("Fast linear phase A requires its versioned approval file.")
-    evidence = execute_search(frame, policy, args.output)
+    output_path = args.output or (
+        DEFAULT_SEARCH_OUTPUT if args.phase == "search" else DEFAULT_FULL_CV_OUTPUT
+    )
+    if args.phase == "search":
+        if not args.approval.is_file():
+            raise ModelSelectionInputError("Fast linear phase A requires its versioned approval file.")
+        evidence = execute_search(frame, policy, output_path)
+    else:
+        evidence = execute_full_cv(frame, policy, output_path)
     print(json.dumps(evidence, sort_keys=True))
 
 

@@ -14,6 +14,7 @@
     "cross_validation",
     "frozen_parameters",
     "retuning_performed",
+    "convergence_warning_count",
     "fold_metrics",
     "metrics",
     "per_class_metrics",
@@ -44,6 +45,7 @@
       "additionalProperties": {"type": ["string", "number", "integer", "boolean", "null"]}
     },
     "retuning_performed": {"const": false},
+    "convergence_warning_count": {"const": 0},
     "fold_metrics": {
       "type": "array",
       "minItems": 5,

@@ -43,6 +43,7 @@ def valid_evidence() -> dict:
         },
         "frozen_parameters": {"C": 1.0, "max_iter": 100},
         "retuning_performed": False,
+        "convergence_warning_count": 0,
         "fold_metrics": [
             {"fold": fold, "train_macro_f1": 0.70, "validation_macro_f1": 0.67}
             for fold in range(1, 6)
@@ -86,6 +87,7 @@ class FastLinearFullCvSchemaTests(unittest.TestCase):
     def test_rejects_retuning_reserved_partitions_and_champion(self):
         for path, value in (
             (("retuning_performed",), True),
+            (("convergence_warning_count",), 1),
             (("decision_boundary", "validation_used_for_selection"), True),
             (("decision_boundary", "test_used_for_selection"), True),
             (("decision_boundary", "champion_declared"), True),
