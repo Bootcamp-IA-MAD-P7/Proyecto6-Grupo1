@@ -4,6 +4,11 @@
 
 ### Added
 
+- `PG-12`: tres quality gates locales y configurables para integridad de datos,
+  contrato de modelo y métricas agregadas. Las 16 pruebas usan exclusivamente
+  fixtures y artefactos sintéticos; no acreditan entrenamiento, datos CFPB
+  reales, Champion, persistencia, despliegue ni MLOps.
+
 - Guía canónica para ejecutar ClaimVox localmente con Git Bash: diferencia mock
   seguro e inferencia local real, comprueba `GET /api/v1/health`, declara CORS
   local y explica una recuperación proporcional ante caché PWA anterior. No
