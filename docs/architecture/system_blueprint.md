@@ -2,9 +2,9 @@
 
 ## Objetivo
 
-Mantener una base escalable y testeable con ClaimVox React PWA y FastAPI local
-como recorrido esencial ya verificado, sin fijar prematuramente persistencia ni
-proveedor cloud.
+Mantener una base escalable y testeable con ClaimVox React PWA, FastAPI,
+baseline y feedback gobernado como recorrido local verificado, sin confundir la
+SQLite local con una base compartida ni fijar prematuramente el proveedor cloud.
 
 ## Vista lógica
 
@@ -16,18 +16,21 @@ flowchart LR
     PORTS --> MODEL[Baseline local]
     PORTS --> MOCK[Mock seguro]
     ML[Pipeline ML] --> MODEL
-    APP -. futuro .-> DB[(Persistencia)]
+    UI --> FEEDBACK[FeedbackService local]
+    FEEDBACK --> DB[(SQLite local)]
+    DB --> SUMMARY[Resumen agregado]
     MODEL -. futuro .-> REGISTRY[Registro de modelos]
-    DB -. futuro .-> EVENTS[Feedback]
-    EVENTS -. futuro .-> MONITOR[Monitorización]
+    SUMMARY -. futuro .-> CORPUS[Corpus gobernado]
+    CORPUS -. futuro .-> MONITOR[Monitorización]
     MONITOR -. futuro .-> PROMOTION[Promoción]
 ```
 
 La PWA, FastAPI local, `PredictionService`, la interfaz de predictor, el
-baseline local y el fallback mock están implementados y probados para ejecución
-local. Persistencia, registro, feedback, monitorización, promoción y despliegue
-siguen siendo responsabilidades previstas. Sus contratos se concretarán mediante
-OpenSpec y decisiones versionadas antes de implementarlos.
+baseline, el fallback mock y el flujo minimizado de feedback están
+implementados y probados localmente. El feedback se conserva en SQLite bajo una
+raíz controlada, retención finita y salida agregada. Base compartida, registro
+de modelos, corpus de reentrenamiento, monitorización, promoción y despliegue
+siguen siendo responsabilidades previstas.
 
 React PWA debe cubrir primero el flujo web instalable y responsive. Una aplicación nativa no forma parte del alcance aprobado; se evaluará únicamente si requisitos de dispositivo, distribución o experiencia demuestran que la PWA no es suficiente.
 

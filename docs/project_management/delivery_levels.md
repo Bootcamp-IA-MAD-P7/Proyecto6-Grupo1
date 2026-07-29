@@ -112,7 +112,7 @@ Cada criterio verificado debe registrar:
 |---|---|---|
 | Esencial | `10 de 10 verificados`: evidencia enlazada para `ESS-01` a `ESS-10`; la ejecución sigue siendo local y no acredita despliegue |
 | Medio | `2 de 5 verificados` (`MED-01`, `MED-04`); `3 en curso` (`MED-02`, `MED-03`, `MED-05`) |
-| Avanzado | `No iniciado` |
-| Experto | `No iniciado` |
+| Avanzado | `3 de 6 verificados` (`ADV-04`, `ADV-05`, `ADV-06`); `3 no iniciados` (`ADV-01`, `ADV-02`, `ADV-03`) |
+| Experto | `0 de 4 verificados`; `4 no iniciados` |
 
 Este estado debe actualizarse cuando cambie la evidencia, no por calendario ni por intención.

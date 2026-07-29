@@ -1,451 +1,388 @@
-# ClaimVox · clasificación y enrutamiento asistido de reclamaciones
+# ClaimVox · clasificación multiclase de reclamaciones financieras
 
 <p align="center">
-  <strong>Proyecto 6 · Grupo 1 · MVP local de clasificación multiclase</strong>
+  <strong>Proyecto 6 · Grupo 1 · sistema local de apoyo a revisión humana</strong>
 </p>
 
 <p align="center">
   <a href="https://github.com/Bootcamp-IA-MAD-P7/Proyecto6-Grupo1/actions/workflows/repository-quality.yml"><img alt="Repository quality" src="https://github.com/Bootcamp-IA-MAD-P7/Proyecto6-Grupo1/actions/workflows/repository-quality.yml/badge.svg?branch=dev"></a>
   <img alt="OpenSpec 1.6.0" src="https://img.shields.io/badge/OpenSpec-1.6.0-173F4F">
   <img alt="Python 3.12" src="https://img.shields.io/badge/Python-3.12-52755B">
-  <img alt="Estado: baseline evaluado" src="https://img.shields.io/badge/estado-baseline%20evaluado-52755B">
-  <img alt="Entrega verificada: 15 de 25" src="https://img.shields.io/badge/criterios%20verificados-15%2F25-52755B">
+  <img alt="Criterios verificados: 15 de 25" src="https://img.shields.io/badge/criterios%20verificados-15%2F25-52755B">
 </p>
 
-> Una herramienta local de apoyo para proponer una categoría inicial de una reclamación financiera escrita. La propuesta siempre debe ser revisada por una persona; no enruta automáticamente ni toma decisiones financieras.
+ClaimVox estudia un problema real de clasificación supervisada multiclase:
+proponer una familia inicial para una reclamación financiera escrita. El
+resultado apoya la revisión de una persona; no resuelve la reclamación, no la
+enruta automáticamente y no toma decisiones financieras.
 
 ![Visión del sistema de apoyo al enrutamiento](docs/assets/diagrams/readme-project-overview.svg)
 
-## Prueba ClaimVox en 5 minutos
+## Resumen ejecutivo
 
-### 1. Abre la demostración segura
-
-```bash
-git clone https://github.com/Bootcamp-IA-MAD-P7/Proyecto6-Grupo1.git
-cd Proyecto6-Grupo1/app/interface
-npm ci
-npm run dev
-```
-
-Abre la dirección indicada, pulsa **Use a synthetic example** y después
-**Classify complaint**. Sin una API configurada, la interfaz identifica el
-resultado claramente como *mock*. Es el modo seguro para revisar la experiencia
-sin datos locales, artefactos ni narrativas reales.
-
-### 2. Qué se está demostrando
-
-El recorrido muestra texto sintético → recomendación multiclase → revisión
-humana. ClaimVox no enruta automáticamente, no toma decisiones financieras y
-no lee el CSV de CFPB desde el navegador.
-
-### 3. Inferencia local real —opcional
-
-La inferencia local requiere un artefacto reproducible disponible en el equipo;
-no se versionan particiones, datos ni binarios en Git. La [guía local de
-ClaimVox](docs/project_management/essential_delivery_guide.md) separa el mock
-seguro del recorrido con FastAPI, usa Git Bash y explica cómo comprobar
-`/api/v1/health`. El flujo PWA → API ya está comprobado en el [smoke
-local](reports/validation/claimvox_local_inference_smoke.md).
-
-## Evaluación ejecutiva
-
-| Pregunta | Respuesta verificable |
+| Dimensión | Estado comprobable |
 |---|---|
-| Problema | Primera orientación para revisar reclamaciones financieras escritas. |
-| Entrada | Solo `complaint_what_happened`; no se usan campos que revelan la clase. |
-| Salida | Una de once clases canónicas, alternativas y revisión humana obligatoria. |
-| Estado esencial | `10 de 10` criterios verificados para ejecución local. |
-| Corte verificable | Tag anotado [`v0.1.0-essential-mvp`](https://github.com/Bootcamp-IA-MAD-P7/Proyecto6-Grupo1/tree/v0.1.0-essential-mvp). |
-| Fuera de alcance | Despliegue, cuentas reales, base de datos compartida, operación de feedback compartida, Docker, cloud y MLOps. |
+| Problema | Clasificación y apoyo al enrutamiento de reclamaciones financieras escritas |
+| Dataset | Consumer Complaint Database del CFPB, procesado únicamente en local |
+| Entrada del modelo | `complaint_what_happened` |
+| Target | `product_canonical`, once clases mutuamente excluyentes |
+| Modelo servido | Baseline TF-IDF + Logistic Regression local |
+| Aplicación | React PWA → FastAPI local, con fallback mock explícito |
+| Feedback | Registro local minimizado, retención finita y resumen agregado |
+| Entrega | 15/25 criterios verificados; esencial 10/10, medio 2/5, avanzado 3/6 |
+| Gobierno | OpenSpec, arnés, Jira, Pull Requests y CI |
+| Pendiente | Champion, CV completa convergida, corpus de reentrenamiento, Docker, base compartida, cloud y MLOps |
 
-> El tag representa un corte local, revisable y no desplegado. El detalle de
-> los criterios y sus fuentes está en los [niveles de entrega](docs/project_management/delivery_levels.md).
+El corte anotado
+[`v0.1.0-essential-mvp`](https://github.com/Bootcamp-IA-MAD-P7/Proyecto6-Grupo1/tree/v0.1.0-essential-mvp)
+representa el nivel esencial local, revisable y no desplegado. El estado vigente
+posterior al tag se mantiene en
+[`delivery_levels.md`](docs/project_management/delivery_levels.md).
 
-## El MVP en un vistazo
+## Problema y enfoque
 
-| Dimensión | Estado verificable |
-|---|---|
-| Idea de negocio | Elegida por unanimidad: clasificación de reclamaciones CFPB |
-| Dataset | Consumer Complaint Database, viable con condiciones |
-| Corpus preparado | `T-005` y `T-006` completadas: 1.998.965 filas en inglés, particionadas localmente |
-| Particiones locales | 1.396.019 train · 300.870 validation · 302.076 test protegido |
-| Target | Once familias canónicas en `config/cfpb_target_contract.json` |
-| Desbalanceo preliminar | Clase mayoritaria: 72,45 % |
-| EDA y política de datos | EDA multiclase verificado; política inicial de idioma, grupos, split y desbalanceo aplicada |
-| Modelo evaluado | Baseline LogisticRegression local sobre once clases; evaluación esencial actual con macro F1 validation `0.6390` y gap `0.0078`. |
-| Comparativa posterior | RF, XGBoost y LightGBM comparados sobre una muestra de 50K. No hay Champion ni modelo seleccionado para producción. |
-| Aplicación | ClaimVox React PWA: mock seguro por defecto y predicción local real mediante configuración explícita |
-| Backend e inferencia | Servicio FastAPI y flujo PWA→API verificados localmente con un artefacto reproducible; sin despliegue |
-| Feedback local | Creación y resumen agregados locales, con retención y privacidad; sin operación compartida |
-| Despliegue, cuentas y MLOps | No implementados |
-| Método de trabajo | OpenSpec + arnés implantados y comprobados |
+Las reclamaciones llegan como texto libre y requieren una primera
+categorización consistente. ClaimVox aplica este flujo:
 
-ClaimVox permite revisar el recorrido con contenido sintético, dictado,
-instalación PWA, preferencia de tema claro/oscuro/sistema y comportamiento
-offline seguro. Con una URL local explícita, consume la respuesta del servicio
-FastAPI y mantiene la revisión humana obligatoria; sin configuración conserva el
-mock como modo seguro. La evidencia fusionada verifica `ESS-04` para la
-integración local, pero no acredita un despliegue,
-autenticación, persistencia operativa ni operación productiva. Véanse el [manual del
-frontend](app/interface/README.md), el [manual del backend](app/api/README.md) y
-el [smoke end-to-end](reports/validation/claimvox_local_inference_smoke.md).
+1. recibe una narrativa;
+2. devuelve una de once familias de producto y hasta tres alternativas;
+3. muestra confianza, versión del modelo y necesidad de revisión;
+4. permite confirmar o corregir la sugerencia con metadatos minimizados;
+5. expone únicamente un resumen agregado del feedback local.
 
-### Qué se puede demostrar ahora
+La interfaz nunca consulta datasets ni artefactos de entrenamiento. La API no
+registra ni devuelve la narrativa. La revisión humana es obligatoria incluso
+cuando existe confianza numérica.
 
-1. Se reconstruye un artefacto local reproducible desde las particiones aprobadas, sin añadir datos ni binarios a Git.
-2. FastAPI carga ese artefacto y devuelve una predicción multiclase contractual.
-3. ClaimVox consume el servicio solo cuando se configura una URL local explícita; en otro caso se identifica como mock.
-4. La respuesta mantiene la revisión humana, no conserva el texto y aplica controles locales de tamaño, frecuencia, CORS y errores seguros.
-5. La experiencia local identifica de forma visible la respuesta de API local frente al mock, muestra la versión disponible, limita las alternativas a tres y mantiene un motivo seguro de revisión humana. La navegación pública no presenta el inicio de sesión ni la administración conceptual como capacidades operativas.
-
-### Qué no debe afirmarse
-
-No hay despliegue público, autenticación real, permisos reales, base de datos compartida, operación de feedback compartida, analítica de usuarios, monitorización de producción, Docker, cloud ni MLOps. Existe un flujo de feedback exclusivamente local y minimizado, sin datos CFPB reales: no conserva narrativas, identidad, texto libre ni probabilidades completas, no crea un corpus y no reentrena automáticamente. El artefacto vive localmente y la aplicación no lee el CSV del CFPB.
-
-### Evidencia esencial destacada
-
-| Evidencia | Resultado | Fuente canónica |
-|---|---:|---|
-| Modelo funcional | Once clases y artefacto local reproducible | [evaluación esencial](reports/validation/cfpb_essential_evaluation.md) |
-| Overfitting | Gap macro F1 train/validation `0.0078` (`< 0.05`) | [evaluación esencial](reports/validation/cfpb_essential_evaluation.md) |
-| Accuracy | Validation `0.8684`; test protegido histórico `0.8230` | [niveles de entrega](docs/project_management/delivery_levels.md) |
-| Métricas multiclase | Precision, recall y F1 por clase, macro y weighted | [métricas baseline](reports/validation/cfpb_baseline_metrics.json) |
-| Diagnóstico | Matriz, importancia TF-IDF y análisis de errores | [evaluación esencial](reports/validation/cfpb_essential_evaluation.md) |
-| Aplicación | PWA → API local, contrato y revisión humana | [smoke de integración](reports/validation/claimvox_local_inference_smoke.md) |
-
-Las métricas de test se conservan como evaluación histórica protegida: no se
-reutilizan para seleccionar, ajustar ni diagnosticar el modelo actual.
-
-## El problema
-
-Las organizaciones que reciben reclamaciones financieras deben interpretar texto libre y asignarlo a una categoría y un circuito. El proceso manual consume tiempo, puede ser inconsistente y se enfrenta a cambios de vocabulario, volumen y distribución.
-
-La propuesta del equipo es estudiar si un modelo multiclase puede:
-
-1. recibir una narrativa sin campos que revelen directamente la respuesta;
-2. proponer una de once familias de producto;
-3. mostrar confianza y alternativas;
-4. permitir confirmación o corrección humana;
-5. traducir la categoría a una cola mediante una regla separada.
-
-No resolverá reclamaciones ni tomará decisiones financieras, legales o de elegibilidad.
-
-## Datos y límites
+## Datos, partición y privacidad
 
 | Contrato | Decisión vigente |
 |---|---|
-| Fuente | [Consumer Complaint Database del CFPB](https://www.consumerfinance.gov/data-research/consumer-complaints/) |
-| Entrada candidata | `complaint_what_happened` |
-| Target de origen | `product` |
-| Target derivado | `product_canonical` |
-| Número de clases | 11 |
-| Exclusiones | Etiquetas ambiguas definidas por contrato |
-| Leakage | Prohibidos los campos que revelan la clase |
-| Privacidad | Ninguna narrativa real en Git, prompts, informes o presentaciones |
-| Política inicial aprobada | Inglés, grupos completos, split temporal 70/15/15, mínimo 100 por clase en validation/test, macro F1 y pesos balanceados |
+| Fuente | [Consumer Complaint Database](https://www.consumerfinance.gov/data-research/consumer-complaints/) |
+| Corpus preparado | 1.998.965 filas en inglés, almacenadas solo en local |
+| Particiones | 1.396.019 train · 300.870 validation · 302.076 test protegido |
+| Separación | Temporal 70/15/15 y grupos completos por `narrative_hash` |
+| Target | Once clases en [`cfpb_target_contract.json`](config/cfpb_target_contract.json) |
+| Desbalanceo | `class_weight=balanced`; rendimiento macro y por clase obligatorio |
+| Leakage | Prohibidos campos que revelen la clase; test no usado para seleccionar |
+| Privacidad | No se versionan narrativas, datasets, predicciones por fila ni modelos |
 
-Evidencias: [informe de viabilidad](reports/validation/cfpb_viability.md), [contrato de target](config/cfpb_target_contract.json), [expediente del EDA](specs/001-cfpb-target-contract/spec.md), [constructor local](reports/validation/cfpb_training_dataset.md) y [preparación del baseline](reports/validation/cfpb_training_preparation.md). El informe EDA previo usa otra instantánea; sus cifras no se mezclan con la fuente de referencia aprobada para entrenamiento.
+Fuentes: [viabilidad](reports/validation/cfpb_viability.md),
+[preparación](reports/validation/cfpb_training_preparation.md) y
+[política de entrenamiento](config/cfpb_training_policy.json).
 
-## Harness Engineering implantado
+## Modelo y resultados
 
-Este repositorio no se limita a tener muchos Markdown. El arnés conecta instrucciones, herramientas, entorno, estado y retroalimentación:
+El baseline reproducible usa TF-IDF con bigramas y Logistic Regression
+balanceada. La evaluación histórica que abrió el test protegido y sustenta
+`ESS-03`/`ESS-05` procede de
+[`cfpb_baseline_metrics.json`](reports/validation/cfpb_baseline_metrics.json):
 
-| Componente del arnés | Implementación real |
-|---|---|
-| Instrucciones | `AGENTS.md`, `openspec/config.yaml`, intención, contratos y briefing |
-| Herramientas | OpenSpec local, roles, skills, generadores, GitHub Actions |
-| Entorno | Node y Python fijados; instalación reproducible con lockfile |
-| Estado | Cambios, tareas y capacidades versionados por OpenSpec; Jira para seguimiento |
-| Retroalimentación | Validación estricta, tests, revisión, PR, CI y archivo |
+| Métrica | Resultado |
+|---|---:|
+| Train macro F1 | `0.6455` |
+| Validation macro F1 | `0.5973` |
+| Gap train–validation | `0.0482` |
+| Validation accuracy | `0.8484` |
+| Test protegido accuracy | `0.8230` |
+| Test protegido macro F1 | `0.6625` |
+
+El gap cumple el límite esencial estricto inferior a `0.05`. La evaluación
+incluye precision, recall y F1 para las once clases, matriz de confusión,
+coeficientes TF-IDF agregados y análisis de errores. Las clases con menor F1 en
+validation requieren especial atención humana; el promedio global no oculta
+esa limitación.
+
+Una reconstrucción posterior del candidato esencial sobre la preparación local
+actual —sin abrir test— registró 1.372.751 filas de train, 294.161 de
+validation, macro F1 `0.6390`, accuracy `0.8684` y gap `0.0078`. Ambas
+ejecuciones se conservan porque corresponden a cortes distintos; sus tamaños y
+resultados no deben mezclarse. Véase
+[`cfpb_essential_evaluation.md`](reports/validation/cfpb_essential_evaluation.md).
+
+La comparación `MED-01` evaluó Random Forest, XGBoost y LightGBM sobre la misma
+muestra de 50.000 filas. XGBoost obtuvo el mayor macro F1 de validation
+(`0.6332`), pero el experimento no selecciona un Champion. `MED-02` y `MED-03`
+siguen en curso porque falta evidencia de CV completa convergida, variabilidad
+final y optimización cerrada sin reutilizar test.
+
+Evidencia: [evaluación esencial](reports/validation/cfpb_essential_evaluation.md)
+y [comparación ensemble](reports/validation/med_01_comparison.md).
+
+## Arquitectura implementada
 
 ```mermaid
 flowchart LR
-    J[Jira<br/>responsable y estado] --> O[OpenSpec change<br/>propuesta · requisitos · diseño · tareas]
-    O --> H[Arnés<br/>rol · reglas · contexto seguro]
-    H --> W[Trabajo en rama]
-    W --> V[Validación · tests · revisión]
-    V -->|fallo| O
-    V -->|correcto| A[Archivo OpenSpec]
-    A --> P[Pull Request + CI]
-    P --> D[dev]
+    UI[ClaimVox React PWA] --> API[FastAPI local]
+    API --> PS[PredictionService]
+    PS --> PI[PredictorInterface]
+    PI --> LR[Baseline local]
+    PI --> MOCK[Fallback mock]
+    UI --> FS[FeedbackService local]
+    FS --> SQLITE[(SQLite local)]
+    SQLITE --> AGG[Resumen agregado]
+    PIPE[Pipeline datos y ML] --> LR
+    LR -. pendiente .-> REG[Registro y Champion]
+    AGG -. pendiente .-> RETRAIN[Corpus gobernado]
 ```
 
-### Qué aporta OpenSpec
+Implementado en `dev`:
 
-- motor estándar de propuestas, requisitos, diseño y tareas;
-- validación estricta antes de implementar;
-- archivo histórico y especificaciones vigentes;
-- adaptadores oficiales para Codex, GitHub Copilot, Claude Code, Cursor y Gemini CLI.
+- PWA accesible con estados de carga, error, mock y API local;
+- FastAPI con health, validación, límites locales y errores seguros;
+- predictor intercambiable y carga de artefacto desde ruta controlada;
+- feedback posterior a predicción local, con campos cerrados y retención;
+- resumen por versión, clase sugerida y decisión, sin registros individuales;
+- quality gates sintéticos de datos, modelo y métricas.
 
-### Qué aporta nuestro arnés
+No implementado:
 
-- reglas de privacidad del CFPB;
-- roles de arquitectura, datos, backend y frontend;
-- contexto limitado a cada cambio;
-- diagnóstico de instalación;
-- paquetes seguros para una IA sin acceso al repositorio;
-- bloqueo de cambios incompletos y PR con tareas pendientes.
+- autenticación o permisos reales;
+- base compartida, migraciones o acceso multiusuario;
+- Docker, despliegue cloud o observabilidad de producción;
+- registro de modelos, Champion/Challenger o promoción;
+- corpus y reentrenamiento automático.
 
-### Qué sigue siendo humano
+Detalle: [blueprint](docs/architecture/system_blueprint.md),
+[OpenAPI](docs/api/openapi.json) y
+[modelo de amenazas](docs/security/threat_model.md).
 
-- aprobar alcance y decisiones;
-- revisar datos, código, diff y evidencias;
-- autorizar commit, push, archivo, PR y merge;
-- decidir si el resultado satisface al usuario.
+## Ejecución local
 
-## Inicio rápido
+### Requisitos
+
+- Python `3.12`;
+- Node.js `>=20.19`;
+- npm;
+- artefacto local `models/cfpb_baseline.pkl` para inferencia real.
+
+Instala el proyecto desde la raíz:
 
 ```bash
 git clone https://github.com/Bootcamp-IA-MAD-P7/Proyecto6-Grupo1.git
 cd Proyecto6-Grupo1
 git switch dev
 npm ci
+python -m pip install -e .
 python scripts/harness.py doctor
 ```
 
-Nuevo cambio:
+### Modo mock
+
+El frontend funciona sin backend y etiqueta la salida como sintética:
 
 ```bash
-git switch -c tipo/PG-N-descripcion-corta
-npm exec -- openspec new change nombre-del-cambio \
-  --goal "Resultado observable"
-npm exec -- openspec status --change nombre-del-cambio
-python scripts/harness.py start \
-  --role architect \
-  --change nombre-del-cambio \
-  --jira PG-N
+cd app/interface
+npm ci
+npm run dev -- --host 127.0.0.1 --port 5173 --strictPort
 ```
 
-Víctor y Abel pueden terminar sus tareas anteriores mediante el modo de compatibilidad:
+Abre <http://127.0.0.1:5173/classify> y utiliza **Use example**. Este modo
+permite revisar UX; no acredita inferencia.
+
+### Inferencia y feedback locales
+
+Terminal 1, desde la raíz:
 
 ```bash
-python scripts/harness.py start --role data-analyst --spec 001 --task T-004
-python scripts/harness.py start --role frontend-developer --spec 003 --task T-006
+export APP_CORS_ALLOWED_ORIGINS="http://127.0.0.1:5173"
+python -m uvicorn app.api.main:app --host 127.0.0.1 --port 8000
 ```
 
-Manuales: [OpenSpec + arnés para el equipo](docs/project_management/harness_quickstart.md)
-y [Jira, OpenSpec y GitHub](docs/project_management/jira_workflow.md).
+Comprueba el predictor:
 
-## Arquitectura construida y evolución prevista
-
-```mermaid
-flowchart LR
-    UI[ClaimVox React PWA] --> API[FastAPI local]
-    API --> UC[PredictionService]
-    UC --> INF[PredictorInterface]
-    INF --> MODEL[Baseline local]
-    INF --> MOCK[Fallback mock]
-    PIPE[Pipeline de datos y ML] --> MODEL
-    FDB[(Feedback local gobernado)]
-    FDB -. futuro: ruta explícita .-> UC
-    MODEL -. futuro .-> MON[Registro y monitorización]
-
-    classDef prototype fill:#e7f2ed,stroke:#52755b,color:#17322e
-    classDef planned fill:#fff7e7,stroke:#8b6f3d,stroke-dasharray:6 4,color:#423719
-    class UI,API,UC,INF,MODEL,MOCK,PIPE prototype
-    class FDB prototype
-    class MON planned
+```bash
+curl -s http://127.0.0.1:8000/api/v1/health
 ```
 
-La PWA, la API local, el servicio, el adaptador de predictor y el baseline son
-capacidades construidas y verificadas para ejecución local. El repositorio de
-feedback local está conectado a la ruta e interfaz locales y su recorrido
-extremo a extremo está verificado; operación compartida, monitorización de
-producción, autenticación y despliegue siguen siendo arquitectura prevista.
+`"status":"ok"` confirma el artefacto local; `"degraded"` identifica el fallback
+mock. Terminal 2:
 
-| Construido ahora | Evolución gobernada después del MVP |
-|---|---|
-| PWA ClaimVox, FastAPI local, predictor intercambiable, baseline reproducible, feedback local minimizado con ruta, interfaz y revisión humana | Base de datos compartida, Docker, cloud, monitorización de producción y promoción de modelos |
+```bash
+cd app/interface
+export VITE_PREDICTION_API_BASE_URL="http://127.0.0.1:8000"
+npm ci
+npm run dev -- --host 127.0.0.1 --port 5173 --strictPort
+```
 
-La separación de capas evita rehacer la aplicación: el frontend solo conoce el
-contrato, la API delega en un predictor y el entrenamiento permanece fuera de
-la inferencia. Véase el [blueprint arquitectónico](docs/architecture/system_blueprint.md).
+Después de una predicción local válida se puede registrar feedback cerrado y
+consultar su resumen:
 
-Principios:
+```bash
+curl -s http://127.0.0.1:8000/api/v1/feedback/summary
+```
 
-- dominio independiente de frameworks;
-- entrenamiento separado de inferencia;
-- contratos estables entre frontend, backend y modelo;
-- configuración fuera del código;
-- observabilidad sin datos sensibles;
-- artefactos versionados y reversibles.
-
-Detalle: [blueprint arquitectónico](docs/architecture/system_blueprint.md).
+La guía completa, incluida la recuperación de caché PWA, está en
+[`essential_delivery_guide.md`](docs/project_management/essential_delivery_guide.md).
 
 ## Estado frente al briefing
 
-![Estado de los veinticinco criterios del briefing](docs/assets/charts/delivery-status-2026-07-28.svg)
-
-Estado canónico: [niveles y evidencias](docs/project_management/delivery_levels.md).
-Las dailies, informes puntuales, expedientes numerados y cambios OpenSpec
-archivados conservan el contexto de su fecha; no sustituyen este estado vigente.
+![Estado de los veinticinco criterios](docs/assets/charts/delivery-status-2026-07-30.svg)
 
 ### Nivel esencial — 10 de 10 verificados
 
-| ID | Criterio | Estado | Evidencia necesaria |
+| ID | Criterio | Estado | Evidencia |
 |---|---|---|---|
-| ESS‑01 | Modelo multiclase funcional | `Verificado` | Baseline local reconstruible, manifiesto y predicciones válidas sobre once clases |
-| ESS‑02 | EDA orientado a clasificación | `Verificado` | Script, informe, cuatro figuras agregadas, visualizaciones pertinentes y continuidad con la política de datos |
-| ESS‑03 | Overfitting inferior al 5 % | `Verificado` | Macro F1 train/validation y gap `0.0482` en el informe del baseline |
-| ESS‑04 | Aplicación que productiviza el modelo | `Verificado` | ClaimVox usa inferencia local real bajo configuración explícita, con errores seguros y revisión humana; no acredita despliegue |
-| ESS‑05 | Accuracy global | `Verificado` | Validation `0.8484` y test protegido `0.8230` |
-| ESS‑06 | Precision, recall y F1 por clase | `Verificado` | Once clases, agregados macro/weighted y JSON versionados |
-| ESS‑07 | Matriz de confusión | `Verificado` | Matriz normalizada sobre validation completo |
-| ESS‑08 | Feature importance | `Verificado` | Coeficientes TF-IDF agregados y limitaciones documentadas |
-| ESS‑09 | Análisis de errores | `Verificado` | Clases débiles, confusiones agregadas y acciones de revisión humana |
-| ESS‑10 | Informe técnico y guía | `Verificado` | Informe de evaluación y guía reproducible de ejecución local |
+| ESS‑01 | Modelo multiclase funcional | `Verificado` | Baseline y manifiesto sobre once clases |
+| ESS‑02 | EDA orientado a clasificación | `Verificado` | Notebook/script, informe y cuatro figuras agregadas |
+| ESS‑03 | Overfitting inferior al 5 % | `Verificado` | Gap macro F1 `0.0482` |
+| ESS‑04 | Aplicación que productiviza el modelo | `Verificado` | Flujo PWA → API local con revisión humana |
+| ESS‑05 | Accuracy global | `Verificado` | Validation `0.8484`; test protegido `0.8230` |
+| ESS‑06 | Precision, recall y F1 por clase | `Verificado` | Once clases y agregados macro/weighted |
+| ESS‑07 | Matriz de confusión | `Verificado` | Validation completo |
+| ESS‑08 | Feature importance | `Verificado` | Coeficientes TF-IDF agregados |
+| ESS‑09 | Análisis de errores | `Verificado` | Clases débiles y confusiones |
+| ESS‑10 | Informe técnico y guía | `Verificado` | Evaluación y ejecución reproducible |
 
 ### Nivel medio — 2 de 5 verificados
 
-| ID | Criterio | Estado | Evidencia necesaria |
+| ID | Criterio | Estado | Evidencia |
 |---|---|---|---|
-| MED‑01 | Ensemble comparado con baseline | `Verificado` | RF, XGBoost y LightGBM comparados con el baseline en la misma muestra; XGBoost obtiene el mejor macro F1 de validación (`0.6332`), sin selección de modelo definitiva |
-| MED‑02 | Validación cruzada estratificada | `En curso` | Estrategia agrupada y semillas versionadas; pendiente CV completa convergida con folds y variabilidad finales |
-| MED‑03 | Optimización de hiperparámetros | `En curso` | Optuna implementado en `src/ml/tuning.py`; pendiente ejecución con split completo |
-| MED‑04 | Feedback y métricas operativas | `Verificado` | Predicción local real, feedback minimizado y resumen agregado verificados extremo a extremo; `reports/validation/claimvox_local_feedback_e2e.md` |
-| MED‑05 | Recolección para reentrenamiento | `En curso` | Registro local trazable; faltan pipeline, validación y política de incorporación |
+| MED‑01 | Ensemble comparado con baseline | `Verificado` | RF, XGBoost y LightGBM comparados sin selección definitiva |
+| MED‑02 | Validación cruzada estratificada | `En curso` | Estrategia y semillas; falta CV completa convergida |
+| MED‑03 | Optimización de hiperparámetros | `En curso` | Optuna implementado; falta cierre con evidencia completa |
+| MED‑04 | Feedback y métricas operativas | `Verificado` | Predicción, feedback minimizado y resumen local E2E |
+| MED‑05 | Recolección para reentrenamiento | `En curso` | Finalidad trazable; faltan corpus, validación y pipeline |
 
 ### Nivel avanzado — 3 de 6 verificados
 
-| ID | Criterio | Estado | Evidencia necesaria |
+| ID | Criterio | Estado | Evidencia |
 |---|---|---|---|
-| ADV‑01 | Dockerización completa | No iniciado | Imágenes, healthcheck y ejecución |
-| ADV‑02 | Base de datos integrada | No iniciado | Esquema, migraciones y mínimo privilegio |
-| ADV‑03 | Despliegue cloud | No iniciado | Entorno, smoke test y rollback |
-| ADV‑04 | Tests de integridad de datos | `Verificado` | Puerta local de esquema, once clases, duplicados y fuga; 6 pruebas sintéticas |
-| ADV‑05 | Tests del modelo | `Verificado` | Puerta local de carga, salida, clases e inferencia; 5 pruebas sintéticas |
-| ADV‑06 | Tests de métricas mínimas | `Verificado` | Umbrales, gap estricto y test protegido como quality gates; 5 pruebas sintéticas |
+| ADV‑01 | Dockerización completa | `No iniciado` | Imágenes, healthcheck y ejecución pendientes |
+| ADV‑02 | Base de datos integrada | `No iniciado` | Esquema compartido, migraciones y privilegios pendientes |
+| ADV‑03 | Despliegue cloud | `No iniciado` | Entorno, smoke y rollback pendientes |
+| ADV‑04 | Tests de integridad de datos | `Verificado` | 6 pruebas sintéticas |
+| ADV‑05 | Tests del modelo | `Verificado` | 5 pruebas sintéticas |
+| ADV‑06 | Tests de métricas mínimas | `Verificado` | 5 pruebas sintéticas |
 
 ### Nivel experto — 0 de 4 verificados
 
-| ID | Criterio | Estado | Evidencia necesaria |
+| ID | Criterio | Estado | Evidencia |
 |---|---|---|---|
-| EXP‑01 | Red neuronal multiclase | No iniciado | Evaluación comparable con Champion |
-| EXP‑02 | A/B testing | No iniciado | Experimento o simulación reproducible |
-| EXP‑03 | Data Drift con alertas | No iniciado | Referencia, umbrales y alerta verificable |
-| EXP‑04 | Promoción automática gobernada | No iniciado | Champion/Challenger, aprobación y rollback |
+| EXP‑01 | Red neuronal multiclase | `No iniciado` | Benchmark comparable pendiente |
+| EXP‑02 | A/B testing | `No iniciado` | Experimento reproducible pendiente |
+| EXP‑03 | Data drift con alertas | `No iniciado` | Referencia y alertas pendientes |
+| EXP‑04 | Promoción automática gobernada | `No iniciado` | Champion/Challenger y rollback pendientes |
 
-Contrato detallado: [niveles y evidencias](docs/project_management/delivery_levels.md).
+El contrato completo y sus evidencias mínimas están en
+[`delivery_levels.md`](docs/project_management/delivery_levels.md).
 
-## Calidad automática
+## Evidencias principales
 
-La Pull Request no puede integrarse en `dev` si falla `repository-quality`:
+| Área | Evidencia |
+|---|---|
+| EDA | [`cfpb_eda.md`](reports/validation/cfpb_eda.md) |
+| Dataset y particiones | [`cfpb_training_preparation.md`](reports/validation/cfpb_training_preparation.md) |
+| Baseline | [`cfpb_baseline.md`](reports/validation/cfpb_baseline.md) |
+| Evaluación esencial | [`cfpb_essential_evaluation.md`](reports/validation/cfpb_essential_evaluation.md) |
+| Ensemble | [`med_01_comparison.md`](reports/validation/med_01_comparison.md) |
+| Inferencia local | [`claimvox_local_inference_smoke.md`](reports/validation/claimvox_local_inference_smoke.md) |
+| Feedback E2E | [`claimvox_local_feedback_e2e.md`](reports/validation/claimvox_local_feedback_e2e.md) |
+| Quality gates | [`cfpb_quality_gates.md`](reports/validation/cfpb_quality_gates.md) |
+| Auditoría vigente | [`project_truth_audit_2026-07-30.md`](reports/validation/project_truth_audit_2026-07-30.md) |
 
-```text
-npm ci
-npm audit --audit-level=high
-OpenSpec doctor
-OpenSpec validate --all --strict
-convenciones y enlaces del repositorio
-tests unitarios
-tests de contrato
-whitespace del cambio
+## Calidad y gobierno
+
+La CI de Pull Requests ejecuta instalación reproducible, auditoría npm,
+diagnóstico del arnés, validación estricta OpenSpec, quality gate documental,
+tests unitarios y tests de contrato.
+
+```bash
+python scripts/quality/check_repository.py
+python -m unittest discover -s tests/unit -p "test_*.py" -v
+python -m unittest discover -s tests/contract -p "test_*.py" -v
+npm run openspec:validate
 ```
 
-Además, `dev` exige PR, historial lineal, conversaciones resueltas y bloqueo de borrado y force-push. Las aprobaciones humanas están temporalmente en cero hasta que el equipo acuerde exigir reviewers.
+El flujo de cambio es:
 
-## Por qué este MVP es profesional
+```text
+Jira → OpenSpec → arnés → rama → pruebas/evidencia → revisión → PR → dev
+```
 
-La solidez de ClaimVox no viene de presentar un prototipo como producción. Viene
-de poder demostrar, con límites explícitos, una cadena completa de valor:
+- OpenSpec conserva requisitos, diseño, tareas y decisiones.
+- El arnés prepara contexto seguro y controles por rol.
+- Jira conserva asignación y estado operativo.
+- GitHub conserva implementación, revisión y CI.
+- Una capacidad cambia de estado por evidencia, no por intención.
 
-| Dimensión | Evidencia de madurez |
-|---|---|
-| Producto responsable | Recomendación revisable, sin decisión automática ni promesas de enrutamiento. |
-| Datos y modelo | Contrato de once clases, EDA, política de split, baseline reproducible y test protegido. |
-| Evaluación | Accuracy, precision, recall, F1, gap train/validation, matriz, importancia y análisis agregado de errores. |
-| Aplicación | PWA accesible y responsive, dictado opcional, estados de mock/offline/error y conexión local explícita. |
-| Seguridad | Sin narrativas en evidencia, CORS de mínimo privilegio, límite de entrada, frecuencia local, errores seguros y eventos sin identidad. |
-| Escalabilidad | Contratos y puertos permiten cambiar predictor, añadir feedback o desplegar adaptadores sin reescribir la experiencia actual. |
-| Gobierno | OpenSpec, arnés, Jira, tests, PR y CI conectan cada cambio con una evidencia revisable. |
-
-La narrativa para clientes debe comenzar por el problema y la revisión humana.
-Las métricas, arquitectura y metodología sirven para demostrar la calidad de la
-solución, no para ocultar sus límites. Véanse las fuentes de
-[NotebookLM](#documentación-para-cliente-y-notebooklm).
+Guías: [arnés](docs/project_management/harness_quickstart.md),
+[workflow](docs/project_management/workflow.md) y
+[Jira/OpenSpec/GitHub](docs/project_management/jira_workflow.md).
 
 ## Estructura
 
 ```text
-.
-├── openspec/        # cambios, capacidades vigentes y reglas OpenSpec
-├── ai-specs/        # roles y procedimientos propios del arnés
-├── .codex/          # adaptadores oficiales OpenSpec para Codex
-├── .github/         # CI, PR, Dependabot y adaptadores de Copilot
-├── .claude/         # adaptadores oficiales para Claude Code
-├── .cursor/         # adaptadores oficiales para Cursor
-├── .gemini/         # adaptadores oficiales para Gemini CLI
-├── .specify/        # intención global y plantillas históricas
-├── specs/           # expedientes anteriores en compatibilidad
-├── config/          # contratos y configuración no sensible
-├── data/            # datos locales por etapa, fuera de Git
-├── notebooks/       # EDA y experimentos narrativos
-├── src/             # dominio, aplicación, ML e infraestructura
-├── app/             # React PWA prototipo y futuras capas de entrega
-├── tests/           # pruebas automatizadas
-├── reports/         # evidencias agregadas y verificaciones
-├── docs/            # arquitectura, producto, gestión y presentación
-└── scripts/         # automatizaciones reproducibles
+openspec/        cambios activos, archivo y capacidades vigentes
+ai-specs/        roles y procedimientos del arnés
+config/          contratos y políticas no sensibles
+data/            datos locales ignorados por Git
+notebooks/       EDA reproducible y experimentos narrativos
+src/ml/          vectorización, modelos, evaluación y tuning
+app/api/         servicio FastAPI local
+app/interface/   React PWA ClaimVox
+scripts/         preparación, ML, calidad y documentación
+tests/           pruebas unitarias, contrato e integración
+reports/         evidencia agregada versionable
+docs/            arquitectura, seguridad, gestión y presentación
 ```
 
-Las subcarpetas aparecen con su primer archivo real. No se crean árboles vacíos para simular madurez.
+## Documentación y NotebookLM
 
-## Equipo y trabajo activo
+Las fuentes activas se separan por propósito:
 
-| Persona | Área | Trabajo actual |
-|---|---|---|
-| José | Backend | `PG-5` verificado localmente; servicio usado por la integración local de `PG-6` |
-| Abel | Frontend y UX | `PG-4` integrado; ClaimVox conserva mock seguro y admite servicio local configurado en `PG-6` |
-| Víctor | Datos y EDA | `PG-2` completada; `PG-3` baseline evaluado; `MED-01` / `PG-8` comparativa ensemble verificada mediante PR #36; `MED-03` pendiente |
-| Miguel | Arquitectura y método | Integración, evidencia y gobierno Jira–OpenSpec–arnés |
-
-El [backlog `PG`](https://miguel-redondo.atlassian.net/browse/PG-1) sigue el nivel
-esencial. Jira conserva responsable, estado y bloqueos; OpenSpec conserva
-requisitos y decisiones; GitHub conserva implementación y evidencia.
-
-## Documentación para cliente y NotebookLM
-
-La narrativa para cliente comienza por el problema, el usuario, el valor y la evidencia; no por OpenSpec ni por terminología interna.
-
-Fuentes principales:
-
-- [narrativa de negocio](docs/notebooklm/business_narrative.md);
 - [hechos verificados](docs/notebooklm/project_facts.md);
 - [estado técnico](docs/notebooklm/technical_status.md);
-- [catálogo y reglas de fuentes](docs/notebooklm/source_catalog.md);
-- [dailies del equipo](docs/project_management/dailies/README.md).
+- [narrativa de negocio](docs/notebooklm/business_narrative.md);
+- [catálogo de fuentes](docs/notebooklm/source_catalog.md);
+- [guion de presentación](docs/presentations/claimvox_mvp_story.md);
+- [dailies](docs/project_management/dailies/README.md).
 
-Generación local:
+Los cambios OpenSpec archivados, las dailies y los informes fechados conservan
+su contexto histórico. No sustituyen el estado vigente de
+`delivery_levels.md`.
 
-```bash
-python scripts/documentation/build_notebooklm_pack.py --date 2026-07-28
-```
+## Equipo
 
-Antes de subir un paquete a NotebookLM se excluyen secretos, datos brutos, narrativas reales y fuentes internas que desordenen el relato de cliente.
+| Persona | Responsabilidad principal |
+|---|---|
+| Miguel | Arquitectura, integración y gobierno |
+| José | Backend |
+| Abel | Frontend y UX |
+| Víctor | Datos y EDA |
 
-## Seguridad y privacidad
+La actividad vigente se consulta en Jira; no se deduce de esta tabla. Josué no
+forma parte del equipo activo.
 
-- ninguna narrativa real en Git o servicios externos;
-- allowlist de features y target versionado;
-- secretos fuera del repositorio;
-- dependencias auditadas y actualizadas mediante Dependabot;
-- mínimo privilegio en workflows;
-- revisión humana antes de acciones externas;
-- [baseline de seguridad](docs/security/security_baseline.md) y [modelo de amenazas](docs/security/threat_model.md).
+## Seguridad y límites
+
+- No usar narrativas reales del CFPB en Git, prompts, tests, capturas o servicios externos.
+- La API limita entrada, aplica CORS local explícito y devuelve errores seguros.
+- El feedback admite solo metadatos cerrados y no conserva identidad, texto libre ni probabilidades completas.
+- La persistencia SQLite es local y no acredita una base integrada.
+- El servicio no está autenticado ni desplegado.
+- El modelo servido es un baseline local, no un Champion.
+
+Consulta [SECURITY.md](SECURITY.md), el
+[baseline de seguridad](docs/security/security_baseline.md) y el
+[modelo de amenazas](docs/security/threat_model.md).
 
 ## Próximos hitos
 
-1. Ejecutar [PG-11](https://miguel-redondo.atlassian.net/browse/PG-11): validación cruzada estratificada y optimización sin utilizar el test protegido para seleccionar.
-2. Ejecutar [PG-12](https://miguel-redondo.atlassian.net/browse/PG-12): quality gates de integridad, modelo y métricas en CI.
-3. Mantener [PG-13](https://miguel-redondo.atlassian.net/browse/PG-13) como feedback local verificado: predicción real, registro minimizado y resumen agregado; siguen pendientes operación compartida y recolección validada para reentrenamiento.
-4. Abordar [PG-15](https://miguel-redondo.atlassian.net/browse/PG-15): Docker y despliegue reproducible después de estabilizar controles y persistencia.
-5. Consultar la [hoja de ruta posterior](docs/project_management/mvp_delivery_roadmap.md) para dependencias, responsables y evidencia mínima.
+1. Cerrar `PG-11` con evidencia convergida para `MED-02` y `MED-03`, o
+   documentar formalmente el bloqueo sin promover un modelo.
+2. Completar `MED-05` con corpus gobernado, validación, deduplicación y política
+   de incorporación.
+3. Abordar `PG-15`: Docker y despliegue reproducible.
+4. Diseñar `ADV-02` como base compartida con migraciones y mínimo privilegio;
+   la SQLite local actual no satisface ese criterio.
+5. Mantener `PG-16` y `PG-17` condicionadas a un protocolo de comparación y
+   operación aprobado.
 
 ## Referencias
 
+- [CFPB Consumer Complaint Database](https://www.consumerfinance.gov/data-research/consumer-complaints/)
+- [scikit-learn: text classification](https://scikit-learn.org/stable/tutorial/text_analytics/working_with_text_data.html)
+- [FastAPI](https://fastapi.tiangolo.com/)
+- [React](https://react.dev/)
 - [OpenSpec](https://github.com/Fission-AI/OpenSpec)
-- [LIDR Specboot, referencia del workshop](https://github.com/LIDR-academy/lidr-specboot)
-- [Consumer Complaint Database](https://www.consumerfinance.gov/data-research/consumer-complaints/)
-- [Contribución](CONTRIBUTING.md)
-- [Seguridad](SECURITY.md)
-- [Changelog](CHANGELOG.md)

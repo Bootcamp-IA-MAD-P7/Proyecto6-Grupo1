@@ -1,6 +1,8 @@
 # Modelo de amenazas
 
-> Estado: amenazas iniciales de la experiencia de predicción definidas; autenticación, persistencia y despliegue siguen pendientes.
+> Estado: amenazas de predicción y feedback local definidas. Persistencia
+> SQLite local minimizada y retención están implementadas; autenticación, base
+> compartida y despliegue siguen pendientes.
 
 ## Activos
 
@@ -43,13 +45,17 @@
 | Uso como decisión financiera | Daño o incumplimiento | Lenguaje de apoyo, sin routing automático ni acciones financieras | Validación de usuario y gobernanza |
 | Inferencia offline simulada | Resultado ficticio | PWA offline solo para shell y explicación | Estrategia de disponibilidad pendiente |
 | Errores con detalles internos | Filtración técnica | `ErrorResponse` seguro sin body ni stack, con pruebas contractuales | Revisión por entorno y observabilidad de incidentes pendientes |
+| Feedback con texto o identidad | Exposición de información sensible | Esquema cerrado, campos prohibidos y errores que no reflejan valores | Autenticación y control de acceso para operación compartida pendientes |
+| Retención indefinida | Acumulación innecesaria | Expiración UTC, purga idempotente y política local de 30 días | Scheduler y verificación operativa pendientes |
+| Exportación de registros | Reidentificación o uso no previsto | Solo resumen agregado; no existe endpoint de registros individuales | Gobierno de analítica futura pendiente |
 
 ## Decisiones todavía necesarias
 
 - Autenticación y autorización para demo y producción.
 - CORS, cabeceras y rate limits de despliegue por entorno; los controles actuales son solo locales y en memoria.
 - Límite de tamaño e idioma aceptado.
-- Política de retención si se incorpora feedback.
+- Autenticación y autorización del feedback antes de cualquier operación compartida.
+- Política y migraciones para una base compartida si se aprueba.
 - Proveedor, red, registro y observabilidad.
 - Respuesta ante incidentes específica del servicio.
 

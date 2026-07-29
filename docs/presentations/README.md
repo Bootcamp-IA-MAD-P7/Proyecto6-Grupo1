@@ -1,6 +1,7 @@
 # Presentaciones
 
-Esta carpeta conservará únicamente materiales revisados que formen parte de una entrega o defensa real.
+Esta carpeta conserva materiales revisados que forman parte de una entrega o
+defensa real. El guion activo es `claimvox_mvp_story.md`.
 
 - `business/`: presentación orientada a cliente, centrada primero en problema, usuario, valor, confianza y evidencia.
 - `technical/`: presentación de datos, arquitectura, modelo, aplicación, pruebas y operación.

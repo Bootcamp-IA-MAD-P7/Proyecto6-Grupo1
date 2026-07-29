@@ -2,9 +2,9 @@ import { describe, expect, it, vi } from 'vitest'
 import { createConfiguredPredictionClient } from './configured-prediction-client'
 
 describe('configured prediction client', () => {
-  it('uses the contract-valid mock client by default without making a network request', async () => {
+  it('uses the contract-valid mock client when no API base URL is supplied', async () => {
     const fetchSpy = vi.spyOn(window, 'fetch')
-    const { client, mode } = createConfiguredPredictionClient(undefined)
+    const { client, mode } = createConfiguredPredictionClient('')
 
     const response = await client.createPrediction({ narrative: 'Synthetic mock-mode request.' })
 

@@ -46,6 +46,20 @@ class RepositoryQualityTests(unittest.TestCase):
 
         self.assertEqual([], errors)
 
+    def test_delivery_parser_requires_the_exact_canonical_ids(self) -> None:
+        text = "\n".join(
+            f"| `{identifier}` | criterion | `Verificado` | area | evidence |"
+            for identifier in sorted(check_repository.expected_delivery_ids())
+        )
+
+        states = check_repository.parse_delivery_states(text)
+
+        self.assertEqual(check_repository.expected_delivery_ids(), set(states))
+        self.assertEqual(
+            {"Verificado": 25, "En curso": 0, "No iniciado": 0},
+            check_repository.delivery_state_counts(states),
+        )
+
     def test_only_data_stages_keep_placeholders(self) -> None:
         errors: list[str] = []
 

@@ -4,6 +4,11 @@
 
 ### Added
 
+- Auditoría transversal `PG-9` del estado integrado: inventario de Git,
+  OpenSpec, Jira, aplicación, ML, pruebas, CI y documentación; nuevo gráfico
+  accesible del corte del 30 de julio y evidencia en
+  `reports/validation/project_truth_audit_2026-07-30.md`.
+
 - `PG-18`: mejora acotada de la usabilidad de clasificación local. ClaimVox
   diferencia API local y mock, prioriza clase, confianza, versión y revisión
   humana, limita alternativas a tres y elimina el acceso público a la sesión
@@ -55,6 +60,13 @@
 
 ### Changed
 
+- README reestructurado como entrada técnica profesional y reconciliado con las
+  dos ejecuciones versionadas del baseline, la arquitectura local de feedback y
+  el estado real de 15/25 criterios.
+- Arquitectura, intención, seguridad, API, guías, NotebookLM y roadmap
+  actualizados para distinguir SQLite local de base compartida y capacidad
+  local de operación desplegada.
+
 - `PG-6` y la PR #40 verifican `ESS-04`: la React PWA consume inferencia local real con respuesta contractual y revisión humana. No acredita autenticación, persistencia, despliegue ni una operación productiva.
 
 - `pyproject.toml` incluye `xgboost>=2.1.0`, `optuna>=4.0.0`, `joblib>=1.5.0`.
@@ -64,6 +76,11 @@
 - README, delivery_levels.md y chart actualizados: MED-01 pasa a `Verificado` (5/25 criterios); XGBoost obtiene el mejor macro F1 de validación (`0.6332`) sin selección definitiva.
 
 ### Fixed
+
+- La puerta de calidad valida ahora el gráfico activo y los 25 identificadores
+  exactos contra `delivery_levels.md`; antes comprobaba una ruta histórica y no
+  detectaba el gráfico vigente obsoleto.
+- El resumen global avanzado refleja `ADV-04` a `ADV-06` verificados.
 
 - El gráfico de entrega fechado el 27 de julio vuelve a reflejar el estado
   canónico: 11 criterios verificados, 2 en curso y 12 no iniciados; el nivel

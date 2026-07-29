@@ -33,6 +33,7 @@
 
 - [ ] Release PR mergeado en `main`.
 - [ ] Despliegue y smoke test correctos.
-- [ ] Tag anotado creado.
+- [ ] Versión de aplicación y servicio reconciliada antes de crear el tag.
+- [ ] Tag anotado, no engañoso y creado desde el commit aprobado.
 - [ ] GitHub Release publicado.
 - [ ] Evidencia del release registrada.

@@ -1,7 +1,7 @@
 # Hoja de ruta posterior al MVP esencial
 
-> Estado: propuesta versionada para preparar Jira. No crea elementos de Jira ni
-> acredita implementación. Fecha: 28 de julio de 2026.
+> Estado: hoja de ruta reconciliada con Jira y evidencia versionada. Fecha de
+> corte: 30 de julio de 2026. El estado de Jira no sustituye las pruebas.
 
 ## Propósito
 
@@ -17,16 +17,16 @@ El Epic **PG-9 — Evolución gobernada de ClaimVox después del MVP esencial** 
 está creado en Jira. `PG-10` está en `Listo`; las demás historias empiezan
 en `Por hacer`. Su estado operativo no sustituye la evidencia del repositorio.
 
-| Orden | Historia propuesta | Criterios del briefing | Dependencia de inicio | Evidencia mínima de cierre | Responsable inicial |
+| Orden | Historia | Estado Jira | Criterios | Estado de evidencia | Siguiente condición |
 |---|---|---|---|---|---|
-| 0 | [PG-10: cierre de madurez y presentación](https://miguel-redondo.atlassian.net/browse/PG-10) | Corte de MVP, sin criterio nuevo | PR de este cambio revisada | Controles, README, NotebookLM y tag anotado | Arquitectura / coordinación |
-| 1 | [PG-11: selección de modelo gobernada](https://miguel-redondo.atlassian.net/browse/PG-11) | MED-02, MED-03 | Particiones locales y baseline actuales | CV estratificada, búsqueda reproducible sin test y decisión documentada | Datos / Víctor |
-| 2 | [PG-12: quality gates](https://miguel-redondo.atlassian.net/browse/PG-12) | ADV-04, ADV-05, ADV-06 | PG-11 y contrato vigente | Tests de integridad, carga/salida y umbrales ejecutados en CI | Datos + backend |
-| 3 | [PG-13: feedback y recolección](https://miguel-redondo.atlassian.net/browse/PG-13) | MED-04, MED-05 | Política de propósito, retención y consentimiento aprobada | Esquema, minimización, trazabilidad y pipeline de reentrenamiento | Producto + backend |
-| 4 | [PG-14: persistencia gobernada](https://miguel-redondo.atlassian.net/browse/PG-14) | ADV-02 | PG-13 | Esquema, migraciones, mínimo privilegio y pruebas de acceso | Backend / José |
-| 5 | [PG-15: empaquetado y despliegue](https://miguel-redondo.atlassian.net/browse/PG-15) | ADV-01, ADV-03 | PG-12 y PG-14, más decisión de entorno | Imagen, healthcheck, smoke, rollback y entorno documentado | Plataforma / equipo |
-| 6 | [PG-16: benchmark avanzado](https://miguel-redondo.atlassian.net/browse/PG-16) | EXP-01, EXP-02 | PG-11 y criterio de comparación aprobado | Red neuronal comparable y experimento/simulación reproducible | Datos / Víctor |
-| 7 | [PG-17: monitorización y promoción](https://miguel-redondo.atlassian.net/browse/PG-17) | EXP-03, EXP-04 | PG-13, PG-14, PG-15 y modelo aprobado | Referencia, umbrales, alerta, aprobación y rollback verificables | MLOps / equipo |
+| 0 | [PG-10: cierre del MVP esencial](https://miguel-redondo.atlassian.net/browse/PG-10) | Listo | Corte, sin criterio nuevo | Tag esencial y documentación versionados | Conservar como histórico |
+| 1 | [PG-11: selección gobernada](https://miguel-redondo.atlassian.net/browse/PG-11) | En curso | MED-02, MED-03 | Estrategia y piloto; falta CV completa convergida | Folds, variabilidad, optimización y decisión |
+| 2 | [PG-12: quality gates](https://miguel-redondo.atlassian.net/browse/PG-12) | Listo | ADV-04, ADV-05, ADV-06 | 16 pruebas sintéticas y política versionada | Mantener gates en CI |
+| 3 | [PG-13: feedback y recolección](https://miguel-redondo.atlassian.net/browse/PG-13) | Listo | MED-04, MED-05 | MED-04 verificado; MED-05 parcial | Corpus, validación y política de incorporación |
+| 4 | [PG-14: persistencia gobernada](https://miguel-redondo.atlassian.net/browse/PG-14) | Listo | Preparación de ADV-02 | SQLite local con retención | Diseñar base compartida y migraciones para ADV-02 |
+| 5 | [PG-15: empaquetado y despliegue](https://miguel-redondo.atlassian.net/browse/PG-15) | Por hacer | ADV-01, ADV-03 | No iniciado | Imagen, healthcheck, smoke y rollback |
+| 6 | [PG-16: benchmark avanzado](https://miguel-redondo.atlassian.net/browse/PG-16) | Por hacer | EXP-01, EXP-02 | No iniciado | Esperar protocolo de comparación |
+| 7 | [PG-17: monitorización y promoción](https://miguel-redondo.atlassian.net/browse/PG-17) | Por hacer | EXP-03, EXP-04 | No iniciado | Requiere runtime desplegado y modelo aprobado |
 
 ## Regla de trabajo
 
@@ -38,6 +38,7 @@ seguridad y despliegue.
 
 ## Siguiente acción humana
 
-La estructura Jira está creada y sus ocho dependencias se han enlazado. `PG-10`
-está cerrado con la PR `#44` y el tag anotado `v0.1.0-essential-mvp`; el siguiente
-trabajo de producto es `PG-11`, mediante un cambio OpenSpec nuevo.
+La prioridad pendiente es resolver o cerrar con evidencia honesta `PG-11`.
+Después, `PG-15` puede abordar empaquetado y despliegue. `PG-13` y `PG-14`
+aportan capacidades locales, pero no convierten `MED-05` ni `ADV-02` en
+verificados.

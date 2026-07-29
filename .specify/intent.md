@@ -3,10 +3,10 @@
 | Campo | Valor |
 |---|---|
 | Estado | Vigente |
-| Fase | Descubrimiento |
+| Fase | Entrega local verificada y evolución gobernada |
 | Alcance | Global del proyecto |
 | Responsable | Equipo |
-| Última revisión | 2026-07-23 |
+| Última revisión | 2026-07-30 |
 
 ## Función de este documento
 
@@ -45,19 +45,21 @@ El equipo protegerá primero una entrega esencial completa. Las capacidades avan
 
 ## Decisiones deliberadamente abiertas
 
-Estas decisiones están pendientes de descubrimiento. No deben inferirse ni cerrarse sin evidencia y acuerdo del equipo.
+Las decisiones abiertas no deben inferirse ni cerrarse sin evidencia y acuerdo
+del equipo. Las decisiones respaldadas por contratos y pruebas se mantienen
+como tales.
 
 | Decisión | Estado | Evidencia necesaria |
 |---|---|---|
 | Problema e idea de negocio | Decidido | Clasificación y apoyo al enrutamiento de reclamaciones financieras CFPB |
 | Usuario o actor principal | Hipótesis activa | Personal de operaciones o atención; falta contrastar el flujo real |
-| Dataset | Viable con condiciones | Consumer Complaint Database; privacidad y EDA todavía abiertos |
-| Target y significado de las clases | Decidido para EDA | Once familias en `config/cfpb_target_contract.json` |
+| Dataset | Decidido con condiciones | Consumer Complaint Database; uso local, minimización y ausencia de narrativas en Git |
+| Target y significado de las clases | Decidido | Once familias en `config/cfpb_target_contract.json` |
 | Coste relativo de los errores | Pendiente | Impacto por clase y contexto de uso |
-| Métrica principal | Pendiente | Relación con el objetivo y el coste de error |
-| Modelo o familia de modelos | Pendiente | Baseline y comparación experimental |
+| Métrica principal | Decidida para evaluación | Macro F1, métricas por clase, accuracy y gap train-validation |
+| Modelo o familia de modelos | Baseline operativo; selección pendiente | Logistic Regression local; ensembles comparados sin Champion |
 | Framework de aplicación | Decidido | React PWA válida para productivizar el modelo; evolución nativa sujeta a evidencia |
-| Persistencia y base de datos | Pendiente | Necesidades de feedback, auditoría y reentrenamiento |
+| Persistencia y base de datos | Parcial | SQLite local gobernada; base compartida y migraciones pendientes |
 | Proveedor y arquitectura cloud | Pendiente | Coste, seguridad, operación y restricciones del producto |
 | Identidad visual definitiva | Pendiente | Audiencia, contexto y sistema de diseño |
 
@@ -79,9 +81,9 @@ intent -> spec -> plan -> tasks -> implementation -> verification -> closure
 
 Si una implementación contradice una spec o este intent, se corrige la implementación o se actualiza primero el contrato mediante una decisión explícita y revisable.
 
-## Objetivo protegido: nivel esencial
+## Nivel esencial protegido
 
-El nivel esencial estará protegido cuando exista evidencia de:
+El nivel esencial está verificado mediante evidencia de:
 
 - problema, usuario y decisión de negocio definidos;
 - dataset seleccionado, licenciado y documentado;
@@ -94,16 +96,17 @@ El nivel esencial estará protegido cuando exista evidencia de:
 - aplicación capaz de recibir entradas y devolver una predicción;
 - informe técnico, README y demostración coherentes con el estado real.
 
-Ninguna capacidad experta debe impedir o retrasar de forma injustificada una entrega esencial completa.
+Ninguna capacidad experta debe desestabilizar esta entrega esencial.
 
-## Objetivo aspiracional: nivel experto
+## Evolución media, avanzada y experta
 
-Cuando el núcleo esencial sea verificable, el equipo aspirará a incorporar de forma incremental:
+Con el núcleo esencial verificado, el equipo incorpora de forma incremental:
 
 - modelos ensemble y optimización reproducible;
 - validación cruzada estratificada;
-- feedback y recolección gobernada de nuevos datos;
-- persistencia, Docker, despliegue y tests automatizados;
+- feedback local gobernado ya verificado y recolección futura de nuevos datos;
+- persistencia local ya disponible; base compartida, Docker y despliegue pendientes;
+- quality gates locales ya verificados; pruebas operativas pendientes;
 - red neuronal como experimento o componente justificado;
 - sistema Champion/Challenger;
 - A/B testing;
@@ -116,8 +119,8 @@ Una capacidad avanzada solo se presentará como implementada cuando exista códi
 
 | Etapa | Pregunta de salida |
 |---|---|
-| Descubrimiento | ¿Existe un problema valioso, viable y adecuado para multiclase? |
-| Esencial | ¿La solución completa funciona y puede demostrarse de forma reproducible? |
+| Descubrimiento | Verificado: problema y dataset adecuados para multiclase |
+| Esencial | Verificado: solución local reproducible de extremo a extremo |
 | Medio | ¿La evaluación, optimización y recogida de feedback son robustas? |
 | Avanzado | ¿La solución puede probarse, contenerizarse, persistirse y desplegarse? |
 | Experto | ¿El ciclo de modelos puede compararse, observarse y gobernarse con seguridad? |
@@ -163,17 +166,17 @@ No se avanzará de etapa por acumulación de componentes, sino por evidencia de 
 - Respaldar afirmaciones con métricas, capturas, informes, tests o decisiones versionadas.
 - Mantener dailies, README, changelog, specs y fuentes de NotebookLM alineados con el estado real.
 
-## Fuera de alcance durante la validación actual
+## Fronteras vigentes
 
-Hasta cerrar las puertas activas de datos, privacidad y producto, no se debe:
+Mientras no exista evidencia adicional, no se debe:
 
-- fijar la métrica principal sin relacionarla con el coste de error;
-- elegir un modelo final antes del baseline y la comparación experimental;
+- sustituir macro F1 y métricas por clase por una única cifra agregada;
+- elegir un Champion sin CV completa convergida y decisión versionada;
 - entrenar con una partición, idioma o política de duplicados no aprobados;
 - construir una interfaz que presente confianza o automatización no respaldadas por un contrato;
-- decidir base de datos o proveedor cloud sin requisitos;
+- confundir SQLite local con una base compartida o decidir proveedor cloud sin requisitos;
 - presentar capacidades previstas como implementadas;
-- optimizar antes de disponer de un baseline y un protocolo de evaluación.
+- presentar feedback local como corpus o reentrenamiento automático.
 
 ## Equipo y colaboración
 

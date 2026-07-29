@@ -58,6 +58,9 @@ export function PredictionResult({ result, clientMode, onReset }: PredictionResu
       return
     }
 
+    const reviewedClassMetadata =
+      decision === 'corrected' && reviewedClass ? { reviewed_class: reviewedClass } : {}
+
     setIsSavingFeedback(true)
     setFeedbackStatus('idle')
     try {
@@ -66,7 +69,7 @@ export function PredictionResult({ result, clientMode, onReset }: PredictionResu
         model_version: result.model_version,
         taxonomy_version: result.taxonomy_version,
         suggested_class: result.predicted_class,
-        ...(decision === 'corrected' ? { reviewed_class: reviewedClass } : {}),
+        ...reviewedClassMetadata,
         decision,
         purpose,
       })
@@ -179,9 +182,7 @@ export function PredictionResult({ result, clientMode, onReset }: PredictionResu
       </Card>
 
       <div className="flex flex-wrap gap-4 rounded-lg bg-sand px-4 py-3 font-mono text-xs text-ink-soft">
-        <span>
-          {isMockResult ? 'Source: Mock response' : 'Source: Local API'}
-        </span>
+        <span>{isMockResult ? 'Source: Mock response' : 'Source: Local API'}</span>
         <span>Model version: {result.model_version}</span>
         <span>Taxonomy: {result.taxonomy_version}</span>
         <span>Reference: {result.prediction_id.slice(0, 8)}</span>
@@ -276,8 +277,8 @@ export function PredictionResult({ result, clientMode, onReset }: PredictionResu
 
             <p className="text-xs text-ink-soft">
               Only model version, classes, decision, and purpose are sent. The narrative, identity,
-              free text, and probabilities are not stored. This is a local prototype without sign-in,
-              shared operation, or automatic retraining.
+              free text, and probabilities are not stored. This is a local prototype without
+              sign-in, shared operation, or automatic retraining.
             </p>
 
             {feedbackStatus === 'recorded' && (

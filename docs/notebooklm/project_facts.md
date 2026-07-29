@@ -30,7 +30,11 @@
 - Métrica principal: macro F1. En validation alcanza `0.5973`; el macro F1 train/validation tiene un gap de `0.0482`, inferior al umbral de 0.05. La accuracy es `0.8484` en validation y `0.8230` en el test protegido.
 - Métricas por clase, macro y weighted están registradas en los JSON versionados del baseline. Las clases con soporte bajo siguen siendo un riesgo documentado.
 - El test se ejecutó una vez como evaluación protegida. Su macro F1 (`0.6625`) se registra como resultado descriptivo; no se usa para seleccionar configuraciones ni prueba por sí solo una conclusión de generalización.
-- Evaluación esencial local: el baseline reconstruido con las particiones actuales obtiene macro F1 validation `0.6390`, accuracy `0.8684` y gap `0.0078`, sin cargar el test protegido. Su artefacto y manifiesto locales permiten verificar `ESS-01`; no equivale a Champion ni a despliegue. Véase `reports/validation/cfpb_essential_evaluation.md`.
+- Evaluación esencial local: el baseline reconstruido sobre 1.372.751 filas de
+  train y 294.161 de validation obtiene macro F1 `0.6390`, accuracy `0.8684` y
+  gap `0.0078`, sin cargar test. La evaluación histórica protegida conserva
+  otras particiones y cifras; no deben mezclarse. No equivale a Champion ni a
+  despliegue. Véase `reports/validation/cfpb_essential_evaluation.md`.
 - Comparativa ensemble: Random Forest, XGBoost y LightGBM se han comparado con el baseline sobre una muestra de 50K. XGBoost alcanza macro F1 de validation `0.6332`, pero su gap train/validation (`0.2868`) supera el umbral aceptado; no existe Champion seleccionado.
 - Quality gates locales: `ADV-04` a `ADV-06` están verificados mediante una configuración versionada y 16 pruebas sintéticas de integridad, contrato de modelo y métricas. La evidencia no procesa narrativas CFPB ni sustituye entrenamiento, selección de Champion, persistencia, despliegue o MLOps. Véase `reports/validation/cfpb_quality_gates.md`.
 
@@ -53,8 +57,8 @@
 - Backend local: `app/api/` ofrece health y predicción conforme al contrato;
   carga el baseline local cuando existe y cae a mock de forma explícita cuando
   falta. CORS local es explícito y restringido a orígenes locales configurados,
-  sin comodines ni credenciales. La verificación no incluye autenticación,
-  persistencia ni despliegue. Véanse
+  sin comodines ni credenciales. La evidencia citada en este punto verifica
+  inferencia, no autenticación, persistencia de reclamaciones ni despliegue. Véanse
   `reports/validation/backend_foundation_real_smoke.md` y
   `reports/validation/claimvox_local_inference_smoke.md`.
 - Controles locales del MVP: máximo contractual de 5.000 caracteres, 20

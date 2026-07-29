@@ -182,7 +182,8 @@ export default function ClassificationPage({
           />
           <div className="flex flex-col gap-1 text-xs text-ink-soft sm:flex-row sm:justify-between">
             <span id="narrative-counter">
-              {narrative.length.toLocaleString('en-US')} / {MAX_NARRATIVE_CHARACTERS_LABEL} characters
+              {narrative.length.toLocaleString('en-US')} / {MAX_NARRATIVE_CHARACTERS_LABEL}{' '}
+              characters
             </span>
             <span>No text is retained by this prototype.</span>
           </div>

@@ -2,7 +2,7 @@
 
 - `architecture/`: estructura, diagramas y contratos técnicos.
 - `adr/`: decisiones de arquitectura que afectan a varias specs.
-- `api/`: contratos de entrada y salida cuando exista una aplicación.
+- `api/`: contrato OpenAPI y guía del servicio local.
 - `design/`: sistema visual, UX, accesibilidad y recursos gráficos.
 - `notebooklm/`: fuentes curadas y briefs para presentaciones.
 - `operations/`: despliegue, rollback, soporte e incidentes.
@@ -12,4 +12,7 @@
 - `quality/`: estrategia de pruebas y controles de entrega.
 - `security/`: modelo de amenazas, controles y prácticas seguras.
 
-La documentación debe reflejar capacidades reales. Los diseños futuros se marcarán como propuesta.
+La documentación debe reflejar capacidades reales. Los diseños futuros se
+marcan como propuesta. El estado vigente de los 25 criterios está únicamente
+en `project_management/delivery_levels.md`; dailies e informes fechados son
+evidencia histórica.

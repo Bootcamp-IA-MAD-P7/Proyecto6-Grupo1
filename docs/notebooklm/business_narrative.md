@@ -30,7 +30,9 @@ El baseline local ya evaluado propone una única familia de producto entre once 
 2. El sistema propone una familia de producto, confianza y alternativas.
 3. Una confianza insuficiente activa revisión manual.
 4. La persona confirma o corrige la categoría.
-5. El feedback puede utilizarse de forma gobernada para medir y mejorar versiones futuras.
+5. La persona puede registrar localmente una confirmación o corrección
+   minimizada; su uso futuro para mejorar modelos requiere un corpus y una
+   política todavía no implementados.
 
 ## Impacto esperado y límites
 
@@ -41,9 +43,9 @@ El impacto esperado es reducir esfuerzo de clasificación y hacer más consisten
 La demostración no parte de una pantalla aislada: reúne un contrato de once
 clases, datos preparados de forma reproducible, evaluación versionada, un
 servicio local y una interfaz que conserva la revisión humana. La arquitectura
-separa experiencia, servicio y predictor para poder incorporar feedback,
-persistencia o una nueva versión de modelo mediante decisiones y pruebas
-explícitas, no mediante promesas implícitas.
+separa experiencia, servicio y predictor. El feedback y la persistencia local
+se incorporaron mediante contratos y pruebas; una base compartida o una nueva
+versión de modelo requieren el mismo gobierno explícito.
 
 ## Mensaje de cierre
 

@@ -50,7 +50,9 @@ const hasOnlyFields = (value: Record<string, unknown>, fields: readonly string[]
 const isCanonicalClass = (value: unknown): value is CanonicalClass =>
   typeof value === 'string' && (CANONICAL_CLASSES as readonly string[]).includes(value)
 
-export function assertFeedbackCreateRequest(value: unknown): asserts value is FeedbackCreateRequest {
+export function assertFeedbackCreateRequest(
+  value: unknown,
+): asserts value is FeedbackCreateRequest {
   if (!isRecord(value) || !hasOnlyFields(value, REQUEST_FIELDS)) {
     throw new FeedbackContractError('Feedback request contains unsupported fields.')
   }
@@ -85,5 +87,5 @@ export const parseFeedbackAcceptedResponse = (value: unknown): FeedbackAcceptedR
   if (!isRecord(value) || Object.keys(value).length !== 1 || value.status !== 'recorded') {
     throw new FeedbackContractError('Feedback response does not match the local contract.')
   }
-  return value as FeedbackAcceptedResponse
+  return { status: 'recorded' }
 }

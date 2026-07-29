@@ -17,5 +17,8 @@ El contrato incluye:
 - versión de modelo y taxonomía;
 - errores seguros de validación, frecuencia e indisponibilidad;
 - health check sin información sensible.
+- creación local de feedback minimizado después de una predicción real;
+- resumen agregado por versión, clase sugerida y decisión.
 
-No incluye feedback, historial, persistencia de narrativas ni mapping a colas.
+No incluye historial individual, persistencia de narrativas, identidad,
+autenticación, operación compartida ni mapping a colas.

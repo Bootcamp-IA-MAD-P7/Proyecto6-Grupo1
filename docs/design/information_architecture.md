@@ -14,7 +14,8 @@ Personal de operaciones o atención que recibe una reclamación escrita y necesi
 4. Interpretar clase, alternativas y necesidad de revisión.
 5. Iniciar una nueva clasificación.
 
-El feedback, historial y mapping a colas quedan fuera de la primera experiencia.
+El feedback local minimizado aparece únicamente después de una predicción local
+válida. Historial individual y mapping a colas siguen fuera de la experiencia.
 
 ## Inventario de contenidos
 
@@ -72,7 +73,10 @@ No se fija todavía una estructura de URLs ni navegación autenticada.
 
 ## Permisos y privacidad
 
-La autenticación sigue pendiente. Con independencia de ella, la narrativa no se guarda por defecto, no aparece en la URL y no se devuelve en la respuesta. No se mostrará historial mientras no exista una política de persistencia aprobada.
+La autenticación sigue pendiente. La narrativa no se guarda, no aparece en la
+URL y no se devuelve en la respuesta. La política aprobada solo permite
+metadatos cerrados de feedback con retención local; no se muestra historial
+individual ni se presenta esa persistencia como operación compartida.
 
 ## Criterios de validación con usuarios
 
