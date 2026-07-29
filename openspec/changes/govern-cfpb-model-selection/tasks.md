@@ -12,7 +12,7 @@
 
 ## 3. Verificar y evidenciar
 
-- [ ] 3.1 [Tests / QA] Añadir o ajustar pruebas directas para impedir el uso del test protegido, comprobar semillas, estrategia de folds y la salida agregada.
+- [x] 3.1 [Tests / QA] Añadir o ajustar pruebas directas para impedir el uso del test protegido, comprobar semillas, estrategia de folds y la salida agregada. Evidencia: `python -m unittest tests.unit.test_model_selection -v` superado: 6 pruebas, 0 fallos; cubre entradas prohibidas, grupo, folds, semilla y decisión.
 - [ ] 3.2 [Datos / ML] Ejecutar la evaluación aprobada y generar informes agregados sin narrativas CFPB, datos brutos, binarios, credenciales ni logs sensibles.
 - [ ] 3.3 [Miguel / coordinación] Revisar humanamente la recomendación o la ausencia de selección, enlazar evidencias con `PG-11` y actualizar criterios `MED-02` y `MED-03` solo si su evidencia mínima queda satisfecha.
 
