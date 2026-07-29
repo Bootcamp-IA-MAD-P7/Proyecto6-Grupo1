@@ -11,6 +11,8 @@
     "cross_validation",
     "optimization",
     "trials",
+    "per_class_metrics",
+    "train_validation_macro_f1_gap",
     "confirmation_boundary"
   ],
   "properties": {
@@ -127,20 +129,70 @@
         }
       }
     },
+    "per_class_metrics": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "Checking or savings account",
+        "Credit card",
+        "Credit reporting or other personal consumer reports",
+        "Debt collection",
+        "Debt or credit management",
+        "Money transfer, virtual currency, or money service",
+        "Mortgage",
+        "Payday loan, title loan, personal loan, or advance loan",
+        "Prepaid card",
+        "Student loan",
+        "Vehicle loan or lease"
+      ],
+      "properties": {
+        "Checking or savings account": { "$ref": "#/$defs/class_metrics" },
+        "Credit card": { "$ref": "#/$defs/class_metrics" },
+        "Credit reporting or other personal consumer reports": { "$ref": "#/$defs/class_metrics" },
+        "Debt collection": { "$ref": "#/$defs/class_metrics" },
+        "Debt or credit management": { "$ref": "#/$defs/class_metrics" },
+        "Money transfer, virtual currency, or money service": { "$ref": "#/$defs/class_metrics" },
+        "Mortgage": { "$ref": "#/$defs/class_metrics" },
+        "Payday loan, title loan, personal loan, or advance loan": { "$ref": "#/$defs/class_metrics" },
+        "Prepaid card": { "$ref": "#/$defs/class_metrics" },
+        "Student loan": { "$ref": "#/$defs/class_metrics" },
+        "Vehicle loan or lease": { "$ref": "#/$defs/class_metrics" }
+      }
+    },
+    "train_validation_macro_f1_gap": {
+      "type": "number",
+      "minimum": 0,
+      "exclusiveMaximum": 0.05
+    },
     "confirmation_boundary": {
       "type": "object",
       "additionalProperties": false,
       "required": [
         "reserved_partition",
         "used_for_selection",
+        "used_for_retuning",
         "protected_test_used",
         "champion_declared"
       ],
       "properties": {
         "reserved_partition": { "const": "validation" },
         "used_for_selection": { "const": false },
+        "used_for_retuning": { "const": false },
         "protected_test_used": { "const": false },
         "champion_declared": { "const": false }
+      }
+    }
+  },
+  "$defs": {
+    "class_metrics": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["precision", "recall", "f1", "support"],
+      "properties": {
+        "precision": { "type": "number", "minimum": 0, "maximum": 1 },
+        "recall": { "type": "number", "minimum": 0, "maximum": 1 },
+        "f1": { "type": "number", "minimum": 0, "maximum": 1 },
+        "support": { "type": "integer", "minimum": 0 }
       }
     }
   }

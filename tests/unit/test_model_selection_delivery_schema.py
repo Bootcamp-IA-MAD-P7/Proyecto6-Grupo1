@@ -12,6 +12,19 @@ from jsonschema import Draft202012Validator
 
 ROOT = Path(__file__).resolve().parents[2]
 SCHEMA_PATH = ROOT / "reports" / "validation" / "cfpb_model_selection_delivery.schema.json"
+CANONICAL_CLASSES = (
+    "Checking or savings account",
+    "Credit card",
+    "Credit reporting or other personal consumer reports",
+    "Debt collection",
+    "Debt or credit management",
+    "Money transfer, virtual currency, or money service",
+    "Mortgage",
+    "Payday loan, title loan, personal loan, or advance loan",
+    "Prepaid card",
+    "Student loan",
+    "Vehicle loan or lease",
+)
 
 
 def compliant_delivery_evidence() -> dict:
@@ -53,9 +66,15 @@ def compliant_delivery_evidence() -> dict:
                 "class_limitations": ["Synthetic class"],
             }
         ],
+        "per_class_metrics": {
+            label: {"precision": 0.7, "recall": 0.7, "f1": 0.7, "support": 1}
+            for label in CANONICAL_CLASSES
+        },
+        "train_validation_macro_f1_gap": 0.02,
         "confirmation_boundary": {
             "reserved_partition": "validation",
             "used_for_selection": False,
+            "used_for_retuning": False,
             "protected_test_used": False,
             "champion_declared": False,
         },
@@ -84,6 +103,23 @@ class GovernedDeliverySchemaTests(unittest.TestCase):
     def test_rejects_a_confirmation_used_for_selection(self):
         evidence = compliant_delivery_evidence()
         evidence["confirmation_boundary"]["used_for_selection"] = True
+        self.assertTrue(list(self.validator.iter_errors(evidence)))
+
+    def test_rejects_gap_at_the_strict_threshold(self):
+        evidence = compliant_delivery_evidence()
+        evidence["train_validation_macro_f1_gap"] = 0.05
+        self.assertTrue(list(self.validator.iter_errors(evidence)))
+
+    def test_rejects_a_champion_or_validation_retuning(self):
+        for field in ("champion_declared", "used_for_retuning"):
+            evidence = compliant_delivery_evidence()
+            evidence["confirmation_boundary"][field] = True
+            with self.subTest(field=field):
+                self.assertTrue(list(self.validator.iter_errors(evidence)))
+
+    def test_rejects_missing_canonical_class_metrics(self):
+        evidence = compliant_delivery_evidence()
+        del evidence["per_class_metrics"]["Credit card"]
         self.assertTrue(list(self.validator.iter_errors(evidence)))
 
 
