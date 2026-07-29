@@ -1,7 +1,7 @@
 ## 1. Definir contratos de puertas de calidad
 
 - [x] 1.1 [Quality Engineer] Inventariar los contratos existentes de datos, modelo y métricas que consumirá cada puerta, sin duplicar clases ni umbrales. Evidencia: `design.md` referencia `config/cfpb_target_contract.json`, `config/cfpb_training_policy.json` y `reports/validation/cfpb_baseline_metrics.json`; declara que no hay binario versionado y que el test protegido no participa en la puerta de métricas.
-- [ ] 1.2 [Quality Engineer] Versionar la configuración mínima de quality gates con rutas y umbrales aprobados, sin cambiar métricas, particiones ni políticas de entrenamiento. Verificación: `python -m json.tool <configuración> > /dev/null`.
+- [x] 1.2 [Quality Engineer] Versionar la configuración mínima de quality gates con rutas y umbrales aprobados, sin cambiar métricas, particiones ni políticas de entrenamiento. Evidencia: `config/cfpb_quality_gates.json` referencia los contratos canónicos, fija once clases, `narrative_hash`, raíz `models`, contrato de salida, campos agregados y gap estricto inferior a 0.05. Verificación: `python -m json.tool config/cfpb_quality_gates.json > /dev/null`.
 
 ## 2. Implementar puerta de integridad de datos
 
