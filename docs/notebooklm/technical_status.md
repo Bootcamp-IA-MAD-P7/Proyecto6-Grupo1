@@ -102,7 +102,7 @@
 
 - Selección y gobierno de un Champion. Existe un baseline reproducible y un
   servicio local capaz de cargarlo, pero no un modelo aprobado para producción.
-- Operación compartida de feedback, métricas operativas de producción y recolección validada para reentrenamiento; existe solo un flujo local minimizado, sin corpus ni incorporación automática.
+- Operación compartida de feedback, métricas operativas de producción y recolección validada para reentrenamiento; el flujo local minimizado sí está verificado extremo a extremo, pero sigue sin corpus ni incorporación automática.
 - Docker y despliegue.
 - CI/CD completo.
 - Red neuronal, A/B testing, drift y promoción.

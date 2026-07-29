@@ -17,9 +17,11 @@
 
 - `PG-13`: flujo explícito de feedback local posterior a una predicción, con
   creación minimizada y resumen agregado, retención de 30 días y pruebas
-  sintéticas de API e interfaz. No añade autenticación, permisos reales, base
-  compartida, corpus, Champion, reentrenamiento automático, Docker, despliegue
-  ni MLOps.
+  sintéticas de API e interfaz. La verificación extrema a extremo local confirma
+  predicción real, registro permitido y resumen agregado; evidencia:
+  `reports/validation/claimvox_local_feedback_e2e.md`. No añade autenticación,
+  permisos reales, base compartida, corpus, Champion, reentrenamiento
+  automático, Docker, despliegue ni MLOps.
 
 - `PG-12`: tres quality gates locales y configurables para integridad de datos,
   contrato de modelo y métricas agregadas. Las 16 pruebas usan exclusivamente
