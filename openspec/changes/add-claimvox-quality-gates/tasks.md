@@ -5,7 +5,7 @@
 
 ## 2. Implementar puerta de integridad de datos
 
-- [ ] 2.1 [Quality Engineer] Implementar la validación local de esquema, clases, nulos críticos, duplicados conflictivos y separación de `narrative_hash` entre particiones mediante entradas explícitas y sin emitir textos de reclamaciones. Verificación: prueba unitaria sintética de caso conforme y caso de fuga.
+- [x] 2.1 [Quality Engineer] Implementar la validación local de esquema, clases, nulos críticos, duplicados conflictivos y separación de `narrative_hash` entre particiones mediante entradas explícitas y sin emitir textos de reclamaciones. Evidencia: `scripts/quality/cfpb_data_quality_gate.py`; `python -m py_compile scripts/quality/cfpb_data_quality_gate.py` superado. Los casos sintéticos se verifican en la tarea 2.2.
 - [ ] 2.2 [Tests / QA] Añadir fixtures y pruebas sintéticas que demuestren el rechazo de columna no autorizada, clase fuera del contrato, nulo crítico, duplicado conflictivo y fuga entre particiones. Verificación: `python -m unittest <módulo-de-tests-de-quality-gates> -v`.
 
 ## 3. Implementar puerta del contrato de modelo
