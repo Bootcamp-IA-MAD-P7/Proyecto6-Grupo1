@@ -4,6 +4,11 @@
 
 ### Added
 
+- `PG-14`: persistencia local gobernada de feedback con contrato minimizado,
+  política de privacidad y retención, esquema SQLite idempotente y diez pruebas
+  sintéticas. No añade endpoint, interfaz, autenticación, base compartida,
+  métricas operativas, reentrenamiento, despliegue ni MLOps.
+
 - `PG-12`: tres quality gates locales y configurables para integridad de datos,
   contrato de modelo y métricas agregadas. Las 16 pruebas usan exclusivamente
   fixtures y artefactos sintéticos; no acreditan entrenamiento, datos CFPB

@@ -58,7 +58,7 @@
   identidad ni contenido. No acreditan seguridad de despliegue ni analítica de
   usuarios. Véase `reports/validation/mvp_readiness_inventory.md`.
 - Despliegue: pendiente.
-- Persistencia: pendiente.
+- Persistencia: repositorio SQLite local gobernado, con retención finita, esquema idempotente y diez pruebas sintéticas. No hay endpoint, interfaz, base compartida ni operación productiva. Véase `reports/validation/claimvox_feedback_persistence.md`.
 - Estado MLOps: pendiente.
 
 ## Regla
