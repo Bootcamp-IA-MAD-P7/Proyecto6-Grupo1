@@ -4,11 +4,34 @@ from __future__ import annotations
 
 import optuna
 import numpy as np
-from sklearn.metrics import f1_score
+from sklearn.metrics import f1_score, precision_recall_fscore_support
 from sklearn.model_selection import StratifiedGroupKFold
+from time import perf_counter
 
 
-def _objective_rf(trial, X_train, y_train, X_val, y_val):
+def _fold_metrics(y_train, train_predictions, y_validation, validation_predictions) -> dict:
+    """Return aggregate fold metrics without retaining feature inputs."""
+    train_macro_f1 = float(f1_score(y_train, train_predictions, average="macro"))
+    validation_macro_f1 = float(
+        f1_score(y_validation, validation_predictions, average="macro")
+    )
+    labels = sorted(set(y_validation))
+    _, _, per_class_f1, _ = precision_recall_fscore_support(
+        y_validation,
+        validation_predictions,
+        labels=labels,
+        zero_division=0,
+    )
+    return {
+        "train_macro_f1": train_macro_f1,
+        "validation_macro_f1": validation_macro_f1,
+        "class_limitations": [
+            label for label, score in zip(labels, per_class_f1) if float(score) == 0.0
+        ],
+    }
+
+
+def _objective_rf(trial, X_train, y_train, X_val, y_val, return_metrics=False):
     params = {
         "n_estimators": trial.suggest_int("n_estimators", 100, 300, step=50),
         "max_depth": trial.suggest_int("max_depth", 4, 16),
@@ -21,11 +44,18 @@ def _objective_rf(trial, X_train, y_train, X_val, y_val):
 
     model = RandomForestClassifier(**params)
     model.fit(X_train, y_train)
-    preds = model.predict(X_val)
-    return f1_score(y_val, preds, average="macro")
+    validation_predictions = model.predict(X_val)
+    if not return_metrics:
+        return f1_score(y_val, validation_predictions, average="macro")
+    return _fold_metrics(
+        y_train,
+        model.predict(X_train),
+        y_val,
+        validation_predictions,
+    )
 
 
-def _objective_xgb(trial, X_train, y_train, X_val, y_val):
+def _objective_xgb(trial, X_train, y_train, X_val, y_val, return_metrics=False):
     import xgboost as xgb
     from sklearn.preprocessing import LabelEncoder
 
@@ -55,11 +85,20 @@ def _objective_xgb(trial, X_train, y_train, X_val, y_val):
         eval_set=[(X_val, y_val_enc)],
         verbose=False,
     )
-    preds_enc = model.predict(X_val)
-    return f1_score(y_val_enc, preds_enc, average="macro")
+    validation_predictions = encoder.inverse_transform(model.predict(X_val))
+    if not return_metrics:
+        return f1_score(y_val, validation_predictions, average="macro")
+    return _fold_metrics(
+        y_train,
+        encoder.inverse_transform(model.predict(X_train)),
+        y_val,
+        validation_predictions,
+    )
 
 
-def _objective_lgbm(trial, X_train, y_train, X_val, y_val, runtime_config=None):
+def _objective_lgbm(
+    trial, X_train, y_train, X_val, y_val, runtime_config=None, return_metrics=False
+):
     import lightgbm as lgb
     from sklearn.preprocessing import LabelEncoder
 
@@ -93,8 +132,15 @@ def _objective_lgbm(trial, X_train, y_train, X_val, y_val, runtime_config=None):
         eval_y=y_val_enc,
         callbacks=[lgb.early_stopping(15)],
     )
-    preds_enc = model.predict(X_val)
-    return f1_score(y_val_enc, preds_enc, average="macro")
+    validation_predictions = encoder.inverse_transform(model.predict(X_val))
+    if not return_metrics:
+        return f1_score(y_val, validation_predictions, average="macro")
+    return _fold_metrics(
+        y_train,
+        encoder.inverse_transform(model.predict(X_train)),
+        y_val,
+        validation_predictions,
+    )
 
 
 def tune_hyperparams(
@@ -160,37 +206,70 @@ def tune_hyperparams_cv(
     study = optuna.create_study(direction="maximize", sampler=sampler)
 
     def run_trial(trial):
-        fold_scores = []
+        started_at = perf_counter()
+        fold_metrics = []
         for train_index, fold_index in splitter.split(X, labels, group_values):
             if model_type == "lgbm":
-                score = objective(
+                metrics = objective(
                     trial,
                     X[train_index],
                     labels[train_index],
                     X[fold_index],
                     labels[fold_index],
                     runtime_config,
+                    return_metrics=True,
                 )
             else:
-                score = objective(
+                metrics = objective(
                     trial,
                     X[train_index],
                     labels[train_index],
                     X[fold_index],
                     labels[fold_index],
+                    return_metrics=True,
                 )
-            fold_scores.append(float(score))
-        trial.set_user_attr("fold_macro_f1", fold_scores)
-        return float(np.mean(fold_scores))
+            fold_metrics.append(metrics)
+        validation_scores = [metrics["validation_macro_f1"] for metrics in fold_metrics]
+        train_scores = [metrics["train_macro_f1"] for metrics in fold_metrics]
+        class_limitations = sorted(
+            {label for metrics in fold_metrics for label in metrics["class_limitations"]}
+        )
+        trial.set_user_attr("fold_metrics", fold_metrics)
+        trial.set_user_attr("train_macro_f1_mean", float(np.mean(train_scores)))
+        trial.set_user_attr("train_macro_f1_std", float(np.std(train_scores)))
+        trial.set_user_attr("validation_macro_f1_mean", float(np.mean(validation_scores)))
+        trial.set_user_attr("validation_macro_f1_std", float(np.std(validation_scores)))
+        trial.set_user_attr("execution_cost_seconds", perf_counter() - started_at)
+        trial.set_user_attr("class_limitations", class_limitations)
+        return float(np.mean(validation_scores))
 
     study.optimize(run_trial, n_trials=n_trials)
     best_trial = study.best_trial
-    fold_scores = best_trial.user_attrs["fold_macro_f1"]
+    best_metrics = best_trial.user_attrs["fold_metrics"]
+    trial_results = [
+        {
+            "params": trial.params,
+            "train_macro_f1_mean": trial.user_attrs["train_macro_f1_mean"],
+            "train_macro_f1_std": trial.user_attrs["train_macro_f1_std"],
+            "validation_macro_f1_mean": trial.user_attrs["validation_macro_f1_mean"],
+            "validation_macro_f1_std": trial.user_attrs["validation_macro_f1_std"],
+            "fold_metrics": trial.user_attrs["fold_metrics"],
+            "execution_cost_seconds": trial.user_attrs["execution_cost_seconds"],
+            "class_limitations": trial.user_attrs["class_limitations"],
+        }
+        for trial in study.trials
+    ]
     return {
         "best_params": best_trial.params,
         "macro_f1_mean": best_trial.value,
-        "macro_f1_std": float(np.std(fold_scores)),
-        "fold_macro_f1": fold_scores,
+        "macro_f1_std": best_trial.user_attrs["validation_macro_f1_std"],
+        "fold_macro_f1": [metrics["validation_macro_f1"] for metrics in best_metrics],
+        "fold_metrics": best_metrics,
+        "train_macro_f1_mean": best_trial.user_attrs["train_macro_f1_mean"],
+        "train_macro_f1_std": best_trial.user_attrs["train_macro_f1_std"],
+        "execution_cost_seconds": best_trial.user_attrs["execution_cost_seconds"],
+        "class_limitations": best_trial.user_attrs["class_limitations"],
+        "trials": trial_results,
         "n_trials": n_trials,
         "n_splits": n_splits,
         "random_state": random_state,

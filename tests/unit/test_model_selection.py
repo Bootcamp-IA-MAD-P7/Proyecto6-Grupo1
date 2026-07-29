@@ -118,12 +118,21 @@ class CrossValidationTests(unittest.TestCase):
                     "BestTrial",
                     (), {"params": trial.params, "value": callback(trial), "user_attrs": trial.user_attrs},
                 )()
+                self.trials = [self.best_trial]
 
         with (
             patch.object(tuning, "StratifiedGroupKFold", FakeSplitter),
             patch.object(tuning.optuna.samplers, "TPESampler", return_value=object()),
             patch.object(tuning.optuna, "create_study", return_value=FakeStudy()),
-            patch.object(tuning, "_objective_rf", return_value=0.5),
+            patch.object(
+                tuning,
+                "_objective_rf",
+                return_value={
+                    "train_macro_f1": 0.6,
+                    "validation_macro_f1": 0.5,
+                    "class_limitations": ["b"],
+                },
+            ),
         ):
             result = tuning.tune_hyperparams_cv(
                 "rf",
@@ -138,6 +147,8 @@ class CrossValidationTests(unittest.TestCase):
         self.assertEqual(captured, {"n_splits": 5, "shuffle": True, "random_state": 42})
         self.assertEqual(result["n_trials"], 30)
         self.assertEqual(result["fold_macro_f1"], [0.5])
+        self.assertEqual(result["fold_metrics"][0]["train_macro_f1"], 0.6)
+        self.assertEqual(result["trials"][0]["class_limitations"], ["b"])
 
 
 class RecommendationTests(unittest.TestCase):
