@@ -75,4 +75,3 @@ identificadores, registros individuales, narrativas, identidad o texto libre.
   devuelve datos fuera del contrato
 - **THEN** la comprobación informa un bloqueo seguro sin fabricar feedback,
   resumen ni estado verificado para `MED-04`
-
