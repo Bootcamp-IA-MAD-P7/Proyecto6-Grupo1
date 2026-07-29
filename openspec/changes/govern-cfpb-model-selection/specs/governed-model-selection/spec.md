@@ -15,6 +15,19 @@ documentarla antes de producir resultados.
 - **AND** se registra la semilla, la estrategia de folds y resultados agregados
 - **AND** el test protegido no se utiliza.
 
+### Requirement: Ejecutor aislado de selección
+
+El sistema MUST implementar la evaluación de PG-11 en un ejecutor independiente
+que consuma solo la partición local `train.parquet` y conserve
+`narrative_hash` para agrupar. El ejecutor MUST NOT reconstruir particiones desde
+el corpus completo ni cargar validación reservada o test protegido.
+
+#### Scenario: Inicio de una evaluación gobernada
+
+- **WHEN** se inicia la evaluación de selección de modelo
+- **THEN** el ejecutor recibe únicamente la partición de entrenamiento aprobada
+- **AND** rechaza rutas de validación, test o corpus completo.
+
 ### Requirement: Optimización reproducible y acotada
 
 El sistema MUST ejecutar la optimización de hiperparámetros únicamente dentro de

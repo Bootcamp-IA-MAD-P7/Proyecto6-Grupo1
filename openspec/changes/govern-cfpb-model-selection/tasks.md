@@ -6,7 +6,7 @@
 
 ## 2. Implementar evaluación gobernada
 
-- [ ] 2.1 [Datos / ML] Adaptar la evaluación de candidatos para ejecutar CV únicamente en datos de entrenamiento, sin consultar validación reservada ni test protegido durante la selección.
+- [ ] 2.1 [Datos / ML] Implementar un ejecutor aislado de PG-11 para ejecutar CV únicamente sobre `train.parquet` y `narrative_hash`, sin consultar validación reservada ni test protegido durante la selección. No reutilizar `scripts/ml/train_ensemble.py` como entrada de selección.
 - [ ] 2.2 [Datos / ML] Integrar la búsqueda de hiperparámetros acotada con macro F1 como métrica primaria y registro de configuración, semillas y presupuesto.
 - [ ] 2.3 [Datos / ML] Implementar la regla de recomendación: gap inferior a `0.05`; en empate, menor variabilidad y coste; si no se cumple, registrar «sin selección aprobada».
 

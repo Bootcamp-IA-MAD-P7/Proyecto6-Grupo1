@@ -30,6 +30,16 @@ definitiva.
   una variante estratificada compatible y se justificará en la evidencia antes
   de ejecutarla.
 
+### Límite de implementación
+
+- La evaluación de PG-11 se implementará en un ejecutor independiente. No se
+  reutilizará `scripts/ml/train_ensemble.py`, porque ese script reconstruye un
+  corte temporal desde el corpus de entrada y no consume las particiones
+  aprobadas aisladas por `narrative_hash`.
+- El ejecutor nuevo recibirá únicamente la partición local `train.parquet` y su
+  columna de grupo. La validación reservada y el test protegido permanecerán
+  fuera de su entrada y de su lógica de selección.
+
 ### Métricas y decisión
 
 - Macro F1 es la métrica primaria de comparación.
