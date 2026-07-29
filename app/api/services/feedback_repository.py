@@ -4,6 +4,7 @@ from __future__ import annotations
 
 import json
 import sqlite3
+from datetime import datetime, timedelta, timezone
 from pathlib import Path
 
 from app.api.schemas.feedback import FeedbackRecord
@@ -115,3 +116,52 @@ class LocalFeedbackRepository:
                 connection.close()
         except sqlite3.Error as error:
             raise FeedbackRepositoryError("Feedback record could not be stored.") from error
+
+    def purge_expired_feedback(self, as_of: datetime) -> int:
+        """Remove only expired records and return their aggregate count."""
+        if as_of.tzinfo is None or as_of.utcoffset() != timedelta(0):
+            raise FeedbackRepositoryError("Purge time must be UTC.")
+
+        self.initialize()
+        try:
+            connection = sqlite3.connect(self._database_path)
+            try:
+                cursor = connection.execute(
+                    "DELETE FROM feedback_records WHERE expires_at <= ?",
+                    (as_of.astimezone(timezone.utc).isoformat(),),
+                )
+                connection.commit()
+                return cursor.rowcount
+            finally:
+                connection.close()
+        except sqlite3.Error as error:
+            raise FeedbackRepositoryError("Expired feedback could not be purged.") from error
+
+    def list_feedback_summary(self) -> tuple[dict[str, str | int], ...]:
+        """Return aggregate counts without identifiers or individual records."""
+        self.initialize()
+        try:
+            connection = sqlite3.connect(self._database_path)
+            try:
+                rows = connection.execute(
+                    """
+                    SELECT model_version, suggested_class, decision, COUNT(*)
+                    FROM feedback_records
+                    GROUP BY model_version, suggested_class, decision
+                    ORDER BY model_version, suggested_class, decision
+                    """
+                ).fetchall()
+            finally:
+                connection.close()
+        except sqlite3.Error as error:
+            raise FeedbackRepositoryError("Feedback summary is unavailable.") from error
+
+        return tuple(
+            {
+                "model_version": model_version,
+                "suggested_class": suggested_class,
+                "decision": decision,
+                "count": count,
+            }
+            for model_version, suggested_class, decision, count in rows
+        )

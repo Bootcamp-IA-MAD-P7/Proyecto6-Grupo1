@@ -13,7 +13,7 @@
 
 ## 3. Aplicar retención y lectura mínima
 
-- [ ] 3.1 [Backend] Implementar purga idempotente de registros vencidos y resumen agregado por versión, clase y decisión, sin exponer registros individuales por defecto.
+- [x] 3.1 [Backend] Implementar purga idempotente de registros vencidos y resumen agregado por versión, clase y decisión, sin exponer registros individuales por defecto. Evidencia: `app/api/services/feedback_repository.py`; `python -m py_compile app/api/services/feedback_repository.py` superado. Las pruebas sintéticas de retención y agregación corresponden a la tarea 3.2.
 - [ ] 3.2 [Tests / QA] Añadir pruebas sintéticas de retención, purga, agregación privada y ausencia de efectos sobre la ruta de predicción.
 
 ## 4. Verificar y cerrar
