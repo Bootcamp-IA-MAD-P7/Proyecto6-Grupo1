@@ -37,21 +37,21 @@
 
 ## 3. Etiquetas profesionales
 
-- [ ] 3.1 [Frontend/UX] Modificar `PredictionResult.tsx`: eliminar "Mock
+- [x] 3.1 [Frontend/UX] Modificar `PredictionResult.tsx`: eliminar "Mock
   response", "Interface demonstration only". Cuando `clientMode === 'mock'`
   mostrar "El servicio de predicción no está disponible" sin etiquetar
   como mock. Cuando `clientMode === 'local_api'` mostrar "Predicción
   local" con versión y confianza.
   Evidencia: `npm test -- --run` pasa.
-- [ ] 3.2 [Frontend/UX] Actualizar `PredictionResult.test.tsx`:
+- [x] 3.2 [Frontend/UX] Actualizar `PredictionResult.test.tsx`:
   reemplazar asserciones de "Interface demonstration only" y "Mock
   response" por los nuevos textos.
   Evidencia: `npm test -- --run` pasa.
-- [ ] 3.3 [Frontend/UX] Modificar `HomePage.tsx`: eliminar badges
+- [x] 3.3 [Frontend/UX] Modificar `HomePage.tsx`: eliminar badges
   "Prototype", "Synthetic responses". Mostrar estado real del servicio
   cuando esté disponible.
   Evidencia: `npm run typecheck`.
-- [ ] 3.4 [Frontend/UX] Eliminar `ProposalNotice.tsx` y su importación en
+- [x] 3.4 [Frontend/UX] Eliminar `ProposalNotice.tsx` y su importación en
   el layout. Eliminar badges "Proposal only", "Interface concept" de las
   páginas admin (Dashboard, Training, Models). Conservar indicadores
   factuales como "No connected" o "Not implemented".

@@ -1,5 +1,4 @@
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
-import { Badge } from '@/components/ui/badge'
 import { Database, Activity, Server, Users } from 'lucide-react'
 
 const stats = [
@@ -26,8 +25,8 @@ const stats = [
   },
   {
     title: 'Human review',
-    value: 'Proposed',
-    description: 'Workflow and queue rules need approval.',
+    value: 'Required',
+    description: 'Classification requires human review.',
     icon: Users,
     color: 'text-rust',
   },
@@ -38,10 +37,10 @@ export default function DashboardPage() {
     <div className="space-y-8">
       <div>
         <h1 className="text-3xl font-bold tracking-tight text-ink sm:text-4xl">
-          Administration concept
+          Dashboard
         </h1>
         <p className="mt-2 text-ink-soft">
-          A proposed overview of the information an operations team may need.
+          Overview of the operational status.
         </p>
       </div>
 
@@ -58,11 +57,6 @@ export default function DashboardPage() {
             </CardContent>
           </Card>
         ))}
-      </div>
-
-      <div className="flex flex-wrap gap-2">
-        <Badge variant="mock">Interface concept</Badge>
-        <Badge variant="review">No operational data</Badge>
       </div>
     </div>
   )

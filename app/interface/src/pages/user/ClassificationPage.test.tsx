@@ -173,8 +173,8 @@ describe('ClassificationPage', () => {
       name: 'Credit reporting or other personal consumer reports',
     })
     expect(resultHeading).toBeInTheDocument()
-    expect(screen.getByText('Mock response')).toBeVisible()
-    expect(screen.getByText(/Interface demonstration only/)).toBeVisible()
+    expect(screen.getByText('Servicio no disponible')).toBeVisible()
+    expect(screen.getByText(/El servicio de predicción no está disponible/)).toBeVisible()
     expect(screen.getAllByText('Human review required').length).toBeGreaterThanOrEqual(1)
     expect(screen.getByText('Calibrated confidence is not available')).toBeVisible()
     expect(screen.getByText('Not available')).toBeVisible()
@@ -195,7 +195,7 @@ describe('ClassificationPage', () => {
     expect(client.createPrediction).toHaveBeenCalledWith({
       narrative: 'Synthetic real-service case',
     })
-    expect(await screen.findByText('Local prediction response')).toBeVisible()
+    expect(await screen.findByText('Predicción local')).toBeVisible()
     expect(screen.getByText('Human review remains required.')).toBeVisible()
     expect(screen.getAllByText('Human review required').length).toBeGreaterThanOrEqual(1)
     expect(screen.getByText('76%')).toBeVisible()
@@ -264,7 +264,7 @@ describe('ClassificationPage', () => {
     )
 
     await goToStep3(user, narrative)
-    await screen.findByText('Mock response')
+    await screen.findByText('Servicio no disponible')
 
     await user.click(screen.getByRole('button', { name: 'Continue' }))
 
@@ -336,7 +336,6 @@ describe('ClassificationPage', () => {
 
     expect(screen.getByText('You are offline.')).toBeVisible()
     expect(createPrediction).not.toHaveBeenCalled()
-    expect(screen.queryByText('Mock response Â· demo only')).not.toBeInTheDocument()
     expect(screen.getByRole('button', { name: 'Clasificar reclamación' })).toBeDisabled()
   })
 
@@ -411,7 +410,7 @@ describe('ClassificationPage', () => {
     expect(errorAlert).toHaveFocus()
     expect(errorAlert).not.toHaveTextContent('internal response body')
     expect(errorAlert).not.toHaveTextContent('Synthetic invalid response case')
-    expect(screen.queryByText('Mock response')).not.toBeInTheDocument()
+    expect(screen.queryByText('Servicio no disponible')).not.toBeInTheDocument()
   })
 
   it('adds a voice transcript to the editable narrative and stops explicitly', async () => {

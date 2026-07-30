@@ -83,28 +83,24 @@ export function PredictionResult({ result, clientMode, onReset }: PredictionResu
 
   return (
     <div className="space-y-6">
-      {isMockResult ? (
-        <Alert variant="warning">
-          <AlertTriangle className="h-4 w-4" />
-          <AlertDescription>
-            <strong>Interface demonstration only.</strong> This response is synthetic, has no
-            calibrated score and cannot route a complaint.
-          </AlertDescription>
-        </Alert>
-      ) : (
-        <Alert variant="warning">
-          <AlertTriangle className="h-4 w-4" />
-          <AlertDescription>
-            <strong>Human review remains required.</strong> This response supports review and cannot
-            route a complaint or make a final decision.
-          </AlertDescription>
-        </Alert>
-      )}
+      <Alert variant="warning">
+        <AlertTriangle className="h-4 w-4" />
+        <AlertDescription>
+          {isMockResult ? (
+            <strong>El servicio de predicción no está disponible.</strong>
+          ) : (
+            <>
+              <strong>Human review remains required.</strong> This response supports review and
+              cannot route a complaint or make a final decision.
+            </>
+          )}
+        </AlertDescription>
+      </Alert>
 
       <div className="flex flex-col items-start gap-2 sm:flex-row sm:justify-between sm:gap-4">
         <div>
           <p className="mb-1 text-xs font-bold uppercase tracking-widest text-gold-ink">
-            {isMockResult ? 'Mock response' : 'Local prediction response'}
+            {isMockResult ? 'Servicio no disponible' : 'Predicción local'}
           </p>
           <h1
             ref={titleRef}
@@ -182,7 +178,7 @@ export function PredictionResult({ result, clientMode, onReset }: PredictionResu
       </Card>
 
       <div className="flex flex-wrap gap-4 rounded-lg bg-sand px-4 py-3 font-mono text-xs text-ink-soft">
-        <span>{isMockResult ? 'Source: Mock response' : 'Source: Local API'}</span>
+        <span>{isMockResult ? 'Source: No disponible' : 'Source: Local API'}</span>
         <span>Model version: {result.model_version}</span>
         <span>Taxonomy: {result.taxonomy_version}</span>
         <span>Reference: {result.prediction_id.slice(0, 8)}</span>
@@ -277,8 +273,7 @@ export function PredictionResult({ result, clientMode, onReset }: PredictionResu
 
             <p className="text-xs text-ink-soft">
               Only model version, classes, decision, and purpose are sent. The narrative, identity,
-              free text, and probabilities are not stored. This is a local prototype without
-              sign-in, shared operation, or automatic retraining.
+              free text, and probabilities are not stored.
             </p>
 
             {feedbackStatus === 'recorded' && (

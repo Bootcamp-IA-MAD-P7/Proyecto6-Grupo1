@@ -1,5 +1,4 @@
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
-import { Badge } from '@/components/ui/badge'
 import { Box, GitCompare } from 'lucide-react'
 
 export default function ModelsPage() {
@@ -7,10 +6,10 @@ export default function ModelsPage() {
     <div className="space-y-8">
       <div>
         <h1 className="text-3xl font-bold tracking-tight text-ink sm:text-4xl">
-          Model registry concept
+          Model registry
         </h1>
         <p className="mt-2 text-ink-soft">
-          A proposed place to review evidence before approving a future model.
+          Registered models and evaluation results.
         </p>
       </div>
 
@@ -22,24 +21,18 @@ export default function ModelsPage() {
         <CardContent className="space-y-4">
           <div className="rounded-lg border border-line p-4">
             <p className="text-sm text-ink-soft">
-              This prototype has no model artefacts, evaluation results, lifecycle states or
-              deployment records.
+              No model artefacts, evaluation results, lifecycle states or deployment records are
+              available.
             </p>
           </div>
           <div className="flex items-start gap-3 rounded-lg border border-line p-4">
             <GitCompare className="mt-0.5 h-4 w-4 shrink-0 text-ink-soft" />
             <p className="text-sm text-ink-soft">
-              Comparison will remain unavailable until the team approves criteria and supplies
-              reproducible evidence.
+              Comparison is unavailable until criteria and reproducible evidence are available.
             </p>
           </div>
         </CardContent>
       </Card>
-
-      <div className="flex flex-wrap gap-2">
-        <Badge variant="mock">Registry proposal</Badge>
-        <Badge variant="review">Comparison unavailable</Badge>
-      </div>
     </div>
   )
 }

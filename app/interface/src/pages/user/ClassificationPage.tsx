@@ -13,7 +13,6 @@ import {
 import { PredictionClientError, type PredictionClient } from '@/services/prediction-client'
 import { Button } from '@/components/ui/button'
 import { Alert, AlertDescription } from '@/components/ui/alert'
-import { Badge } from '@/components/ui/badge'
 import { WifiOff, Mic, MicOff, Send, Sparkles, AlertTriangle, ArrowLeft, Home, RotateCcw } from 'lucide-react'
 
 const SYNTHETIC_EXAMPLE =
@@ -347,11 +346,6 @@ export default function ClassificationPage({
       {step === 2 && renderReviewStep()}
       {step === 3 && renderGuidanceStep()}
       {step === 4 && renderNextStepStep()}
-
-      <div className="flex flex-wrap gap-2">
-        <Badge variant="mock">Mock responses</Badge>
-        <Badge variant="review">Human review required</Badge>
-      </div>
 
       <HelpfulTip />
     </div>

@@ -55,9 +55,9 @@ describe('application routes', () => {
   })
 
   it.each([
-    ['/admin', 'Administration concept', 'Not connected'],
-    ['/admin/training', 'Training concept', 'Not connected'],
-    ['/admin/models', 'Model registry concept', 'No models registered'],
+    ['/admin', 'Dashboard', 'Not connected'],
+    ['/admin/training', 'Training', 'Not connected'],
+    ['/admin/models', 'Model registry', 'No models registered'],
   ])(
     'shows %s page with factual status indicators without fabricated data',
     async (path, heading, status) => {
