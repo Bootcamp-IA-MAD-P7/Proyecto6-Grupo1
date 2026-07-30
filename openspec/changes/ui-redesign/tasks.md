@@ -17,18 +17,18 @@
 
 ## 2. Flujo de clasificación en 4 pasos
 
-- [ ] 2.1 [Frontend/UX] Crear componente `StepProgress` que muestre 4
+- [x] 2.1 [Frontend/UX] Crear componente `StepProgress` que muestre 4
   pasos (Describe, Review, Guidance, Next step) con el paso actual
   resaltado. Responsive y accesible.
   Evidencia: `npm run typecheck`.
-- [ ] 2.2 [Frontend/UX] Rediseñar `ClassificationPage.tsx` con estado
+- [x] 2.2 [Frontend/UX] Rediseñar `ClassificationPage.tsx` con estado
   `step: 1 | 2 | 3 | 4`. Step 1: textarea ≤6 líneas visuales (clase CSS
   `max-h-[9rem]` o similar), dictado, botón "Revisar texto". Step 2:
   resumen del texto, botones "Clasificar reclamación" y "Volver". Step 3:
   resultado con `PredictionResult`. Step 4: opciones post-clasificación.
   La barra de progreso se integra en la parte superior.
   Evidencia: `npm run typecheck` y `npm test -- --run` pasa.
-- [ ] 2.3 [Frontend/UX] Actualizar `ClassificationPage.test.tsx`:
+- [x] 2.3 [Frontend/UX] Actualizar `ClassificationPage.test.tsx`:
   reemplazar asserciones de "Mock response", "Interface demonstration
   only", "Classify complaint" por los nuevos textos en español y la nueva
   estructura de pasos. Mantener cobertura de estados (offline, error,
