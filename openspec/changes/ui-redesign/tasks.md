@@ -59,17 +59,17 @@
 
 ## 4. Panel de revisión humana y tip contextual
 
-- [ ] 4.1 [Frontend/UX] Crear componente `HumanReviewPanel` como `aside`
+- [x] 4.1 [Frontend/UX] Crear componente `HumanReviewPanel` como `aside`
   explicativo: "La sugerencia requiere revisión humana. La clasificación,
   derivación y decisión final pertenecen al equipo responsable." Con
   estructura semántica, visible en escritorio a la derecha y apilado en
   móvil.
   Evidencia: `npm run typecheck` y revisión responsive.
-- [ ] 4.2 [Frontend/UX] Integrar `HumanReviewPanel` en `UserLayout` (no
+- [x] 4.2 [Frontend/UX] Integrar `HumanReviewPanel` en `UserLayout` (no
   dentro de `ClassificationPage`) para que sea persistente durante el
   flujo.
   Evidencia: el panel aparece en los pasos 1-4 de clasificación.
-- [ ] 4.3 [Frontend/UX] Añadir aviso "Helpful tip" al pie de
+- [x] 4.3 [Frontend/UX] Añadir aviso "Helpful tip" al pie de
   `ClassificationPage` con consejo sobre redacción de narrativa.
   Colapsable con control accesible.
   Evidencia: `npm run typecheck`.

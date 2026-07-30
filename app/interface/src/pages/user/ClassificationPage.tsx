@@ -1,5 +1,6 @@
 import { useState, useRef, useMemo, useCallback, type FormEvent } from 'react'
 import { PredictionResult } from '@/components/PredictionResult'
+import HelpfulTip from '@/components/HelpfulTip'
 import { useOnlineStatus, type ConnectivityCheck } from '@/hooks/use-online-status'
 import { useVoiceDictation } from '@/hooks/use-voice-dictation'
 import { MAX_NARRATIVE_CHARACTERS, type PredictionResponse } from '@/contracts/prediction'
@@ -270,6 +271,8 @@ export default function ClassificationPage({
         <Badge variant="mock">Mock responses</Badge>
         <Badge variant="review">Human review required</Badge>
       </div>
+
+      <HelpfulTip />
     </div>
   )
 }

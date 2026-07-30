@@ -2,6 +2,7 @@ import { NavLink, Outlet, useNavigate } from 'react-router-dom'
 import { useAuth } from '@/hooks/use-auth'
 import { Button } from '@/components/ui/button'
 import { ThemeToggle } from '@/components/ThemeToggle'
+import HumanReviewPanel from '@/components/HumanReviewPanel'
 import { cn } from '@/lib/utils'
 import { Home, FileText, LayoutDashboard, Cpu, Box, LogOut, Settings } from 'lucide-react'
 
@@ -90,8 +91,13 @@ export default function UserLayout() {
             <span className="text-sm text-ink-soft ml-auto">Not signed in</span>
           )}
         </header>
-        <main className="flex-1 overflow-auto p-4 md:p-6">
-          <Outlet />
+        <main className="flex flex-1 flex-col gap-6 overflow-auto p-4 md:flex-row md:p-6">
+          <div className="flex-1">
+            <Outlet />
+          </div>
+          <div className="shrink-0 md:w-72">
+            <HumanReviewPanel />
+          </div>
         </main>
       </div>
     </div>
