@@ -26,7 +26,7 @@ export default function LoginPage() {
       await login(email, password)
       navigate('/')
     } catch {
-      setError('Invalid credentials. Try ana@example.com (user) or carlos@example.com (admin).')
+      setError('Invalid credentials. Use admin / claimvox2026.')
     } finally {
       setIsLoading(false)
     }
@@ -36,19 +36,18 @@ export default function LoginPage() {
     <form onSubmit={handleSubmit} className="space-y-4">
       <Alert variant="warning">
         <AlertDescription>
-          <strong>Mock authentication proposal only.</strong> This screen uses fixed demo identities
-          and accepts any password. It provides no real identity, security, authorization or access
-          control.
+          <strong>Demo authentication.</strong> Use username <code>admin</code> and password{' '}
+          <code>claimvox2026</code>. Token persists in the browser for 24 hours.
         </AlertDescription>
       </Alert>
       <div className="space-y-2">
-        <Label htmlFor="email">Email</Label>
+        <Label htmlFor="email">Username</Label>
         <Input
           id="email"
-          type="email"
+          type="text"
           value={email}
           onChange={(e) => setEmail(e.target.value)}
-          placeholder="Enter your email"
+          placeholder="Enter your username"
           required
         />
       </div>

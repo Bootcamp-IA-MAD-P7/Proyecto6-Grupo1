@@ -1,0 +1,49 @@
+# Git
+.git
+.gitignore
+
+# Data (heavy, gitignored)
+data/raw/
+data/interim/
+data/processed/cfpb_training.parquet
+data/processed/cfpb_baseline_en/
+
+# Node modules (frontend rebuilds inside Docker)
+app/interface/node_modules/
+app/interface/dist/
+
+# Python
+__pycache__/
+*.pyc
+*.pyo
+.venv/
+venv/
+
+# IDE
+.vscode/
+.idea/
+.kiro/
+.claude/
+.cursor/
+.codex/
+.gemini/
+
+# Reports and docs (not needed in runtime, except openapi.json)
+reports/
+notebooks/
+docs/architecture/
+docs/project_management/
+docs/security/
+docs/notebooklm/
+docs/product/
+docs/assets/
+specs/
+openspec/
+ai-specs/
+.specify/
+
+# Test files
+tests/
+
+# Exports
+exports/

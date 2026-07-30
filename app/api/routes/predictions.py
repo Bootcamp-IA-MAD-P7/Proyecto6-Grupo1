@@ -4,8 +4,9 @@ from __future__ import annotations
 
 from time import perf_counter
 
-from fastapi import APIRouter, HTTPException, Request
+from fastapi import APIRouter, Depends, HTTPException, Request
 
+from app.api.auth import verify_token
 from app.api.observability import emit_prediction_completed
 from app.api.schemas.request import PredictionRequest
 from app.api.schemas.response import PredictionResponse
@@ -17,6 +18,7 @@ router = APIRouter()
 async def create_prediction(
     body: PredictionRequest,
     request: Request,
+    _user: str = Depends(verify_token),
 ) -> PredictionResponse:
     """Classify one complaint narrative.
 

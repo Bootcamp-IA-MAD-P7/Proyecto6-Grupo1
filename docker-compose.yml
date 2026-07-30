@@ -1,0 +1,62 @@
+services:
+  backend:
+    build:
+      context: .
+      dockerfile: app/api/Dockerfile
+    container_name: claimvox-backend
+    expose:
+      - "8000"
+    environment:
+      - APP_MODEL_PATH=/app/models/cfpb_baseline.pkl
+      - APP_SERVICE_VERSION=0.1.0
+      - APP_TAXONOMY_VERSION=1.0
+      - APP_DATABASE_URL=postgresql://claimvox_app:claimvox_secret@db:5432/claimvox
+      - APP_JWT_SECRET=change-this-in-production-use-a-random-string
+      - APP_DEMO_USERNAME=admin
+      - APP_DEMO_PASSWORD=claimvox2026
+      - APP_TOKEN_EXPIRE_HOURS=24
+    depends_on:
+      db:
+        condition: service_healthy
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:8000/api/v1/health"]
+      interval: 30s
+      timeout: 5s
+      start_period: 10s
+      retries: 3
+    restart: unless-stopped
+
+  frontend:
+    build:
+      context: .
+      dockerfile: app/interface/Dockerfile
+    container_name: claimvox-frontend
+    ports:
+      - "80:80"
+    depends_on:
+      backend:
+        condition: service_healthy
+    restart: unless-stopped
+
+  db:
+    image: postgres:16-alpine
+    container_name: claimvox-db
+    environment:
+      - POSTGRES_DB=claimvox
+      - POSTGRES_USER=claimvox_admin
+      - POSTGRES_PASSWORD=claimvox_admin_secret
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+      - ./infra/db/init.sql:/docker-entrypoint-initdb.d/01-init.sql
+    expose:
+      - "5432"
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U claimvox_admin -d claimvox"]
+      interval: 10s
+      timeout: 5s
+      start_period: 5s
+      retries: 5
+    restart: unless-stopped
+
+volumes:
+  postgres_data:

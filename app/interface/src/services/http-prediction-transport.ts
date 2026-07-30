@@ -4,6 +4,7 @@ import {
   type PredictionErrorCode,
   type PredictionTransport,
 } from './prediction-client'
+import { getStoredToken } from './auth-client'
 
 export const DEFAULT_PREDICTION_REQUEST_TIMEOUT_MS = 10_000
 
@@ -42,12 +43,18 @@ export const createHttpPredictionTransport = ({
     const timeout = window.setTimeout(() => controller.abort(), timeoutMs)
 
     try {
+      const token = getStoredToken()
+      const headers: Record<string, string> = {
+        Accept: 'application/json',
+        'Content-Type': 'application/json',
+      }
+      if (token) {
+        headers['Authorization'] = `Bearer ${token}`
+      }
+
       const response = await fetchImplementation(endpointFor(baseUrl), {
         method: 'POST',
-        headers: {
-          Accept: 'application/json',
-          'Content-Type': 'application/json',
-        },
+        headers,
         body: JSON.stringify(request),
         signal: controller.signal,
       })

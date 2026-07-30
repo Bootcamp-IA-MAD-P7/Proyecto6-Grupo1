@@ -14,7 +14,7 @@ function ProtectedRoute({
   children,
   requiredRole,
 }: {
-  children: React.ReactNode
+  children?: React.ReactNode
   requiredRole?: 'user' | 'admin'
 }) {
   const { isAuthenticated, hasRole } = useAuth()
@@ -27,7 +27,7 @@ function ProtectedRoute({
     return <Navigate to="/" replace />
   }
 
-  return <>{children}</>
+  return children ? <>{children}</> : <Outlet />
 }
 
 export default function AppRouter() {
@@ -44,17 +44,16 @@ export default function AppRouter() {
             }
           />
 
-          <Route element={<UserLayout />}>
+          <Route
+            element={
+              <ProtectedRoute>
+                <UserLayout />
+              </ProtectedRoute>
+            }
+          >
             <Route path="/" element={<HomePage />} />
             <Route path="/classify" element={<ClassificationPage />} />
-            <Route
-              path="/admin"
-              element={
-                <ProtectedRoute requiredRole="admin">
-                  <Outlet />
-                </ProtectedRoute>
-              }
-            >
+            <Route path="/admin" element={<ProtectedRoute requiredRole="admin" />}>
               <Route index element={<DashboardPage />} />
               <Route path="training" element={<TrainingPage />} />
               <Route path="models" element={<ModelsPage />} />
