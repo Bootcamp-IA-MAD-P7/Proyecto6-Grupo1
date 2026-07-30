@@ -1,6 +1,6 @@
 # claimvox-ui-redesign Specification
 
-## MODIFIED Requirements
+## ADDED Requirements
 
 Esta capacidad complementa la spec vigente
 `openspec/specs/complaint-routing-interface/spec.md` sin modificar el contrato
@@ -179,8 +179,6 @@ sin pérdida de contenido ni acciones.
 - **THEN** la barra lateral se colapsa o apila, el panel derecho pasa
   debajo del contenido principal, y ninguna acción o texto queda oculto
   por desbordamiento
-
-## ADDED Requirements
 
 ### Requirement: Dashboard administrativo con estado local factual
 
