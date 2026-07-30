@@ -30,7 +30,9 @@ export default function HomePage() {
           </CardHeader>
           <CardContent className="text-center">
             <p className="text-2xl font-bold text-ink break-words">Ready</p>
-            <p className="mt-1 text-sm text-ink-soft break-words">Use the form to describe a complaint.</p>
+            <p className="mt-1 text-sm text-ink-soft break-words">
+              Use the form to describe a complaint.
+            </p>
           </CardContent>
         </Card>
 
@@ -43,7 +45,9 @@ export default function HomePage() {
           </CardHeader>
           <CardContent className="text-center">
             <p className="text-2xl font-bold text-forest-light break-words">Available</p>
-            <p className="mt-1 text-sm text-ink-soft break-words">Suggests a family based on the narrative.</p>
+            <p className="mt-1 text-sm text-ink-soft break-words">
+              Suggests a family based on the narrative.
+            </p>
           </CardContent>
         </Card>
 
@@ -56,7 +60,9 @@ export default function HomePage() {
           </CardHeader>
           <CardContent className="text-center">
             <p className="text-2xl font-bold text-gold-ink break-words">Not connected</p>
-            <p className="mt-1 text-sm text-ink-soft break-words">Human review is required for every complaint.</p>
+            <p className="mt-1 text-sm text-ink-soft break-words">
+              Human review is required for every complaint.
+            </p>
           </CardContent>
         </Card>
       </div>

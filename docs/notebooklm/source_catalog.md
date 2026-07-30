@@ -23,8 +23,8 @@ Este catálogo indica qué documentos pueden alimentar una presentación y con q
 | `ai-specs/` | Roles y procedimientos reutilizables para IA | Cuando cambie el arnés | Miguel / equipo | Activa técnica |
 | `openspec/config.yaml` | Contexto y reglas obligatorias de los cambios | Cuando cambie el gobierno | Miguel / equipo | Activa técnica |
 | `docs/design/information_architecture.md` | Usuario, tareas, estados y accesibilidad del flujo | Cuando cambie la experiencia | Producto / UX | Activa |
-| `docs/api/openapi.json` | Contrato vigente entre React PWA y servicio de inferencia local; el mock sigue como valor seguro por defecto | Cuando cambie la API | Aplicación / plataforma | Activa técnica |
-| `app/interface/README.md` | Uso reproducible y límites del prototipo React PWA ClaimVox | Por cambio de frontend | Abel / frontend | Activa técnica |
+| `docs/api/openapi.json` | Contrato vigente entre React PWA y servicio de inferencia local; la UI rechaza respuestas mock | Cuando cambie la API | Aplicación / plataforma | Activa técnica |
+| `app/interface/README.md` | Uso reproducible, flujo guiado y límites de la React PWA ClaimVox | Por cambio de frontend | Abel / frontend | Activa técnica |
 | `app/api/README.md` | Ejecución local, límites y contrato del servicio FastAPI | Por cambio de backend | José / backend | Activa técnica |
 | `docs/security/threat_model.md` | Amenazas y controles del producto | Cuando cambien datos o arquitectura | Seguridad / equipo | Activa |
 | `reports/validation/frontend_foundation_integration.md` | Evidencia automática y manual de la React PWA prototipo | Por hito frontend | Abel / Miguel | Activa técnica |
@@ -52,7 +52,7 @@ Este catálogo indica qué documentos pueden alimentar una presentación y con q
 | `reports/validation/cfpb_baseline.md` | Configuración y métricas agregadas del baseline, incluyendo validation y test protegido | Tras cambio de baseline | Datos / ML | Activa técnica |
 | `reports/validation/cfpb_baseline_metrics.json` | Métricas agregadas y por clase del baseline, sin narrativas | Tras cambio de baseline | Datos / ML | Activa técnica |
 | `reports/validation/cfpb_essential_evaluation.md` | Evaluación final agregada sobre validation: matriz de confusión, importancia, errores, límites y artefacto local | Tras evaluación esencial | Datos / ML | Activa técnica |
-| `docs/project_management/essential_delivery_guide.md` | Guía canónica Git Bash para mock seguro e inferencia local PWA → FastAPI, con health y límites | Tras cambio del flujo esencial | Equipo | Activa técnica |
+| `docs/project_management/essential_delivery_guide.md` | Guía canónica Git Bash para revisión sin servicio e inferencia local PWA → FastAPI, con health y límites | Tras cambio del flujo esencial | Equipo | Activa técnica |
 | `reports/validation/claimvox_local_runbook_review.md` | Inventario de consistencia entre guía, configuración, cliente HTTP y límites de la demo local | Tras cambio del recorrido local | Arquitectura / documentación | Activa técnica |
 | `docs/project_management/mvp_delivery_roadmap.md` | Secuencia propuesta de criterios posteriores, dependencias y evidencias mínimas antes de crear Jira | Al planificar el siguiente ciclo | Equipo | Propuesta de gestión |
 | `reports/validation/backend_foundation_real_smoke.md` | Evidencia agregada de entrenamiento local reproducible y smoke del servicio FastAPI; no acredita despliegue ni integración PWA | Por cambio de backend o artefacto | Backend / ML | Activa técnica |
@@ -68,6 +68,7 @@ Este catálogo indica qué documentos pueden alimentar una presentación y con q
 | `reports/validation/claimvox_local_feedback_e2e.md` | Evidencia agregada de predicción local real, registro de feedback minimizado y resumen agregado; no acredita operación compartida, autenticación, despliegue ni reentrenamiento | Tras verificación local extremo a extremo | Backend / QA | Activa técnica |
 | `reports/validation/claimvox_local_classification_usability.md` | Evidencia agregada de la revisión del flujo local: fuente API/mock, resultado, revisión humana, límites de alternativas y navegación pública | Tras cambio de UX local | Frontend / UX | Activa técnica |
 | `reports/validation/project_truth_audit_2026-07-30.md` | Auditoría integrada de Git, OpenSpec, Jira, aplicación, ML, pruebas, CI y documentación, sin datasets ni ramas no fusionadas | Por auditoría transversal | Arquitectura / QA | Activa técnica |
+| `reports/validation/claimvox_ui_redesign_review_2026-07-30.md` | Revisión posterior a la PR #66: errores corregidos, Dashboard factual, batería frontend, smoke local y límites visuales explícitos | Tras cambio de UX | Frontend / QA | Activa técnica |
 | `docs/assets/screenshots/` | Evidencia visual general del producto | Por cambio de UI | UX/QA | Pendiente |
 
 ## Regla editorial

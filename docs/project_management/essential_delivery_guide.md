@@ -1,8 +1,8 @@
 # Guía local de ClaimVox
 
 Esta es la guía canónica para ejecutar ClaimVox en un equipo Windows con Git
-Bash. Describe una demostración segura con mock y una comprobación de inferencia
-y feedback locales. Ninguna equivale a despliegue, autenticación, base
+Bash. Describe una revisión segura de interfaz sin servicio y una comprobación
+de inferencia y feedback locales. Ninguna equivale a despliegue, autenticación, base
 compartida ni operación productiva.
 
 ## Antes de empezar
@@ -15,10 +15,10 @@ compartida ni operación productiva.
 - El backend usa por defecto `models/cfpb_baseline.pkl`. Es un artefacto local
   ignorado por Git; sin él, el backend permanece disponible pero en modo mock.
 
-## Opción A: demostración segura con mock
+## Opción A: revisión de interfaz sin clasificación
 
-Este es el recorrido recomendado para revisar UX, accesibilidad, dictado y
-revisión humana sin necesitar datos ni modelos locales.
+Este recorrido permite revisar UX, accesibilidad y dictado sin necesitar datos
+ni modelos locales. No produce una categoría.
 
 En una terminal Git Bash:
 
@@ -28,10 +28,10 @@ npm ci
 npm run dev -- --host 127.0.0.1 --port 5173 --strictPort
 ```
 
-Abre `http://127.0.0.1:5173/classify`, pulsa **Use example** y después
-**Classify complaint**. Si no existe `VITE_PREDICTION_API_BASE_URL`, el resultado
-debe identificarse como **Mock response** y no debe mostrar una confianza
-calibrada.
+Abre `http://127.0.0.1:5173/classify`, pulsa **Use example**, revisa el texto y
+después intenta clasificar. Si no existe `VITE_PREDICTION_API_BASE_URL`, debe
+aparecer un error recuperable, conservarse el texto en Review y no mostrarse
+ninguna clase ni confianza.
 
 Detén Vite con `Ctrl + C` cuando termines.
 
@@ -62,7 +62,8 @@ curl -s http://127.0.0.1:8000/api/v1/health
 - `"status":"ok"` significa que el predictor local está cargado y puede
   devolver una predicción real.
 - `"status":"degraded"` significa que falta o no se pudo cargar el artefacto;
-  el servicio usa el fallback mock de forma explícita.
+  la API conserva un fallback técnico, pero la PWA no presenta su salida como
+  clasificación.
 
 Si el puerto `8000` ya está ocupado, no inicies una segunda instancia. Primero
 consulta esa misma ruta de salud: así sabrás si ya es el servicio local correcto.
@@ -82,8 +83,8 @@ La variable se lee al iniciar Vite. Si cambias su valor, detén Vite con
 `Ctrl + C` y vuelve a ejecutarlo. Abre `http://127.0.0.1:5173/classify`, usa el
 ejemplo sintético y clasifica.
 
-Con health `ok`, el resultado esperado es **Prediction response**, con una
-confianza numérica, alternativas y **Human review required**. La revisión humana
+Con health `ok`, el resultado esperado es **Local prediction**, con una
+confianza numérica, hasta tres alternativas y **Human review required**. La revisión humana
 sigue siendo obligatoria: una predicción local no enruta automáticamente una
 reclamación ni toma una decisión financiera.
 
@@ -98,6 +99,11 @@ curl -s http://127.0.0.1:8000/api/v1/feedback/summary
 La salida no contiene UUID ni registros individuales. Se conserva en SQLite
 local con retención finita; no es una base compartida ni un corpus de
 reentrenamiento.
+
+Con la identidad administrativa de demostración, `/admin` muestra el health,
+la disponibilidad factual del baseline y el mismo resumen en una tabla
+agregada por versión de modelo, clase sugerida y decisión. `Operational data`
+permanece `Not connected`: no existe base compartida ni historial individual.
 
 ## Si el navegador muestra una versión antigua
 

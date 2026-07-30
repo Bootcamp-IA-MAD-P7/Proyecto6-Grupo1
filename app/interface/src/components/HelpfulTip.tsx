@@ -23,10 +23,9 @@ export default function HelpfulTip() {
       {isOpen && (
         <div className="border-t border-line px-4 py-3 text-sm text-ink-soft">
           <p>
-            Include the issue and the steps you already tried to resolve it.
-            Describe the facts clearly and chronologically. Do not include
-            names, account numbers, addresses, or other unnecessary personal
-            data.
+            Include the issue and the steps you already tried to resolve it. Describe the facts
+            clearly and chronologically. Do not include names, account numbers, addresses, or other
+            unnecessary personal data.
           </p>
         </div>
       )}

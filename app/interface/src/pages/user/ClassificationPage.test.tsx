@@ -114,7 +114,7 @@ const goToStep2 = async (user: ReturnType<typeof userEvent.setup>, text = 'Test 
 
 const goToStep3 = async (user: ReturnType<typeof userEvent.setup>, text = 'Test complaint') => {
   await goToStep2(user, text)
-  await user.click(screen.getByRole('button', { name: 'Clasificar reclamación' }))
+  await user.click(screen.getByRole('button', { name: 'Classify complaint' }))
 }
 
 describe('ClassificationPage', () => {
@@ -156,30 +156,49 @@ describe('ClassificationPage', () => {
     expect(screen.getByText('14 / 5,000 characters')).toBeVisible()
   })
 
-  it('shows a synthetic result through the 4-step flow', async () => {
+  it('does not fabricate a result when only the mock client is available', async () => {
     const user = userEvent.setup()
     const client = createMockPredictionClient({ latencyMs: 0 })
     const createPrediction = vi.spyOn(client, 'createPrediction')
 
-    renderWithRouter(<ClassificationPage predictionClient={client} />)
+    renderWithRouter(<ClassificationPage predictionClient={client} predictionClientMode="mock" />)
 
-    await goToStep3(user, '  Test complaint text  ')
+    await goToStep2(user, '  Test complaint text  ')
+    await user.click(screen.getByRole('button', { name: 'Classify complaint' }))
 
-    expect(createPrediction).toHaveBeenCalledWith({
-      narrative: 'Test complaint text',
-    })
-    const resultHeading = await screen.findByRole('heading', {
-      level: 1,
-      name: 'Credit reporting or other personal consumer reports',
-    })
-    expect(resultHeading).toBeInTheDocument()
-    expect(screen.getByText('Servicio no disponible')).toBeVisible()
-    expect(screen.getByText(/El servicio de predicción no está disponible/)).toBeVisible()
-    expect(screen.getAllByText('Human review required').length).toBeGreaterThanOrEqual(1)
-    expect(screen.getByText('Calibrated confidence is not available')).toBeVisible()
-    expect(screen.getByText('Not available')).toBeVisible()
-    expect(screen.queryByText(/\d+%/)).not.toBeInTheDocument()
-    expect(screen.queryByText('Model confidence')).not.toBeInTheDocument()
+    expect(createPrediction).not.toHaveBeenCalled()
+    expect(await screen.findByText(/The prediction service is unavailable/)).toBeVisible()
+    expect(
+      screen.queryByRole('heading', {
+        level: 1,
+        name: 'Credit reporting or other personal consumer reports',
+      }),
+    ).not.toBeInTheDocument()
+    expect(screen.getByText('Test complaint text')).toBeVisible()
+  })
+
+  it('does not present a degraded backend mock as a local prediction', async () => {
+    const user = userEvent.setup()
+    const client: PredictionClient = {
+      createPrediction: vi.fn().mockResolvedValue({
+        ...SYNTHETIC_REAL_RESPONSE,
+        model_version: 'mock-v0',
+        confidence: null,
+        alternatives: [],
+      }),
+    }
+
+    renderWithRouter(
+      <ClassificationPage predictionClient={client} predictionClientMode="local_api" />,
+    )
+
+    await goToStep2(user, 'Synthetic degraded-service case')
+    await user.click(screen.getByRole('button', { name: 'Classify complaint' }))
+
+    expect(client.createPrediction).toHaveBeenCalled()
+    expect(await screen.findByText(/The prediction service is unavailable/)).toBeVisible()
+    expect(screen.queryByText('Local prediction')).not.toBeInTheDocument()
+    expect(screen.getByText('Synthetic degraded-service case')).toBeVisible()
   })
 
   it('renders a configured service response as advisory human-review support', async () => {
@@ -195,7 +214,7 @@ describe('ClassificationPage', () => {
     expect(client.createPrediction).toHaveBeenCalledWith({
       narrative: 'Synthetic real-service case',
     })
-    expect(await screen.findByText('Predicción local')).toBeVisible()
+    expect(await screen.findByText('Local prediction')).toBeVisible()
     expect(screen.getByText('Human review remains required.')).toBeVisible()
     expect(screen.getAllByText('Human review required').length).toBeGreaterThanOrEqual(1)
     expect(screen.getByText('76%')).toBeVisible()
@@ -243,14 +262,14 @@ describe('ClassificationPage', () => {
 
     await goToStep2(user, 'Synthetic loading case')
 
-    expect(screen.getByRole('button', { name: 'Clasificar reclamación' })).toBeVisible()
-    await user.click(screen.getByRole('button', { name: 'Clasificar reclamación' }))
+    expect(screen.getByRole('button', { name: 'Classify complaint' })).toBeVisible()
+    await user.click(screen.getByRole('button', { name: 'Classify complaint' }))
 
     expect(screen.getByRole('status')).toHaveTextContent('Creating a recommendation. Please wait.')
     expect(screen.getByRole('button', { name: 'Classifying...' })).toBeDisabled()
     expect(client.createPrediction).toHaveBeenCalledTimes(1)
 
-    resolvePrediction(SYNTHETIC_RESPONSE)
+    resolvePrediction(SYNTHETIC_REAL_RESPONSE)
 
     expect(await screen.findByRole('heading', { name: 'Debt collection' })).toBeVisible()
   })
@@ -259,12 +278,15 @@ describe('ClassificationPage', () => {
     const user = userEvent.setup()
     const narrative = 'Synthetic narrative that must not be returned'
 
+    const client: PredictionClient = {
+      createPrediction: vi.fn().mockResolvedValue(SYNTHETIC_REAL_RESPONSE),
+    }
     renderWithRouter(
-      <ClassificationPage predictionClient={createMockPredictionClient({ latencyMs: 0 })} />,
+      <ClassificationPage predictionClient={client} predictionClientMode="local_api" />,
     )
 
     await goToStep3(user, narrative)
-    await screen.findByText('Servicio no disponible')
+    await screen.findByText('Local prediction')
 
     await user.click(screen.getByRole('button', { name: 'Continue' }))
 
@@ -286,7 +308,7 @@ describe('ClassificationPage', () => {
 
     expect(screen.getByRole('heading', { name: /review your narrative/i })).toBeVisible()
     expect(screen.getByText('Review this complaint')).toBeVisible()
-    expect(screen.getByRole('button', { name: 'Clasificar reclamación' })).toBeEnabled()
+    expect(screen.getByRole('button', { name: 'Classify complaint' })).toBeEnabled()
     expect(screen.getByRole('button', { name: 'Back' })).toBeEnabled()
   })
 
@@ -317,7 +339,7 @@ describe('ClassificationPage', () => {
     await goToStep2(user)
 
     expect(screen.getByText('You are offline.')).toBeVisible()
-    expect(screen.getByRole('button', { name: 'Clasificar reclamación' })).toBeDisabled()
+    expect(screen.getByRole('button', { name: 'Classify complaint' })).toBeDisabled()
   })
 
   it('does not fabricate a result when a real connectivity check fails', async () => {
@@ -336,7 +358,7 @@ describe('ClassificationPage', () => {
 
     expect(screen.getByText('You are offline.')).toBeVisible()
     expect(createPrediction).not.toHaveBeenCalled()
-    expect(screen.getByRole('button', { name: 'Clasificar reclamación' })).toBeDisabled()
+    expect(screen.getByRole('button', { name: 'Classify complaint' })).toBeDisabled()
   })
 
   it('presents a safe service error', async () => {
@@ -352,7 +374,7 @@ describe('ClassificationPage', () => {
     renderWithRouter(<ClassificationPage predictionClient={failingClient} />)
 
     await goToStep2(user, 'Test error case')
-    await user.click(screen.getByRole('button', { name: 'Clasificar reclamación' }))
+    await user.click(screen.getByRole('button', { name: 'Classify complaint' }))
 
     await waitFor(() => {
       expect(screen.getAllByRole('alert').length).toBeGreaterThanOrEqual(1)
@@ -366,7 +388,7 @@ describe('ClassificationPage', () => {
     expect(errorAlert).not.toHaveTextContent(/internal stack/i)
     expect(screen.queryByText(/internal stack/i)).not.toBeInTheDocument()
     expect(screen.getByText('Test error case')).toBeVisible()
-    expect(screen.getByRole('button', { name: 'Clasificar reclamación' })).toBeEnabled()
+    expect(screen.getByRole('button', { name: 'Classify complaint' })).toBeEnabled()
     expect(errorAlert).toHaveFocus()
   })
 
@@ -381,7 +403,7 @@ describe('ClassificationPage', () => {
     renderWithRouter(<ClassificationPage predictionClient={limitedClient} />)
 
     await goToStep2(user, 'Synthetic limited request')
-    await user.click(screen.getByRole('button', { name: 'Clasificar reclamación' }))
+    await user.click(screen.getByRole('button', { name: 'Classify complaint' }))
 
     expect(
       await screen.findByText('Too many requests. Wait a moment before trying again.'),
@@ -400,7 +422,7 @@ describe('ClassificationPage', () => {
     renderWithRouter(<ClassificationPage predictionClient={invalidClient} />)
 
     await goToStep2(user, 'Synthetic invalid response case')
-    await user.click(screen.getByRole('button', { name: 'Clasificar reclamación' }))
+    await user.click(screen.getByRole('button', { name: 'Classify complaint' }))
 
     const error = await screen.findByText(
       'The prediction response could not be safely validated. No recommendation was shown.',
@@ -410,7 +432,7 @@ describe('ClassificationPage', () => {
     expect(errorAlert).toHaveFocus()
     expect(errorAlert).not.toHaveTextContent('internal response body')
     expect(errorAlert).not.toHaveTextContent('Synthetic invalid response case')
-    expect(screen.queryByText('Servicio no disponible')).not.toBeInTheDocument()
+    expect(screen.queryByText('Service unavailable')).not.toBeInTheDocument()
   })
 
   it('adds a voice transcript to the editable narrative and stops explicitly', async () => {

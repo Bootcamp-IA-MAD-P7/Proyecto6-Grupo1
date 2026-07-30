@@ -10,11 +10,20 @@ import {
   createConfiguredPredictionClient,
   type PredictionClientMode,
 } from '@/services/configured-prediction-client'
-import { createMockPredictionClient } from '@/services/mock-prediction-client'
 import { PredictionClientError, type PredictionClient } from '@/services/prediction-client'
 import { Button } from '@/components/ui/button'
 import { Alert, AlertDescription } from '@/components/ui/alert'
-import { WifiOff, Mic, MicOff, Send, Sparkles, AlertTriangle, ArrowLeft, Home, RotateCcw } from 'lucide-react'
+import {
+  WifiOff,
+  Mic,
+  MicOff,
+  Send,
+  Sparkles,
+  AlertTriangle,
+  ArrowLeft,
+  Home,
+  RotateCcw,
+} from 'lucide-react'
 
 const SYNTHETIC_EXAMPLE =
   'A payment appears twice on a monthly statement and the card holder cannot resolve the duplicate charge.'
@@ -47,10 +56,10 @@ export default function ClassificationPage({
   connectivityCheck,
 }: ClassificationPageProps) {
   const navigate = useNavigate()
-  const configuredClient = useMemo(
+  const configuredClient = useMemo<{ client: PredictionClient; mode: PredictionClientMode }>(
     () =>
       predictionClient
-        ? { client: predictionClient, mode: predictionClientMode }
+        ? { client: predictionClient, mode: predictionClientMode ?? 'local_api' }
         : createConfiguredPredictionClient(),
     [predictionClient, predictionClientMode],
   )
@@ -105,6 +114,13 @@ export default function ClassificationPage({
     setIsSubmitting(true)
 
     try {
+      if (configuredClient.mode === 'mock') {
+        setResult(null)
+        setRequestError('The prediction service is unavailable. Your narrative was not stored.')
+        window.setTimeout(() => errorRef.current?.focus(), 0)
+        return
+      }
+
       if (!(await verifyOnline())) {
         setRequestError('A connection to the prediction service is required.')
         window.setTimeout(() => errorRef.current?.focus(), 0)
@@ -112,20 +128,20 @@ export default function ClassificationPage({
       }
 
       const response = await client.createPrediction({ narrative: narrative.trim() })
+      if (response.model_version === 'mock-v0' || response.model_version === 'mock-not-a-model') {
+        setResult(null)
+        setRequestError('The prediction service is unavailable. Your narrative was not stored.')
+        window.setTimeout(() => errorRef.current?.focus(), 0)
+        return
+      }
+
       setResult(response)
       setEffectiveMode(configuredClient.mode)
       setStep(3)
-    } catch {
-      try {
-        const mockClient = createMockPredictionClient()
-        const mockResponse = await mockClient.createPrediction({ narrative: narrative.trim() })
-        setResult(mockResponse)
-        setEffectiveMode('mock')
-        setStep(3)
-      } catch {
-        setRequestError('The prediction service is unavailable. Your narrative was not stored.')
-        window.setTimeout(() => errorRef.current?.focus(), 0)
-      }
+    } catch (error) {
+      setResult(null)
+      setRequestError(safeErrorMessage(error))
+      window.setTimeout(() => errorRef.current?.focus(), 0)
     } finally {
       setIsSubmitting(false)
     }
@@ -180,8 +196,8 @@ export default function ClassificationPage({
           Complaint narrative
         </label>
         <p id="narrative-help" className="max-w-2xl text-sm text-ink-soft">
-          Include the issue and attempted resolution. Do not enter names, account numbers,
-          addresses or other unnecessary personal data.
+          Include the issue and attempted resolution. Do not enter names, account numbers, addresses
+          or other unnecessary personal data.
         </p>
         <textarea
           id="complaint-narrative"
@@ -200,8 +216,7 @@ export default function ClassificationPage({
         />
         <div className="flex flex-col gap-1 text-xs text-ink-soft sm:flex-row sm:justify-between">
           <span id="narrative-counter">
-            {narrative.length.toLocaleString('en-US')} / {MAX_NARRATIVE_CHARACTERS_LABEL}{' '}
-            characters
+            {narrative.length.toLocaleString('en-US')} / {MAX_NARRATIVE_CHARACTERS_LABEL} characters
           </span>
           <span>No text is retained by this prototype.</span>
         </div>
@@ -235,9 +250,9 @@ export default function ClassificationPage({
               )}
             </div>
             <p id="dictation-privacy" className="max-w-2xl text-xs text-ink-soft">
-              Starting dictation asks for microphone permission. Your browser or speech provider
-              may process the audio. This application does not store the audio or transcript;
-              review the text before submitting it.
+              Starting dictation asks for microphone permission. Your browser or speech provider may
+              process the audio. This application does not store the audio or transcript; review the
+              text before submitting it.
             </p>
           </div>
         ) : (
@@ -302,7 +317,7 @@ export default function ClassificationPage({
       <div className="flex flex-wrap items-center gap-3">
         <Button onClick={handleClassify} disabled={isSubmitting || !isOnline}>
           <Send className="h-4 w-4" />
-          {isSubmitting ? 'Classifying...' : 'Clasificar reclamación'}
+          {isSubmitting ? 'Classifying...' : 'Classify complaint'}
         </Button>
         <Button variant="outline" onClick={handleBackToDescribe} disabled={isSubmitting}>
           <ArrowLeft className="h-4 w-4" />
@@ -321,10 +336,12 @@ export default function ClassificationPage({
     if (!result) return null
     return (
       <div className="space-y-6">
-        <PredictionResult result={result} clientMode={effectiveMode} onReset={handleNewClassification} />
-        <Button onClick={handleContinueToNext}>
-          Continue
-        </Button>
+        <PredictionResult
+          result={result}
+          clientMode={effectiveMode}
+          onReset={handleNewClassification}
+        />
+        <Button onClick={handleContinueToNext}>Continue</Button>
       </div>
     )
   }
@@ -333,7 +350,9 @@ export default function ClassificationPage({
     <div className="space-y-6">
       <div>
         <p className="mb-1 text-xs font-bold uppercase tracking-widest text-gold-ink">Complete</p>
-        <h1 className="text-3xl font-bold tracking-tight text-ink">What would you like to do next?</h1>
+        <h1 className="text-3xl font-bold tracking-tight text-ink">
+          What would you like to do next?
+        </h1>
       </div>
 
       <div className="flex flex-wrap gap-3">

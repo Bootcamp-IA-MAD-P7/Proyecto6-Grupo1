@@ -23,6 +23,17 @@ export interface FeedbackAcceptedResponse {
   status: 'recorded'
 }
 
+export interface FeedbackSummaryItem {
+  model_version: string
+  suggested_class: CanonicalClass
+  decision: FeedbackDecision
+  count: number
+}
+
+export interface FeedbackSummaryResponse {
+  items: FeedbackSummaryItem[]
+}
+
 export class FeedbackContractError extends Error {
   constructor(message: string) {
     super(message)
@@ -88,4 +99,37 @@ export const parseFeedbackAcceptedResponse = (value: unknown): FeedbackAcceptedR
     throw new FeedbackContractError('Feedback response does not match the local contract.')
   }
   return { status: 'recorded' }
+}
+
+export const parseFeedbackSummaryResponse = (value: unknown): FeedbackSummaryResponse => {
+  if (!isRecord(value) || Object.keys(value).length !== 1 || !Array.isArray(value.items)) {
+    throw new FeedbackContractError('Feedback summary does not match the local contract.')
+  }
+
+  const items = value.items.map((item) => {
+    if (
+      !isRecord(item) ||
+      !hasOnlyFields(item, ['model_version', 'suggested_class', 'decision', 'count']) ||
+      Object.keys(item).length !== 4 ||
+      typeof item.model_version !== 'string' ||
+      item.model_version.trim().length === 0 ||
+      !isCanonicalClass(item.suggested_class) ||
+      typeof item.decision !== 'string' ||
+      !(FEEDBACK_DECISIONS as readonly string[]).includes(item.decision) ||
+      typeof item.count !== 'number' ||
+      !Number.isInteger(item.count) ||
+      item.count < 0
+    ) {
+      throw new FeedbackContractError('Feedback summary does not match the local contract.')
+    }
+
+    return {
+      model_version: item.model_version,
+      suggested_class: item.suggested_class,
+      decision: item.decision as FeedbackDecision,
+      count: item.count,
+    }
+  })
+
+  return { items }
 }

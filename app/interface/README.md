@@ -7,19 +7,19 @@ y al [expediente OpenSpec archivado](../../openspec/changes/archive/2026-07-24-i
 
 ## Estado real
 
-| Capacidad                          | Estado                                                                             |
-| ---------------------------------- | ---------------------------------------------------------------------------------- |
-| Formulario de reclamación          | Implementado y verificado con texto sintético                                      |
-| Contrato TypeScript                | Implementado y alineado con OpenAPI                                                |
-| Recomendación                      | Mock seguro por defecto; respuesta local real con configuración explícita          |
-| Revisión humana                    | Representada en la interfaz                                                        |
-| Dictado                            | Implementado mediante Web Speech API con fallback por teclado                      |
-| PWA instalable                     | Verificada manualmente en Chrome sobre Windows                                     |
-| Shell offline                      | Implementado; no clasifica sin conexión                                            |
-| Identidad y tema                   | ClaimVox; preferencias claro, oscuro y sistema persistentes                        |
-| Autenticación y administración     | Propuestas mock; no aportan seguridad ni operaciones reales                        |
-| Backend, modelo e inferencia local | Integración local verificada; no hay despliegue ni modelo aprobado para producción |
-| Feedback local                     | Registro minimizado y resumen agregado tras predicción local real                  |
+| Capacidad                          | Estado                                                                              |
+| ---------------------------------- | ----------------------------------------------------------------------------------- |
+| Formulario de reclamación          | Implementado y verificado con texto sintético                                       |
+| Contrato TypeScript                | Implementado y alineado con OpenAPI                                                 |
+| Recomendación                      | Solo API local real; sin configuración o con backend degradado no muestra categoría |
+| Revisión humana                    | Representada en la interfaz                                                         |
+| Dictado                            | Implementado mediante Web Speech API con fallback por teclado                       |
+| PWA instalable                     | Verificada manualmente en Chrome sobre Windows                                      |
+| Shell offline                      | Implementado; no clasifica sin conexión                                             |
+| Identidad y tema                   | ClaimVox; preferencias claro, oscuro y sistema persistentes                         |
+| Autenticación y administración     | Propuestas mock; no aportan seguridad ni operaciones reales                         |
+| Backend, modelo e inferencia local | Integración local verificada; no hay despliegue ni modelo aprobado para producción  |
+| Feedback local                     | Registro minimizado y resumen agregado tras predicción local real                   |
 
 La integración local de frontend, servicio y artefacto reproducible aporta la
 evidencia de `ESS-04`. No equivale a autenticación, despliegue, persistencia de
@@ -29,7 +29,8 @@ SQLite local y aplica retención finita.
 
 ## Servicio local opcional
 
-ClaimVox mantiene el mock como modo seguro por defecto. La [guía local
+ClaimVox conserva un cliente mock para pruebas aisladas, pero la interfaz no lo
+usa para presentar una clasificación. La [guía local
 canónica](../../docs/project_management/essential_delivery_guide.md) explica el
 recorrido Git Bash de dos terminales: backend FastAPI con origen CORS local
 explícito y frontend con `VITE_PREDICTION_API_BASE_URL`.
@@ -37,8 +38,10 @@ explícito y frontend con `VITE_PREDICTION_API_BASE_URL`.
 La variable puede vivir solo en la sesión de terminal o en un `.env.local`
 ignorado por Git. El desarrollo usa el puerto `5173` y la vista previa `4173`.
 Si `VITE_PREDICTION_API_BASE_URL` no está configurada al iniciar Vite, ClaimVox
-vuelve al mock. No se usan comodines CORS, credenciales, dominios públicos,
-proxy ni datos CFPB reales en este recorrido.
+muestra indisponibilidad y conserva la narrativa en el paso de revisión, sin
+fabricar una categoría. La misma frontera rechaza respuestas degradadas
+identificadas como mock. No se usan comodines CORS, credenciales, dominios
+públicos, proxy ni datos CFPB reales en este recorrido.
 
 La identidad ClaimVox y las preferencias de tema se integraron mediante la PR
 #28. Son cambios de experiencia visual: no modifican el contrato de predicción
@@ -82,36 +85,41 @@ build, no solo sobre el servidor de desarrollo.
 2. Escribir una narrativa sintética o pulsar `Use a synthetic example`.
 3. Revisar que el texto no contiene nombres, cuentas, direcciones ni otros datos
    personales innecesarios.
-4. Pulsar `Classify complaint`.
-5. Sin `VITE_PREDICTION_API_BASE_URL`, revisar la respuesta marcada como `Mock
-response`.
-6. Con la URL local explícita y el backend en marcha, revisar `Local prediction
-response`, la confianza devuelta y el estado `Human review required`.
-7. Tras una respuesta local real, confirmar o corregir la sugerencia con los
+4. Pulsar `Review text` y comprobar el resumen.
+5. Pulsar `Classify complaint`.
+6. Sin `VITE_PREDICTION_API_BASE_URL`, comprobar el error recuperable y la
+   ausencia de categoría.
+7. Con la URL local explícita y el backend en marcha, revisar `Predicción
+local`, la confianza devuelta y el estado `Human review required`.
+8. Tras una respuesta local real, confirmar o corregir la sugerencia con los
    selectores cerrados de revisión y registrar el feedback local.
-8. Pulsar `Start a new classification` para volver a un formulario vacío.
+9. Continuar al siguiente paso o iniciar una nueva clasificación.
 
-El mock es fijo y sintético. En modo local configurado, la vista consulta solo
-`POST /api/v1/predictions`; nunca consulta el CSV ni artefactos de entrenamiento
-desde el navegador. La respuesta sigue siendo una recomendación revisable, no
-una decisión automática.
+En modo local configurado, la vista consulta `POST /api/v1/predictions`; el
+Dashboard consulta además `GET /api/v1/health` y el resumen agregado
+`GET /api/v1/feedback/summary`. Nunca consulta el CSV, artefactos de
+entrenamiento ni registros individuales desde el navegador. Un error de red,
+una respuesta incompatible o un modelo mock no generan una recomendación
+visible. Una respuesta real sigue siendo revisable, no una decisión automática.
 
 ### Rutas
 
-| Ruta              | Propósito                                           |
-| ----------------- | --------------------------------------------------- |
-| `/`               | Resumen público del prototipo                       |
-| `/classify`       | Formulario y recomendación mock o local configurada |
-| `/login`          | Propuesta de autenticación ficticia                 |
-| `/admin`          | Concepto de panel administrativo                    |
-| `/admin/training` | Concepto de flujo de entrenamiento                  |
-| `/admin/models`   | Concepto de registro de modelos                     |
+| Ruta              | Propósito                                      |
+| ----------------- | ---------------------------------------------- |
+| `/`               | Inicio de la aplicación local                  |
+| `/classify`       | Flujo guiado y recomendación local configurada |
+| `/login`          | Propuesta de autenticación ficticia            |
+| `/admin`          | Salud y desglose agregado de feedback local    |
+| `/admin/training` | Concepto de flujo de entrenamiento             |
+| `/admin/models`   | Concepto de registro de modelos                |
 
 Las rutas administrativas solo pueden revisarse con la identidad sintética
 `carlos@example.com`. La propuesta de usuario utiliza `ana@example.com`.
 Cualquier contraseña es aceptada porque no existe autenticación real. Estas
-pantallas no proporcionan identidad, autorización, permisos, datos operativos,
-entrenamiento ni registro de modelos.
+pantallas no proporcionan identidad, autorización, permisos, datos operativos
+compartidos, entrenamiento ni registro de modelos. El Dashboard distingue esos
+límites del health y muestra solo el desglose agregado permitido: versión de
+modelo, clase sugerida, decisión y conteo.
 
 ## Contrato de predicción
 
@@ -141,9 +149,10 @@ Reglas relevantes:
 
 El selector de cliente conserva
 [`src/services/mock-prediction-client.ts`](src/services/mock-prediction-client.ts)
-como valor por defecto y usa el transporte HTTP tipado solo con
-`VITE_PREDICTION_API_BASE_URL`. El transporte valida la respuesta antes de
-mostrarla. La vista no accede directamente a datos de entrenamiento.
+para pruebas y compatibilidad interna, y usa el transporte HTTP tipado solo con
+`VITE_PREDICTION_API_BASE_URL`. La página bloquea resultados mock; el transporte
+valida las respuestas antes de mostrarlas. La vista no accede directamente a
+datos de entrenamiento.
 
 ## Dictado por voz
 

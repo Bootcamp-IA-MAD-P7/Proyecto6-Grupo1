@@ -40,20 +40,22 @@
 
 ## Producto y operación
 
-- Aplicación: ClaimVox es un prototipo React PWA incorporado mediante la PR #25
-  y evolucionado visualmente mediante la PR #28. Permite revisar con texto
-  sintético el formulario, dictado, revisión humana, instalación, shell offline
-  y preferencias de tema. El mock sigue siendo el valor seguro por defecto; con
-  una URL local explícita la PWA consume el servicio FastAPI y valida su
-  respuesta contractual. La prueba extremo a extremo usa entrada sintética,
-  mantiene revisión humana y no conserva la narrativa. La evidencia está
-  fusionada mediante la PR #40, por lo que `ESS-04` queda verificado para la
-  integración local, no para despliegue u operación productiva.
-- Usabilidad local: el resultado identifica explícitamente la fuente API local
-  o mock, presenta clase, confianza, versión y revisión humana, y limita las
-  alternativas a tres. El recorrido público prioriza Home y Classify; la
-  administración sigue siendo un concepto no operativo. Véase
-  `reports/validation/claimvox_local_classification_usability.md`.
+- Aplicación: ClaimVox es una React PWA incorporada mediante la PR #25,
+  evolucionada visualmente mediante las PR #28 y #66. La clasificación usa un
+  flujo guiado de cuatro pasos, layout unificado, dictado, revisión humana,
+  instalación y tema. Solo una respuesta válida de la API local con modelo real
+  produce una categoría visible; sin URL, ante error o con backend degradado se
+  muestra indisponibilidad sin fabricar resultado. La evidencia de `ESS-04`
+  acredita integración local, no despliegue u operación productiva.
+- Usabilidad local: el resultado real identifica la API local, presenta clase,
+  confianza, versión y revisión humana, y limita las alternativas a tres. El
+  recorrido prioriza Home y Classify. El Dashboard administrativo consulta
+  health y presenta solo el desglose agregado permitido del feedback local,
+  pero conserva los datos operativos compartidos como no conectados. La
+  revisión posterior a la PR #66 corrigió un fallback sintético y verificó 63
+  pruebas frontend y un smoke real local. Véanse
+  `reports/validation/claimvox_local_classification_usability.md` y
+  `reports/validation/claimvox_ui_redesign_review_2026-07-30.md`.
 - Backend local: `app/api/` ofrece health y predicción conforme al contrato;
   carga el baseline local cuando existe y cae a mock de forma explícita cuando
   falta. CORS local es explícito y restringido a orígenes locales configurados,

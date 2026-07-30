@@ -4,6 +4,13 @@
 
 ### Added
 
+- `PG-16`: layout unificado por roles y flujo guiado de clasificación en cuatro
+  pasos, con progreso, panel persistente de revisión humana y consejo
+  contextual. La revisión posterior a la PR #66 añade evidencia funcional y
+  documental, y sustituye los estados estáticos del Dashboard por health y
+  conteo/desglose agregado de feedback local sin atribuir despliegue, Champion,
+  métricas ni capacidades operativas compartidas a Admin.
+
 - Auditoría transversal `PG-9` del estado integrado: inventario de Git,
   OpenSpec, Jira, aplicación, ML, pruebas, CI y documentación; nuevo gráfico
   accesible del corte del 30 de julio y evidencia en
@@ -76,6 +83,15 @@
 - README, delivery_levels.md y chart actualizados: MED-01 pasa a `Verificado` (5/25 criterios); XGBoost obtiene el mejor macro F1 de validación (`0.6332`) sin selección definitiva.
 
 ### Fixed
+
+- El rediseño deja de convertir errores del transporte, ausencia de URL local o
+  respuestas degradadas del backend en una categoría sintética. La narrativa
+  permanece en Review, se muestra un error seguro con foco accesible y solo una
+  respuesta real de `local_api` puede avanzar a Guidance.
+- Se unifican los textos visibles en inglés y se restaura el enlace `Sign in`
+  para revisar los roles demo user/admin, sin afirmar autenticación real.
+- Se restauran type-check, lint, formato, 58 pruebas y build PWA tras la
+  integración inicial del rediseño.
 
 - La puerta de calidad valida ahora el gráfico activo y los 25 identificadores
   exactos contra `delivery_levels.md`; antes comprobaba una ruta histórica y no

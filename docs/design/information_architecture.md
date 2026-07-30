@@ -1,6 +1,7 @@
 # Arquitectura de información
 
-> Estado: contrato inicial para mock; usuario y flujo B2B pendientes de validación.
+> Estado: flujo local implementado y revisable; validación con usuarios B2B
+> todavía pendiente.
 
 ## Usuario propuesto
 
@@ -10,12 +11,17 @@ Personal de operaciones o atención que recibe una reclamación escrita y necesi
 
 1. Comprender finalidad y límites del asistente.
 2. Introducir una narrativa sin información personal innecesaria.
-3. Solicitar una clasificación.
-4. Interpretar clase, alternativas y necesidad de revisión.
-5. Iniciar una nueva clasificación.
+3. Revisar el texto antes de enviarlo.
+4. Solicitar una clasificación al servicio local.
+5. Interpretar clase, alternativas y necesidad de revisión.
+6. Registrar feedback minimizado o iniciar una nueva clasificación.
+7. En revisión administrativa local, consultar health y el desglose agregado
+   del feedback sin acceder a registros individuales.
 
 El feedback local minimizado aparece únicamente después de una predicción local
-válida. Historial individual y mapping a colas siguen fuera de la experiencia.
+válida. El Dashboard muestra solo versión de modelo, clase sugerida, decisión y
+conteo agregado. Historial individual y mapping a colas siguen fuera de la
+experiencia.
 
 ## Inventario de contenidos
 
@@ -32,21 +38,21 @@ válida. Historial individual y mapping a colas siguen fuera de la experiencia.
 
 ## Mapa de experiencia
 
-La primera versión puede resolverse en un único espacio de trabajo responsive:
+La PWA resuelve el recorrido en un único espacio de trabajo responsive con
+cuatro estados visibles:
 
 ```text
-Introducción y aviso
+Describe: narrativa, privacidad y ayuda
         ↓
-Formulario de narrativa
+Review: resumen y confirmación
         ↓
-Carga / validación / error
+Guidance: carga / error o clasificación real
         ↓
-Resultado y revisión
-        ↓
-Nueva clasificación
+Next step: feedback o nueva clasificación
 ```
 
-No se fija todavía una estructura de URLs ni navegación autenticada.
+La clasificación vive en `/classify`. La navegación por rol y la sesión actual
+son de demostración; no acreditan autenticación ni permisos.
 
 ## Estados
 
