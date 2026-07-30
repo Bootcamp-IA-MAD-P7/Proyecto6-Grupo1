@@ -76,13 +76,13 @@
 
 ## 5. Verificación y cierre
 
-- [ ] 5.1 [Frontend/UX] Ejecutar batería completa:
+- [x] 5.1 [Frontend/UX] Ejecutar batería completa:
   ```bash
   cd app/interface
   npm run typecheck && npm run lint && npm test -- --run && npm run build
   ```
   Evidencia: los tres comandos finalizan con código 0.
-- [ ] 5.2 [Frontend/UX] Ejecutar comprobaciones del repositorio:
+- [x] 5.2 [Frontend/UX] Ejecutar comprobaciones del repositorio:
   ```bash
   cd raíz
   python scripts/quality/check_repository.py
@@ -90,6 +90,6 @@
   npm exec -- openspec validate ui-redesign --type change --strict
   ```
   Evidencia: comandos finalizan con código 0.
-- [ ] 5.3 [Frontend/UX] Sin hacer commit, presentar archivos modificados,
+- [x] 5.3 [Frontend/UX] Sin hacer commit, presentar archivos modificados,
   evidencia de tests, riesgos y decisiones pendientes para revisión
   humana antes de proceder con PR.
