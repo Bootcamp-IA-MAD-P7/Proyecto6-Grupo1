@@ -155,8 +155,8 @@ class CFPBBaselineTests(unittest.TestCase):
         self.assertTrue(report_path.exists())
         with open(report_path, encoding="utf-8") as f:
             report = json.load(f)
-        self.assertIn("gap_macro_f1", report.get("validation", report))
-        self.assertIn("gap_within_threshold", report.get("validation", report))
+        self.assertIn("gap_macro_f1", report)
+        self.assertIn("gap_within_threshold", report)
         self.assertIn("train", report)
         self.assertIn("validation", report)
 
