@@ -2,7 +2,6 @@ import { Link } from 'react-router-dom'
 import { useAuth } from '@/hooks/use-auth'
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
 import { Button } from '@/components/ui/button'
-import { Badge } from '@/components/ui/badge'
 import { FileText, BarChart3, Workflow } from 'lucide-react'
 
 export default function HomePage() {
@@ -12,52 +11,52 @@ export default function HomePage() {
     <div className="space-y-8">
       <div>
         <h1 className="text-3xl font-bold tracking-tight text-ink sm:text-4xl">
-          Prototype overview
+          Complaint classification
         </h1>
         <p className="mt-2 text-ink-soft">
           {user
-            ? `Mock session active for ${user.name}.`
-            : 'Explore the public complaint-classification interface.'}
+            ? `Session active for ${user.name}.`
+            : 'Explore the complaint-classification interface.'}
         </p>
       </div>
 
-      <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
-        <Card className="group hover:shadow-md transition-shadow duration-200">
-          <CardHeader className="flex flex-row items-center gap-3 space-y-0">
+      <div className="grid gap-6 min-w-0 sm:grid-cols-2 lg:grid-cols-3">
+        <Card className="group hover:shadow-md transition-shadow duration-200 min-w-0">
+          <CardHeader className="flex flex-col items-center gap-3 space-y-0 text-center min-w-0">
             <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-lg bg-forest/10 text-forest">
               <FileText className="h-5 w-5" />
             </div>
-            <CardTitle>Complaint intake</CardTitle>
+            <CardTitle className="break-words">Complaint intake</CardTitle>
           </CardHeader>
-          <CardContent>
-            <p className="text-2xl font-bold text-ink">Interface ready</p>
-            <p className="mt-1 text-sm text-ink-soft">Use synthetic text to review the form.</p>
+          <CardContent className="text-center">
+            <p className="text-2xl font-bold text-ink break-words">Ready</p>
+            <p className="mt-1 text-sm text-ink-soft break-words">Use the form to describe a complaint.</p>
           </CardContent>
         </Card>
 
-        <Card className="group hover:shadow-md transition-shadow duration-200">
-          <CardHeader className="flex flex-row items-center gap-3 space-y-0">
+        <Card className="group hover:shadow-md transition-shadow duration-200 min-w-0">
+          <CardHeader className="flex flex-col items-center gap-3 space-y-0 text-center min-w-0">
             <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-lg bg-forest-light/10 text-forest-light">
               <BarChart3 className="h-5 w-5" />
             </div>
-            <CardTitle>Recommendation</CardTitle>
+            <CardTitle className="break-words">Recommendation</CardTitle>
           </CardHeader>
-          <CardContent>
-            <p className="text-2xl font-bold text-forest-light">Synthetic only</p>
-            <p className="mt-1 text-sm text-ink-soft">No model or calibrated score exists.</p>
+          <CardContent className="text-center">
+            <p className="text-2xl font-bold text-forest-light break-words">Available</p>
+            <p className="mt-1 text-sm text-ink-soft break-words">Suggests a family based on the narrative.</p>
           </CardContent>
         </Card>
 
-        <Card className="group hover:shadow-md transition-shadow duration-200">
-          <CardHeader className="flex flex-row items-center gap-3 space-y-0">
+        <Card className="group hover:shadow-md transition-shadow duration-200 min-w-0">
+          <CardHeader className="flex flex-col items-center gap-3 space-y-0 text-center min-w-0">
             <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-lg bg-gold/10 text-gold-ink">
               <Workflow className="h-5 w-5" />
             </div>
-            <CardTitle>Operational workflow</CardTitle>
+            <CardTitle className="break-words">Operational workflow</CardTitle>
           </CardHeader>
-          <CardContent>
-            <p className="text-2xl font-bold text-gold-ink">Not connected</p>
-            <p className="mt-1 text-sm text-ink-soft">Human review remains a proposed next step.</p>
+          <CardContent className="text-center">
+            <p className="text-2xl font-bold text-gold-ink break-words">Not connected</p>
+            <p className="mt-1 text-sm text-ink-soft break-words">Human review is required for every complaint.</p>
           </CardContent>
         </Card>
       </div>
@@ -69,16 +68,10 @@ export default function HomePage() {
         {hasRole('admin') && (
           <Link to="/admin">
             <Button variant="outline" size="lg">
-              Administration concept
+              Administration
             </Button>
           </Link>
         )}
-      </div>
-
-      <div className="flex flex-wrap gap-2">
-        <Badge variant="mock">Prototype</Badge>
-        <Badge variant="mock">Synthetic responses</Badge>
-        {hasRole('admin') && <Badge variant="review">Mock admin role</Badge>}
       </div>
     </div>
   )

@@ -39,7 +39,7 @@ describe('application routes', () => {
       await screen.findByRole('heading', { level: 1, name: 'Describe what happened' }),
     ).toBeVisible()
     expect(screen.queryByRole('heading', { name: 'ClaimVox' })).not.toBeInTheDocument()
-    expect(screen.getAllByText('Public prototype').length).toBeGreaterThanOrEqual(1)
+    expect(screen.getByText('Not signed in')).toBeVisible()
     expect(localStorage.getItem('claimvox-auth')).toBeNull()
   })
 
@@ -55,17 +55,19 @@ describe('application routes', () => {
   })
 
   it.each([
-    ['/admin', 'Administration concept'],
-    ['/admin/training', 'Training concept'],
-    ['/admin/models', 'Model registry concept'],
-  ])('labels the proposed capability at %s without fabricated results', async (path, heading) => {
-    storeMockAdmin()
+    ['/admin', 'Dashboard', 'Not connected'],
+    ['/admin/training', 'Training', 'Not connected'],
+    ['/admin/models', 'Model registry', 'No models registered'],
+  ])(
+    'shows %s page with factual status indicators without fabricated data',
+    async (path, heading, status) => {
+      storeMockAdmin()
 
-    renderRoute(path)
+      renderRoute(path)
 
-    expect(await screen.findByRole('heading', { name: heading })).toBeVisible()
-    expect(screen.getByText('Administration concept only')).toBeVisible()
-    expect(screen.getByText(/there are no real permissions/i)).toBeVisible()
-    expect(document.body).not.toHaveTextContent(/87\.3%|50,000|v1\.1|2026-07-20/i)
-  })
+      expect(await screen.findByRole('heading', { name: heading })).toBeVisible()
+      expect(screen.getByText(status)).toBeVisible()
+      expect(document.body).not.toHaveTextContent(/87\.3%|50,000|v1\.1|2026-07-20/i)
+    },
+  )
 })

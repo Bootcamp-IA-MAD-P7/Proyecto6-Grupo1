@@ -1,5 +1,4 @@
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
-import { Badge } from '@/components/ui/badge'
 import { Database, Activity, Server, Users } from 'lucide-react'
 
 const stats = [
@@ -26,8 +25,8 @@ const stats = [
   },
   {
     title: 'Human review',
-    value: 'Proposed',
-    description: 'Workflow and queue rules need approval.',
+    value: 'Required',
+    description: 'Classification requires human review.',
     icon: Users,
     color: 'text-rust',
   },
@@ -38,31 +37,26 @@ export default function DashboardPage() {
     <div className="space-y-8">
       <div>
         <h1 className="text-3xl font-bold tracking-tight text-ink sm:text-4xl">
-          Administration concept
+          Dashboard
         </h1>
         <p className="mt-2 text-ink-soft">
-          A proposed overview of the information an operations team may need.
+          Overview of the operational status.
         </p>
       </div>
 
-      <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-4">
+      <div className="grid gap-6 min-w-0 sm:grid-cols-2">
         {stats.map((stat) => (
-          <Card key={stat.title} className="group hover:shadow-md transition-shadow duration-200">
-            <CardHeader className="flex flex-row items-center gap-3 space-y-0 pb-2">
-              <stat.icon className={`h-5 w-5 ${stat.color}`} />
-              <CardTitle className="text-sm">{stat.title}</CardTitle>
+          <Card key={stat.title} className="group hover:shadow-md transition-shadow duration-200 min-w-0">
+            <CardHeader className="flex flex-col items-center gap-3 space-y-0 pb-2 text-center min-w-0">
+              <stat.icon className={`h-8 w-8 shrink-0 ${stat.color}`} />
+              <CardTitle className="text-sm break-words">{stat.title}</CardTitle>
             </CardHeader>
-            <CardContent>
-              <p className={`text-2xl font-bold ${stat.color}`}>{stat.value}</p>
-              <p className="mt-1 text-sm text-ink-soft">{stat.description}</p>
+            <CardContent className="text-center">
+              <p className={`text-2xl font-bold break-words ${stat.color}`}>{stat.value}</p>
+              <p className="mt-1 text-sm text-ink-soft break-words">{stat.description}</p>
             </CardContent>
           </Card>
         ))}
-      </div>
-
-      <div className="flex flex-wrap gap-2">
-        <Badge variant="mock">Interface concept</Badge>
-        <Badge variant="review">No operational data</Badge>
       </div>
     </div>
   )
