@@ -15,6 +15,7 @@ from app.api.predictors.baseline import BaselinePredictor
 from app.api.predictors.mock import MockPredictor
 from app.api.routes.health import router as health_router
 from app.api.routes.predictions import router as predictions_router
+from app.api.routes.auth import router as auth_router
 from app.api.schemas.feedback import (
     FeedbackCreateRequest,
     FeedbackSummaryResponse,
@@ -22,6 +23,7 @@ from app.api.schemas.feedback import (
 from app.api.security import LocalRateLimiter
 from app.api.services.feedback_repository import FeedbackRepositoryError, LocalFeedbackRepository
 from app.api.services.feedback_service import FeedbackService, FeedbackServiceError
+from app.api.services.postgres_feedback_repository import PostgresFeedbackRepository
 from app.api.services.prediction_service import PredictionService
 
 logger = logging.getLogger(__name__)
@@ -54,7 +56,26 @@ async def lifespan(app: FastAPI) -> AsyncGenerator[None, None]:
     )
     app.state.settings = settings
 
+    # Wire database repository (PostgreSQL when configured, local SQLite otherwise)
+    if settings.database_url:
+        try:
+            pg_repo = PostgresFeedbackRepository(settings.database_url)
+            app.state.postgres_repository = pg_repo
+            logger.info("PostgreSQL repository connected for feedback persistence.")
+        except Exception as exc:
+            logger.warning(
+                "Could not connect to PostgreSQL: %s. Feedback uses local SQLite only.",
+                type(exc).__name__,
+            )
+            app.state.postgres_repository = None
+    else:
+        app.state.postgres_repository = None
+
     yield
+
+    # Cleanup
+    if app.state.postgres_repository:
+        app.state.postgres_repository.close()
 
 
 def create_app(settings: Settings | None = None) -> FastAPI:
@@ -125,6 +146,7 @@ def create_app(settings: Settings | None = None) -> FastAPI:
     # Register routes
     app.include_router(predictions_router, prefix="/api/v1")
     app.include_router(health_router, prefix="/api/v1")
+    app.include_router(auth_router, prefix="/api/v1")
 
     # Register error handlers
     register_exception_handlers(app)

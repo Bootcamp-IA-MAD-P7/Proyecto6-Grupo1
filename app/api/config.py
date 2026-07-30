@@ -26,6 +26,7 @@ class Settings(BaseSettings):
     cors_allowed_origins: str = ""
     max_narrative_characters: int = 5000
     prediction_rate_limit_per_minute: int = 20
+    database_url: str | None = None
 
     model_config = {"env_prefix": "APP_"}
 

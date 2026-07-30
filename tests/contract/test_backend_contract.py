@@ -37,6 +37,14 @@ WHITESPACE_NARRATIVE = "   "
 SYNTHETIC_FIXTURE = ROOT / "tests" / "fixtures" / "synthetic_baseline_data.csv"
 
 
+def _auth_headers() -> dict:
+    """Generate valid auth headers for test requests."""
+    from app.api.auth import create_access_token
+
+    token = create_access_token("test-user")
+    return {"Authorization": f"Bearer {token}"}
+
+
 def _create_test_client() -> TestClient:
     """Create a TestClient with MockPredictor wired in."""
     app = create_app()
@@ -55,10 +63,12 @@ class PredictionResponseContractTests(unittest.TestCase):
     @classmethod
     def setUpClass(cls) -> None:
         cls.client = _create_test_client()
+        cls.headers = _auth_headers()
 
     def _get_prediction(self, narrative: str = VALID_NARRATIVE) -> dict:
         r = self.client.post(
-            "/api/v1/predictions", json={"narrative": narrative}
+            "/api/v1/predictions", json={"narrative": narrative},
+            headers=self.headers,
         )
         self.assertEqual(r.status_code, 200)
         return r.json()
@@ -172,6 +182,7 @@ class ValidationErrorContractTests(unittest.TestCase):
     @classmethod
     def setUpClass(cls) -> None:
         cls.client = _create_test_client()
+        cls.headers = _auth_headers()
 
     def _assert_error_response(self, data: dict) -> None:
         """Verify data conforms to ErrorResponse schema."""
@@ -187,14 +198,15 @@ class ValidationErrorContractTests(unittest.TestCase):
     def test_whitespace_narrative_returns_422(self) -> None:
         """R-006: Whitespace-only narrative produces 422 ErrorResponse."""
         r = self.client.post(
-            "/api/v1/predictions", json={"narrative": WHITESPACE_NARRATIVE}
+            "/api/v1/predictions", json={"narrative": WHITESPACE_NARRATIVE},
+            headers=self.headers,
         )
         self.assertEqual(r.status_code, 422)
         self._assert_error_response(r.json())
 
     def test_missing_narrative_returns_422(self) -> None:
         """R-006: Missing narrative field produces 422 ErrorResponse."""
-        r = self.client.post("/api/v1/predictions", json={})
+        r = self.client.post("/api/v1/predictions", json={}, headers=self.headers)
         self.assertEqual(r.status_code, 422)
         self._assert_error_response(r.json())
 
@@ -203,6 +215,7 @@ class ValidationErrorContractTests(unittest.TestCase):
         r = self.client.post(
             "/api/v1/predictions",
             json={"narrative": "valid text", "extra_field": "bad"},
+            headers=self.headers,
         )
         self.assertEqual(r.status_code, 422)
         self._assert_error_response(r.json())
@@ -212,6 +225,7 @@ class ValidationErrorContractTests(unittest.TestCase):
         r = self.client.post(
             "/api/v1/predictions",
             json={"narrative": "valid text", "client_request_id": "x" * 101},
+            headers=self.headers,
         )
         self.assertEqual(r.status_code, 422)
         self._assert_error_response(r.json())
@@ -219,7 +233,7 @@ class ValidationErrorContractTests(unittest.TestCase):
     def test_narrative_over_contract_limit_returns_422_without_echo(self) -> None:
         """R-006: narratives over 5,000 characters are safely rejected."""
         narrative = "sensitive-oversized-input-" + ("x" * 5000)
-        r = self.client.post("/api/v1/predictions", json={"narrative": narrative})
+        r = self.client.post("/api/v1/predictions", json={"narrative": narrative}, headers=self.headers)
         self.assertEqual(r.status_code, 422)
         self._assert_error_response(r.json())
         self.assertNotIn(narrative, json.dumps(r.json()))
@@ -230,13 +244,14 @@ class ValidationErrorContractTests(unittest.TestCase):
         r = self.client.post(
             "/api/v1/predictions",
             json={"narrative": narrative, "extra_field": "trigger_error"},
+            headers=self.headers,
         )
         response_str = json.dumps(r.json())
         self.assertNotIn(narrative, response_str)
 
     def test_error_does_not_leak_internal_state(self) -> None:
         """R-006: Error messages don't contain paths or stack traces."""
-        r = self.client.post("/api/v1/predictions", json={})
+        r = self.client.post("/api/v1/predictions", json={}, headers=self.headers)
         data = r.json()
         # Should not contain file paths or traceback markers
         self.assertNotIn("Traceback", data["message"])
@@ -313,8 +328,9 @@ class BaselinePredictorContractTests(unittest.TestCase):
 
     def test_real_predictor_reports_healthy_and_returns_probabilities(self) -> None:
         narrative = "Synthetic verification input for a credit card billing issue."
+        headers = _auth_headers()
         health = self.client.get("/api/v1/health")
-        response = self.client.post("/api/v1/predictions", json={"narrative": narrative})
+        response = self.client.post("/api/v1/predictions", json={"narrative": narrative}, headers=headers)
 
         self.assertEqual(health.status_code, 200)
         self.assertEqual(health.json()["status"], "ok")

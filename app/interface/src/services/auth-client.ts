@@ -7,12 +7,8 @@ export interface AuthUser {
   role: UserRole
 }
 
-const MOCK_USERS: AuthUser[] = [
-  { id: '1', name: 'Ana García', email: 'ana@example.com', role: 'user' },
-  { id: '2', name: 'Carlos López', email: 'carlos@example.com', role: 'admin' },
-]
-
 const STORAGE_KEY = 'claimvox-auth'
+const TOKEN_KEY = 'claimvox-token'
 
 export function getStoredUser(): AuthUser | null {
   try {
@@ -24,21 +20,47 @@ export function getStoredUser(): AuthUser | null {
   }
 }
 
+export function getStoredToken(): string | null {
+  return localStorage.getItem(TOKEN_KEY)
+}
+
 export function storeUser(user: AuthUser): void {
   localStorage.setItem(STORAGE_KEY, JSON.stringify(user))
 }
 
+function storeToken(token: string): void {
+  localStorage.setItem(TOKEN_KEY, token)
+}
+
 export function clearStoredUser(): void {
   localStorage.removeItem(STORAGE_KEY)
+  localStorage.removeItem(TOKEN_KEY)
 }
 
 export async function loginWithMock(email: string, password: string): Promise<AuthUser> {
-  void password
-  await new Promise((resolve) => setTimeout(resolve, 400))
+  // Call the real backend auth endpoint
+  const response = await fetch('/api/v1/auth/login', {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({ username: email, password }),
+  })
 
-  const user = MOCK_USERS.find((u) => u.email === email)
-  if (!user) {
+  if (!response.ok) {
     throw new Error('Invalid credentials')
+  }
+
+  const data = await response.json()
+  const token: string = data.access_token
+
+  // Store the token
+  storeToken(token)
+
+  // Build user object from backend response
+  const user: AuthUser = {
+    id: token.substring(0, 8),
+    name: data.name || email,
+    email,
+    role: data.role || 'user',
   }
 
   storeUser(user)
