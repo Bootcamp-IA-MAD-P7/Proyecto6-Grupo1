@@ -1,10 +1,11 @@
 import { useState } from 'react'
-import { NavLink, Outlet, useNavigate } from 'react-router-dom'
+import { Link, NavLink, Outlet, useNavigate } from 'react-router-dom'
 import { useAuth } from '@/hooks/use-auth'
 import { Button } from '@/components/ui/button'
 import { ThemeToggle } from '@/components/ThemeToggle'
 import HumanReviewPanel from '@/components/HumanReviewPanel'
 import { cn } from '@/lib/utils'
+import { buttonVariants } from '@/lib/button-variants'
 import { Home, FileText, LayoutDashboard, Cpu, Box, LogOut, Settings, Menu, X } from 'lucide-react'
 
 interface NavItem {
@@ -79,7 +80,12 @@ export default function UserLayout() {
             </NavLink>
           ))}
         </nav>
-        <div className={cn('border-t border-white/10 px-4 py-3', mobileMenuOpen ? 'block' : 'hidden md:block')}>
+        <div
+          className={cn(
+            'border-t border-white/10 px-4 py-3',
+            mobileMenuOpen ? 'block' : 'hidden md:block',
+          )}
+        >
           <div className="flex items-center gap-2">
             <Settings className="h-4 w-4 text-white/70" />
             <span className="text-sm text-white/70">Settings</span>
@@ -103,7 +109,12 @@ export default function UserLayout() {
               </Button>
             </div>
           ) : (
-            <span className="text-sm text-ink-soft ml-auto">Not signed in</span>
+            <div className="ml-auto flex items-center gap-3">
+              <span className="text-sm text-ink-soft">Not signed in</span>
+              <Link to="/login" className={buttonVariants({ variant: 'ghost', size: 'sm' })}>
+                Sign in
+              </Link>
+            </div>
           )}
         </header>
         <main className="flex flex-1 flex-col gap-6 overflow-auto p-4 md:flex-row md:p-6">

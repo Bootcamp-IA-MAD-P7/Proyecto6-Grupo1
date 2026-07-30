@@ -1,8 +1,10 @@
 import {
   assertFeedbackCreateRequest,
   parseFeedbackAcceptedResponse,
+  parseFeedbackSummaryResponse,
   type FeedbackAcceptedResponse,
   type FeedbackCreateRequest,
+  type FeedbackSummaryResponse,
 } from '../contracts/feedback'
 import { getPredictionApiBaseUrl } from './prediction-api-config'
 
@@ -21,6 +23,15 @@ export type FeedbackClientMode = 'local_api' | 'unavailable'
 
 export interface ConfiguredFeedbackClient {
   client?: FeedbackClient
+  mode: FeedbackClientMode
+}
+
+export interface FeedbackSummaryClient {
+  getSummary(): Promise<FeedbackSummaryResponse>
+}
+
+export interface ConfiguredFeedbackSummaryClient {
+  client?: FeedbackSummaryClient
   mode: FeedbackClientMode
 }
 
@@ -63,6 +74,47 @@ export const createConfiguredFeedbackClient = (apiBaseUrl?: string): ConfiguredF
 
   return {
     client: createLocalFeedbackClient(resolvedApiBaseUrl),
+    mode: 'local_api',
+  }
+}
+
+export const createConfiguredFeedbackSummaryClient = (
+  apiBaseUrl?: string,
+): ConfiguredFeedbackSummaryClient => {
+  let resolvedApiBaseUrl = apiBaseUrl
+  if (resolvedApiBaseUrl === undefined) {
+    try {
+      resolvedApiBaseUrl = getPredictionApiBaseUrl()
+    } catch {
+      return { mode: 'unavailable' }
+    }
+  }
+
+  if (!resolvedApiBaseUrl) {
+    return { mode: 'unavailable' }
+  }
+
+  return {
+    client: {
+      async getSummary() {
+        let response: Response
+        try {
+          response = await fetch(`${resolvedApiBaseUrl}/api/v1/feedback/summary`)
+        } catch {
+          throw new FeedbackClientUnavailableError()
+        }
+
+        if (!response.ok) {
+          throw new FeedbackClientUnavailableError()
+        }
+
+        try {
+          return parseFeedbackSummaryResponse(await response.json())
+        } catch {
+          throw new FeedbackClientUnavailableError()
+        }
+      },
+    },
     mode: 'local_api',
   }
 }

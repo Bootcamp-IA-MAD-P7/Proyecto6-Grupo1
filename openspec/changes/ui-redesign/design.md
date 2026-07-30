@@ -72,8 +72,8 @@ const [step, setStep] = useState<1 | 2 | 3 | 4>(1)
 ```
 
 - **Step 1 (Describe)**: textarea, dictado, botón "Revisar texto".
-- **Step 2 (Review)**: resumen del texto, botones "Clasificar reclamación"
-  y "Volver".
+- **Step 2 (Review)**: resumen del texto, botones "Classify complaint"
+  y "Back".
 - **Step 3 (Guidance)**: `PredictionResult` adaptado, panel de revisión.
 - **Step 4 (Next step)**: opciones "Nueva clasificación", "Ir al inicio".
 
@@ -81,24 +81,27 @@ const [step, setStep] = useState<1 | 2 | 3 | 4>(1)
 etc.). Se descarta porque añade complejidad de enrutamiento, posible
 pérdida de estado narrativa al navegar y fragmentación de tests.
 
-### 3. Eliminación progresiva de etiquetas mock
+### 3. El modo mock no produce una clasificación visible
 
-No se elimina el modo mock del cliente de predicción; ese es un mecanismo
-de fallback interno. Lo que cambia es la presentación al usuario:
+El cliente mock se conserva para pruebas aisladas y compatibilidad interna,
+pero la página de clasificación no lo utiliza para fabricar una recomendación:
 
-- El cliente mock sigue existiendo como `MockPredictionClient`.
-- El `PredictionResult` deja de etiquetar como "Mock response" cuando el
-  origen es mock. En su lugar muestra "Servicio no disponible" con texto
-  claro.
+- sin URL de API local configurada se muestra un error recuperable y se
+  conserva el texto en el paso Review;
+- una respuesta degradada del backend con versión `mock-v0` se rechaza como
+  indisponibilidad;
+- un error del transporte conserva su categoría segura y nunca dispara un
+  segundo cliente mock;
 - El `Badge` de "Mock responses" debajo del formulario se elimina.
 - El `Badge` de "Public prototype" en `UserLayout` se elimina.
 - `ProposalNotice.tsx` se elimina del layout.
 - Las páginas admin pierden `Badge variant="mock"` pero conservan
   indicadores factuales ("No connected", "No data", "Not implemented").
 
-**Riesgo:** sin etiqueta "mock", una persona sin backend configurado
-podría pensar que la app no funciona. Se mitiga con mensajes explícitos
-de indisponibilidad.
+**Riesgo:** una persona sin backend configurado puede interpretar la
+indisponibilidad como un fallo de la interfaz. Se mitiga con un mensaje
+recuperable y una guía local explícita; no se mitiga mostrando una categoría
+sintética.
 
 ### 4. Panel de revisión humana como `aside` en el layout
 
@@ -116,7 +119,7 @@ progreso, paneles laterales ni tooltips externos.
 ## Risks / Trade-offs
 
 - [Eliminar etiquetas mock puede confundir cuando no hay backend] → Se
-  muestra "Servicio no disponible" con texto claro, no se finge una
+  muestra "Service unavailable" con texto claro, no se finge una
   respuesta ni se oculta el error.
 - [Unificar layouts puede romper las rutas admin protegidas] → El
   `ProtectedRoute` en `App.tsx` se mantiene; el layout solo oculta ítems
@@ -154,3 +157,24 @@ revertir el cambio OpenSpec.
   y permite clasificar.
 - Textos definitivos en español para todos los labels: deben validarse con
   Abel antes del PR.
+
+### 6. Dashboard basado en límites locales verificables
+
+El Dashboard usa la misma URL local validada por
+`getPredictionApiBaseUrl()`. Consulta `GET /api/v1/health` y
+`GET /api/v1/feedback/summary`.
+
+La tarjeta `Model evidence` deriva exclusivamente del estado de salud:
+`Baseline available` cuando el predictor local responde `ok`, `Degraded`
+cuando el backend informa modo degradado y `Not available` en los demás
+casos. No presenta Champion, evaluación conectada ni métricas.
+
+La actividad de feedback se muestra en una tarjeta separada y solo como
+conteo agregado. `Operational data` permanece `Not connected` porque no
+existe base compartida. Los estados asíncronos usan mensajes visibles y
+`aria-live`; los errores son recuperables y no reflejan respuestas internas.
+
+El desglose se presenta debajo de las tarjetas mediante una tabla nativa
+accesible. Conserva el orden recibido del contrato y muestra exclusivamente
+`model_version`, `suggested_class`, `decision` y `count`. No ofrece detalle,
+descarga ni acciones sobre registros.

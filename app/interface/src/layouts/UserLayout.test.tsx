@@ -15,6 +15,25 @@ vi.mock('@/hooks/use-auth', () => ({
 const mockedUseAuth = vi.mocked(useAuth)
 
 describe('UserLayout', () => {
+  it('keeps the demo sign-in entry visible when no session is active', () => {
+    mockedUseAuth.mockReturnValue({
+      user: null,
+      isAuthenticated: false,
+      login: vi.fn(),
+      logout: vi.fn(),
+      hasRole: () => false,
+    })
+
+    render(
+      <MemoryRouter>
+        <UserLayout />
+      </MemoryRouter>,
+    )
+
+    expect(screen.getByText('Not signed in')).toBeVisible()
+    expect(screen.getByRole('link', { name: 'Sign in' })).toHaveAttribute('href', '/login')
+  })
+
   it('shows user navigation without admin items', () => {
     mockedUseAuth.mockReturnValue({
       user: { id: '1', name: 'Test User', email: 'test@example.com', role: 'user' },

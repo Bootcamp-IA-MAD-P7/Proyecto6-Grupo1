@@ -9,7 +9,7 @@ import { registerSW } from 'virtual:pwa-register'
 
 const updateSW = registerSW({
   onNeedRefresh() {
-    if (confirm('Nueva version disponible. Actualizar?')) {
+    if (confirm('A new version is available. Update now?')) {
       updateSW()
     }
   },

@@ -13,7 +13,8 @@
 - Jira: proyecto `PG`; `PG-1` agrupa el nivel esencial.
 - Trabajo actual: `PG-11` permanece en curso para `MED-02` y `MED-03`;
   `PG-12`, `PG-13` y `PG-14` están cerradas en Jira con evidencia local.
-  `PG-15`, `PG-16` y `PG-17` permanecen por hacer. Las tareas numeradas
+  `PG-16` dispone de rediseño local revisado y evidencia frontend; `PG-15` y
+  `PG-17` permanecen por hacer. Las tareas numeradas
   `001/T-004` a `T-006` y `003/T-006` son expedientes cerrados de
   compatibilidad.
 - Existe un baseline reproducible, inferencia local, una PWA integrada y un

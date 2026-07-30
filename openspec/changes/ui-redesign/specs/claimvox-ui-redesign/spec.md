@@ -2,8 +2,9 @@
 
 ## MODIFIED Requirements
 
-Baseline spec:
-`openspec/specs/complaint-routing-interface/spec.md`.
+Esta capacidad complementa la spec vigente
+`openspec/specs/complaint-routing-interface/spec.md` sin modificar el contrato
+de predicción.
 
 ### Requirement: Layout unificado por roles
 
@@ -14,7 +15,9 @@ El rol `user` ve `Home` y `Classify`; el rol `admin` ve `Home`, `Classify`,
 (ThemeToggle) al pie de la barra.
 
 La cabecera SHALL mostrar el nombre, el rol y un botón de cierre de sesión
-para cualquier rol autenticado.
+para cualquier rol autenticado. Sin sesión, SHALL mostrar un enlace `Sign in`
+a `/login` para acceder a las identidades de demostración user/admin, sin
+presentarlas como autenticación real.
 
 #### Scenario: Persona con rol user ve navegación limitada
 
@@ -37,6 +40,12 @@ para cualquier rol autenticado.
 - **THEN** la cabecera muestra el nombre, el rol y un botón de cierre de
   sesión, independientemente del rol
 
+#### Scenario: Entrada de sesión de demostración accesible
+
+- **GIVEN** que no existe una sesión activa
+- **WHEN** se renderiza el layout principal
+- **THEN** la cabecera muestra un enlace `Sign in` a `/login`
+
 ### Requirement: Flujo de clasificación guiado en 4 pasos
 
 `ClassificationPage` SHALL organizar el flujo de narrativa y clasificación
@@ -46,8 +55,7 @@ con estados, no rutas separadas.
 
 El paso Describe SHALL ofrecer un textarea de narrativa limitado a 6 líneas
 visuales (sin desbordamiento), dictado opcional por voz, un aviso de
-privacidad y una acción primaria "Clasificar reclamación" / "Obtener
-orientación".
+privacidad y una acción primaria "Classify complaint" / "Get guidance".
 
 #### Scenario: Barra de progreso visible
 
@@ -67,8 +75,8 @@ orientación".
 
 - **GIVEN** una narrativa válida
 - **WHEN** la persona activa la acción principal
-- **THEN** el texto del botón es "Clasificar reclamación" o "Obtener
-  orientación", y ningún texto de la interfaz promete una decisión final o
+- **THEN** el texto del botón es "Classify complaint" o "Get guidance", y
+  ningún texto de la interfaz promete una decisión final o
   enrutamiento automático
 
 ### Requirement: Etiquetas profesionales sin terminología de prototipo
@@ -76,10 +84,13 @@ orientación".
 La PWA SHALL eliminar las etiquetas "mock response", "interface
 demonstration only", "prototype", "concept" y "proposal only" del flujo
 principal de clasificación. Cuando el servicio local esté disponible y
-configurado, la interfaz SHALL mostrar "Predicción local", versión del
+configurado, la interfaz SHALL mostrar "Local prediction", versión del
 modelo y confianza. Cuando no haya servicio disponible, SHALL mostrar
-"Servicio no disponible" sin fabricar un resultado ni etiquetarlo como
+"Service unavailable" sin fabricar un resultado ni etiquetarlo como
 mock.
+
+Todos los textos visibles de la PWA SHALL estar en inglés, salvo nombres
+propios de identidades sintéticas.
 
 Las páginas de administración SHALL conservar indicadores de datos no
 disponibles sin usar la palabra "Proposal".
@@ -89,7 +100,7 @@ disponibles sin usar la palabra "Proposal".
 - **GIVEN** que `VITE_PREDICTION_API_BASE_URL` está configurada y el
   servicio responde correctamente
 - **WHEN** se completa una clasificación
-- **THEN** el resultado se muestra como "Predicción local" con la versión
+- **THEN** el resultado se muestra como "Local prediction" con la versión
   del modelo, confianza y revisión humana, sin etiquetas "mock" ni
   "prototype"
 
@@ -97,8 +108,8 @@ disponibles sin usar la palabra "Proposal".
 
 - **GIVEN** que no hay servicio configurado o no responde
 - **WHEN** una persona intenta clasificar
-- **THEN** la interfaz muestra "El servicio de predicción no está
-  disponible" sin mostrar una respuesta sintética ni etiquetarla como mock
+- **THEN** la interfaz muestra "The prediction service is unavailable"
+  sin mostrar una respuesta sintética ni etiquetarla como mock
 
 #### Scenario: Página de administración sin datos operativos
 
@@ -168,3 +179,55 @@ sin pérdida de contenido ni acciones.
 - **THEN** la barra lateral se colapsa o apila, el panel derecho pasa
   debajo del contenido principal, y ninguna acción o texto queda oculto
   por desbordamiento
+
+## ADDED Requirements
+
+### Requirement: Dashboard administrativo con estado local factual
+
+El Dashboard SHALL usar la base URL local configurada para consultar
+`GET /api/v1/health` y `GET /api/v1/feedback/summary`. SHALL mostrar estados
+de carga, vacío y error recuperable en inglés. SHALL mantener `Operational
+data` como `Not connected` mientras no exista una base compartida y `Human
+review` como `Required`.
+
+El Dashboard SHALL mostrar el baseline local como disponible solo cuando
+health responda `ok`, y SHALL mostrar exclusivamente conteos agregados de
+feedback. SHALL NOT exponer UUID, narrativas, registros individuales,
+Champion, despliegue, evaluación conectada ni métricas no proporcionadas.
+
+#### Scenario: API local no configurada
+
+- **GIVEN** que no existe una URL local configurada
+- **WHEN** se renderiza el Dashboard
+- **THEN** Service health y Local feedback muestran `Not configured`,
+  Model evidence muestra `Not available` y Operational data permanece
+  `Not connected`
+
+#### Scenario: Baseline local disponible
+
+- **GIVEN** que health responde `ok`
+- **WHEN** se actualiza el Dashboard
+- **THEN** Service health muestra `Healthy` y Model evidence muestra
+  `Baseline available` sin presentarlo como Champion
+
+#### Scenario: Servicio degradado o no disponible
+
+- **GIVEN** que health responde `degraded` o la consulta falla
+- **WHEN** se actualiza el Dashboard
+- **THEN** Service health y Model evidence reflejan respectivamente un
+  estado degradado o no disponible mediante un mensaje recuperable
+
+#### Scenario: Resumen local agregado
+
+- **GIVEN** una respuesta válida de feedback con cero o más agregados
+- **WHEN** se actualiza el Dashboard
+- **THEN** muestra `No activity` o el conteo local total sin UUID,
+  narrativas ni registros individuales
+
+#### Scenario: Desglose agregado visible
+
+- **GIVEN** una respuesta con varios agregados de feedback
+- **WHEN** se actualiza el Dashboard
+- **THEN** muestra una tabla accesible, en el orden recibido, con versión de
+  modelo, clase sugerida, decisión y conteo
+- **AND** el total de la tarjeta coincide con la suma de sus conteos

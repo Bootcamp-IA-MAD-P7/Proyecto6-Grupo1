@@ -6,16 +6,17 @@
   con OpenSpec + Harness Engineering operativos.
 - Idea de negocio: clasificación y enrutamiento de reclamaciones financieras, elegida por unanimidad con condiciones.
 - Dataset: Consumer Complaint Database del CFPB viable con condiciones; target y reglas de EDA versionados.
-- Producto demostrable: ClaimVox React PWA integrado mediante las PR #25 y #28,
-  con tema configurable y mock seguro por defecto. Una URL local explícita
-  habilita la respuesta contractual del servicio FastAPI contra un artefacto
-  reproducible; la evidencia conserva revisión humana y no hay servicio
+- Producto demostrable: ClaimVox React PWA integrado mediante las PR #25, #28 y
+  #66, con layout unificado, tema y clasificación guiada en cuatro pasos. Una
+  URL local explícita habilita la respuesta contractual del servicio FastAPI
+  contra un artefacto reproducible; sin API o con backend degradado no se
+  muestra categoría. La evidencia conserva revisión humana y no hay servicio
   desplegado.
 - Despliegue: no iniciado.
 - Feedback: persistencia SQLite local gobernada y flujo explícito posterior a predicción, con creación minimizada y resumen agregado. No hay autenticación, permisos reales, base compartida, operación productiva, corpus ni reentrenamiento automático.
 - Seguimiento: Jira `PG` operativo; `PG-11` está en curso, `PG-12` a `PG-14`
-  están listos y `PG-15` a `PG-17` permanecen por hacer. Jira no sustituye
-  requisitos ni evidencia versionada.
+  están listos, `PG-16` dispone de rediseño local revisado y `PG-15`/`PG-17`
+  permanecen por hacer. Jira no sustituye requisitos ni evidencia versionada.
 
 ## Capacidades verificadas
 
@@ -50,15 +51,20 @@
 - La PR #28 actualiza la identidad visible a ClaimVox y añade preferencias de
   tema claro, oscuro y sistema, junto a ajustes visuales y de accesibilidad.
   No altera el contrato de predicción ni añade capacidades operativas.
-- La batería frontend aprueba typecheck, lint, formato, 31 tests, build PWA y
-  auditoría npm con cero vulnerabilidades.
+- La batería frontend posterior al rediseño aprueba typecheck, lint, formato,
+  63 tests y build PWA. El Dashboard consulta health y el resumen agregado
+  local; no expone registros ni convierte Admin en operación compartida. La
+  auditoría npm sigue gobernada por el quality gate del repositorio.
 - Chrome 150 en Windows verificó instalación, actualización, dictado con permiso
   real, responsive, accesibilidad y recarga del shell sin conexión. Edge queda
   pendiente de la misma comprobación manual.
-- La clasificación se bloquea sin conexión y la política de caché excluye API,
-  narrativas y peticiones de datos; el prototipo no fabrica una predicción.
-- Login, administración, entrenamiento y registro de modelos permanecen como
-  conceptos señalizados: no aportan identidad, permisos, datos, jobs ni modelos.
+- La clasificación se bloquea sin conexión, sin URL local y ante un backend
+  degradado. La política de caché excluye API, narrativas y peticiones de datos;
+  la PWA no fabrica una predicción.
+- Login, entrenamiento y registro de modelos permanecen como conceptos
+  señalizados. El Dashboard aporta health y feedback agregado locales, pero no
+  identidad, permisos, datos compartidos, jobs, evaluación conectada ni modelos
+  registrados.
 - Flujo humano-IA independiente de proveedor implementado y verificado, con generación acotada de contexto por spec y tarea.
 - Primera versión operativa del arnés integrada en `dev` con cuatro roles, cuatro procedimientos y una entrada única probada localmente.
 - OpenSpec `1.6.0` fijado como dependencia local, inicializado con configuración propia y adaptadores oficiales para cinco herramientas de IA.
@@ -101,8 +107,12 @@
 - `PG-18` mejora el resultado de clasificación local sin alterar API ni modelo:
   distingue API local de mock, limita alternativas, preserva revisión humana y
   retira la sesión mock del recorrido público. La administración continúa
-  siendo conceptual; evidencia en
+  sin operación compartida; el Dashboard de `PG-16` sí refleja health y
+  conteo/desglose agregado del feedback local sin inventar métricas. Evidencia en
   `reports/validation/claimvox_local_classification_usability.md`.
+- El cierre de `PG-16` supera 63 pruebas frontend, 134 unitarias Python y 35
+  pruebas de contrato, además de build PWA, OpenSpec estricto, diagnóstico del
+  arnés y quality gate. Estos controles no equivalen a despliegue.
 - El cambio `mvp-readiness-and-presentation` añade límites proporcionados para
   la API local: máximo de narrativa, frecuencia efímera en memoria, cabeceras
   de respuesta y un evento técnico sin identidad ni contenido. La evidencia

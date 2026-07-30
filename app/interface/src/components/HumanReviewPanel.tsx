@@ -6,8 +6,8 @@ export default function HumanReviewPanel() {
       <Users className="mb-3 h-10 w-10 text-rust" />
       <p className="font-semibold">Human review required</p>
       <p className="mt-1 text-ink-soft">
-        The suggestion requires human review. The classification, routing, and
-        final decision belong to the responsible team.
+        The suggestion requires human review. The classification, routing, and final decision belong
+        to the responsible team.
       </p>
     </aside>
   )

@@ -37,12 +37,7 @@ export default function StepProgress({ currentStep }: StepProgressProps) {
               <span className="hidden sm:inline">{label}</span>
             </div>
             {index < STEPS.length - 1 && (
-              <div
-                className={cn(
-                  'mx-1 h-px flex-1',
-                  isCompleted ? 'bg-forest' : 'bg-line',
-                )}
-              />
+              <div className={cn('mx-1 h-px flex-1', isCompleted ? 'bg-forest' : 'bg-line')} />
             )}
           </div>
         )

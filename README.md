@@ -27,7 +27,7 @@ enruta automáticamente y no toma decisiones financieras.
 | Entrada del modelo | `complaint_what_happened` |
 | Target | `product_canonical`, once clases mutuamente excluyentes |
 | Modelo servido | Baseline TF-IDF + Logistic Regression local |
-| Aplicación | React PWA → FastAPI local, con fallback mock explícito |
+| Aplicación | React PWA → FastAPI local; sin API o modelo real no muestra clasificación |
 | Feedback | Registro local minimizado, retención finita y resumen agregado |
 | Entrega | 15/25 criterios verificados; esencial 10/10, medio 2/5, avanzado 3/6 |
 | Gobierno | OpenSpec, arnés, Jira, Pull Requests y CI |
@@ -59,8 +59,8 @@ cuando existe confianza numérica.
 | Contrato | Decisión vigente |
 |---|---|
 | Fuente | [Consumer Complaint Database](https://www.consumerfinance.gov/data-research/consumer-complaints/) |
-| Corpus preparado | 1.998.965 filas en inglés, almacenadas solo en local |
-| Particiones | 1.396.019 train · 300.870 validation · 302.076 test protegido |
+| Preparación vigente | 1.961.073 filas en inglés, almacenadas solo en local |
+| Particiones vigentes | 1.372.751 train · 294.161 validation · 294.161 test protegido |
 | Separación | Temporal 70/15/15 y grupos completos por `narrative_hash` |
 | Target | Once clases en [`cfpb_target_contract.json`](config/cfpb_target_contract.json) |
 | Desbalanceo | `class_weight=balanced`; rendimiento macro y por clase obligatorio |
@@ -117,7 +117,8 @@ flowchart LR
     API --> PS[PredictionService]
     PS --> PI[PredictorInterface]
     PI --> LR[Baseline local]
-    PI --> MOCK[Fallback mock]
+    PI --> MOCK[Fallback backend degradado]
+    MOCK -. rechazado por la UI .-> UI
     UI --> FS[FeedbackService local]
     FS --> SQLITE[(SQLite local)]
     SQLITE --> AGG[Resumen agregado]
@@ -128,7 +129,7 @@ flowchart LR
 
 Implementado en `dev`:
 
-- PWA accesible con estados de carga, error, mock y API local;
+- PWA accesible con flujo guiado de cuatro pasos, carga, error y API local;
 - FastAPI con health, validación, límites locales y errores seguros;
 - predictor intercambiable y carga de artefacto desde ruta controlada;
 - feedback posterior a predicción local, con campos cerrados y retención;
@@ -167,9 +168,10 @@ python -m pip install -e .
 python scripts/harness.py doctor
 ```
 
-### Modo mock
+### Revisión de interfaz sin servicio
 
-El frontend funciona sin backend y etiqueta la salida como sintética:
+El frontend puede abrirse sin backend para revisar formulario, navegación y
+accesibilidad, pero no muestra ninguna categoría sintética:
 
 ```bash
 cd app/interface
@@ -177,8 +179,9 @@ npm ci
 npm run dev -- --host 127.0.0.1 --port 5173 --strictPort
 ```
 
-Abre <http://127.0.0.1:5173/classify> y utiliza **Use example**. Este modo
-permite revisar UX; no acredita inferencia.
+Abre <http://127.0.0.1:5173/classify> y utiliza **Use example**. Al intentar
+clasificar debe aparecer un error recuperable y el texto debe permanecer en el
+paso Review. Este recorrido permite revisar UX; no acredita inferencia.
 
 ### Inferencia y feedback locales
 
@@ -195,8 +198,9 @@ Comprueba el predictor:
 curl -s http://127.0.0.1:8000/api/v1/health
 ```
 
-`"status":"ok"` confirma el artefacto local; `"degraded"` identifica el fallback
-mock. Terminal 2:
+`"status":"ok"` confirma el artefacto local. Con `"degraded"` la API conserva
+su fallback técnico, pero la interfaz rechaza esa respuesta y no muestra una
+categoría. Terminal 2:
 
 ```bash
 cd app/interface
@@ -376,8 +380,8 @@ Consulta [SECURITY.md](SECURITY.md), el
 3. Abordar `PG-15`: Docker y despliegue reproducible.
 4. Diseñar `ADV-02` como base compartida con migraciones y mínimo privilegio;
    la SQLite local actual no satisface ese criterio.
-5. Mantener `PG-16` y `PG-17` condicionadas a un protocolo de comparación y
-   operación aprobado.
+5. Mantener `PG-17` condicionado a un protocolo de monitorización y operación
+   aprobado; `PG-16` queda limitado al rediseño local verificado.
 
 ## Referencias
 

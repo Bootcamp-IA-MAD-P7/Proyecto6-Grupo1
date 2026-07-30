@@ -15,10 +15,13 @@ que una persona revise el resultado. La persona conserva la decisión final.
 
 ## 3. La demostración
 
-Mostrar ClaimVox con el ejemplo sintético incorporado. Si el entorno local está
-configurado, señalar `Prediction response`; si no, señalar claramente el mock.
-En ambos casos, mostrar `Human review required` y evitar introducir datos
-personales o narrativas CFPB reales.
+Mostrar ClaimVox con el ejemplo sintético incorporado y el entorno local
+configurado. Recorrer Describe, Review, Guidance y Next step; señalar
+`Local prediction`, clase, confianza, versión y `Human review required`. Si el
+servicio no está disponible, mostrar únicamente el error recuperable: nunca una
+categoría mock. Después, enseñar el Dashboard: health real, baseline local y
+tabla de feedback agregado; explicar por qué los datos operativos compartidos
+siguen `Not connected`. Evitar datos personales o narrativas CFPB reales.
 
 ## 4. La evidencia
 
