@@ -48,11 +48,21 @@ class LocalApiPolicyTests(unittest.TestCase):
         app.state.settings = settings
         return TestClient(app, raise_server_exceptions=False)
 
+    def _auth_headers(self) -> dict:
+        from app.api.auth import create_access_token
+
+        token = create_access_token("test-user")
+        return {"Authorization": f"Bearer {token}"}
+
     def test_lower_configured_length_limit_returns_safe_validation_error(self) -> None:
         client = self._client()
         narrative = "private-synthetic-" + ("x" * 40)
 
-        response = client.post("/api/v1/predictions", json={"narrative": narrative})
+        response = client.post(
+            "/api/v1/predictions",
+            json={"narrative": narrative},
+            headers=self._auth_headers(),
+        )
 
         self.assertEqual(response.status_code, 422)
         self.assertEqual(response.json()["error_code"], "VALIDATION_ERROR")
@@ -60,9 +70,10 @@ class LocalApiPolicyTests(unittest.TestCase):
 
     def test_rate_limit_returns_contractual_safe_error(self) -> None:
         client = self._client(rate_limit=1)
+        headers = self._auth_headers()
 
-        first = client.post("/api/v1/predictions", json={"narrative": "synthetic input"})
-        second = client.post("/api/v1/predictions", json={"narrative": "synthetic input"})
+        first = client.post("/api/v1/predictions", json={"narrative": "synthetic input"}, headers=headers)
+        second = client.post("/api/v1/predictions", json={"narrative": "synthetic input"}, headers=headers)
 
         self.assertEqual(first.status_code, 200)
         self.assertEqual(second.status_code, 429)
