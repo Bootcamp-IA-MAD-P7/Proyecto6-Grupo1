@@ -13,6 +13,12 @@ export const getPredictionApiBaseUrl = (
   const value = configuredValue?.trim()
 
   if (!value) {
+    // When no explicit URL is configured, use the current origin.
+    // This works with the Nginx reverse proxy setup where /api/ is
+    // proxied to the backend on the same domain.
+    if (typeof window !== 'undefined' && window.location?.origin) {
+      return window.location.origin
+    }
     return undefined
   }
 
