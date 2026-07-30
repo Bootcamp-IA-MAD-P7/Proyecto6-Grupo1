@@ -1,9 +1,8 @@
-import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom'
+import { BrowserRouter, Routes, Route, Navigate, Outlet } from 'react-router-dom'
 import { AuthProvider } from '@/providers/AuthProvider'
 import { useAuth } from '@/hooks/use-auth'
 import AuthLayout from '@/layouts/AuthLayout'
 import UserLayout from '@/layouts/UserLayout'
-import AdminLayout from '@/layouts/AdminLayout'
 import LoginPage from '@/pages/auth/LoginPage'
 import HomePage from '@/pages/user/HomePage'
 import ClassificationPage from '@/pages/user/ClassificationPage'
@@ -48,19 +47,18 @@ export default function AppRouter() {
           <Route element={<UserLayout />}>
             <Route path="/" element={<HomePage />} />
             <Route path="/classify" element={<ClassificationPage />} />
-          </Route>
-
-          <Route
-            path="/admin"
-            element={
-              <ProtectedRoute requiredRole="admin">
-                <AdminLayout />
-              </ProtectedRoute>
-            }
-          >
-            <Route index element={<DashboardPage />} />
-            <Route path="training" element={<TrainingPage />} />
-            <Route path="models" element={<ModelsPage />} />
+            <Route
+              path="/admin"
+              element={
+                <ProtectedRoute requiredRole="admin">
+                  <Outlet />
+                </ProtectedRoute>
+              }
+            >
+              <Route index element={<DashboardPage />} />
+              <Route path="training" element={<TrainingPage />} />
+              <Route path="models" element={<ModelsPage />} />
+            </Route>
           </Route>
 
           <Route path="*" element={<Navigate to="/" replace />} />

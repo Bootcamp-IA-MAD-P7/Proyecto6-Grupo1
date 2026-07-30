@@ -1,33 +1,54 @@
-import { NavLink, Outlet } from 'react-router-dom'
-import { Badge } from '@/components/ui/badge'
+import { NavLink, Outlet, useNavigate } from 'react-router-dom'
+import { useAuth } from '@/hooks/use-auth'
+import { Button } from '@/components/ui/button'
 import { ThemeToggle } from '@/components/ThemeToggle'
 import { cn } from '@/lib/utils'
-import { Home, FileText } from 'lucide-react'
+import { Home, FileText, LayoutDashboard, Cpu, Box, LogOut, Settings } from 'lucide-react'
 
-const navItems = [
+interface NavItem {
+  to: string
+  label: string
+  icon: React.ComponentType<{ className?: string }>
+  requiredRole?: 'admin'
+  end?: boolean
+}
+
+const ALL_NAV_ITEMS: NavItem[] = [
   { to: '/', label: 'Home', icon: Home },
   { to: '/classify', label: 'Classify', icon: FileText },
+  { to: '/admin', label: 'Dashboard', icon: LayoutDashboard, requiredRole: 'admin', end: true },
+  { to: '/admin/training', label: 'Training', icon: Cpu, requiredRole: 'admin' },
+  { to: '/admin/models', label: 'Models', icon: Box, requiredRole: 'admin' },
 ]
 
 export default function UserLayout() {
+  const { user, logout, hasRole } = useAuth()
+  const navigate = useNavigate()
+
+  const handleLogout = () => {
+    logout()
+    navigate('/login')
+  }
+
+  const visibleItems = ALL_NAV_ITEMS.filter(
+    (item) => !item.requiredRole || hasRole(item.requiredRole),
+  )
+
   return (
     <div className="flex min-h-screen flex-col bg-paper md:flex-row">
-      <aside className="border-b border-line bg-forest text-white md:w-64 md:border-r md:border-b-0">
+      <aside className="flex flex-col border-b border-line bg-forest text-white md:w-64 md:border-r md:border-b-0">
         <div className="px-4 pt-4 pb-3 md:p-6">
           <p className="text-lg font-semibold tracking-tight">ClaimVox</p>
-          <Badge variant="mock" className="mt-2">
-            Public prototype
-          </Badge>
         </div>
         <nav
           aria-label="Primary navigation"
-          className="flex gap-2 overflow-x-auto px-4 pb-4 md:block md:pb-0"
+          className="flex gap-2 overflow-x-auto px-4 pb-4 md:flex-1 md:flex-col md:pb-0"
         >
-          {navItems.map((item) => (
+          {visibleItems.map((item) => (
             <NavLink
               key={item.to}
               to={item.to}
-              end={item.to === '/'}
+              end={item.end ?? item.to === '/'}
               className={({ isActive }) =>
                 cn(
                   'flex items-center gap-2 shrink-0 rounded-lg px-4 py-2.5 text-sm font-medium transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-gold focus-visible:ring-offset-2 focus-visible:ring-offset-forest',
@@ -42,14 +63,32 @@ export default function UserLayout() {
             </NavLink>
           ))}
         </nav>
+        <div className="border-t border-white/10 px-4 py-3">
+          <div className="flex items-center gap-2">
+            <Settings className="h-4 w-4 text-white/70" />
+            <span className="text-sm text-white/70">Settings</span>
+            <div className="ml-auto">
+              <ThemeToggle />
+            </div>
+          </div>
+        </div>
       </aside>
       <div className="flex min-w-0 flex-1 flex-col">
         <header className="flex flex-wrap items-center justify-between gap-2 border-b border-line bg-paper px-4 py-3 md:px-6">
           <span className="text-sm font-medium text-ink md:hidden">ClaimVox</span>
-          <div className="flex flex-wrap items-center gap-2 md:gap-4">
-            <ThemeToggle />
-            <span className="text-sm text-ink-soft">Local classification prototype</span>
-          </div>
+          {user ? (
+            <div className="flex flex-wrap items-center gap-2 md:gap-4 ml-auto">
+              <span className="text-sm text-ink-soft">
+                {user.name} ({user.role})
+              </span>
+              <Button variant="ghost" size="sm" onClick={handleLogout}>
+                <LogOut className="h-4 w-4" />
+                Sign out
+              </Button>
+            </div>
+          ) : (
+            <span className="text-sm text-ink-soft ml-auto">Not signed in</span>
+          )}
         </header>
         <main className="flex-1 overflow-auto p-4 md:p-6">
           <Outlet />
