@@ -44,16 +44,16 @@ export default function DashboardPage() {
         </p>
       </div>
 
-      <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-4">
+      <div className="grid gap-6 min-w-0 sm:grid-cols-2">
         {stats.map((stat) => (
-          <Card key={stat.title} className="group hover:shadow-md transition-shadow duration-200">
-            <CardHeader className="flex flex-row items-center gap-3 space-y-0 pb-2">
-              <stat.icon className={`h-5 w-5 ${stat.color}`} />
-              <CardTitle className="text-sm">{stat.title}</CardTitle>
+          <Card key={stat.title} className="group hover:shadow-md transition-shadow duration-200 min-w-0">
+            <CardHeader className="flex flex-col items-center gap-3 space-y-0 pb-2 text-center min-w-0">
+              <stat.icon className={`h-8 w-8 shrink-0 ${stat.color}`} />
+              <CardTitle className="text-sm break-words">{stat.title}</CardTitle>
             </CardHeader>
-            <CardContent>
-              <p className={`text-2xl font-bold ${stat.color}`}>{stat.value}</p>
-              <p className="mt-1 text-sm text-ink-soft">{stat.description}</p>
+            <CardContent className="text-center">
+              <p className={`text-2xl font-bold break-words ${stat.color}`}>{stat.value}</p>
+              <p className="mt-1 text-sm text-ink-soft break-words">{stat.description}</p>
             </CardContent>
           </Card>
         ))}

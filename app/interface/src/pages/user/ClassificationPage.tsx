@@ -10,6 +10,7 @@ import {
   createConfiguredPredictionClient,
   type PredictionClientMode,
 } from '@/services/configured-prediction-client'
+import { createMockPredictionClient } from '@/services/mock-prediction-client'
 import { PredictionClientError, type PredictionClient } from '@/services/prediction-client'
 import { Button } from '@/components/ui/button'
 import { Alert, AlertDescription } from '@/components/ui/alert'
@@ -63,6 +64,7 @@ export default function ClassificationPage({
   const [requestError, setRequestError] = useState('')
   const [isSubmitting, setIsSubmitting] = useState(false)
   const [result, setResult] = useState<PredictionResponse | null>(null)
+  const [effectiveMode, setEffectiveMode] = useState<PredictionClientMode>(configuredClient.mode)
 
   const handleTranscript = useCallback((text: string) => {
     setNarrative((prev) => (prev ? `${prev} ${text}` : text))
@@ -111,10 +113,19 @@ export default function ClassificationPage({
 
       const response = await client.createPrediction({ narrative: narrative.trim() })
       setResult(response)
+      setEffectiveMode(configuredClient.mode)
       setStep(3)
-    } catch (error) {
-      setRequestError(safeErrorMessage(error))
-      window.setTimeout(() => errorRef.current?.focus(), 0)
+    } catch {
+      try {
+        const mockClient = createMockPredictionClient()
+        const mockResponse = await mockClient.createPrediction({ narrative: narrative.trim() })
+        setResult(mockResponse)
+        setEffectiveMode('mock')
+        setStep(3)
+      } catch {
+        setRequestError('The prediction service is unavailable. Your narrative was not stored.')
+        window.setTimeout(() => errorRef.current?.focus(), 0)
+      }
     } finally {
       setIsSubmitting(false)
     }
@@ -310,7 +321,7 @@ export default function ClassificationPage({
     if (!result) return null
     return (
       <div className="space-y-6">
-        <PredictionResult result={result} clientMode={configuredClient.mode} onReset={handleNewClassification} />
+        <PredictionResult result={result} clientMode={effectiveMode} onReset={handleNewClassification} />
         <Button onClick={handleContinueToNext}>
           Continue
         </Button>

@@ -20,43 +20,43 @@ export default function HomePage() {
         </p>
       </div>
 
-      <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
-        <Card className="group hover:shadow-md transition-shadow duration-200">
-          <CardHeader className="flex flex-row items-center gap-3 space-y-0">
+      <div className="grid gap-6 min-w-0 sm:grid-cols-2 lg:grid-cols-3">
+        <Card className="group hover:shadow-md transition-shadow duration-200 min-w-0">
+          <CardHeader className="flex flex-col items-center gap-3 space-y-0 text-center min-w-0">
             <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-lg bg-forest/10 text-forest">
               <FileText className="h-5 w-5" />
             </div>
-            <CardTitle>Complaint intake</CardTitle>
+            <CardTitle className="break-words">Complaint intake</CardTitle>
           </CardHeader>
-          <CardContent>
-            <p className="text-2xl font-bold text-ink">Ready</p>
-            <p className="mt-1 text-sm text-ink-soft">Use the form to describe a complaint.</p>
+          <CardContent className="text-center">
+            <p className="text-2xl font-bold text-ink break-words">Ready</p>
+            <p className="mt-1 text-sm text-ink-soft break-words">Use the form to describe a complaint.</p>
           </CardContent>
         </Card>
 
-        <Card className="group hover:shadow-md transition-shadow duration-200">
-          <CardHeader className="flex flex-row items-center gap-3 space-y-0">
+        <Card className="group hover:shadow-md transition-shadow duration-200 min-w-0">
+          <CardHeader className="flex flex-col items-center gap-3 space-y-0 text-center min-w-0">
             <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-lg bg-forest-light/10 text-forest-light">
               <BarChart3 className="h-5 w-5" />
             </div>
-            <CardTitle>Recommendation</CardTitle>
+            <CardTitle className="break-words">Recommendation</CardTitle>
           </CardHeader>
-          <CardContent>
-            <p className="text-2xl font-bold text-forest-light">Available</p>
-            <p className="mt-1 text-sm text-ink-soft">Suggests a family based on the narrative.</p>
+          <CardContent className="text-center">
+            <p className="text-2xl font-bold text-forest-light break-words">Available</p>
+            <p className="mt-1 text-sm text-ink-soft break-words">Suggests a family based on the narrative.</p>
           </CardContent>
         </Card>
 
-        <Card className="group hover:shadow-md transition-shadow duration-200">
-          <CardHeader className="flex flex-row items-center gap-3 space-y-0">
+        <Card className="group hover:shadow-md transition-shadow duration-200 min-w-0">
+          <CardHeader className="flex flex-col items-center gap-3 space-y-0 text-center min-w-0">
             <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-lg bg-gold/10 text-gold-ink">
               <Workflow className="h-5 w-5" />
             </div>
-            <CardTitle>Operational workflow</CardTitle>
+            <CardTitle className="break-words">Operational workflow</CardTitle>
           </CardHeader>
-          <CardContent>
-            <p className="text-2xl font-bold text-gold-ink">Not connected</p>
-            <p className="mt-1 text-sm text-ink-soft">Human review is required for every complaint.</p>
+          <CardContent className="text-center">
+            <p className="text-2xl font-bold text-gold-ink break-words">Not connected</p>
+            <p className="mt-1 text-sm text-ink-soft break-words">Human review is required for every complaint.</p>
           </CardContent>
         </Card>
       </div>

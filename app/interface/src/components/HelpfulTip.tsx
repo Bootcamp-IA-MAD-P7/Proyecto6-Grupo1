@@ -23,10 +23,10 @@ export default function HelpfulTip() {
       {isOpen && (
         <div className="border-t border-line px-4 py-3 text-sm text-ink-soft">
           <p>
-            Incluye el problema y los pasos que ya intentaste para resolverlo.
-            Describe los hechos de forma clara y cronológica. No incluyas
-            nombres, números de cuenta, direcciones ni otros datos personales
-            innecesarios.
+            Include the issue and the steps you already tried to resolve it.
+            Describe the facts clearly and chronologically. Do not include
+            names, account numbers, addresses, or other unnecessary personal
+            data.
           </p>
         </div>
       )}
