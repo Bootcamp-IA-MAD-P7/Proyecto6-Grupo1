@@ -31,8 +31,6 @@ class PackagingSecurityTests(unittest.TestCase):
             ROOT / "app" / "interface" / "Dockerfile.prebuilt"
         ).read_text(encoding="utf-8")
 
-        self.assertIn("pkill -f 'node.*typescript.*tsc' || true", workflow)
-        self.assertIn("pkill -f 'node.*vite' || true", workflow)
         self.assertIn("npm run typecheck", workflow)
         self.assertIn("npm run build:container", workflow)
         self.assertIn("appleboy/scp-action@v1", workflow)
@@ -41,7 +39,9 @@ class PackagingSecurityTests(unittest.TestCase):
             workflow.index("name: Prepare constrained EC2 host"),
             workflow.index("name: Upload frontend artifact"),
         )
-        self.assertIn("sudo systemctl restart docker", workflow)
+        self.assertIn('sleep 2; reboot', workflow)
+        self.assertIn("name: Wait for EC2 reboot", workflow)
+        self.assertIn("inputs.recover_host", workflow)
         self.assertNotIn("node:", runtime_dockerfile)
         self.assertIn(
             "COPY app/interface/dist /usr/share/nginx/html", runtime_dockerfile
