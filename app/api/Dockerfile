@@ -38,8 +38,12 @@ COPY src/__init__.py /app/src/__init__.py
 # Copy model artifact (if available at build time)
 COPY models/cfpb_baseline.pkl /app/models/cfpb_baseline.pkl
 
-# Copy config (needed for canonical classes)
+# Copy config (needed for canonical classes and feedback policy)
 COPY config/cfpb_target_contract.json /app/config/cfpb_target_contract.json
+COPY config/claimvox_feedback_persistence_policy.json /app/config/claimvox_feedback_persistence_policy.json
+
+# Create feedback storage directory with correct permissions
+RUN mkdir -p /app/data/local/feedback && chown appuser:appuser /app/data/local/feedback
 
 # Switch to non-root user
 USER appuser
