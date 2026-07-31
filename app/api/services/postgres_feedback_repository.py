@@ -60,7 +60,6 @@ class PostgresFeedbackRepository:
         try:
             self._conn = psycopg2.connect(database_url)
             self._conn.autocommit = True
-            self._initialize_schema()
             logger.info("PostgreSQL feedback repository connected.")
         except Exception as exc:
             raise FeedbackRepositoryError(
