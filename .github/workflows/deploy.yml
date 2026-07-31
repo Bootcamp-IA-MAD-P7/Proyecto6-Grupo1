@@ -110,8 +110,6 @@ jobs:
             chmod 600 .env
             test -f app/interface/dist/index.html
             docker compose -f docker-compose.yml -f docker-compose.deploy.yml config --quiet
-            pkill -f 'node.*typescript.*tsc' || true
-            pkill -f 'node.*vite' || true
             COMPOSE_PARALLEL_LIMIT=1 docker compose -f docker-compose.yml -f docker-compose.deploy.yml build
             docker compose -f docker-compose.yml -f docker-compose.deploy.yml up -d
             echo "Deploy complete. Checking health..."
