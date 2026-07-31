@@ -19,7 +19,9 @@ class PackagingSecurityTests(unittest.TestCase):
         )
 
         self.assertIn("FROM node:24-alpine AS builder", dockerfile)
+        self.assertIn("RUN npm run build:container", dockerfile)
         self.assertIn('"node": ">=22.22.0"', package)
+        self.assertIn('"build:container": "vite build"', package)
 
     def test_compose_requires_external_secrets(self) -> None:
         compose = (ROOT / "docker-compose.yml").read_text(encoding="utf-8")
