@@ -24,7 +24,7 @@ export default function LoginPage() {
       await login(email, password)
       navigate('/')
     } catch {
-      setError('Sign-in failed. Check the locally configured demo credentials.')
+      setError('Invalid credentials. Use admin / claimvox2026.')
     } finally {
       setIsLoading(false)
     }
@@ -34,8 +34,9 @@ export default function LoginPage() {
     <form onSubmit={handleSubmit} className="space-y-4">
       <Alert variant="warning">
         <AlertDescription>
-          <strong>Local demo authentication.</strong> Credentials must be supplied through the
-          backend environment. This is not a shared identity or permission system.
+          <strong>Demo authentication.</strong> Use username <code>admin</code> and password{' '}
+          <code>claimvox2026</code>. This shared demonstration account is not a production identity
+          system.
         </AlertDescription>
       </Alert>
       <div className="space-y-2">
@@ -56,7 +57,7 @@ export default function LoginPage() {
           type="password"
           value={password}
           onChange={(e) => setPassword(e.target.value)}
-          placeholder="Enter your password"
+          placeholder="Enter the demo password"
           required
         />
       </div>
@@ -70,7 +71,7 @@ export default function LoginPage() {
         {isLoading ? 'Signing in...' : 'Sign in'}
       </Button>
       <p className="text-center text-xs text-ink-soft">
-        Ask the local operator for the temporary demo credentials.
+        Shared access for the ClaimVox project presentation.
       </p>
     </form>
   )
