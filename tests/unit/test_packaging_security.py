@@ -23,6 +23,15 @@ class PackagingSecurityTests(unittest.TestCase):
         self.assertIn('"node": ">=22.22.0"', package)
         self.assertIn('"build:container": "vite build"', package)
 
+    def test_ec2_build_is_serialized_for_the_constrained_instance(self) -> None:
+        workflow = (ROOT / ".github" / "workflows" / "deploy.yml").read_text(
+            encoding="utf-8"
+        )
+
+        self.assertIn("pkill -f 'node.*typescript.*tsc' || true", workflow)
+        self.assertIn("pkill -f 'node.*vite' || true", workflow)
+        self.assertIn("COMPOSE_PARALLEL_LIMIT=1 docker compose build", workflow)
+
     def test_compose_requires_external_secrets(self) -> None:
         compose = (ROOT / "docker-compose.yml").read_text(encoding="utf-8")
 
