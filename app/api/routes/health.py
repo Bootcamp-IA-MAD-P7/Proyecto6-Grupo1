@@ -25,3 +25,19 @@ async def get_health(request: Request) -> HealthResponse:
         status=status,
         service_version=settings.service_version,
     )
+
+
+@router.get("/status")
+async def get_status(request: Request) -> dict:
+    """Extended status for the admin dashboard."""
+    service = request.app.state.prediction_service
+    settings = request.app.state.settings
+    pg_repo = getattr(request.app.state, "postgres_repository", None)
+
+    return {
+        "service_health": "ok" if service.predictor.is_available() else "degraded",
+        "service_version": settings.service_version,
+        "model_version": service.predictor.model_version,
+        "database_connected": pg_repo is not None,
+        "database_type": "postgresql" if pg_repo else "none",
+    }
