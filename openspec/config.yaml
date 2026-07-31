@@ -5,9 +5,11 @@ context: |
   Repository language: documentation is primarily Spanish; code identifiers follow each area standard.
   Product status: EDA and a reproducible baseline are evaluated. A local FastAPI
   inference service, an opt-in local ClaimVox integration, and a governed local
-  feedback flow with finite-retention SQLite persistence exist with human-review
-  safeguards. No selected Champion, shared database, authentication, deployment,
-  production operation, or MLOps capability exists yet.
+  feedback flow with finite-retention persistence exist with human-review
+  safeguards. Docker/Compose, PostgreSQL and environment-configured demo JWT are
+  integrated but not yet verified as delivery-level capabilities. No selected
+  Champion, shared identity, evidenced cloud deployment, production operation,
+  or MLOps capability exists yet.
   Product direction: eleven canonical CFPB product classes, narrative-only candidate input, React PWA, human review, and no automatic operational routing in the first version.
 
   Read before creating or applying artifacts:

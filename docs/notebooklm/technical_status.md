@@ -12,11 +12,16 @@
   contra un artefacto reproducible; sin API o con backend degradado no se
   muestra categoría. La evidencia conserva revisión humana y no hay servicio
   desplegado.
-- Despliegue: no iniciado.
-- Feedback: persistencia SQLite local gobernada y flujo explícito posterior a predicción, con creación minimizada y resumen agregado. No hay autenticación, permisos reales, base compartida, operación productiva, corpus ni reentrenamiento automático.
+- Plataforma: Docker/Compose, Nginx, PostgreSQL y JWT demo configurado por
+  entorno están integrados. Permanecen en curso porque faltan build limpio,
+  ejecución PostgreSQL reproducible, migraciones y evidencia cloud con rollback.
+- Feedback: persistencia SQLite local o PostgreSQL configurado, creación
+  minimizada y resumen agregado protegido por token. No hay identidad
+  compartida, operación productiva, corpus ni reentrenamiento automático.
 - Seguimiento: Jira `PG` operativo; `PG-11` está en curso, `PG-12` a `PG-14`
-  están listos, `PG-16` dispone de rediseño local revisado y `PG-15`/`PG-17`
-  permanecen por hacer. Jira no sustituye requisitos ni evidencia versionada.
+  están listos, `PG-15` está en curso, `PG-16` dispone de rediseño local
+  revisado y `PG-17` permanece por hacer. Jira no sustituye requisitos ni
+  evidencia versionada.
 
 ## Capacidades verificadas
 
@@ -54,17 +59,20 @@
 - La batería frontend posterior al rediseño aprueba typecheck, lint, formato,
   63 tests y build PWA. El Dashboard consulta health y el resumen agregado
   local; no expone registros ni convierte Admin en operación compartida. La
-  auditoría npm sigue gobernada por el quality gate del repositorio.
+  auditoría final fija resoluciones corregidas de React Router y
+  `brace-expansion`; `npm audit --audit-level=high` informa cero
+  vulnerabilidades.
 - Chrome 150 en Windows verificó instalación, actualización, dictado con permiso
   real, responsive, accesibilidad y recarga del shell sin conexión. Edge queda
   pendiente de la misma comprobación manual.
 - La clasificación se bloquea sin conexión, sin URL local y ante un backend
   degradado. La política de caché excluye API, narrativas y peticiones de datos;
   la PWA no fabrica una predicción.
-- Login, entrenamiento y registro de modelos permanecen como conceptos
-  señalizados. El Dashboard aporta health y feedback agregado locales, pero no
-  identidad, permisos, datos compartidos, jobs, evaluación conectada ni modelos
-  registrados.
+- El login JWT es una demostración de un solo usuario con secreto y credenciales
+  externos; no es identidad ni autorización productiva. Entrenamiento y registro
+  de modelos permanecen como conceptos señalizados. El Dashboard aporta health,
+  conexión PostgreSQL y feedback agregado, pero no jobs, evaluación conectada
+  ni modelos registrados.
 - Flujo humano-IA independiente de proveedor implementado y verificado, con generación acotada de contexto por spec y tarea.
 - Primera versión operativa del arnés integrada en `dev` con cuatro roles, cuatro procedimientos y una entrada única probada localmente.
 - OpenSpec `1.6.0` fijado como dependencia local, inicializado con configuración propia y adaptadores oficiales para cinco herramientas de IA.
@@ -77,8 +85,9 @@
   mock y una comprobación local contra un artefacto reproducido. `PG-6` conecta
   ClaimVox bajo una URL local explícita, valida la respuesta, aplica CORS local
   restringido y mantiene revisión humana. `PG-13`/`PG-14` añaden feedback y
-  persistencia SQLite locales. Nada de ello acredita autenticación, base
-  compartida, despliegue ni producto operativo.
+  persistencia gobernada. Las PR #70 a #76 añaden la configuración de
+  contenedores, PostgreSQL y JWT demo; nada de ello acredita por sí solo
+  identidad compartida, despliegue cloud ni producto operativo.
 - La comparación ensemble de `MED-01` incorpora Random Forest, XGBoost y LightGBM sobre una muestra de 50K con las mismas métricas que el baseline. XGBoost obtiene el mejor macro F1 de validation (`0.6332`), pero sus gaps superiores al 5 % impiden elegirlo como modelo definitivo; la selección y optimización posterior pertenecen a `MED-03`.
 - `PG-7` reconstruye el baseline sobre las particiones locales actuales y genera diagnósticos únicamente sobre validation: matriz de confusión, importancia TF-IDF y análisis agregado de errores. El informe registra macro F1 `0.6390`, accuracy `0.8684` y gap `0.0078`; completa la evidencia de `ESS-01` y `ESS-07` a `ESS-10`, sin acreditar despliegue ni Champion.
 - Workflow `repository-quality` ejecutado correctamente y asociado automáticamente a las Pull Requests `#14` y `#15`.
@@ -124,8 +133,11 @@
 - Selección y gobierno de un Champion. Existe un baseline reproducible y un
   servicio local capaz de cargarlo, pero no un modelo aprobado para producción.
 - Operación compartida de feedback, métricas operativas de producción y recolección validada para reentrenamiento; el flujo local minimizado sí está verificado extremo a extremo, pero sigue sin corpus ni incorporación automática.
-- Docker y despliegue.
-- CI/CD completo.
+- Verificación reproducible de Docker/Compose y PostgreSQL, migraciones y
+  rollback; la implementación está integrada pero no ha superado aún la
+  evidencia mínima de `ADV-01`/`ADV-02`.
+- Despliegue cloud evidenciado y CI/CD completo; el workflow EC2 por sí solo no
+  satisface `ADV-03`.
 - Red neuronal, A/B testing, drift y promoción.
 
 ## Riesgos actuales

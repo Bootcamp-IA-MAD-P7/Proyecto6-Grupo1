@@ -1,3 +1,5 @@
+import { getPredictionApiBaseUrl } from './prediction-api-config'
+
 export type UserRole = 'user' | 'admin'
 
 export interface AuthUser {
@@ -37,9 +39,13 @@ export function clearStoredUser(): void {
   localStorage.removeItem(TOKEN_KEY)
 }
 
-export async function loginWithMock(email: string, password: string): Promise<AuthUser> {
-  // Call the real backend auth endpoint
-  const response = await fetch('/api/v1/auth/login', {
+export async function loginWithLocalDemo(email: string, password: string): Promise<AuthUser> {
+  const baseUrl = getPredictionApiBaseUrl()
+  if (!baseUrl) {
+    throw new Error('Local authentication is not configured.')
+  }
+
+  const response = await fetch(`${baseUrl}/api/v1/auth/login`, {
     method: 'POST',
     headers: { 'Content-Type': 'application/json' },
     body: JSON.stringify({ username: email, password }),
@@ -67,6 +73,6 @@ export async function loginWithMock(email: string, password: string): Promise<Au
   return user
 }
 
-export function logoutMock(): void {
+export function logoutLocalDemo(): void {
   clearStoredUser()
 }

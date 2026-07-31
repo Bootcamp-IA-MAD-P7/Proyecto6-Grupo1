@@ -2,8 +2,8 @@ import { describe, expect, it } from 'vitest'
 import { getPredictionApiBaseUrl, PredictionApiConfigurationError } from './prediction-api-config'
 
 describe('prediction API configuration', () => {
-  it('keeps the API absent when no explicit value is provided', () => {
-    expect(getPredictionApiBaseUrl('')).toBeUndefined()
+  it('uses the current origin when no explicit value is provided', () => {
+    expect(getPredictionApiBaseUrl('')).toBe(window.location.origin)
   })
 
   it('normalises an explicit local API origin', () => {

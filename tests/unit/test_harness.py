@@ -18,6 +18,7 @@ from scripts.harness import (
     doctor_report,
     openspec_context_source,
     resolve_jira_tracking,
+    run_openspec_text,
 )
 
 
@@ -59,6 +60,20 @@ def openspec_runner(
 
 
 class HarnessTests(unittest.TestCase):
+    @patch("scripts.harness.openspec_command", return_value=["node", "openspec"])
+    @patch("scripts.harness.subprocess.run")
+    def test_openspec_output_is_decoded_as_utf8(
+        self,
+        run_mock,
+        _command_mock,
+    ) -> None:
+        run_mock.return_value.stdout = '{"instruction":"En curso — revisión"}'
+
+        output = run_openspec_text("instructions", "apply")
+
+        self.assertIn("revisión", output)
+        self.assertEqual(run_mock.call_args.kwargs["encoding"], "utf-8")
+
     def test_recovers_openspec_path_from_windows_encoding_mismatch(self) -> None:
         malformed = (
             r"C:\Users\migue\Documents\Proyecto ClasificaciÃ³n Multiclase"

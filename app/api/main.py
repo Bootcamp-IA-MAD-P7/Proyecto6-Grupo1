@@ -6,10 +6,11 @@ import logging
 from contextlib import asynccontextmanager
 from typing import AsyncGenerator
 
-from fastapi import FastAPI, HTTPException, status
+from fastapi import Depends, FastAPI, HTTPException, status
 from fastapi.middleware.cors import CORSMiddleware
 
 from app.api.config import Settings, get_settings
+from app.api.auth import verify_token
 from app.api.errors import register_exception_handlers
 from app.api.predictors.baseline import BaselinePredictor
 from app.api.predictors.mock import MockPredictor
@@ -110,14 +111,17 @@ def create_app(settings: Settings | None = None) -> FastAPI:
             allow_origins=list(settings.local_cors_origins),
             allow_credentials=False,
             allow_methods=["GET", "POST", "OPTIONS"],
-            allow_headers=["Content-Type"],
+            allow_headers=["Authorization", "Content-Type"],
         )
 
     @app.post(
         "/api/v1/feedback",
         status_code=status.HTTP_201_CREATED,
     )
-    def create_local_feedback(request: FeedbackCreateRequest) -> dict[str, str]:
+    def create_local_feedback(
+        request: FeedbackCreateRequest,
+        _user: str = Depends(verify_token),
+    ) -> dict[str, str]:
         """Persist one explicit local review without changing a prediction."""
         try:
             repo = app.state.postgres_repository if app.state.postgres_repository else LocalFeedbackRepository()
@@ -133,7 +137,9 @@ def create_app(settings: Settings | None = None) -> FastAPI:
         "/api/v1/feedback/summary",
         response_model=FeedbackSummaryResponse,
     )
-    def get_local_feedback_summary() -> FeedbackSummaryResponse:
+    def get_local_feedback_summary(
+        _user: str = Depends(verify_token),
+    ) -> FeedbackSummaryResponse:
         """Read aggregate-only feedback without exposing individual records."""
         try:
             repo = app.state.postgres_repository if app.state.postgres_repository else LocalFeedbackRepository()

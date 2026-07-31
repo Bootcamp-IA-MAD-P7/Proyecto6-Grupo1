@@ -38,8 +38,9 @@ siguen `Not connected`. Evitar datos personales o narrativas CFPB reales.
 
 ## 5. Por qué es una entrega responsable
 
-La aplicación no almacena narrativas, audio ni transcripciones. La API local
-limita tamaño y frecuencia, no usa CORS abierto y devuelve errores seguros. La
+La aplicación no almacena narrativas, audio ni transcripciones. La API
+limita tamaño y frecuencia, exige el token demo, no usa CORS abierto y devuelve
+errores seguros. La
 salida sigue siendo una recomendación revisable: no hay decisión financiera ni
 enrutamiento automático.
 
@@ -47,21 +48,23 @@ enrutamiento automático.
 
 La PWA, el servicio y el predictor están desacoplados mediante contratos. Esto
 ya permitió añadir feedback local gobernado sin cambiar el contrato de
-predicción. Base compartida, otra versión de modelo y despliegue siguen
-requiriendo cambios independientes.
+predicción. Docker, PostgreSQL y el workflow EC2 ya están integrados, pero build
+limpio, migraciones y evidencia cloud siguen siendo verificaciones
+independientes.
 
 ## 7. Cierre honesto
 
-ClaimVox es un MVP local verificable, no un producto desplegado. No hay cuentas
-reales, base de datos, cloud, Champion ni MLOps. Es precisamente esa claridad la
-que permite decidir el siguiente paso con evidencia.
+ClaimVox es un MVP verificable con empaquetado en curso, no un producto cloud
+acreditado. El JWT demo no son cuentas reales; PostgreSQL no está todavía
+verificado como operación compartida y no hay Champion ni MLOps. Esa claridad
+permite decidir el siguiente paso con evidencia.
 
 ## Material de apoyo
 
 - `README.md`: recorrido, arquitectura y límites.
 - `reports/validation/cfpb_essential_evaluation.md`: métricas y diagnósticos.
 - `reports/validation/claimvox_local_inference_smoke.md`: integración local.
-- `docs/assets/charts/delivery-status-2026-07-30.svg`: resumen visual del estado
+- `docs/assets/charts/delivery-status-2026-07-31.svg`: resumen visual vigente del estado
   del briefing; `docs/project_management/delivery_levels.md` es la fuente
   canónica.
 - `docs/security/threat_model.md`: límites y riesgos.

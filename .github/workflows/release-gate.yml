@@ -29,4 +29,4 @@ jobs:
         run: test -s CHANGELOG.md
 
       - name: Explain current scope
-        run: echo "Deployment jobs will be added after the deployment architecture is approved."
+        run: echo "A release tag validates repository state; cloud deployment and rollback evidence remain separate governed checks."

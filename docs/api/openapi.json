@@ -23,6 +23,11 @@
             "narrative"
           ]
         },
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
         "requestBody": {
           "required": true,
           "content": {
@@ -78,6 +83,57 @@
         }
       }
     },
+    "/v1/status": {
+      "get": {
+        "operationId": "getOperationalStatus",
+        "summary": "Read aggregate operational connection status",
+        "x-implementation-status": "integrated",
+        "responses": {
+          "200": {
+            "description": "Non-sensitive service, model and database status",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/StatusResponse"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/v1/auth/login": {
+      "post": {
+        "operationId": "createDemoSession",
+        "summary": "Create an environment-configured local demo session",
+        "x-implementation-status": "integrated-demo-only",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/LoginRequest"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Short-lived demo bearer token",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/TokenResponse"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Credentials rejected without disclosing which field failed"
+          }
+        }
+      }
+    },
     "/v1/feedback": {
       "post": {
         "operationId": "createLocalFeedback",
@@ -89,6 +145,11 @@
           "individual_record_export": "prohibited",
           "operation_scope": "local-only"
         },
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
         "requestBody": {
           "required": true,
           "content": {
@@ -128,6 +189,11 @@
           "individual_record_export": "prohibited",
           "operation_scope": "local-only"
         },
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
         "responses": {
           "200": {
             "description": "Aggregate feedback counters after expired-record purge",
@@ -147,7 +213,104 @@
     }
   },
   "components": {
+    "securitySchemes": {
+      "bearerAuth": {
+        "type": "http",
+        "scheme": "bearer",
+        "bearerFormat": "JWT",
+        "description": "Environment-configured single-user demo token; not a production identity system."
+      }
+    },
     "schemas": {
+      "LoginRequest": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "username",
+          "password"
+        ],
+        "properties": {
+          "username": {
+            "type": "string",
+            "minLength": 1
+          },
+          "password": {
+            "type": "string",
+            "minLength": 1,
+            "writeOnly": true
+          }
+        }
+      },
+      "TokenResponse": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "access_token",
+          "token_type",
+          "expires_in",
+          "role",
+          "name"
+        ],
+        "properties": {
+          "access_token": {
+            "type": "string"
+          },
+          "token_type": {
+            "const": "bearer"
+          },
+          "expires_in": {
+            "type": "integer",
+            "minimum": 1
+          },
+          "role": {
+            "type": "string",
+            "enum": [
+              "user",
+              "admin"
+            ]
+          },
+          "name": {
+            "type": "string",
+            "minLength": 1
+          }
+        }
+      },
+      "StatusResponse": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "service_health",
+          "service_version",
+          "model_version",
+          "database_connected",
+          "database_type"
+        ],
+        "properties": {
+          "service_health": {
+            "type": "string",
+            "enum": [
+              "ok",
+              "degraded"
+            ]
+          },
+          "service_version": {
+            "type": "string"
+          },
+          "model_version": {
+            "type": "string"
+          },
+          "database_connected": {
+            "type": "boolean"
+          },
+          "database_type": {
+            "type": "string",
+            "enum": [
+              "postgresql",
+              "none"
+            ]
+          }
+        }
+      },
       "PredictionRequest": {
         "type": "object",
         "additionalProperties": false,

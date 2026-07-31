@@ -43,14 +43,15 @@ El impacto esperado es reducir esfuerzo de clasificación y hacer más consisten
 La demostración no parte de una pantalla aislada: reúne un contrato de once
 clases, datos preparados de forma reproducible, evaluación versionada, un
 servicio local y una interfaz que conserva la revisión humana. La arquitectura
-separa experiencia, servicio y predictor. El feedback y la persistencia local
-se incorporaron mediante contratos y pruebas; una base compartida o una nueva
-versión de modelo requieren el mismo gobierno explícito.
+separa experiencia, servicio y predictor. El feedback se incorporó mediante
+contratos y pruebas. Docker, PostgreSQL y un acceso JWT demo están integrados
+como siguiente capa técnica, pero necesitan ejecución reproducible y no
+demuestran por sí solos una operación cloud.
 
 ## Mensaje de cierre
 
 El equipo ha elegido esta dirección por unanimidad y ya puede demostrar
-localmente el recorrido entre ClaimVox, un servicio y un baseline reproducible,
+el recorrido entre ClaimVox, un servicio y un baseline reproducible,
 manteniendo siempre la revisión humana. El mock sigue disponible para demos sin
-servicio. No se afirmará que existe un producto desplegado, una decisión
+servicio. No se afirmará que existe un producto cloud verificado, una decisión
 automática ni una operación productiva.

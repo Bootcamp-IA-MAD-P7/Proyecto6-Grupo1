@@ -2,7 +2,22 @@
 
 ## Unreleased
 
+### Security
+
+- La auditoría final de `dev` elimina secretos y credenciales de demostración
+  embebidos, exige valores externos en Compose, usa un secreto JWT efímero
+  cuando no se configura uno y protege predicción y feedback con Bearer token.
+- PostgreSQL conserva el DDL en la inicialización administrativa; el repositorio
+  de aplicación no crea esquema. El smoke EC2 ahora bloquea el workflow si
+  health no responde.
+- El frontend fija resoluciones corregidas de React Router y
+  `brace-expansion`; `npm audit --audit-level=high` informa cero
+  vulnerabilidades tras superar tipos, tests y build.
+
 ### Added
+
+- Corte documental del 31 de julio de 2026 con auditoría Git/GitHub, los 25
+  criterios reconciliados, gráfico accesible y paquete NotebookLM actualizado.
 
 - `PG-16`: layout unificado por roles y flujo guiado de clasificación en cuatro
   pasos, con progreso, panel persistente de revisión humana y consejo

@@ -70,9 +70,9 @@ El modelo Champion se elige mediante criterios definidos antes de comparar resul
 
 | ID | Criterio obligatorio | Estado | Área | Evidencia mínima para verificar |
 |---|---|---|---|---|
-| `ADV-01` | Dockerización completa | `No iniciado` | Plataforma | Imágenes reproducibles, configuración por entorno, healthcheck y ejecución documentada |
-| `ADV-02` | Base de datos integrada | `No iniciado` | Backend / plataforma | Esquema versionado, migraciones, mínimo privilegio, privacidad y pruebas |
-| `ADV-03` | Despliegue en la nube | `No iniciado` | Plataforma | URL o entorno verificable, secretos protegidos, smoke test, observabilidad y reversión |
+| `ADV-01` | Dockerización completa | `En curso` | Plataforma | Dockerfiles, Nginx, Compose, variables externas y healthchecks están integrados; falta build y ejecución reproducible desde clon limpio con el artefacto reconstruido |
+| `ADV-02` | Base de datos integrada | `En curso` | Backend / plataforma | PostgreSQL, esquema inicial y usuario de aplicación con mínimo privilegio están definidos; faltan prueba dinámica, migraciones posteriores y evidencia de retención/reversión sobre PostgreSQL |
+| `ADV-03` | Despliegue en la nube | `En curso` | Plataforma | Existe workflow EC2 con secretos GitHub y smoke bloqueante; faltan URL/entorno versionado, ejecución observada, monitorización y rollback probado |
 | `ADV-04` | Tests de integridad de datos | `Verificado` | Datos / QA | Puerta local con columnas, once clases, nulos, conflictos y fuga por `narrative_hash`; 6 pruebas sintéticas |
 | `ADV-05` | Tests del modelo | `Verificado` | ML / QA | Puerta local de carga controlada, feature permitida, clases, probabilidades e inferencia sintética; 5 pruebas |
 | `ADV-06` | Tests de métricas mínimas | `Verificado` | ML / QA | Puerta local para métricas agregadas, clases, gap estricto y prohibición de selección con test; 5 pruebas |
@@ -112,7 +112,7 @@ Cada criterio verificado debe registrar:
 |---|---|---|
 | Esencial | `10 de 10 verificados`: evidencia enlazada para `ESS-01` a `ESS-10`; la ejecución sigue siendo local y no acredita despliegue |
 | Medio | `2 de 5 verificados` (`MED-01`, `MED-04`); `3 en curso` (`MED-02`, `MED-03`, `MED-05`) |
-| Avanzado | `3 de 6 verificados` (`ADV-04`, `ADV-05`, `ADV-06`); `3 no iniciados` (`ADV-01`, `ADV-02`, `ADV-03`) |
+| Avanzado | `3 de 6 verificados` (`ADV-04`, `ADV-05`, `ADV-06`); `3 en curso` (`ADV-01`, `ADV-02`, `ADV-03`) |
 | Experto | `0 de 4 verificados`; `4 no iniciados` |
 
 Este estado debe actualizarse cuando cambie la evidencia, no por calendario ni por intención.

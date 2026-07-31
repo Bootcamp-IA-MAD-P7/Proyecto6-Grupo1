@@ -7,6 +7,7 @@ import {
   type FeedbackSummaryResponse,
 } from '../contracts/feedback'
 import { getPredictionApiBaseUrl } from './prediction-api-config'
+import { getStoredToken } from './auth-client'
 
 export class FeedbackClientUnavailableError extends Error {
   constructor() {
@@ -38,12 +39,19 @@ export interface ConfiguredFeedbackSummaryClient {
 const createLocalFeedbackClient = (baseUrl: string): FeedbackClient => ({
   async recordFeedback(request) {
     assertFeedbackCreateRequest(request)
+    const token = getStoredToken()
+    if (!token) {
+      throw new FeedbackClientUnavailableError()
+    }
 
     let response: Response
     try {
       response = await fetch(`${baseUrl}/api/v1/feedback`, {
         method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
+        headers: {
+          Authorization: `Bearer ${token}`,
+          'Content-Type': 'application/json',
+        },
         body: JSON.stringify(request),
       })
     } catch {
@@ -97,9 +105,16 @@ export const createConfiguredFeedbackSummaryClient = (
   return {
     client: {
       async getSummary() {
+        const token = getStoredToken()
+        if (!token) {
+          throw new FeedbackClientUnavailableError()
+        }
+
         let response: Response
         try {
-          response = await fetch(`${resolvedApiBaseUrl}/api/v1/feedback/summary`)
+          response = await fetch(`${resolvedApiBaseUrl}/api/v1/feedback/summary`, {
+            headers: { Authorization: `Bearer ${token}` },
+          })
         } catch {
           throw new FeedbackClientUnavailableError()
         }

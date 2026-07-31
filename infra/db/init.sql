@@ -1,9 +1,6 @@
 -- ClaimVox database schema
 -- This script runs on first container start (docker-entrypoint-initdb.d)
 
--- Create application user with minimum privilege
-CREATE USER claimvox_app WITH PASSWORD 'claimvox_secret';
-
 -- Schema migrations tracking
 CREATE TABLE IF NOT EXISTS schema_migrations (
     version TEXT PRIMARY KEY

@@ -60,8 +60,9 @@ Los umbrales se definen antes de evaluar el modelo final. CI debe fallar si un c
   están verificadas con configuración versionada y 16 pruebas sintéticas.
 - El flujo local de predicción y feedback tiene pruebas unitarias, de contrato,
   integración y una comprobación manual extremo a extremo.
-- Siguen pendientes las pruebas propias de contenedores, base compartida,
-  autenticación, staging, producción, monitorización y rollback operativo.
+- Existen pruebas estáticas de secretos externos, DDL y smoke bloqueante.
+  Siguen pendientes build/ejecución de contenedores, integración PostgreSQL,
+  identidad compartida, staging, producción, monitorización y rollback.
 
 La evidencia vigente se conserva en
 [`reports/validation/cfpb_quality_gates.md`](../../reports/validation/cfpb_quality_gates.md)

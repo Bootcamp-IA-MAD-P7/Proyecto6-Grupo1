@@ -1,6 +1,12 @@
 import { useState, useCallback, type ReactNode } from 'react'
 import { AuthContext } from '@/hooks/use-auth'
-import { type AuthUser, getStoredUser, getStoredToken, loginWithMock, logoutMock } from '@/services/auth-client'
+import {
+  type AuthUser,
+  getStoredUser,
+  getStoredToken,
+  loginWithLocalDemo,
+  logoutLocalDemo,
+} from '@/services/auth-client'
 
 export function AuthProvider({ children }: { children: ReactNode }) {
   const [user, setUser] = useState<AuthUser | null>(() => {
@@ -9,17 +15,17 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     const storedToken = getStoredToken()
     if (storedUser && storedToken) return storedUser
     // Clear stale data if token is missing
-    if (storedUser && !storedToken) logoutMock()
+    if (storedUser && !storedToken) logoutLocalDemo()
     return null
   })
 
   const login = useCallback(async (email: string, password: string) => {
-    const loggedUser = await loginWithMock(email, password)
+    const loggedUser = await loginWithLocalDemo(email, password)
     setUser(loggedUser)
   }, [])
 
   const logout = useCallback(() => {
-    logoutMock()
+    logoutLocalDemo()
     setUser(null)
   }, [])
 

@@ -34,7 +34,8 @@ PostgreSQL with minimum privilege, and a verifiable cloud URL.
 - Narratives never stored in PostgreSQL.
 - JWT secret and DB credentials via environment variables.
 - Non-root container user.
-- App DB user has SELECT/INSERT only.
+- App DB user has only the SELECT/INSERT/DELETE operations required by
+  aggregate feedback and retention; it has no DDL privilege.
 
 ## Capabilities
 

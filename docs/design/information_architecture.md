@@ -79,8 +79,9 @@ son de demostración; no acreditan autenticación ni permisos.
 
 ## Permisos y privacidad
 
-La autenticación sigue pendiente. La narrativa no se guarda, no aparece en la
-URL y no se devuelve en la respuesta. La política aprobada solo permite
+El JWT de demostración se configura por entorno y protege el recorrido, pero no
+constituye identidad ni autorización productiva. La narrativa no se guarda, no
+aparece en la URL y no se devuelve en la respuesta. La política aprobada permite
 metadatos cerrados de feedback con retención local; no se muestra historial
 individual ni se presenta esa persistencia como operación compartida.
 

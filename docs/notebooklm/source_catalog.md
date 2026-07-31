@@ -37,7 +37,8 @@ Este catálogo indica qué documentos pueden alimentar una presentación y con q
 | `docs/notebooklm/business_narrative.md` | Historia para audiencia no técnica | Cuando se defina el negocio | Equipo | Activa con límites explícitos |
 | `docs/notebooklm/technical_status.md` | Estado técnico consolidado | Diaria o por PR | Miguel / equipo | Activa |
 | `docs/assets/diagrams/readme-project-overview.svg` | Flujo de valor y límites del producto | Cuando cambie el flujo | Arquitectura / producto | Activa visual |
-| `docs/assets/charts/delivery-status-2026-07-30.svg` | Resumen visual vigente de las 25 puertas; su estado canónico está en `delivery_levels.md` | Cuando cambie un criterio | Miguel / QA | Activa visual |
+| `docs/assets/charts/delivery-status-2026-07-31.svg` | Resumen visual vigente de las 25 puertas y del SHA auditado; su estado canónico está en `delivery_levels.md` | Cuando cambie un criterio | Miguel / QA | Activa visual |
+| `docs/assets/charts/delivery-status-2026-07-30.svg` | Corte visual histórico anterior | No se actualiza | Equipo | Histórica |
 | `docs/assets/charts/delivery-status-2026-07-28.svg` | Corte visual histórico anterior | No se actualiza | Equipo | Histórica |
 | `reports/metrics/` | Evidencia cuantitativa | Por experimento | ML/QA | Pendiente |
 | `reports/figures/` | Gráficos finales | Por experimento | ML/Docs | Activa técnica |
@@ -66,6 +67,7 @@ Este catálogo indica qué documentos pueden alimentar una presentación y con q
 | `reports/validation/claimvox_feedback_persistence.md` | Evidencia agregada de persistencia local gobernada: contrato minimizado, retención, privacidad y pruebas sintéticas; no acredita endpoint, base compartida ni MLOps | Tras cambio de feedback local | Backend / arquitectura | Activa técnica |
 | `reports/validation/claimvox_feedback_operational_flow.md` | Evidencia agregada del registro local explícito y resumen de feedback por versión, clase y decisión; no acredita autenticación, operación compartida, corpus ni reentrenamiento | Tras cambio del flujo local de feedback | Backend / frontend | Activa técnica |
 | `reports/validation/claimvox_local_feedback_e2e.md` | Evidencia agregada de predicción local real, registro de feedback minimizado y resumen agregado; no acredita operación compartida, autenticación, despliegue ni reentrenamiento | Tras verificación local extremo a extremo | Backend / QA | Activa técnica |
+| `reports/validation/claimvox_final_dev_audit_2026-07-31.md` | Corte final de `dev`: Git/PR, capacidades, seguridad, criterios, límites y recomendaciones | Cierre de auditoría o cambio de estado | Arquitectura / QA | Activa técnica |
 | `reports/validation/claimvox_local_classification_usability.md` | Evidencia agregada de la revisión del flujo local: fuente API/mock, resultado, revisión humana, límites de alternativas y navegación pública | Tras cambio de UX local | Frontend / UX | Activa técnica |
 | `reports/validation/project_truth_audit_2026-07-30.md` | Auditoría integrada de Git, OpenSpec, Jira, aplicación, ML, pruebas, CI y documentación, sin datasets ni ramas no fusionadas | Por auditoría transversal | Arquitectura / QA | Activa técnica |
 | `reports/validation/claimvox_ui_redesign_review_2026-07-30.md` | Revisión posterior a la PR #66: errores corregidos, Dashboard factual, batería frontend, smoke local y límites visuales explícitos | Tras cambio de UX | Frontend / QA | Activa técnica |

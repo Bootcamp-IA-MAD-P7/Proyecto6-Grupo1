@@ -17,38 +17,6 @@ from app.api.services.feedback_repository import FeedbackRepositoryError
 
 logger = logging.getLogger(__name__)
 
-_SCHEMA = """
-CREATE TABLE IF NOT EXISTS schema_migrations (
-    version TEXT PRIMARY KEY
-);
-
-CREATE TABLE IF NOT EXISTS predictions (
-    id TEXT PRIMARY KEY,
-    predicted_class VARCHAR(100) NOT NULL,
-    confidence DOUBLE PRECISION,
-    review_required BOOLEAN NOT NULL DEFAULT TRUE,
-    model_version VARCHAR(50) NOT NULL,
-    taxonomy_version VARCHAR(10) NOT NULL,
-    created_at TIMESTAMPTZ NOT NULL DEFAULT NOW()
-);
-
-CREATE TABLE IF NOT EXISTS feedback_records (
-    feedback_id TEXT PRIMARY KEY,
-    prediction_id TEXT NOT NULL,
-    model_version TEXT NOT NULL,
-    taxonomy_version TEXT NOT NULL,
-    suggested_class TEXT NOT NULL,
-    reviewed_class TEXT,
-    decision TEXT NOT NULL,
-    purpose TEXT NOT NULL,
-    created_at TEXT NOT NULL,
-    expires_at TEXT NOT NULL
-);
-
-INSERT INTO schema_migrations(version) VALUES ('1') ON CONFLICT DO NOTHING;
-"""
-
-
 class PostgresFeedbackRepository:
     """Persist feedback to PostgreSQL with minimum-privilege connection.
 
@@ -66,18 +34,13 @@ class PostgresFeedbackRepository:
                 "Could not connect to PostgreSQL."
             ) from exc
 
-    def _initialize_schema(self) -> None:
-        """Ensure tables exist (idempotent)."""
-        with self._conn.cursor() as cur:
-            cur.execute(_SCHEMA)
-
     @property
     def database_path(self) -> Path:
         """Compatibility with interface; returns a placeholder."""
         return Path("/db/postgresql")
 
     def initialize(self) -> None:
-        """No-op; schema created at connect time."""
+        """No-op; an administrator initializes the versioned schema."""
         pass
 
     def record_feedback(self, feedback: FeedbackRecord) -> None:

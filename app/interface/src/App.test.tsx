@@ -22,6 +22,7 @@ const storeMockAdmin = () => {
       role: 'admin',
     }),
   )
+  localStorage.setItem('claimvox-token', 'synthetic-token')
 }
 
 afterEach(() => {
@@ -30,28 +31,23 @@ afterEach(() => {
 })
 
 describe('application routes', () => {
-  it('opens the classification flow without a mock login or stored identity', async () => {
+  it('redirects the classification flow to local sign-in without a stored session', async () => {
     localStorage.clear()
 
     renderRoute('/classify')
 
-    expect(
-      await screen.findByRole('heading', { level: 1, name: 'Describe what happened' }),
-    ).toBeVisible()
-    expect(screen.queryByRole('heading', { name: 'ClaimVox' })).not.toBeInTheDocument()
-    expect(screen.getByText('Not signed in')).toBeVisible()
+    expect(await screen.findByRole('heading', { level: 1, name: 'ClaimVox' })).toBeVisible()
+    expect(screen.getByText('Local reviewer sign-in')).toBeVisible()
     expect(localStorage.getItem('claimvox-auth')).toBeNull()
   })
 
-  it('keeps the login as an explicitly non-secure proposal', () => {
+  it('describes the environment-configured local demo boundary', () => {
     renderRoute('/login')
 
-    expect(screen.getByText('Mock authentication proposal only.')).toBeVisible()
-    expect(screen.getByText(/provides no real identity, security/i)).toBeVisible()
-    expect(screen.getByRole('link', { name: 'Continue without login' })).toHaveAttribute(
-      'href',
-      '/classify',
-    )
+    expect(screen.getByText(/Local demo authentication/i)).toBeVisible()
+    expect(screen.getByText(/not a shared identity or permission system/i)).toBeVisible()
+    expect(screen.queryByText(/claimvox2026/i)).not.toBeInTheDocument()
+    expect(screen.queryByRole('link', { name: 'Continue without login' })).not.toBeInTheDocument()
   })
 
   it.each([
