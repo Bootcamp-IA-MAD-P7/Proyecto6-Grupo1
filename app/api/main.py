@@ -120,7 +120,8 @@ def create_app(settings: Settings | None = None) -> FastAPI:
     def create_local_feedback(request: FeedbackCreateRequest) -> dict[str, str]:
         """Persist one explicit local review without changing a prediction."""
         try:
-            FeedbackService(LocalFeedbackRepository()).create_feedback(request)
+            repo = app.state.postgres_repository if app.state.postgres_repository else LocalFeedbackRepository()
+            FeedbackService(repo).create_feedback(request)
         except (FeedbackRepositoryError, FeedbackServiceError) as error:
             raise HTTPException(
                 status_code=status.HTTP_503_SERVICE_UNAVAILABLE,
@@ -135,7 +136,8 @@ def create_app(settings: Settings | None = None) -> FastAPI:
     def get_local_feedback_summary() -> FeedbackSummaryResponse:
         """Read aggregate-only feedback without exposing individual records."""
         try:
-            summary = FeedbackService(LocalFeedbackRepository()).get_summary()
+            repo = app.state.postgres_repository if app.state.postgres_repository else LocalFeedbackRepository()
+            summary = FeedbackService(repo).get_summary()
         except (FeedbackRepositoryError, FeedbackServiceError, ValueError) as error:
             raise HTTPException(
                 status_code=status.HTTP_503_SERVICE_UNAVAILABLE,
