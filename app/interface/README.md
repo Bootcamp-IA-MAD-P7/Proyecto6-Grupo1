@@ -7,25 +7,25 @@ y al [expediente OpenSpec archivado](../../openspec/changes/archive/2026-07-24-i
 
 ## Estado real
 
-| Capacidad                          | Estado                                                                              |
-| ---------------------------------- | ----------------------------------------------------------------------------------- |
-| Formulario de reclamación          | Implementado y verificado con texto sintético                                       |
-| Contrato TypeScript                | Implementado y alineado con OpenAPI                                                 |
-| Recomendación                      | Solo API local real; sin configuración o con backend degradado no muestra categoría |
-| Revisión humana                    | Representada en la interfaz                                                         |
-| Dictado                            | Implementado mediante Web Speech API con fallback por teclado                       |
-| PWA instalable                     | Verificada manualmente en Chrome sobre Windows                                      |
-| Shell offline                      | Implementado; no clasifica sin conexión                                             |
-| Identidad y tema                   | ClaimVox; preferencias claro, oscuro y sistema persistentes                         |
-| Autenticación y administración     | Propuestas mock; no aportan seguridad ni operaciones reales                         |
-| Backend, modelo e inferencia local | Integración local verificada; no hay despliegue ni modelo aprobado para producción  |
-| Feedback local                     | Registro minimizado y resumen agregado tras predicción local real                   |
+| Capacidad                      | Estado                                                                              |
+| ------------------------------ | ----------------------------------------------------------------------------------- |
+| Formulario de reclamación      | Implementado y verificado con texto sintético                                       |
+| Contrato TypeScript            | Implementado y alineado con OpenAPI                                                 |
+| Recomendación                  | Solo API local real; sin configuración o con backend degradado no muestra categoría |
+| Revisión humana                | Representada en la interfaz                                                         |
+| Dictado                        | Implementado mediante Web Speech API con fallback por teclado                       |
+| PWA instalable                 | Verificada manualmente en Chrome sobre Windows                                      |
+| Shell offline                  | Implementado; no clasifica sin conexión                                             |
+| Identidad y tema               | ClaimVox; preferencias claro, oscuro y sistema persistentes                         |
+| Autenticación y administración | JWT demo por entorno; no aporta identidad ni autorización productiva                |
+| Backend, modelo e inferencia   | Integración verificada; no hay Champion ni despliegue cloud acreditado              |
+| Feedback                       | Registro minimizado y resumen agregado protegido por token                          |
 
 La integración local de frontend, servicio y artefacto reproducible aporta la
-evidencia de `ESS-04`. No equivale a autenticación, despliegue, persistencia de
+evidencia de `ESS-04`. No equivale a identidad compartida, despliegue,
 reclamaciones, observabilidad operativa ni a un modelo aprobado para producción.
 La única persistencia implementada conserva metadatos cerrados de feedback en
-SQLite local y aplica retención finita.
+SQLite local o PostgreSQL configurado y aplica retención finita.
 
 ## Servicio local opcional
 
@@ -37,9 +37,9 @@ explícito y frontend con `VITE_PREDICTION_API_BASE_URL`.
 
 La variable puede vivir solo en la sesión de terminal o en un `.env.local`
 ignorado por Git. El desarrollo usa el puerto `5173` y la vista previa `4173`.
-Si `VITE_PREDICTION_API_BASE_URL` no está configurada al iniciar Vite, ClaimVox
-muestra indisponibilidad y conserva la narrativa en el paso de revisión, sin
-fabricar una categoría. La misma frontera rechaza respuestas degradadas
+Sin URL explícita, el cliente usa el origen actual para el proxy Nginx. Si la
+API no responde, ClaimVox muestra indisponibilidad y no fabrica una categoría.
+La misma frontera rechaza respuestas degradadas
 identificadas como mock. No se usan comodines CORS, credenciales, dominios
 públicos, proxy ni datos CFPB reales en este recorrido.
 
@@ -79,18 +79,17 @@ build, no solo sobre el servidor de desarrollo.
 
 ## Recorrido disponible
 
-### Flujo público
+### Flujo autenticado de demostración
 
-1. Abrir `/classify`.
-2. Escribir una narrativa sintética o pulsar `Use a synthetic example`.
+1. Abrir `/login` e introducir las credenciales temporales configuradas por el operador.
+2. Abrir `/classify` y escribir una narrativa sintética o pulsar `Use a synthetic example`.
 3. Revisar que el texto no contiene nombres, cuentas, direcciones ni otros datos
    personales innecesarios.
 4. Pulsar `Review text` y comprobar el resumen.
 5. Pulsar `Classify complaint`.
-6. Sin `VITE_PREDICTION_API_BASE_URL`, comprobar el error recuperable y la
-   ausencia de categoría.
-7. Con la URL local explícita y el backend en marcha, revisar `Predicción
-local`, la confianza devuelta y el estado `Human review required`.
+6. Sin API, comprobar el error recuperable y la ausencia de categoría.
+7. Con el backend en marcha, revisar `Local prediction`, la confianza devuelta
+   y `Human review required`.
 8. Tras una respuesta local real, confirmar o corregir la sugerencia con los
    selectores cerrados de revisión y registrar el feedback local.
 9. Continuar al siguiente paso o iniciar una nueva clasificación.
@@ -108,15 +107,14 @@ visible. Una respuesta real sigue siendo revisable, no una decisión automática
 | ----------------- | ---------------------------------------------- |
 | `/`               | Inicio de la aplicación local                  |
 | `/classify`       | Flujo guiado y recomendación local configurada |
-| `/login`          | Propuesta de autenticación ficticia            |
+| `/login`          | Acceso JWT local de demostración               |
 | `/admin`          | Salud y desglose agregado de feedback local    |
 | `/admin/training` | Concepto de flujo de entrenamiento             |
 | `/admin/models`   | Concepto de registro de modelos                |
 
-Las rutas administrativas solo pueden revisarse con la identidad sintética
-`carlos@example.com`. La propuesta de usuario utiliza `ana@example.com`.
-Cualquier contraseña es aceptada porque no existe autenticación real. Estas
-pantallas no proporcionan identidad, autorización, permisos, datos operativos
+Las rutas administrativas requieren el usuario de demostración configurado por
+entorno con rol `admin`; ninguna credencial está en el repositorio. Estas
+pantallas no proporcionan identidad, autorización productiva, datos operativos
 compartidos, entrenamiento ni registro de modelos. El Dashboard distingue esos
 límites del health y muestra solo el desglose agregado permitido: versión de
 modelo, clase sugerida, decisión y conteo.
@@ -270,12 +268,12 @@ app/interface/
 ├── src/
 │   ├── components/         # componentes visuales y avisos
 │   ├── contracts/          # contrato y validación de predicción
-│   ├── hooks/              # conectividad, autenticación mock y dictado
-│   ├── layouts/            # layouts público, mock y administrativo
+│   ├── hooks/              # conectividad, sesión local y dictado
+│   ├── layouts/            # layouts de acceso, usuario y administración
 │   ├── pages/              # clasificación y capacidades propuestas
-│   ├── providers/          # contexto de sesión mock y consultas
+│   ├── providers/          # contexto de sesión JWT de demostración
 │   ├── pwa/                # política de caché comprobable
-│   ├── services/           # cliente de predicción y autenticación mock
+│   ├── services/           # clientes configurados de API y autenticación
 │   └── sw.ts               # service worker
 ├── package.json
 ├── vite.config.ts
@@ -284,12 +282,16 @@ app/interface/
 
 ## Limitaciones y próximos límites
 
-- No existe autenticación, despliegue, observabilidad operativa ni modelo
-  seleccionado para producción. La inferencia real es local y requiere
-  configuración explícita.
-- No existe cola operativa ni persistencia de reclamaciones. El feedback se
-  limita a metadatos cerrados en SQLite local; no es una base compartida.
-- No existe autenticación, autorización ni administración real.
+- Existe un login JWT de demostración con un único usuario y rol configurados
+  por entorno. No es identidad corporativa, autorización productiva ni gestión
+  real de usuarios.
+- No existe modelo seleccionado como Champion ni monitorización productiva. La
+  inferencia real verificada es local y requiere configuración explícita.
+- No existe cola operativa ni persistencia de narrativas. El feedback se limita
+  a metadatos cerrados; SQLite funciona localmente y Compose define PostgreSQL,
+  pero falta evidencia dinámica de la base compartida.
+- Docker, Compose y un workflow EC2 están integrados, pero no existe evidencia
+  versionada de URL cloud, smoke remoto, rollback o operación sostenida.
 - Las pantallas de entrenamiento y modelos son conceptos no operativos.
 - No se ha aprobado una política de idioma.
 - Edge continúa pendiente de revisión manual equivalente.

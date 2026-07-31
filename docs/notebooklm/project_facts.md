@@ -1,6 +1,8 @@
 # Hechos verificados del proyecto
 
-> Este documento se completará únicamente con información respaldada por el repositorio.
+> Corte activo: `origin/dev`
+> `1366ef202cbabe45a1c53a96d57e6284e690993a`, auditado el 31 de julio de
+> 2026. Este documento contiene únicamente información respaldada.
 
 ## Identidad del producto
 
@@ -56,11 +58,13 @@
   pruebas frontend y un smoke real local. Véanse
   `reports/validation/claimvox_local_classification_usability.md` y
   `reports/validation/claimvox_ui_redesign_review_2026-07-30.md`.
-- Backend local: `app/api/` ofrece health y predicción conforme al contrato;
+- Backend: `app/api/` ofrece health, estado, login demo, predicción y feedback
+  conforme a contratos;
   carga el baseline local cuando existe y cae a mock de forma explícita cuando
   falta. CORS local es explícito y restringido a orígenes locales configurados,
   sin comodines ni credenciales. La evidencia citada en este punto verifica
-  inferencia, no autenticación, persistencia de reclamaciones ni despliegue. Véanse
+  inferencia y controles locales; el JWT de un solo usuario se configura por
+  entorno y no acredita identidad compartida ni despliegue. Véanse
   `reports/validation/backend_foundation_real_smoke.md` y
   `reports/validation/claimvox_local_inference_smoke.md`.
 - Controles locales del MVP: máximo contractual de 5.000 caracteres, 20
@@ -68,8 +72,20 @@
   credenciales ni comodines, cabeceras de no caché y eventos técnicos sin
   identidad ni contenido. No acreditan seguridad de despliegue ni analítica de
   usuarios. Véase `reports/validation/mvp_readiness_inventory.md`.
-- Despliegue: pendiente.
-- Feedback local: creación explícita posterior a predicción local real y resumen agregado por versión, clase y decisión, sobre persistencia SQLite local gobernada con retención finita. La comprobación extremo a extremo está en `reports/validation/claimvox_local_feedback_e2e.md`. No conserva narrativa, identidad, texto libre ni probabilidades completas; no hay autenticación, base compartida, operación productiva ni reentrenamiento automático.
+- Contenedores y persistencia compartida: `dev` contiene Dockerfiles, Nginx,
+  Compose, healthchecks, PostgreSQL, esquema inicial y usuario de aplicación
+  restringido. El corte no incluye ejecución dinámica reproducible del daemon
+  ni migraciones posteriores; `ADV-01` y `ADV-02` siguen en curso.
+- Despliegue: existe un workflow EC2 con secretos externos y smoke bloqueante,
+  pero no hay URL, ejecución, observabilidad o rollback versionados; `ADV-03`
+  sigue en curso.
+- Seguridad de dependencias frontend: la auditoría final fija resoluciones
+  corregidas de React Router y `brace-expansion`; tipos, 63 tests, build y
+  `npm audit --audit-level=high` pasan con cero vulnerabilidades informadas.
+- Feedback: creación explícita posterior a predicción real y resumen agregado
+  por versión, clase y decisión, con SQLite local o PostgreSQL configurado.
+  No conserva narrativa, identidad, texto libre ni probabilidades completas;
+  no hay corpus ni reentrenamiento automático.
 - Estado MLOps: pendiente.
 
 ## Regla

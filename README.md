@@ -27,11 +27,12 @@ enruta automáticamente y no toma decisiones financieras.
 | Entrada del modelo | `complaint_what_happened` |
 | Target | `product_canonical`, once clases mutuamente excluyentes |
 | Modelo servido | Baseline TF-IDF + Logistic Regression local |
-| Aplicación | React PWA → FastAPI local; sin API o modelo real no muestra clasificación |
-| Feedback | Registro local minimizado, retención finita y resumen agregado |
+| Aplicación | React PWA → FastAPI; acceso demo JWT configurado por entorno y revisión humana obligatoria |
+| Persistencia | SQLite local por defecto; PostgreSQL preparado para Compose con esquema y mínimo privilegio |
+| Feedback | Registro minimizado, retención finita y resumen agregado protegido por Bearer token |
 | Entrega | 15/25 criterios verificados; esencial 10/10, medio 2/5, avanzado 3/6 |
 | Gobierno | OpenSpec, arnés, Jira, Pull Requests y CI |
-| Pendiente | Champion, CV completa convergida, corpus de reentrenamiento, Docker, base compartida, cloud y MLOps |
+| Pendiente | Champion, CV convergida, corpus gobernado, verificación dinámica de Compose/PostgreSQL, evidencia cloud y MLOps |
 
 El corte anotado
 [`v0.1.0-essential-mvp`](https://github.com/Bootcamp-IA-MAD-P7/Proyecto6-Grupo1/tree/v0.1.0-essential-mvp)
@@ -119,9 +120,12 @@ flowchart LR
     PI --> LR[Baseline local]
     PI --> MOCK[Fallback backend degradado]
     MOCK -. rechazado por la UI .-> UI
-    UI --> FS[FeedbackService local]
+    UI --> AUTH[JWT demo por entorno]
+    UI --> FS[FeedbackService]
     FS --> SQLITE[(SQLite local)]
+    FS --> PG[(PostgreSQL con Compose)]
     SQLITE --> AGG[Resumen agregado]
+    PG --> AGG
     PIPE[Pipeline datos y ML] --> LR
     LR -. pendiente .-> REG[Registro y Champion]
     AGG -. pendiente .-> RETRAIN[Corpus gobernado]
@@ -134,13 +138,21 @@ Implementado en `dev`:
 - predictor intercambiable y carga de artefacto desde ruta controlada;
 - feedback posterior a predicción local, con campos cerrados y retención;
 - resumen por versión, clase sugerida y decisión, sin registros individuales;
+- autenticación JWT de demostración con credenciales y secreto externos al repositorio;
+- definición de imágenes para PWA y API, Compose, healthchecks y PostgreSQL;
 - quality gates sintéticos de datos, modelo y métricas.
+
+Implementado pero pendiente de evidencia completa de entrega:
+
+- Docker/Compose y PostgreSQL están definidos, pero esta auditoría no pudo
+  ejecutar el daemon local ni acredita una construcción limpia o una migración
+  posterior a la inicialización;
+- el workflow de EC2 existe, pero no hay URL, smoke y rollback versionados;
+- JWT es una frontera de demo de un solo usuario, no identidad compartida ni
+  autorización productiva.
 
 No implementado:
 
-- autenticación o permisos reales;
-- base compartida, migraciones o acceso multiusuario;
-- Docker, despliegue cloud o observabilidad de producción;
 - registro de modelos, Champion/Challenger o promoción;
 - corpus y reentrenamiento automático.
 
@@ -168,6 +180,18 @@ python -m pip install -e .
 python scripts/harness.py doctor
 ```
 
+### Configuración local de seguridad
+
+Las credenciales no están en el repositorio. Para ejecución directa define
+valores temporales en la terminal del backend:
+
+```bash
+export APP_JWT_SECRET="<random-secret>"
+export APP_DEMO_USERNAME="<temporary-user>"
+export APP_DEMO_PASSWORD="<temporary-password>"
+export APP_DEMO_ROLE="admin"
+```
+
 ### Revisión de interfaz sin servicio
 
 El frontend puede abrirse sin backend para revisar formulario, navegación y
@@ -179,9 +203,9 @@ npm ci
 npm run dev -- --host 127.0.0.1 --port 5173 --strictPort
 ```
 
-Abre <http://127.0.0.1:5173/classify> y utiliza **Use example**. Al intentar
-clasificar debe aparecer un error recuperable y el texto debe permanecer en el
-paso Review. Este recorrido permite revisar UX; no acredita inferencia.
+Abre <http://127.0.0.1:5173/login>. Sin API, el acceso muestra un error
+recuperable. Este recorrido permite revisar la interfaz; no acredita
+autenticación ni inferencia.
 
 ### Inferencia y feedback locales
 
@@ -209,19 +233,33 @@ npm ci
 npm run dev -- --host 127.0.0.1 --port 5173 --strictPort
 ```
 
-Después de una predicción local válida se puede registrar feedback cerrado y
-consultar su resumen:
+Tras iniciar sesión, una predicción local válida permite registrar feedback
+cerrado. Las operaciones de predicción y feedback exigen el Bearer token; el
+Dashboard consulta únicamente el resumen agregado.
+
+### Compose reproducible pendiente de verificación dinámica
+
+El repositorio incluye Dockerfiles, Nginx, Compose y el esquema PostgreSQL.
+Parte de un archivo local de entorno y del artefacto reconstruido:
 
 ```bash
-curl -s http://127.0.0.1:8000/api/v1/feedback/summary
+cp .env.example .env
+# Sustituye todos los placeholders y reconstruye models/cfpb_baseline.pkl.
+docker compose config
+docker compose build
+docker compose up -d
+curl --fail http://127.0.0.1/api/v1/health
 ```
+
+No publiques `.env` ni el modelo. La existencia de estos archivos no demuestra
+por sí sola `ADV-01`, `ADV-02` o un despliegue cloud.
 
 La guía completa, incluida la recuperación de caché PWA, está en
 [`essential_delivery_guide.md`](docs/project_management/essential_delivery_guide.md).
 
 ## Estado frente al briefing
 
-![Estado de los veinticinco criterios](docs/assets/charts/delivery-status-2026-07-30.svg)
+![Estado de los veinticinco criterios](docs/assets/charts/delivery-status-2026-07-31.svg)
 
 ### Nivel esencial — 10 de 10 verificados
 
@@ -252,9 +290,9 @@ La guía completa, incluida la recuperación de caché PWA, está en
 
 | ID | Criterio | Estado | Evidencia |
 |---|---|---|---|
-| ADV‑01 | Dockerización completa | `No iniciado` | Imágenes, healthcheck y ejecución pendientes |
-| ADV‑02 | Base de datos integrada | `No iniciado` | Esquema compartido, migraciones y privilegios pendientes |
-| ADV‑03 | Despliegue cloud | `No iniciado` | Entorno, smoke y rollback pendientes |
+| ADV‑01 | Dockerización completa | `En curso` | Dockerfiles, Compose y healthchecks integrados; build limpio pendiente |
+| ADV‑02 | Base de datos integrada | `En curso` | PostgreSQL y mínimo privilegio definidos; integración dinámica/migraciones pendientes |
+| ADV‑03 | Despliegue cloud | `En curso` | Workflow EC2 integrado; URL, smoke versionado y rollback pendientes |
 | ADV‑04 | Tests de integridad de datos | `Verificado` | 6 pruebas sintéticas |
 | ADV‑05 | Tests del modelo | `Verificado` | 5 pruebas sintéticas |
 | ADV‑06 | Tests de métricas mínimas | `Verificado` | 5 pruebas sintéticas |
@@ -283,7 +321,7 @@ El contrato completo y sus evidencias mínimas están en
 | Inferencia local | [`claimvox_local_inference_smoke.md`](reports/validation/claimvox_local_inference_smoke.md) |
 | Feedback E2E | [`claimvox_local_feedback_e2e.md`](reports/validation/claimvox_local_feedback_e2e.md) |
 | Quality gates | [`cfpb_quality_gates.md`](reports/validation/cfpb_quality_gates.md) |
-| Auditoría vigente | [`project_truth_audit_2026-07-30.md`](reports/validation/project_truth_audit_2026-07-30.md) |
+| Auditoría vigente | [`claimvox_final_dev_audit_2026-07-31.md`](reports/validation/claimvox_final_dev_audit_2026-07-31.md) |
 
 ## Calidad y gobierno
 
@@ -361,10 +399,14 @@ forma parte del equipo activo.
 ## Seguridad y límites
 
 - No usar narrativas reales del CFPB en Git, prompts, tests, capturas o servicios externos.
-- La API limita entrada, aplica CORS local explícito y devuelve errores seguros.
+- La API limita entrada, aplica CORS local explícito, Bearer token y errores seguros.
 - El feedback admite solo metadatos cerrados y no conserva identidad, texto libre ni probabilidades completas.
-- La persistencia SQLite es local y no acredita una base integrada.
-- El servicio no está autenticado ni desplegado.
+- La demo JWT depende de credenciales de entorno y no equivale a identidad,
+  autorización multiusuario o seguridad de producción.
+- SQLite sigue siendo el fallback local; PostgreSQL está integrado en Compose
+  pero no queda verificado dinámicamente en este corte.
+- El workflow cloud no acredita un entorno desplegado sin smoke y rollback
+  versionados.
 - El modelo servido es un baseline local, no un Champion.
 
 Consulta [SECURITY.md](SECURITY.md), el
@@ -377,9 +419,10 @@ Consulta [SECURITY.md](SECURITY.md), el
    documentar formalmente el bloqueo sin promover un modelo.
 2. Completar `MED-05` con corpus gobernado, validación, deduplicación y política
    de incorporación.
-3. Abordar `PG-15`: Docker y despliegue reproducible.
-4. Diseñar `ADV-02` como base compartida con migraciones y mínimo privilegio;
-   la SQLite local actual no satisface ese criterio.
+3. Verificar `PG-15` desde un clon limpio: reconstruir artefacto, construir
+   imágenes, levantar Compose, probar PostgreSQL y registrar rollback.
+4. Convertir la inicialización PostgreSQL en migraciones probadas y verificar
+   mínimo privilegio y retención.
 5. Mantener `PG-17` condicionado a un protocolo de monitorización y operación
    aprobado; `PG-16` queda limitado al rediseño local verificado.
 

@@ -3,22 +3,25 @@
 ## Objetivo
 
 Mantener una base escalable y testeable con ClaimVox React PWA, FastAPI,
-baseline y feedback gobernado como recorrido local verificado, sin confundir la
-SQLite local con una base compartida ni fijar prematuramente el proveedor cloud.
+baseline y feedback gobernado como recorrido verificado, sin confundir las
+definiciones Docker/PostgreSQL con una entrega cloud ya probada.
 
 ## Vista lógica
 
 ```mermaid
 flowchart LR
-    UI[ClaimVox React PWA] --> API[FastAPI local]
+    UI[ClaimVox React PWA] --> AUTH[JWT demo por entorno]
+    UI --> API[FastAPI]
     API --> APP[PredictionService]
     APP --> PORTS[PredictorInterface]
     PORTS --> MODEL[Baseline local]
     PORTS --> MOCK[Mock seguro]
     ML[Pipeline ML] --> MODEL
-    UI --> FEEDBACK[FeedbackService local]
-    FEEDBACK --> DB[(SQLite local)]
-    DB --> SUMMARY[Resumen agregado]
+    UI --> FEEDBACK[FeedbackService]
+    FEEDBACK --> SQLITE[(SQLite local)]
+    FEEDBACK --> PG[(PostgreSQL configurado)]
+    SQLITE --> SUMMARY[Resumen agregado]
+    PG --> SUMMARY
     MODEL -. futuro .-> REGISTRY[Registro de modelos]
     SUMMARY -. futuro .-> CORPUS[Corpus gobernado]
     CORPUS -. futuro .-> MONITOR[Monitorización]
@@ -27,10 +30,11 @@ flowchart LR
 
 La PWA, FastAPI local, `PredictionService`, la interfaz de predictor, el
 baseline, el fallback mock y el flujo minimizado de feedback están
-implementados y probados localmente. El feedback se conserva en SQLite bajo una
-raíz controlada, retención finita y salida agregada. Base compartida, registro
-de modelos, corpus de reentrenamiento, monitorización, promoción y despliegue
-siguen siendo responsabilidades previstas.
+implementados y probados. SQLite es el fallback local; Compose puede conectar
+PostgreSQL inicializado por un administrador y un usuario de aplicación sin
+DDL. Las imágenes, migraciones, operación PostgreSQL y cloud necesitan aún
+verificación reproducible. Registro de modelos, corpus, monitorización y
+promoción siguen previstos.
 
 React PWA debe cubrir primero el flujo web instalable y responsive. Una aplicación nativa no forma parte del alcance aprobado; se evaluará únicamente si requisitos de dispositivo, distribución o experiencia demuestran que la PWA no es suficiente.
 

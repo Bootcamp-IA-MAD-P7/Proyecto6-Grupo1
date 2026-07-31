@@ -38,11 +38,15 @@ class BackendCorsContractTests(unittest.TestCase):
                 headers={
                     "Origin": origin,
                     "Access-Control-Request-Method": "POST",
+                    "Access-Control-Request-Headers": "authorization,content-type",
                 },
             )
 
         self.assertEqual(response.status_code, 200)
         self.assertEqual(response.headers["access-control-allow-origin"], origin)
+        allowed_headers = response.headers["access-control-allow-headers"].lower()
+        self.assertIn("authorization", allowed_headers)
+        self.assertIn("content-type", allowed_headers)
         self.assertNotIn("access-control-allow-credentials", response.headers)
 
     def test_wildcard_and_non_local_origins_are_rejected(self) -> None:

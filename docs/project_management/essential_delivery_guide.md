@@ -1,9 +1,10 @@
 # Guía local de ClaimVox
 
 Esta es la guía canónica para ejecutar ClaimVox en un equipo Windows con Git
-Bash. Describe una revisión segura de interfaz sin servicio y una comprobación
-de inferencia y feedback locales. Ninguna equivale a despliegue, autenticación, base
-compartida ni operación productiva.
+Bash. Describe una revisión segura de interfaz y una comprobación autenticada
+de inferencia y feedback locales. El inicio de sesión es una frontera de
+demostración configurada por entorno: no equivale a identidad corporativa,
+autorización productiva, despliegue ni operación compartida.
 
 ## Antes de empezar
 
@@ -50,8 +51,18 @@ Desde la raíz del repositorio:
 ```bash
 cd "/c/Users/migue/Documents/Proyecto Clasificación Multiclase"
 export APP_CORS_ALLOWED_ORIGINS="http://127.0.0.1:5173"
+export APP_JWT_SECRET="<random-local-secret>"
+export APP_DEMO_USERNAME="<temporary-reviewer>"
+export APP_DEMO_PASSWORD="<temporary-password>"
+export APP_DEMO_ROLE="admin"
+export APP_DEMO_NAME="Local reviewer"
 python -m uvicorn app.api.main:app --host 127.0.0.1 --port 8000
 ```
+
+Los valores anteriores son temporales y no se escriben en Git. Sin usuario y
+contraseña configurados, el endpoint de login rechaza todo acceso. En una
+operación real deben sustituirse por un proveedor de identidad, sesiones y
+permisos administrados.
 
 Deja la terminal abierta. En otra terminal comprueba el estado:
 
@@ -80,8 +91,9 @@ npm run dev -- --host 127.0.0.1 --port 5173 --strictPort
 ```
 
 La variable se lee al iniciar Vite. Si cambias su valor, detén Vite con
-`Ctrl + C` y vuelve a ejecutarlo. Abre `http://127.0.0.1:5173/classify`, usa el
-ejemplo sintético y clasifica.
+`Ctrl + C` y vuelve a ejecutarlo. Abre `http://127.0.0.1:5173/login`, utiliza
+las credenciales temporales de la terminal del backend y después entra en
+`/classify`, usa el ejemplo sintético y clasifica.
 
 Con health `ok`, el resultado esperado es **Local prediction**, con una
 confianza numérica, hasta tres alternativas y **Human review required**. La revisión humana
@@ -90,20 +102,31 @@ reclamación ni toma una decisión financiera.
 
 Después de una predicción local válida aparece **Record human review**. El
 registro envía únicamente versión, clases, decisión y finalidad; no guarda la
-narrativa. Para comprobar el resumen agregado:
+narrativa. El Dashboard autenticado muestra el mismo resumen agregado. Para
+consultarlo por terminal, primero solicita un token con las credenciales
+temporales:
 
 ```bash
-curl -s http://127.0.0.1:8000/api/v1/feedback/summary
+TOKEN="$(
+  curl -s -X POST http://127.0.0.1:8000/api/v1/auth/login \
+    -H "Content-Type: application/json" \
+    --data "{\"username\":\"${APP_DEMO_USERNAME}\",\"password\":\"${APP_DEMO_PASSWORD}\"}" \
+  | python -c "import json,sys; print(json.load(sys.stdin)['access_token'])"
+)"
+curl -s http://127.0.0.1:8000/api/v1/feedback/summary \
+  -H "Authorization: Bearer ${TOKEN}"
 ```
 
 La salida no contiene UUID ni registros individuales. Se conserva en SQLite
 local con retención finita; no es una base compartida ni un corpus de
 reentrenamiento.
 
-Con la identidad administrativa de demostración, `/admin` muestra el health,
-la disponibilidad factual del baseline y el mismo resumen en una tabla
-agregada por versión de modelo, clase sugerida y decisión. `Operational data`
-permanece `Not connected`: no existe base compartida ni historial individual.
+Con el rol administrativo de demostración, `/admin` muestra health, la
+disponibilidad factual del baseline y el resumen en una tabla agregada por
+versión de modelo, clase sugerida y decisión. `Operational data` permanece
+`Not connected`: el Dashboard no ofrece navegación ni consulta de registros
+individuales, aunque Compose ya define una persistencia PostgreSQL pendiente de
+verificación dinámica y migraciones gobernadas.
 
 ## Si el navegador muestra una versión antigua
 
@@ -122,6 +145,8 @@ está en el [manual del frontend](../../app/interface/README.md#pwa-y-funcionami
 - Integración PWA → API local: `reports/validation/claimvox_local_inference_smoke.md`.
 - Estado verificable del briefing: `docs/project_management/delivery_levels.md`.
 
-No se incorporan narrativas CFPB, predicciones por fila, datasets ni binarios de
-modelo a Git. Las clases débiles requieren revisión humana reforzada. El modelo
-local no está desplegado ni monitorizado en producción.
+No se incorporan narrativas CFPB, predicciones por fila, datasets, secretos ni
+binarios de modelo a Git. Las clases débiles requieren revisión humana
+reforzada. El repositorio contiene empaquetado y automatización de despliegue,
+pero no hay una URL cloud, smoke remoto, rollback probado ni monitorización que
+acrediten operación productiva.

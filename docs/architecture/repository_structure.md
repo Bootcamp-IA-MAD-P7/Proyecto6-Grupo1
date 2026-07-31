@@ -54,8 +54,10 @@ Este flujo es una capacidad estructural prevista, no una afirmación de implemen
 - El nivel esencial usará datos, notebooks, `src/`, un modelo, la app, informes y tests mínimos.
 - El nivel medio completa selección, tuning y recolección; el feedback local ya
   está verificado.
-- El nivel avanzado completa contenedores, base compartida y despliegue; los
-  quality gates locales de datos, modelo y métricas ya están verificados.
+- El nivel avanzado ya incluye quality gates locales y una implementación
+  inicial de contenedores, PostgreSQL y automatización EC2. Estos tres últimos
+  permanecen en curso hasta aportar build, integración, smoke remoto y rollback
+  verificables.
 - El nivel experto activará experimentos, monitorización, registro y promoción controlada.
 
 Cada ruta aparecerá de forma incremental en la Pull Request que implemente su primera capacidad. Un README puede conservar el contrato futuro sin acompañarse de `.gitkeep` ni subcarpetas vacías.

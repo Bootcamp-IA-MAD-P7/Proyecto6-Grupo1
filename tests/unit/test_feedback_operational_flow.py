@@ -14,6 +14,7 @@ from uuid import UUID
 from fastapi.testclient import TestClient
 
 from app.api.config import Settings
+from app.api.auth import create_access_token
 from app.api.main import create_app
 from app.api.schemas.feedback import FeedbackCreateRequest, FeedbackRecord
 from app.api.services.feedback_repository import LocalFeedbackRepository
@@ -51,9 +52,16 @@ class FeedbackOperationalFlowTests(unittest.TestCase):
     def _client(self) -> TestClient:
         return TestClient(self.app, raise_server_exceptions=False)
 
+    def _headers(self) -> dict[str, str]:
+        return {"Authorization": f"Bearer {create_access_token('synthetic-reviewer')}"}
+
     def test_creates_conforming_feedback_without_altering_prediction_service(self) -> None:
         with patch("app.api.main.LocalFeedbackRepository", return_value=self.repository):
-            response = self._client().post("/api/v1/feedback", json=feedback_request())
+            response = self._client().post(
+                "/api/v1/feedback",
+                json=feedback_request(),
+                headers=self._headers(),
+            )
 
         self.assertEqual(response.status_code, 201)
         self.assertEqual(response.json(), {"status": "recorded"})
@@ -64,7 +72,11 @@ class FeedbackOperationalFlowTests(unittest.TestCase):
         request = feedback_request() | {"free_text": secret}
 
         with patch("app.api.main.LocalFeedbackRepository", return_value=self.repository):
-            response = self._client().post("/api/v1/feedback", json=request)
+            response = self._client().post(
+                "/api/v1/feedback",
+                json=request,
+                headers=self._headers(),
+            )
 
         self.assertEqual(response.status_code, 422)
         self.assertEqual(response.json()["error_code"], "VALIDATION_ERROR")
@@ -100,7 +112,10 @@ class FeedbackOperationalFlowTests(unittest.TestCase):
         )
 
         with patch("app.api.main.LocalFeedbackRepository", return_value=self.repository):
-            response = self._client().get("/api/v1/feedback/summary")
+            response = self._client().get(
+                "/api/v1/feedback/summary",
+                headers=self._headers(),
+            )
 
         self.assertEqual(response.status_code, 200)
         self.assertEqual(

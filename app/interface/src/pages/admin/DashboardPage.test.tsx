@@ -1,5 +1,5 @@
 import { render, screen, within } from '@testing-library/react'
-import { afterEach, describe, expect, it, vi } from 'vitest'
+import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest'
 import DashboardPage from './DashboardPage'
 
 const jsonResponse = (body: unknown, ok = true) =>
@@ -13,18 +13,29 @@ const configureLocalApi = () => {
 }
 
 describe('DashboardPage', () => {
-  afterEach(() => {
-    vi.unstubAllEnvs()
+  beforeEach(() => {
+    localStorage.setItem('claimvox-token', 'synthetic-token')
   })
 
-  it('distinguishes an unconfigured local API from shared operational data', async () => {
+  afterEach(() => {
+    vi.unstubAllEnvs()
+    localStorage.clear()
+  })
+
+  it('uses the current origin while distinguishing shared operational data', async () => {
     vi.stubEnv('VITE_PREDICTION_API_BASE_URL', '')
+    vi.mocked(fetch).mockImplementation((input) =>
+      String(input).endsWith('/health')
+        ? jsonResponse({ status: 'degraded', service_version: '0.1.0' })
+        : jsonResponse({ items: [] }),
+    )
     render(<DashboardPage />)
 
-    expect(await screen.findAllByText('Not configured')).toHaveLength(2)
+    expect(await screen.findAllByText('Degraded')).toHaveLength(2)
+    expect(await screen.findByText('No activity')).toBeInTheDocument()
     expect(screen.getByText('Not connected')).toBeInTheDocument()
     expect(screen.getByText('Required')).toBeInTheDocument()
-    expect(fetch).not.toHaveBeenCalled()
+    expect(fetch).toHaveBeenCalled()
   })
 
   it('shows a healthy local baseline and an empty aggregate summary', async () => {

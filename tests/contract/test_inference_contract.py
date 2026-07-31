@@ -84,6 +84,29 @@ class InferenceContractTests(unittest.TestCase):
             {"model_version", "suggested_class", "decision", "count"},
         )
 
+    def test_prediction_and_feedback_require_bearer_authentication(self) -> None:
+        protected_operations = (
+            OPENAPI["paths"]["/v1/predictions"]["post"],
+            OPENAPI["paths"]["/v1/feedback"]["post"],
+            OPENAPI["paths"]["/v1/feedback/summary"]["get"],
+        )
+        for operation in protected_operations:
+            self.assertEqual(operation["security"], [{"bearerAuth": []}])
+
+        security_scheme = OPENAPI["components"]["securitySchemes"]["bearerAuth"]
+        self.assertEqual(security_scheme["type"], "http")
+        self.assertEqual(security_scheme["scheme"], "bearer")
+        self.assertEqual(security_scheme["bearerFormat"], "JWT")
+
+    def test_auth_and_status_contracts_are_explicitly_demo_scoped(self) -> None:
+        login = OPENAPI["paths"]["/v1/auth/login"]["post"]
+        status_operation = OPENAPI["paths"]["/v1/status"]["get"]
+        self.assertEqual(login["x-implementation-status"], "integrated-demo-only")
+        self.assertEqual(status_operation["x-implementation-status"], "integrated")
+        self.assertFalse(
+            OPENAPI["components"]["schemas"]["LoginRequest"]["additionalProperties"]
+        )
+
 
 if __name__ == "__main__":
     unittest.main()

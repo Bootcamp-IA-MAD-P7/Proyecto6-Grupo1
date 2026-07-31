@@ -18,12 +18,21 @@ jobs:
           username: ${{ secrets.EC2_USER }}
           key: ${{ secrets.EC2_SSH_KEY }}
           script: |
+            set -eu
             cd ~/Proyecto6-Grupo1
             git fetch origin
             git checkout dev
             git pull --ff-only
+            test -f .env
+            docker compose config --quiet
             docker compose build
             docker compose up -d
             echo "Deploy complete. Checking health..."
-            sleep 10
-            curl -f http://localhost/api/v1/health || echo "Health check failed"
+            for attempt in 1 2 3 4 5 6; do
+              if curl --fail --silent --show-error http://localhost/api/v1/health; then
+                exit 0
+              fi
+              sleep 5
+            done
+            echo "Health check failed after 6 attempts" >&2
+            exit 1

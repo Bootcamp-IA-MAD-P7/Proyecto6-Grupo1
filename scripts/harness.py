@@ -168,6 +168,7 @@ def run_openspec_text(*arguments: str) -> str:
         check=True,
         capture_output=True,
         text=True,
+        encoding="utf-8",
         env=environment,
     )
     return result.stdout.strip()

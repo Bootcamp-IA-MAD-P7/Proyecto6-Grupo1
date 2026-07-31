@@ -1,12 +1,10 @@
 import { useState, type FormEvent } from 'react'
-import { Link, useNavigate } from 'react-router-dom'
+import { useNavigate } from 'react-router-dom'
 import { useAuth } from '@/hooks/use-auth'
 import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
 import { Label } from '@/components/ui/label'
 import { Alert, AlertDescription } from '@/components/ui/alert'
-import { buttonVariants } from '@/lib/button-variants'
-import { cn } from '@/lib/utils'
 import { LogIn } from 'lucide-react'
 
 export default function LoginPage() {
@@ -26,7 +24,7 @@ export default function LoginPage() {
       await login(email, password)
       navigate('/')
     } catch {
-      setError('Invalid credentials. Use admin / claimvox2026.')
+      setError('Sign-in failed. Check the locally configured demo credentials.')
     } finally {
       setIsLoading(false)
     }
@@ -36,8 +34,8 @@ export default function LoginPage() {
     <form onSubmit={handleSubmit} className="space-y-4">
       <Alert variant="warning">
         <AlertDescription>
-          <strong>Demo authentication.</strong> Use username <code>admin</code> and password{' '}
-          <code>claimvox2026</code>. Token persists in the browser for 24 hours.
+          <strong>Local demo authentication.</strong> Credentials must be supplied through the
+          backend environment. This is not a shared identity or permission system.
         </AlertDescription>
       </Alert>
       <div className="space-y-2">
@@ -58,7 +56,7 @@ export default function LoginPage() {
           type="password"
           value={password}
           onChange={(e) => setPassword(e.target.value)}
-          placeholder="Enter any password"
+          placeholder="Enter your password"
           required
         />
       </div>
@@ -71,11 +69,8 @@ export default function LoginPage() {
         <LogIn className="h-4 w-4" />
         {isLoading ? 'Signing in...' : 'Sign in'}
       </Button>
-      <Link to="/classify" className={cn(buttonVariants({ variant: 'outline' }), 'w-full')}>
-        Continue without login
-      </Link>
       <p className="text-center text-xs text-ink-soft">
-        Demo: ana@example.com (user) / carlos@example.com (admin)
+        Ask the local operator for the temporary demo credentials.
       </p>
     </form>
   )

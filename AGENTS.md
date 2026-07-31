@@ -13,14 +13,17 @@
 - Jira: proyecto `PG`; `PG-1` agrupa el nivel esencial.
 - Trabajo actual: `PG-11` permanece en curso para `MED-02` y `MED-03`;
   `PG-12`, `PG-13` y `PG-14` están cerradas en Jira con evidencia local.
-  `PG-16` dispone de rediseño local revisado y evidencia frontend; `PG-15` y
-  `PG-17` permanecen por hacer. Las tareas numeradas
+  `PG-16` dispone de rediseño local revisado y evidencia frontend; `PG-15`
+  está en curso con implementación sin evidencia dinámica completa y `PG-17`
+  permanece por hacer. Las tareas numeradas
   `001/T-004` a `T-006` y `003/T-006` son expedientes cerrados de
   compatibilidad.
-- Existe un baseline reproducible, inferencia local, una PWA integrada y un
-  flujo local de feedback gobernado con persistencia SQLite, retención y
-  resumen agregado. No existe todavía Champion, base compartida,
-  autenticación, despliegue ni capacidad MLOps.
+- Existe un baseline reproducible, inferencia, una PWA integrada y un flujo de
+  feedback gobernado con SQLite local, retención y resumen agregado. `dev`
+  también contiene Docker/Compose, PostgreSQL y JWT de demostración
+  configurados por entorno, todos pendientes de evidencia completa de entrega.
+  No existe todavía Champion, identidad compartida, despliegue cloud verificado
+  ni capacidad MLOps.
 
 La métrica inicial del baseline, la política de idioma, duplicados, partición y
 desbalanceo ya están versionadas. El modelo evaluado sigue siendo local y

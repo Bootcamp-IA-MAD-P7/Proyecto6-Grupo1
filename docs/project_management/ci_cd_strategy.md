@@ -23,7 +23,7 @@ Workflow: `.github/workflows/repository-quality.yml`.
 
 ## Etapa 1 — Datos y ML esencial
 
-Se añadirá cuando existan paquetes y dependencias de ML:
+Implementada para el baseline y sus contratos locales:
 
 - instalación reproducible;
 - lint y tipos;
@@ -35,6 +35,8 @@ Se añadirá cuando existan paquetes y dependencias de ML:
 
 ## Etapa 2 — Aplicación
 
+Implementada en CI para las suites y el build local:
+
 - tests de casos de uso;
 - contrato de inferencia;
 - build de interfaz;
@@ -44,12 +46,16 @@ Se añadirá cuando existan paquetes y dependencias de ML:
 
 ## Etapa 3 — Contenedores y staging
 
-- build de imágenes.
-- escaneo de vulnerabilidades.
-- ejecución como usuario no privilegiado.
-- health/readiness.
-- smoke test con servicios reales de staging.
-- migraciones verificadas.
+En curso. Dockerfiles, Compose, Nginx, PostgreSQL y un workflow de despliegue
+EC2 están versionados; la auditoría final no dispuso de daemon Docker ni
+evidencia cloud para verificar esta etapa.
+
+- build de imágenes pendiente de evidencia reproducible;
+- escaneo de vulnerabilidades pendiente;
+- ejecución no privilegiada pendiente de comprobación integral;
+- health/readiness definidos, pendientes de smoke en contenedores;
+- smoke test con servicios reales de staging pendiente;
+- migraciones administradas y rollback pendientes.
 
 ## Etapa 4 — Producción
 

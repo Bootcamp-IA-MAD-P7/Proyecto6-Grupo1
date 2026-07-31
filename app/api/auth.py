@@ -8,6 +8,7 @@ No passwords are stored in code.
 from __future__ import annotations
 
 import os
+import secrets
 from datetime import datetime, timedelta, timezone
 
 import jwt
@@ -15,17 +16,12 @@ from fastapi import Depends, HTTPException, status
 from fastapi.security import HTTPAuthorizationCredentials, HTTPBearer
 from pydantic import BaseModel, ConfigDict, Field
 
-# Secret key for signing tokens (from env, fallback for dev only)
-SECRET_KEY = os.environ.get("APP_JWT_SECRET", "dev-secret-change-in-production")
+# The environment supplies a stable key for an intentional demo deployment.
+# Local processes without one receive an ephemeral key instead of a repository
+# credential; tokens then expire naturally when the process stops.
+SECRET_KEY = os.environ.get("APP_JWT_SECRET") or secrets.token_urlsafe(32)
 ALGORITHM = "HS256"
 TOKEN_EXPIRE_HOURS = int(os.environ.get("APP_TOKEN_EXPIRE_HOURS", "24"))
-
-# Demo credentials (multiple users for presentation)
-DEMO_USERS = {
-    "admin": {"password": "claimvox2026", "role": "admin", "name": "Admin"},
-    "ana@example.com": {"password": "prueba", "role": "user", "name": "Ana García"},
-    "carlos@example.com": {"password": "prueba", "role": "admin", "name": "Carlos López"},
-}
 
 security = HTTPBearer()
 
@@ -90,23 +86,31 @@ def verify_token(credentials: HTTPAuthorizationCredentials = Depends(security)) 
 
 
 def authenticate_user(username: str, password: str) -> bool:
-    """Validate credentials against demo users.
+    """Validate credentials against the optional environment demo user.
 
-    In production this would check a database with hashed passwords.
+    Authentication is unavailable until both values are configured. This is
+    deliberately a single-user demonstration boundary, not a production
+    identity store.
     """
-    user = DEMO_USERS.get(username)
-    if not user:
+    configured_username = os.environ.get("APP_DEMO_USERNAME")
+    configured_password = os.environ.get("APP_DEMO_PASSWORD")
+    if not configured_username or not configured_password:
         return False
-    return user["password"] == password
+    return secrets.compare_digest(username, configured_username) and secrets.compare_digest(
+        password, configured_password
+    )
 
 
 def get_user_role(username: str) -> str:
     """Return the role for a given username."""
-    user = DEMO_USERS.get(username)
-    return user["role"] if user else "user"
+    if username != os.environ.get("APP_DEMO_USERNAME"):
+        return "user"
+    role = os.environ.get("APP_DEMO_ROLE", "admin")
+    return role if role in {"user", "admin"} else "user"
 
 
 def get_user_name(username: str) -> str:
     """Return the display name for a given username."""
-    user = DEMO_USERS.get(username)
-    return user["name"] if user else username
+    if username != os.environ.get("APP_DEMO_USERNAME"):
+        return username
+    return os.environ.get("APP_DEMO_NAME", "ClaimVox reviewer")

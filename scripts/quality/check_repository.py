@@ -40,7 +40,7 @@ DELIVERY_ID_GROUPS = {
 }
 DELIVERY_STATES = ("Verificado", "En curso", "No iniciado")
 ACTIVE_DELIVERY_CHART = Path(
-    "docs/assets/charts/delivery-status-2026-07-30.svg"
+    "docs/assets/charts/delivery-status-2026-07-31.svg"
 )
 JIRA_TRACKING_PATTERN = re.compile(r"(?m)^- Jira:\s*`PG-[1-9]\d*`\.\s*$")
 JIRA_EXCEPTION_PATTERN = re.compile(

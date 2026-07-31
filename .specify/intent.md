@@ -6,7 +6,7 @@
 | Fase | Entrega local verificada y evolución gobernada |
 | Alcance | Global del proyecto |
 | Responsable | Equipo |
-| Última revisión | 2026-07-30 |
+| Última revisión | 2026-07-31 |
 
 ## Función de este documento
 
@@ -59,8 +59,8 @@ como tales.
 | Métrica principal | Decidida para evaluación | Macro F1, métricas por clase, accuracy y gap train-validation |
 | Modelo o familia de modelos | Baseline operativo; selección pendiente | Logistic Regression local; ensembles comparados sin Champion |
 | Framework de aplicación | Decidido | React PWA válida para productivizar el modelo; evolución nativa sujeta a evidencia |
-| Persistencia y base de datos | Parcial | SQLite local gobernada; base compartida y migraciones pendientes |
-| Proveedor y arquitectura cloud | Pendiente | Coste, seguridad, operación y restricciones del producto |
+| Persistencia y base de datos | Parcial | SQLite verificada; PostgreSQL integrado, pendiente de prueba dinámica y migraciones |
+| Proveedor y arquitectura cloud | Parcial | Workflow EC2 integrado; faltan entorno verificable, observabilidad y rollback |
 | Identidad visual definitiva | Pendiente | Audiencia, contexto y sistema de diseño |
 
 Que una decisión esté pendiente es un estado válido. No representa una carencia que deba rellenarse con supuestos.
@@ -105,7 +105,8 @@ Con el núcleo esencial verificado, el equipo incorpora de forma incremental:
 - modelos ensemble y optimización reproducible;
 - validación cruzada estratificada;
 - feedback local gobernado ya verificado y recolección futura de nuevos datos;
-- persistencia local ya disponible; base compartida, Docker y despliegue pendientes;
+- persistencia SQLite local verificada; Docker/Compose, PostgreSQL y un workflow
+  EC2 están integrados pero pendientes de verificación reproducible de entrega;
 - quality gates locales ya verificados; pruebas operativas pendientes;
 - red neuronal como experimento o componente justificado;
 - sistema Champion/Challenger;
@@ -174,7 +175,9 @@ Mientras no exista evidencia adicional, no se debe:
 - elegir un Champion sin CV completa convergida y decisión versionada;
 - entrenar con una partición, idioma o política de duplicados no aprobados;
 - construir una interfaz que presente confianza o automatización no respaldadas por un contrato;
-- confundir SQLite local con una base compartida o decidir proveedor cloud sin requisitos;
+- confundir una definición PostgreSQL o un workflow EC2 con base compartida o
+  despliegue verificados sin build, pruebas, smoke y rollback;
+- presentar el JWT de demostración como identidad o autorización productiva;
 - presentar capacidades previstas como implementadas;
 - presentar feedback local como corpus o reentrenamiento automático.
 
