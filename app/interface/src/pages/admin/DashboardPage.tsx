@@ -7,12 +7,14 @@ import { useEffect, useState } from 'react'
 
 type HealthState = 'loading' | 'healthy' | 'degraded' | 'unavailable' | 'not_configured'
 type FeedbackState = 'loading' | 'available' | 'unavailable' | 'not_configured'
+type DatabaseState = 'loading' | 'connected' | 'not_connected' | 'not_configured'
 
 interface DashboardState {
   feedbackCount: number
   feedbackItems: FeedbackSummaryItem[]
   feedbackState: FeedbackState
   healthState: HealthState
+  databaseState: DatabaseState
 }
 
 const initialState: DashboardState = {
@@ -20,16 +22,10 @@ const initialState: DashboardState = {
   feedbackItems: [],
   feedbackState: 'loading',
   healthState: 'loading',
+  databaseState: 'loading',
 }
 
 const staticStats = [
-  {
-    title: 'Operational data',
-    value: 'Not connected',
-    description: 'No shared operational database is connected.',
-    icon: Database,
-    color: 'text-ink',
-  },
   {
     title: 'Human review',
     value: 'Required',
@@ -38,6 +34,13 @@ const staticStats = [
     color: 'text-rust',
   },
 ]
+
+const databasePresentation = {
+  loading: { value: 'Checking...', description: 'Checking database connection.' },
+  connected: { value: 'Connected', description: 'PostgreSQL operational database is connected.' },
+  not_connected: { value: 'Not connected', description: 'No operational database is connected.' },
+  not_configured: { value: 'Not configured', description: 'No local API URL is configured.' },
+} satisfies Record<DatabaseState, { value: string; description: string }>
 
 const healthPresentation = {
   loading: {
@@ -121,6 +124,7 @@ export default function DashboardPage() {
         feedbackItems: [],
         feedbackState: 'not_configured',
         healthState: 'not_configured',
+        databaseState: 'not_configured',
       })
       return () => {
         active = false
@@ -150,6 +154,26 @@ export default function DashboardPage() {
       }
     }
 
+    const loadDatabase = async () => {
+      try {
+        const response = await fetch(`${baseUrl}/api/v1/status`)
+        if (!response.ok) {
+          throw new Error('Status request failed.')
+        }
+        const body = (await response.json()) as { database_connected?: boolean }
+        if (active) {
+          setState((current) => ({
+            ...current,
+            databaseState: body.database_connected ? 'connected' : 'not_connected',
+          }))
+        }
+      } catch {
+        if (active) {
+          setState((current) => ({ ...current, databaseState: 'not_connected' }))
+        }
+      }
+    }
+
     const loadFeedback = async () => {
       const configuredClient = createConfiguredFeedbackSummaryClient(baseUrl)
       try {
@@ -173,7 +197,7 @@ export default function DashboardPage() {
       }
     }
 
-    void Promise.all([loadHealth(), loadFeedback()])
+    void Promise.all([loadHealth(), loadFeedback(), loadDatabase()])
 
     return () => {
       active = false
@@ -182,8 +206,15 @@ export default function DashboardPage() {
 
   const health = healthPresentation[state.healthState]
   const feedback = feedbackPresentation(state.feedbackState, state.feedbackCount)
+  const database = databasePresentation[state.databaseState]
   const stats = [
-    staticStats[0]!,
+    {
+      title: 'Operational data',
+      value: database.value,
+      description: database.description,
+      icon: Database,
+      color: state.databaseState === 'connected' ? 'text-forest-light' : 'text-ink',
+    },
     {
       title: 'Local feedback',
       value: feedback.value,
@@ -205,7 +236,7 @@ export default function DashboardPage() {
       icon: Server,
       color: 'text-gold-ink',
     },
-    staticStats[1]!,
+    staticStats[0]!,
   ]
 
   return (
