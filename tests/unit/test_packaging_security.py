@@ -10,6 +10,17 @@ ROOT = Path(__file__).resolve().parents[2]
 
 
 class PackagingSecurityTests(unittest.TestCase):
+    def test_frontend_builder_satisfies_dependency_node_engine(self) -> None:
+        dockerfile = (ROOT / "app" / "interface" / "Dockerfile").read_text(
+            encoding="utf-8"
+        )
+        package = (ROOT / "app" / "interface" / "package.json").read_text(
+            encoding="utf-8"
+        )
+
+        self.assertIn("FROM node:24-alpine AS builder", dockerfile)
+        self.assertIn('"node": ">=22.22.0"', package)
+
     def test_compose_requires_external_secrets(self) -> None:
         compose = (ROOT / "docker-compose.yml").read_text(encoding="utf-8")
 
