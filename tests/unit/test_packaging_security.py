@@ -44,6 +44,29 @@ class PackagingSecurityTests(unittest.TestCase):
         self.assertNotIn('|| echo "Health check failed"', workflow)
         self.assertIn("exit 1", workflow)
 
+    def test_deploy_materializes_runtime_env_from_github_secrets(self) -> None:
+        workflow = (ROOT / ".github" / "workflows" / "deploy.yml").read_text(
+            encoding="utf-8"
+        )
+
+        for required_name in (
+            "POSTGRES_PASSWORD",
+            "CLAIMVOX_DB_APP_PASSWORD",
+            "APP_JWT_SECRET",
+            "APP_DEMO_USERNAME",
+            "APP_DEMO_PASSWORD",
+        ):
+            self.assertIn(f"secrets.{required_name}", workflow)
+            self.assertIn(f"{required_name}=${{{required_name}}}", workflow)
+
+        for prohibited_value in (
+            "claimvox_secret",
+            "claimvox_admin_secret",
+            "claimvox2026",
+            "change-this-in-production",
+        ):
+            self.assertNotIn(prohibited_value, workflow)
+
 
 if __name__ == "__main__":
     unittest.main()

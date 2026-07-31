@@ -13,17 +13,41 @@ jobs:
     steps:
       - name: Deploy via SSH
         uses: appleboy/ssh-action@v1
+        env:
+          POSTGRES_PASSWORD: ${{ secrets.POSTGRES_PASSWORD }}
+          CLAIMVOX_DB_APP_PASSWORD: ${{ secrets.CLAIMVOX_DB_APP_PASSWORD }}
+          APP_JWT_SECRET: ${{ secrets.APP_JWT_SECRET }}
+          APP_DEMO_USERNAME: ${{ secrets.APP_DEMO_USERNAME }}
+          APP_DEMO_PASSWORD: ${{ secrets.APP_DEMO_PASSWORD }}
+          APP_DEMO_ROLE: ${{ secrets.APP_DEMO_ROLE }}
+          APP_DEMO_NAME: ${{ secrets.APP_DEMO_NAME }}
         with:
           host: ${{ secrets.EC2_HOST }}
           username: ${{ secrets.EC2_USER }}
           key: ${{ secrets.EC2_SSH_KEY }}
+          envs: POSTGRES_PASSWORD,CLAIMVOX_DB_APP_PASSWORD,APP_JWT_SECRET,APP_DEMO_USERNAME,APP_DEMO_PASSWORD,APP_DEMO_ROLE,APP_DEMO_NAME
           script: |
             set -eu
             cd ~/Proyecto6-Grupo1
             git fetch origin
             git checkout dev
             git pull --ff-only
-            test -f .env
+            umask 077
+            test -n "${POSTGRES_PASSWORD:-}"
+            test -n "${CLAIMVOX_DB_APP_PASSWORD:-}"
+            test -n "${APP_JWT_SECRET:-}"
+            test -n "${APP_DEMO_USERNAME:-}"
+            test -n "${APP_DEMO_PASSWORD:-}"
+            cat > .env <<EOF
+            POSTGRES_PASSWORD=${POSTGRES_PASSWORD}
+            CLAIMVOX_DB_APP_PASSWORD=${CLAIMVOX_DB_APP_PASSWORD}
+            APP_JWT_SECRET=${APP_JWT_SECRET}
+            APP_DEMO_USERNAME=${APP_DEMO_USERNAME}
+            APP_DEMO_PASSWORD=${APP_DEMO_PASSWORD}
+            APP_DEMO_ROLE=${APP_DEMO_ROLE:-admin}
+            APP_DEMO_NAME=${APP_DEMO_NAME:-ClaimVox reviewer}
+            EOF
+            chmod 600 .env
             docker compose config --quiet
             docker compose build
             docker compose up -d
