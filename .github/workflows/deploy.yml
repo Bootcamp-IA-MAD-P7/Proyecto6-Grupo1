@@ -4,6 +4,12 @@ on:
   push:
     branches: [dev]
   workflow_dispatch:
+    inputs:
+      recover_host:
+        description: Reboot a stalled EC2 host before deployment
+        required: false
+        default: false
+        type: boolean
 
 jobs:
   deploy:
@@ -29,25 +35,31 @@ jobs:
           npm run build:container
 
       - name: Prepare constrained EC2 host
+        if: github.event_name == 'workflow_dispatch' && inputs.recover_host
         uses: appleboy/ssh-action@v1
         with:
           host: ${{ secrets.EC2_HOST }}
           username: ${{ secrets.EC2_USER }}
           key: ${{ secrets.EC2_SSH_KEY }}
-          command_timeout: 2m
+          command_timeout: 30s
           script: |
             set -eu
-            pkill -f 'node.*typescript.*tsc' || true
-            pkill -f 'node.*vite' || true
-            sudo systemctl restart docker
-            for attempt in 1 2 3 4 5 6; do
-              if docker info >/dev/null 2>&1; then
-                exit 0
-              fi
-              sleep 5
-            done
-            echo "Docker did not recover after restart" >&2
-            exit 1
+            sudo sh -c 'nohup sh -c "sleep 2; reboot" >/dev/null 2>&1 &'
+
+      - name: Wait for EC2 reboot
+        if: github.event_name == 'workflow_dispatch' && inputs.recover_host
+        env:
+          EC2_HOST: ${{ secrets.EC2_HOST }}
+        run: |
+          sleep 20
+          for attempt in $(seq 1 24); do
+            if timeout 3 bash -c "</dev/tcp/${EC2_HOST}/22" 2>/dev/null; then
+              exit 0
+            fi
+            sleep 5
+          done
+          echo "EC2 did not accept SSH after reboot" >&2
+          exit 1
 
       - name: Upload frontend artifact
         uses: appleboy/scp-action@v1
