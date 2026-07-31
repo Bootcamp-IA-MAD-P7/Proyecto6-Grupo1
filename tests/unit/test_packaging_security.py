@@ -37,6 +37,11 @@ class PackagingSecurityTests(unittest.TestCase):
         self.assertIn("npm run build:container", workflow)
         self.assertIn("appleboy/scp-action@v1", workflow)
         self.assertIn("COMPOSE_PARALLEL_LIMIT=1 docker compose", workflow)
+        self.assertLess(
+            workflow.index("name: Prepare constrained EC2 host"),
+            workflow.index("name: Upload frontend artifact"),
+        )
+        self.assertIn("sudo systemctl restart docker", workflow)
         self.assertNotIn("node:", runtime_dockerfile)
         self.assertIn(
             "COPY app/interface/dist /usr/share/nginx/html", runtime_dockerfile
