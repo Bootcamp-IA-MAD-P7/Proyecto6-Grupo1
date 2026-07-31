@@ -43,6 +43,7 @@ class FeedbackOperationalFlowTests(unittest.TestCase):
         self.app = create_app(Settings())
         self.prediction_service_before_feedback = object()
         self.app.state.prediction_service = self.prediction_service_before_feedback
+        self.app.state.postgres_repository = None
 
     def tearDown(self) -> None:
         self.temporary_directory.cleanup()
