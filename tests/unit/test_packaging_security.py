@@ -27,10 +27,20 @@ class PackagingSecurityTests(unittest.TestCase):
         workflow = (ROOT / ".github" / "workflows" / "deploy.yml").read_text(
             encoding="utf-8"
         )
+        runtime_dockerfile = (
+            ROOT / "app" / "interface" / "Dockerfile.prebuilt"
+        ).read_text(encoding="utf-8")
 
         self.assertIn("pkill -f 'node.*typescript.*tsc' || true", workflow)
         self.assertIn("pkill -f 'node.*vite' || true", workflow)
-        self.assertIn("COMPOSE_PARALLEL_LIMIT=1 docker compose build", workflow)
+        self.assertIn("npm run typecheck", workflow)
+        self.assertIn("npm run build:container", workflow)
+        self.assertIn("appleboy/scp-action@v1", workflow)
+        self.assertIn("COMPOSE_PARALLEL_LIMIT=1 docker compose", workflow)
+        self.assertNotIn("node:", runtime_dockerfile)
+        self.assertIn(
+            "COPY app/interface/dist /usr/share/nginx/html", runtime_dockerfile
+        )
 
     def test_compose_requires_external_secrets(self) -> None:
         compose = (ROOT / "docker-compose.yml").read_text(encoding="utf-8")

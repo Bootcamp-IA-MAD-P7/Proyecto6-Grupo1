@@ -11,6 +11,8 @@ data/processed/cfpb_baseline_en/
 # Node modules (frontend rebuilds inside Docker)
 app/interface/node_modules/
 app/interface/dist/
+!app/interface/dist/
+!app/interface/dist/**
 
 # Python
 __pycache__/
