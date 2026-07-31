@@ -37,16 +37,16 @@ describe('application routes', () => {
     renderRoute('/classify')
 
     expect(await screen.findByRole('heading', { level: 1, name: 'ClaimVox' })).toBeVisible()
-    expect(screen.getByText('Local reviewer sign-in')).toBeVisible()
+    expect(screen.getByText('ClaimVox demonstration access')).toBeVisible()
     expect(localStorage.getItem('claimvox-auth')).toBeNull()
   })
 
-  it('describes the environment-configured local demo boundary', () => {
+  it('shows the configured demonstration credentials and their boundary', () => {
     renderRoute('/login')
 
-    expect(screen.getByText(/Local demo authentication/i)).toBeVisible()
-    expect(screen.getByText(/not a shared identity or permission system/i)).toBeVisible()
-    expect(screen.queryByText(/claimvox2026/i)).not.toBeInTheDocument()
+    expect(screen.getByText(/Demo authentication/i)).toBeVisible()
+    expect(screen.getByText(/not a production identity system/i)).toBeVisible()
+    expect(screen.getByText(/claimvox2026/i)).toBeVisible()
     expect(screen.queryByRole('link', { name: 'Continue without login' })).not.toBeInTheDocument()
   })
 
