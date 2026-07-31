@@ -11,7 +11,7 @@ COPY app/interface/ ./
 # Copy openapi.json (referenced by tests and types)
 COPY docs/api/openapi.json /docs/api/openapi.json
 
-RUN npm run build
+RUN npm run build:container
 
 # Stage 2: Serve with Nginx + proxy to backend
 FROM nginx:alpine
